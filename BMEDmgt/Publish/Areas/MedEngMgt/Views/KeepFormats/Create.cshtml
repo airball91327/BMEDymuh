@@ -1,0 +1,51 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.KeepFormat
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>新增</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>KeepFormat</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FormatId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FormatId)
+            @Html.ValidationMessageFor(model => model.FormatId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Plants)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Plants)
+            @Html.ValidationMessageFor(model => model.Plants)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Format)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Format)
+            @Html.ValidationMessageFor(model => model.Format)
+        </div>
+
+        <p>
+            <input type="submit" value="新增" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("回到列表", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

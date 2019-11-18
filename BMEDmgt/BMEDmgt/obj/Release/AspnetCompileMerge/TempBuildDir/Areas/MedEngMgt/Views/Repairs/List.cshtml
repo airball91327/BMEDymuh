@@ -1,0 +1,122 @@
+﻿@model PagedList.IPagedList<BMEDmgt.Areas.MedEngMgt.Models.RepairListVModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div>
+    <input class="btn btn-default" id="btnEDITALL" type="button" value="大量編輯" />
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.CheckBox("chkALL")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DocType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DocId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AccDptName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AssetName)/廠商
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TroubleDes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DealState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DealDes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Days)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.CheckBox("chkREP")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccDptName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssetNo)<br />
+            @Html.DisplayFor(modelItem => item.AssetName)<br />
+            <span style="color:orangered; font-weight:bold;">@Html.DisplayFor(modelItem => item.Vendor)</span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TroubleDes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DealState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DealDes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Days)
+        </td>
+        <td width="100px">
+            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
+            {
+                @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
+                @Html.Raw("|")
+            }
+            @Html.ActionLink("預覽", "Views", new { id = item.DocId }) |
+            @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |
+            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人")
+            {
+                @Html.ActionLink("廢除", "Delete", new { id = item.DocId })
+            }
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.PagedListPager(Model,
+    page => Url.Action("List", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+
+<script>
+     $('input[name="chkALL"]').change(function () {
+        if ($(this).prop("checked")) {
+            $("input[name='chkREP']").each(function () {
+                $(this).prop("checked", true);
+            });
+        }
+        else {
+            $("input[name='chkREP']").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+    $("#btnEDITALL").click(function () {
+        var s = "";
+        $("input[name='chkREP']:checked").each(function () {
+            s += $(this).parents("tr").children().get(2).innerText.trim();
+            s += ";";
+        });
+        var lk = '@Url.Action("UpdCases", "Repairs")';
+        window.open(lk + '?kps=' + s, 'blank');
+    });
+</script>

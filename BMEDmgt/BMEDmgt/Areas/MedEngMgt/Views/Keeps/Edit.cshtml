@@ -1,0 +1,113 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Keep
+
+<link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-combobox.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/KeepEdit.js"></script>
+@{
+    Layout = "~/Areas/MedEngMgt/Views/Shared/_LayoutNtitle.cshtml";
+    ViewBag.Title = "簽核保養";
+}
+
+<h2>簽核</h2>
+<h4>保養</h4>
+<hr />
+<div id="pnlFILES" style="margin: 10pt">
+    @Html.Action("List2", "AttainFiles", new { id = Model.DocId, typ = "2" })
+</div>
+<div class="form-group">
+    <div>
+        <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+    </div>
+</div>
+<!-- 夾帶檔案 Modal -->
+<div id="modalFILES" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇上傳檔案</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Action("Upload2", "AttainFiles", new { doctype = "2", docid = Model.DocId })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="tablist" class="nav nav-pills">
+    <li role="presentation" class="active"><a href="#keep" data-toggle="tab">申請資料</a></li>
+    <li role="presentation"><a href="#keepdtl" data-toggle="tab">保養紀錄</a></li>
+    <li role="presentation"><a href="#keeprecord" data-toggle="tab">保養項目登錄</a></li>
+    <li role="presentation"><a href="#keepemp" data-toggle="tab">工程師列表</a></li>
+    <li role="presentation"><a href="#keepcost" data-toggle="tab">費用明細</a></li>
+    <li role="presentation"><a href="#keepflow" data-toggle="tab">流程記錄</a></li>
+    <li role="presentation"><a href="#assign" data-toggle="tab">簽核作業</a></li>
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="keep" class="tab-pane fade in active">
+        <div>
+
+            @Html.Action("Details", "Keeps", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="keepdtl" class="tab-pane fade">
+        <p>
+            @Html.Action("Edit", "KeepDtls", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keeprecord" class="tab-pane fade">
+        <p>
+            @Html.Action("Edit", "KeepRecords", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keepemp" class="tab-pane fade">
+        <p>
+            @Html.Action("Edit", "KeepEmps", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keepcost" class="tab-pane fade">
+        <div>
+            @Html.Action("Edit", "KeepCosts", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="keepflow" class="tab-pane fade">
+        <div>
+            @Html.Action("GetList", "KeepFlows", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="assign" class="tab-pane fade">
+        <div>
+            @Html.Action("NextFlow", "KeepFlows", new { id = Model.DocId })
+        </div>
+    </div>
+</div>
+<!-- 廠商 Modal -->
+<div id="modalVENDOR" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇廠商</h4>
+            </div>
+            <div id="pnlSELECTVENDOR" class="modal-body">
+                @Html.Action("QryVendor", "Vendors")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("回到簽核列表", "Index", "Home")
+</div>
+
+@section Scripts {
+   
+    @Scripts.Render("~/bundles/jqueryval")
+}

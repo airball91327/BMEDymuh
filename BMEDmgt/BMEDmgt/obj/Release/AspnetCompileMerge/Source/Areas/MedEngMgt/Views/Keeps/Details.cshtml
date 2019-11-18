@@ -1,0 +1,148 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Keep
+
+@*<div style="margin: 10pt">
+    @Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "2" })
+</div>*@
+@*<div id="pnlFILES" style="margin: 10pt">
+    @Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "2" })
+</div>
+<div class="form-group">
+    <div class="col-md-offset-1 col-md-11">
+        <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+    </div>
+</div>*@
+<!-- 夾帶檔案 Modal -->
+@*<div id="modalFILES" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇上傳檔案</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Action("Upload2", "AttainFiles", new { doctype = "2", docid = Model.DocId })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div id="pnlFILES" style="margin: 10pt">
+    @Html.Action("List2", "AttainFiles", new { id = Model.DocId, typ = "2" })
+</div>
+<div style="margin-top: 20px">
+    @Html.HiddenFor(model => model.DocId)
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cycle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cycle) @Html.Raw("個月")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaceLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SentDate)
+        </dd>
+
+    </dl>
+</div>
+
+<script>
+    $(function () {
+        $('.modal').on('shown.bs.modal', function () {
+            //Make sure the modal and backdrop are siblings (changes the DOM)
+            $(this).before($('.modal-backdrop'));
+            //Make sure the z-index is higher than the backdrop
+            $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+        });
+        $('#modalFILES').on('hidden.bs.modal', function () {
+            var docid = $("#DocId").val()
+            $.ajax({
+                url: '../../AttainFiles/List2',
+                type: "POST",
+                data: { id: docid, typ: "2" },
+                success: function (data) {
+                    $("#pnlFILES").html(data);
+                }
+            });
+        });
+    })
+</script>

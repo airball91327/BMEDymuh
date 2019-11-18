@@ -1,0 +1,38 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.QuestionnaireM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2></h2>
+
+<div>
+    <h4>問卷調查</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Qname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Memo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Memo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flg)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Flg == "Y" ? "開啟" : "關閉")
+        </dd>
+
+    </dl>
+</div>

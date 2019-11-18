@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "列表/發票";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<h2>發票列表</h2>
+
+<p>
+    @Html.ActionLink("新增發票", "Create")
+</p>
+
+@using (Ajax.BeginForm("Index", "Tickets", null,
+                new AjaxOptions
+                {
+                    UpdateTargetId = "pnlTICKETLIST",
+                    HttpMethod = "POST",
+                    LoadingElementId = "imgLOADING"
+                },
+                new { @class = "form-horizontal" }))
+{
+    <div class="container">
+        <div class="row">
+            @Html.Label("qtyTICKET", "發票號碼", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyTICKET", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyVENDORNAM", "廠商關鍵字", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyVENDORNAM", "", new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+                <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div id ="pnlTICKETLIST" style="margin: 20px 0">
+    @Html.Action("List","Tickets")
+</div>

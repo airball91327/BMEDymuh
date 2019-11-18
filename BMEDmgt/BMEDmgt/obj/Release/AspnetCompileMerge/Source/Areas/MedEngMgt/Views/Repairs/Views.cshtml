@@ -1,0 +1,54 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Repair
+
+@{
+    ViewBag.Title = "預覽/請修";
+}
+
+<h2>預覽</h2>
+<h4>請修</h4>
+<hr />
+<ul class="nav nav-pills">
+    <li role="presentation" class="active"><a href="#repair" data-toggle="tab">申請資料</a></li>
+    <li role="presentation"><a href="#repairdtl" data-toggle="tab">請修紀錄</a></li>
+    <li role="presentation"><a href="#repairemp" data-toggle="tab">工程師列表</a></li>
+    <li role="presentation"><a href="#repaircost" data-toggle="tab">費用明細</a></li>
+    <li role="presentation"><a href="#repairflow" data-toggle="tab">流程資訊</a></li>
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="repair" class="tab-pane fade in active">
+        <div>
+
+            @Html.Action("Details","Repairs", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="repairdtl" class="tab-pane fade">
+        <p>
+            @Html.Action("Details", "RepairDtls", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="repairemp" class="tab-pane fade">
+        <p>
+            @Html.Action("Details", "RepairEmps", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="repaircost" class="tab-pane fade">
+        <div>
+            @Html.Action("Print", "RepairCosts", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="repairflow" class="tab-pane fade">
+        <div>
+            @Html.Action("GetList", "RepairFlows", new { id = Model.DocId })
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("回到簽核列表", "Index","Home")
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

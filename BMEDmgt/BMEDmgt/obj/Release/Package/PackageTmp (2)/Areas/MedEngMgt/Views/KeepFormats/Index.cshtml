@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.KeepFormat>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>保養格式列表</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plants)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Format)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormatId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plants)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Format)
+        </td>*@
+        <td width="100px">
+            @Html.ActionLink("編輯", "Edit", new { id=@Server.HtmlEncode(item.FormatId) }) |
+            @*@Html.ActionLink("預覽", "Details", new { id= @Server.HtmlEncode(item.FormatId) }) |*@
+            @Html.ActionLink("刪除", "Delete", new { id= @Server.HtmlEncode(item.FormatId) })
+        </td>
+    </tr>
+}
+
+</table>

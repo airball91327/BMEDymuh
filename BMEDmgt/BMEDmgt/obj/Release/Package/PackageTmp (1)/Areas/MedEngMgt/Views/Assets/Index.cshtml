@@ -1,0 +1,162 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.QryAsset
+
+@{
+    ViewBag.Title = "資產設備列表";
+}
+
+<h2>資產設備列表</h2>
+
+
+@using (Html.BeginForm("Index", "Assets", FormMethod.Post,
+               new { id = "frmASSETLIST"}))
+{
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssetName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "form-control", placeholder="輸入關鍵字" } })
+                @Html.ValidationMessageFor(model => model.AssetName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("AccdptKeyName", "成本中心", new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.AccDpt, ViewData["ACCDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("DelivdptKeyName", "保管部門", new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("DelivdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyDelivdpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.DelivDpt, ViewData["DELIVDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQTY" type="button" value="查詢" class="btn btn-default" />
+                <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div id="pnlASSETLIST" style="margin-top: 40px">
+    @*@Html.Action("List")*@
+</div>
+
+<script>
+    $(function () {
+        var page = window.location.hash
+            ? window.location.hash.slice(1) : 1;
+        fetchPage(page);
+        $('#btnQTY').click(function () {
+            fetchPage(1);
+        });
+
+        $("#btnQtyAccdpt").click(function () {
+            var keynam = $("#AccdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../Departments/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+                    appenddata += "<option value = ''>請選擇</option>";
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    $('#AccDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+
+        $("#btnQtyDelivdpt").click(function () {
+            var keynam = $("#DelivdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../Departments/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+                    appenddata += "<option value = ''>請選擇</option>";
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    $('#DelivDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+    });
+
+    var fetchPage = function (page) {
+        var pagedPartialUrl = '@Url.Action("Index", "Assets")';
+        var s = $('#frmASSETLIST').serialize();
+        $('#imgLOADING').show();
+        $.ajax({
+            url:pagedPartialUrl,
+            type: "POST",
+            data: s + "&page=" + page,
+            success: function (data) {
+
+                window.location.hash = page;
+
+                $('#pnlASSETLIST').html(data);
+
+                $('#pnlASSETLIST .pagination li a').each(function (i, item) {
+                    var hyperLinkUrl = $(item).attr('href');
+                    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                        var pageNumber = $(item).attr('href').replace(pagedPartialUrl + '?page=', '');
+                        $(item).attr('href', '#').click(function (event) {
+                            event.preventDefault();
+                            $(event.target).attr('href');
+                            fetchPage(pageNumber);
+                        });
+                    }
+                });
+                $('#imgLOADING').hide();
+            }
+        });
+
+    };
+</script>

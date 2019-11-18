@@ -1,0 +1,29 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.KeepFormat
+
+@{
+    ViewBag.Title = "預覽/保養格式";
+}
+
+<h2>預覽</h2>
+
+<fieldset>
+    <legend>保養格式</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Plants)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Plants)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Format)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Format)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("編輯", "Edit", new { id=Model.FormatId }) |
+    @Html.ActionLink("回到列表", "Index")
+</p>

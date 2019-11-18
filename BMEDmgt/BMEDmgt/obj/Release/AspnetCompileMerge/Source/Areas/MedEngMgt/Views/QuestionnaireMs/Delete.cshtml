@@ -1,0 +1,64 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.QuestionnaireM
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>QuestionnaireM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Qname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Memo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Memo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flg)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Flg == "Y" ? "開啟" : "關閉")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

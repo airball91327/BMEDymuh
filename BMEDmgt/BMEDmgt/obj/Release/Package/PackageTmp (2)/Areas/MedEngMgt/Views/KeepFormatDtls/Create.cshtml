@@ -1,0 +1,51 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.KeepFormatDtl
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>格式明細/新增</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>KeepFormat_Dtl</legend>
+        @Html.HiddenFor(model => model.FormatId)
+        @Html.HiddenFor(model => model.Sno)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FormatId)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.FormatId)
+            @Html.ValidationMessageFor(model => model.FormatId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Sno)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Sno)
+            @Html.ValidationMessageFor(model => model.Sno)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descript)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Descript)
+            @Html.ValidationMessageFor(model => model.Descript)
+        </div>
+
+        <p>
+            <input type="submit" value="新增" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("回到列表", "Edit", "KeepFormat", new { id = Model.FormatId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

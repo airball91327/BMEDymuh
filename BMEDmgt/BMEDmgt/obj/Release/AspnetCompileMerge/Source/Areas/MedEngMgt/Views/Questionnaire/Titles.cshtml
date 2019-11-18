@@ -1,0 +1,19 @@
+﻿
+@model IEnumerable<string>
+<tr>
+    <th>
+        合約/<br/>時間戳記
+    </th>
+    <th>
+        部門代號
+    </th>
+    <th>
+        部門名稱
+    </th>
+@foreach (var item in Model)
+{
+    <th>
+        @item
+    </th>
+}
+</tr>

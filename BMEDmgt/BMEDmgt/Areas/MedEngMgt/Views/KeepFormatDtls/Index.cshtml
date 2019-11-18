@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.KeepFormatDtl>
+<h2>格式細項</h2>
+<p>
+    @Html.ActionLink("新增", "Create" , new {id = ViewData["fid"]})
+</p>
+@if (Model.Count() > 0)
+{
+    <table style="width: 100%;">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descript)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descript)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new {  id = item.FormatId, sno = item.Sno }, new { target="blank"}) |
+                    @*@Html.ActionLink("預覽", "Details", new { id = item.FormatId, sno = item.Sno }, new { target = "blank" }) |*@
+                    @Html.ActionLink("刪除", "Delete", new { id = item.FormatId, sno = item.Sno }, new { target = "blank" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,126 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.RepairDtl
+
+@{
+    ViewBag.Title = "修改請修明細";
+}
+
+<script src="~/Areas/MedEngMgt/Scripts/UpdCases/RepDtl.js"></script>
+
+@using (Ajax.BeginForm("UpdCases", "RepairDtls",
+                            new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                LoadingElementId = "imgLOADING2",
+                                OnBegin = "BeforeSend",
+                                OnSuccess = "showmsg2"
+                            }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DocId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DealState, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DealState, ViewData["States"] as SelectList, "請選擇",
+               new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DealState, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DealDes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.DealDes, 5, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DealDes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FailFactor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FailFactor, ViewData["Factors"] as SelectList, "請選擇",
+               new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FailFactor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.InOut, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButton("InOut", "內修")內修
+                @Html.RadioButton("InOut", "外修")外修
+                @Html.ValidationMessageFor(model => model.InOut, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Hour, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Hour, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Hour, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        @Html.HiddenFor(model => model.Hour)
+        @Html.HiddenFor(model => model.Cost)
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsCharged, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.IsCharged == "Y" && Model.EndDate != null)
+                {
+                    @Html.HiddenFor(model => model.IsCharged)
+                    @Html.Raw("有")
+                }
+                else
+                {
+                    @Html.RadioButton("IsCharged", "Y") @Html.Raw("有")
+                    @Html.RadioButton("IsCharged", "N") @Html.Raw("無")
+                    @Html.ValidationMessageFor(model => model.IsCharged, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+        <div id="pnlPURCHASE" class="form-group">
+            @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PurchaseNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.IsCharged == "Y" && Model.EndDate != null)
+                {
+                    @Html.HiddenFor(model => model.EndDate)
+                    @Html.Raw(Model.EndDate.Value.ToString("yyyy/MM/dd"))
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.EndDate, "DateTime", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="儲存" class="btn btn-default" />
+                <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+}
+
+
+

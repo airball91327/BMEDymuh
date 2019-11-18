@@ -1,0 +1,36 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.AppRoles
+
+@{
+    ViewBag.Title = "預覽角色";
+}
+
+<h2>預覽</h2>
+
+<div>
+    <h4>角色</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("修改", "Edit", new { id = Model.RoleId }) |
+    @Html.ActionLink("回到角色列表", "Index")
+</p>

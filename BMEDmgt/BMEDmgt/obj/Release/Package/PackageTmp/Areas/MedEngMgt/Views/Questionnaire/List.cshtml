@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.Questionnaire>
+
+@{
+    ViewBag.Title = "列表/問卷項目";
+}
+<div>
+    @Html.Action("Details","QuestionnaireMs", new { id = ViewData["verid"] })
+</div>
+<h4>問卷項目</h4>
+
+<p>
+    @Html.ActionLink("新增", "Create", new { id = ViewData["verid"] })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Qid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qtitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Typ)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Required)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qtitle)
+        </td>
+        <td>
+            @Html.Raw(item.Typ == "select" ? "單選" : "文字說明")
+        </td>
+        <td>
+            @Html.Raw(item.Required == "Y" ? "是" : "否")
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+            @Html.ActionLink("刪除", "Delete", new { id = item.VerId, qid=item.Qid })
+        </td>
+    </tr>
+}
+
+</table>

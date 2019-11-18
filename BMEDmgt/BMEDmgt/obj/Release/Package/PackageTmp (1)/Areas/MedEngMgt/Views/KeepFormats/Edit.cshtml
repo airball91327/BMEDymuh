@@ -1,0 +1,46 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.KeepFormat
+
+@{
+    ViewBag.Title = "編輯/保養格式";
+}
+
+<h2>保養格式/編輯</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.FormatId)
+
+         <div class="editor-label">
+            @Html.LabelFor(model => model.FormatId)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.FormatId)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Plants)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Plants)
+            @Html.ValidationMessageFor(model => model.Plants)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Format)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Format)
+            @Html.ValidationMessageFor(model => model.Format)
+        </div>
+
+        <p>
+            <input type="submit" value="儲存" />
+        </p>
+        <div>
+           @Html.Action("Index", "KeepFormatDtls", new { id = Model.FormatId })
+        </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AppRoles>
+
+@{
+    ViewBag.Title = "角色管理";
+}
+
+<h2>角色列表</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RoleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("修改", "Edit", new { id=item.RoleId }) |
+            @Html.ActionLink("預覽", "Details", new { id=item.RoleId })
+        </td>
+    </tr>
+}
+
+</table>

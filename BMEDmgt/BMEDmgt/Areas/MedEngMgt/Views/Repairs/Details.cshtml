@@ -1,0 +1,158 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Repair
+
+@{
+    ViewBag.Title = "預覽請修";
+}
+<div style="margin: 10pt">
+    @*@Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "1" })*@
+</div>
+<div>
+    @*<h3><span class="label label-default">請修資料</span></h3>*@
+    @Html.HiddenFor(model => model.DocId)
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DptId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlantDoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlantDoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaceLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TroubleDes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TroubleDes)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CheckerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckerId)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlantClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlantClass)
+        </dd>
+
+    </dl>
+</div>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.DeviceClassCode>
+
+@{
+    ViewBag.Title = "列表/設備分類選單";
+}
+
+<h2>設備分類選單列表</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.M_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.M_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.M_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.M_name)
+        </td>
+        <td>
+            @Html.ActionLink("修改", "Edit", new { id=item.M_code })
+        </td>
+    </tr>
+}
+
+</table>

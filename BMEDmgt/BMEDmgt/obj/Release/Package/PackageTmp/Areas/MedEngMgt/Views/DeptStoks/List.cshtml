@@ -1,0 +1,107 @@
+﻿@model PagedList.IPagedList<BMEDmgt.Areas.MedEngMgt.Models.DeptStok>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<p>
+    @Html.ActionLink("新增", "Create", null, new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StokCls)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StokNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StokNam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Unite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().SafeQty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Standard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </th>*@
+        @*<th>
+            @Html.DisplayNameFor(model => model.CustOrgan_CustId)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StokCls)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StokNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StokNam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unite)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SafeQty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Standard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Rtp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rtt)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.CustOrgan_CustId)
+        </td>*@
+        <td>
+            @Html.ActionLink("修改", "Edit", new { id=item.StokId }) |
+            @Html.ActionLink("檢視", "Details", new { id=item.StokId }) |
+            @Html.ActionLink("刪除", "Delete", new { id=item.StokId })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.PagedListPager(Model,
+    page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>

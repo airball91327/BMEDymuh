@@ -1,0 +1,601 @@
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojResolveAssemblyReference.cache
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\david sung\Google 雲端硬碟\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojResolveAssemblyReference.cache
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\david sung\Documents\Visual Studio 2015\Projects\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\david sung\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojResolveAssemblyReference.cache
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EPPlus.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\PagedList.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zxing.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zxing.presentation.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\EPPlus.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\PagedList.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zxing.pdb
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zxing.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zxing.presentation.pdb
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zxing.presentation.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\DAVID\Google 雲端硬碟\NCKU\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojResolveAssemblyReference.cache
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EPPlus.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.presentation.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EPPlus.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.pdb
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.presentation.pdb
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.presentation.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojResolveAssemblyReference.cache
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\DAVID\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EPPlus.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.presentation.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\EPPlus.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.pdb
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.presentation.pdb
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zxing.presentation.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojResolveAssemblyReference.cache
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\user\OneDrive\SMH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EPPlus.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EPPlus.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CopyComplete
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EPPlus.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\EPPlus.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.pdb
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.pdb
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojAssemblyReference.cache
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CoreCompileInputs.cache
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CopyComplete
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+Y:\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb
+C:\Users\user\OneDrive\TMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojAssemblyReference.cache
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\csc.exe
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\vbc.exe
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll.config
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\BMEDmgt.pdb
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\EPPlus.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Helpers.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\PagedList.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\WebGrease.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zxing.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\EntityFramework.SqlServer.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\EPPlus.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\PagedList.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\PagedList.Mvc.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Helpers.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Mvc.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Optimization.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.Razor.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Deployment.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\System.Web.WebPages.Razor.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Antlr3.Runtime.pdb
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.Data.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\WebMatrix.WebData.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zxing.pdb
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zxing.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.pdb
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zxing.presentation.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\Newtonsoft.Json.xml
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Helpers.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Mvc.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Optimization.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.Razor.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Deployment.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\bin\zh-Hant\System.Web.WebPages.Razor.resources.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csprojAssemblyReference.cache
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.csproj.CopyComplete
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.dll
+C:\Users\user\OneDrive\YMUH\BMEDmgt\BMEDmgt\obj\Release\BMEDmgt.pdb

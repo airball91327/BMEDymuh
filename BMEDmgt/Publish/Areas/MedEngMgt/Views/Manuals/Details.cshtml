@@ -1,0 +1,114 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Manual
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Manual</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ManualName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManualName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetBrand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetBrand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileLanguage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileLanguage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileGuid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileGuid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileAuth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FileId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

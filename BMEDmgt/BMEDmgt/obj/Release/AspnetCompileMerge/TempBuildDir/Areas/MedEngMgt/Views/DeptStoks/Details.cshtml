@@ -1,0 +1,122 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.DeptStok
+
+@{
+    ViewBag.Title = "檢視/庫存";
+}
+
+<h2>檢視</h2>
+
+<div>
+    <h4>庫存</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StokCls)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StokCls)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StokNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StokNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StokNam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StokNam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SafeQty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SafeQty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Standard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Standard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CustOrgan_CustId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustOrgan_CustId)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("修改", "Edit", new { id = Model.StokId }) |
+    @Html.ActionLink("回到列表", "Index")
+</p>

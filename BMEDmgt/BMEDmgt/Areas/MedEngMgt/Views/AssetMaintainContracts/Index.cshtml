@@ -1,0 +1,148 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetMaintainContract>
+
+@{
+    ViewBag.Title = "列表/設備維護合約管理";
+}
+
+<h2>合約列表</h2>
+<h4>設備維護合約</h4>
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create")">新增合約</a>
+</p>
+<table class="table">
+    <tr>
+        <th style="min-width:100px;">
+            @Html.DisplayNameFor(model => model.ContractName)
+        </th>
+        <th style="min-width:150px;">
+            @Html.DisplayNameFor(model => model.VendorId)<br />
+            @Html.DisplayNameFor(model => model.VendorName)<br />
+            @Html.DisplayNameFor(model => model.VendorUniteNo)
+        </th>
+        <th style="min-width:200px;">
+            @Html.DisplayNameFor(model => model.AssetNo)<br />
+            @Html.DisplayNameFor(model => model.AssetName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Brand)<br />
+            @Html.DisplayNameFor(model => model.Type)<br />
+            @Html.DisplayNameFor(model => model.SeqNo)
+        </th>
+        <th style="min-width:50px;">
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th style="min-width:50px;">
+            @Html.DisplayNameFor(model => model.Unite)
+        </th>
+        <th style="min-width:100px;">
+            @Html.DisplayNameFor(model => model.Sdate)<br />
+            @Html.DisplayNameFor(model => model.Edate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cycle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UseLife)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.YearCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StagePayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StageCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndNotice)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </th>*@
+        <th style="min-width:120px;"></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContractName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VendorId)<br />
+            @Html.DisplayFor(modelItem => item.VendorName)<br />
+            @Html.DisplayFor(modelItem => item.VendorUniteNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssetNo)<br />
+            @Html.DisplayFor(modelItem => item.AssetName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand)<br />
+            @Html.DisplayFor(modelItem => item.Type)<br />
+            @Html.DisplayFor(modelItem => item.SeqNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unite)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sdate)<br />
+            @Html.DisplayFor(modelItem => item.Edate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cycle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UseLife)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalCost)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.YearCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StagePayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StageCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndNotice)
+        </td>*@
+        <td style="max-width:200px; word-wrap:break-word;">
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rtp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rtt)
+        </td>*@
+        <td>
+            @Html.ActionLink("編輯", "Edit", new { id=item.ContractNo }) |
+            @Html.ActionLink("詳細內容", "Details", new { id=item.ContractNo }) |
+            @Html.ActionLink("刪除", "Delete", new { id=item.ContractNo })
+        </td>
+    </tr>
+}
+
+</table>

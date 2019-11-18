@@ -1,0 +1,286 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetPurchaseContract
+
+@{
+    ViewBag.Title = "詳細內容/設備新購合約";
+}
+
+<h2>詳細內容</h2>
+
+<div id="pnlFILES" style="margin: 10pt">
+    @Html.Action("List", "AttainFiles", new { id = Model.ContractNo, typ = "7" })
+</div>
+
+<div>
+    <h4>設備新購合約</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaveLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Budget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Budget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BasicPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BasicPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractTotalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractTotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AwardDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AwardDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcceptDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcceptDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Warranty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Warranty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarrantySdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WarrantySdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarrantyEdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WarrantyEdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarrantyMargin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WarrantyMargin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PerformanceMargin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PerformanceMargin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UseDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UseDpt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseDpt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseUid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseUName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseUName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PermitNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PermitNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PermitValid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PermitValid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sponsor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sponsor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SponsorUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SponsorUid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CoOrganizer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CoOrganizer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CoOrganizerUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CoOrganizerUid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAssetClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAssetClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯合約", "Edit", new { id = Model.ContractNo }) |
+    @Html.ActionLink("回到合約列表", "Index")
+</p>

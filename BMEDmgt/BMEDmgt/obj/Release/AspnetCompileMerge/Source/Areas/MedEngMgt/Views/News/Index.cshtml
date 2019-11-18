@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.News>
+
+@{
+    ViewBag.Title = "列表/最新消息";
+}
+
+<h2>最新消息列表</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NewsTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NewsContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sdate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Edate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RTT)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NewsTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NewsContent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sdate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Edate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RTT)
+        </td>
+        <td>
+            @Html.ActionLink("編輯", "Edit", new { id=item.NewsId }) |
+            @Html.ActionLink("預覽", "Details", new { id=item.NewsId }) |
+            @Html.ActionLink("刪除", "Delete", new { id=item.NewsId })
+        </td>
+    </tr>
+}
+
+</table>

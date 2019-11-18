@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.KeepEmp>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DocId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Minute)
+        </th>
+        <th></th>
+    </tr>
+    @{ var s = "";
+        Model.ToList().ForEach(k =>
+        {
+            s += k.DocId + ";";
+        });}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Minute)
+            </td>
+            <td>
+                @Html.ActionLink("刪除", "Delete", new { docid = item.DocId, uid = item.UserId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script>
+        $("#pnlKEEPEMPLIST a").click(function () {
+
+            if (confirm("確定要刪除此資料?")) {
+                var id = $("#DocId").val();
+                var tr = $(this).parents('tr');
+                var seq = $(this).parents('tr').children();
+                $.ajax({
+                    url: "../KeepEmps/Delete",
+                    type: "POST",
+                    data: { 'docid': seq.get(0).innerText.trim(), 'uid': seq.get(1).innerText.trim() },
+                    async: true,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            tr.remove();
+                        }
+                        else {
+                            alert(data.error);
+                        }
+                    }
+                });
+                return false;
+            }
+            else
+                return false;
+        });
+</script>

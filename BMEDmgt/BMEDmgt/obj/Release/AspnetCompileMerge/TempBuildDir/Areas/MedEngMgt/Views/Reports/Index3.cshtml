@@ -1,0 +1,81 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.ReportQryVModel
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/Report.js"></script>
+
+<h2>統計報表</h2>
+
+@using (Ajax.BeginForm("Index3", "Reports",
+                                        new AjaxOptions
+                                        {
+                                            HttpMethod = "POST",
+                                            LoadingElementId = "imglodREPORT",
+                                            OnSuccess = "smgREPORT",
+                                            UpdateTargetId = "pnlREPORT"
+                                        }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReportClass, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ReportClass, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ReportClass, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("", "設備類別", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input name="AssetClass1" type="checkbox" value="醫療儀器" />醫療儀器
+            <input name="AssetClass2" type="checkbox" value="工程設施" />工程設施
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AssetNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.AssetName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AssetName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("AccdptKeyName", "成本中心", new { @class = "control-label col-md-2" })
+        <div class="col-md-10 text-left">
+            <div class="form-inline">
+                @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownListFor(model => model.AccDpt, ViewData["ACCDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("DelivdptKeyName", "保管部門", new { @class = "control-label col-md-2" })
+        <div class="col-md-10 text-left">
+            <div class="form-inline">
+                @Html.TextBox("DelivdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyDelivdpt" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownListFor(model => model.DelivDpt, ViewData["DELIVDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="查詢" class="btn btn-default" />
+            <img id="imglodREPORT" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+        </div>
+    </div>
+</div>
+}
+<hr />
+<div id="pnlREPORT">
+
+</div>

@@ -1,0 +1,74 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.News
+
+@{
+    ViewBag.Title = "預覽/最新消息";
+}
+
+<h2>預覽</h2>
+
+<div>
+    <h4>最新消息</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewsTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewsContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RTT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RTT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯", "Edit", new { id = Model.NewsId }) |
+    @Html.ActionLink("回到最新消息列表", "Index")
+</p>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.KeepListVModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DocType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccDptName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssetName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InOut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Result)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Memo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Days)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccDptName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetNo)<br />
+                @Html.DisplayFor(modelItem => item.AssetName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Memo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Days)
+            </td>
+            <td>
+                @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
+                    @Html.Raw("|")
+                }
+                @Html.ActionLink("預覽", "Views", new { id = item.DocId }) |
+                @*@Html.ActionLink("廢除", "Delete", new { id = item.DocId })*@
+            </td>
+        </tr>
+    }
+
+</table>

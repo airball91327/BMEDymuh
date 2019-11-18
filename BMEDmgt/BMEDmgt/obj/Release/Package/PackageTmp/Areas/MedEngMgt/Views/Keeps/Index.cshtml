@@ -1,0 +1,93 @@
+﻿<form id="frmKEEP" class="form-horizontal">
+    <div class="form-group">
+        <div class="form-inline">
+            @Html.Label("qtyDOCID", "表單編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyDOCID", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyASSETNO", "財產編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyASSETNO", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyACCDPT", "成本中心", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyACCDPT", ViewData["ACCDPT"] as SelectList, "", new { @class = "form-control combobox" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-line">
+            @Html.Label("qtyASSETNAME", "儀器名稱(關鍵字)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyASSETNAME", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyDPTID", "申請單位", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyDPTID", ViewData["APPLYDPT"] as SelectList, "", new { @class = "form-control combobox" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-inline">
+            @Html.Label("qtyINOUT", "保養方式", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyINOUT", ViewData["INOUT"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyFLOWTYPE", "流程狀態", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyFLOWTYPE", ViewData["FLOWTYPE"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="btnQTY2" type="button" value="查詢" class="btn btn-default" />
+            <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+        </div>
+    </div>
+</form>
+
+<div id="pnlKEEPLIST" style="margin: 20px 0">
+    @*@Html.Action("List", "Keeps")*@
+</div>
+
+<script>
+    $(function () {
+        var page = window.location.hash
+            ? window.location.hash.slice(1) : 1;
+        //fetchPage(page);
+        $('#btnQTY2').click(function () {
+            fetchPage2(1);
+        });
+    });
+    var fetchPage2 = function (page) {
+        var pagedPartialUrl = '@Url.Action("List", "Keeps")';
+        var s = $('#frmKEEP').serialize();
+        $('#imgLOADING2').show();
+        $.ajax({
+            url:pagedPartialUrl,
+            type: "POST",
+            data: s + "&page=" + page,
+            success: function (data) {
+
+                window.location.hash = page;
+
+                $('#pnlKEEPLIST').html(data);
+
+                $('#pnlKEEPLIST .pagination li a').each(function (i, item) {
+                    var hyperLinkUrl = $(item).attr('href');
+                    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                        var pageNumber = $(item).attr('href').replace(pagedPartialUrl + '?page=', '');
+                        $(item).attr('href', '#').click(function (event) {
+                            event.preventDefault();
+                            $(event.target).attr('href');
+                            fetchPage2(pageNumber);
+                        });
+                    }
+                });
+                $('#imgLOADING2').hide();
+            }
+        });
+
+    };
+</script>

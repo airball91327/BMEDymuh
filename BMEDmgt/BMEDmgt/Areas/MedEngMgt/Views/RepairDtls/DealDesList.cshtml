@@ -1,0 +1,80 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.RepairDtlRecord>
+
+<script type="text/javascript">
+    $(function () {
+        $("#pnlREPDESLIST a").click(function () {
+
+            if (confirm("確定要刪除此資料?")) {
+                var id = $("#DocId").val();
+                var tr = $(this).parents('tr');
+                var seq = $(this).parents('tr').children();
+                var seqNo = $(this).parents('tr').children('input').val();
+
+                $.ajax({
+                    url: "../../RepairDtls/DeleteDesRecord",
+                    type: "POST",
+                    data: { 'id': id, 'seqNo': seqNo },
+                    async: true,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            tr.remove();
+                        }
+                        else {
+                            alert(data.error);
+                        }
+                    }
+                });
+                return false;
+            }
+            else
+                return false;
+        });
+    });
+</script>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DealDes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @Html.HiddenFor(modelItem => item.SeqNo)
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DealDes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rtt)
+        </td>
+        <td>
+            @Html.ActionLink("刪除", "Delete", new { id=item.DocId, seqNo = item.SeqNo })
+        </td>
+    </tr>
+}
+
+</table>

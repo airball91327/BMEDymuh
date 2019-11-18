@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.QuestSend>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table style="width: 100%">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.YYYYmm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GrpName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SendAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.YYYYmm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GrpName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SendAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rtt)
+        </td>
+    </tr>
+}
+
+</table>

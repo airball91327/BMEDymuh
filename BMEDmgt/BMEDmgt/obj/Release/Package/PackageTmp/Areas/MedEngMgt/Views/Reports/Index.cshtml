@@ -1,0 +1,71 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.ReportQryVModel
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/Report.js"></script>
+
+<h2>統計報表</h2>
+
+@using (Ajax.BeginForm("Index", "Reports",
+                                        new AjaxOptions
+                                        {
+                                            HttpMethod = "POST",
+                                            LoadingElementId = "imglodREPORT",
+                                            OnSuccess = "smgREPORT",
+                                            UpdateTargetId = "pnlREPORT"
+                                        }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReportClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReportClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReportClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("", "設備類別",htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input name = "AssetClass1" type="checkbox" value="醫療儀器" checked="checked" />醫療儀器
+                @*<input name = "AssetClass2" type="checkbox" value="工程設施" />工程設施*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sdate,"DateTime", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sdate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Edate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Edate,"DateTime", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Edate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div id="pnlASSETNO" class="form-group">
+            @Html.LabelFor(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="查詢" class="btn btn-default" />
+                <img id="imglodREPORT" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+}
+<hr />
+<div id="pnlREPORT">
+
+</div>

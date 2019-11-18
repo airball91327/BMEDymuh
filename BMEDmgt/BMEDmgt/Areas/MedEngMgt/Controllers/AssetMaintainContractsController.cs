@@ -1,0 +1,184 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Models;
+using WebMatrix.WebData;
+
+namespace BMEDmgt.Areas.MedEngMgt.Controllers
+{
+    [Authorize]
+    public class AssetMaintainContractsController : Controller
+    {
+        private BMEDcontext db = new BMEDcontext();
+
+        // GET: MedEngMgt/AssetMaintainContracts
+        public ActionResult Index()
+        {
+            return View(db.AssetMaintainContracts.ToList());
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/Details/5
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
+            if (assetMaintainContract == null)
+            {
+                return HttpNotFound();
+            }
+            return View(assetMaintainContract);
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: MedEngMgt/AssetMaintainContracts/Create
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note")] AssetMaintainContract assetMaintainContract)
+        {
+            var checkCNo = db.AssetMaintainContracts.Find(assetMaintainContract.ContractNo);
+            if (checkCNo != null)
+            {
+                ModelState.AddModelError("ContractNo", "已有相同合約編號");
+                return View(assetMaintainContract);
+            }
+            if (ModelState.IsValid)
+            {
+                var asset = db.Assets.Find(assetMaintainContract.AssetNo);
+                assetMaintainContract.AssetName = asset.Cname;
+                assetMaintainContract.Status = "Y";
+                assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
+                assetMaintainContract.Rtt = DateTime.Now;
+
+                db.AssetMaintainContracts.Add(assetMaintainContract);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(assetMaintainContract);
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            if (assetMaintainContract == null)
+            {
+                return HttpNotFound();
+            }
+            if (assetMaintainContract.AssetNo != null)
+            {
+                listItem.Add(new SelectListItem { Text = assetMaintainContract.AssetName + "(" + assetMaintainContract.AssetNo + ")",
+                                                  Value = assetMaintainContract.AssetNo });
+                ViewData["DefaultAsset"] = listItem;
+            }
+            else
+            {
+                listItem.Add(new SelectListItem { Text = "", Value = "" });
+                ViewData["DefaultAsset"] = listItem;
+            }
+            return View(assetMaintainContract);
+        }
+
+        // POST: MedEngMgt/AssetMaintainContracts/Edit/5
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note")] AssetMaintainContract assetMaintainContract)
+        {
+            if (ModelState.IsValid)
+            {
+                var asset = db.Assets.Find(assetMaintainContract.AssetNo);
+                assetMaintainContract.AssetName = asset.Cname;
+                assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
+                assetMaintainContract.Rtt = DateTime.Now;
+
+                db.Entry(assetMaintainContract).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(assetMaintainContract);
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/Delete/5
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
+            if (assetMaintainContract == null)
+            {
+                return HttpNotFound();
+            }
+            return View(assetMaintainContract);
+        }
+
+        // POST: MedEngMgt/AssetMaintainContracts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
+            db.AssetMaintainContracts.Remove(assetMaintainContract);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/CheckCNo/5
+        public ActionResult CheckCNo(string id)
+        {
+            string result;
+            var checkCNo = db.AssetMaintainContracts.Find(id);
+            if (checkCNo != null)
+            {
+                result = "<span style='color:red;'>已有相同合約編號</span>";
+                return new JsonResult
+                {
+                    Data = new { success = false, error = "", data = result },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            else
+            {
+                result = "<span style='color:green;'>可用編號</span>";
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "", data = result },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

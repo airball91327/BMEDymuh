@@ -1,0 +1,59 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Label
+
+@{
+    ViewBag.Title = "預覽/標籤";
+}
+
+<h2>預覽</h2>
+
+<div>
+    <h4>標籤</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LabelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LabelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+            @Html.DisplayFor(model => model.RtpName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯", "Edit", new { id = Model.LabelId }) |
+    @Html.ActionLink("回到標籤列表", "Index")
+</p>

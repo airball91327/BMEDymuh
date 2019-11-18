@@ -1,0 +1,52 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.QryVendor
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+
+@using (Ajax.BeginForm("QryVendor", "Vendors",
+                                                    new AjaxOptions
+                                                    {
+                                                        HttpMethod = "POST",
+                                                        LoadingElementId = "imgLOADING2",
+                                                        UpdateTargetId = "pnlSELECTVENDOR"
+                                                    }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.QryType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.QryType, "關鍵字")關鍵字
+                @Html.RadioButtonFor(model => model.QryType, "統一編號")統一編號
+                @Html.ValidationMessageFor(model => model.QryType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeyWord, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.KeyWord, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.KeyWord, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UniteNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.UniteNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UniteNo, "", new { @class = "text-danger" })
+                    <input type="submit" value="查詢" class="btn btn-default" />
+                    <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Vno, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Vno, Model.VendorList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+}

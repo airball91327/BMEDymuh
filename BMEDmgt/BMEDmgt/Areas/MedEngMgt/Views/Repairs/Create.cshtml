@@ -1,0 +1,263 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Repair
+@using BMEDmgt.Areas.MedEngMgt.Helpers
+
+@{
+    ViewBag.Title = "新增請修";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/RepCreate.js"></script>
+
+<h2>新增</h2>
+
+
+@using (Ajax.BeginForm(new AjaxOptions
+{
+    HttpMethod = "POST",
+    LoadingElementId = "imgLOADING",
+    OnSuccess = "showmsg"
+}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>請修</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div id="pnlFILES" style="margin: 10pt">
+            @*@Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "1" })*@
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+            </div>
+        </div>
+        <!-- 夾帶檔案 Modal -->
+        <div id="modalFILES" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">選擇上傳檔案</h4>
+                    </div>
+                    <div class="modal-body">
+                        @Html.Action("Upload", "AttainFiles", new { doctype = "1", docid = Model.DocId })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.DocId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.DocId)
+                @Html.DisplayFor(model => model.DocId)
+                @Html.ValidationMessageFor(model => model.DocId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        @Html.HiddenFor(model => model.UserId)
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-inline">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.DptId)
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.DptId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DptName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DptName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.Contact, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.RepType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButton("RepType", "請修", true)請修
+                @Html.RadioButton("RepType", "送修")送修(需送至維修間)
+                @Html.ValidationMessageFor(model => model.RepType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.PlantClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.RadioButton("PlantClass", "工務")工程設施*@
+                @Html.RadioButton("PlantClass", "醫療儀器", true)醫療儀器
+                @Html.ValidationMessageFor(model => model.PlantClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.AccDpt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    @Html.HiddenFor(model => model.AccDptName)
+                    <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.AccDpt, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AccDpt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("ChkAssetNo", "無財產編號", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBox("ChkAssetNo", htmlAttributes: new { style="width: 20px; height:20px;"})
+            </div>
+        </div>
+        <div id="pnlASSET" class="form-group">
+            @Html.LabelForRequired(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("AssetKeyName", "", new { @class = "form-control", placeholder = "財編或關鍵字" })
+                    @Html.HiddenFor(model => model.AssetName)
+                    <input id="btnQtyAsset" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownList("AssetNo",
+               new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } },
+               "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="pnlAssetName" hidden>
+            <label class="control-label col-md-2">設備名稱</label>
+            <div class="form-inline">
+                <div class="col-md-10">
+                    <select class="form-control" id="assetNameList">
+                        <option value="聽診器" select>聽診器</option>
+                        <option value="氣體流量錶">氣體流量錶</option>
+                        <option value="負壓抽吸錶">負壓抽吸錶</option>
+                        <option value="器械">器械</option>
+                        <option value="耳/喉/眼底鏡">耳/喉/眼底鏡</option>
+                        <option value="ambu">ambu</option>
+                        <option value="耳溫槍">耳溫槍</option>
+                        <option value="潮濕加熱座">潮濕加熱座</option>
+                        <option value="管路加熱器">管路加熱器</option>
+                        <option value="租賃儀器">租賃儀器</option>
+                        <option value="000">其他類</option>
+                    </select>
+                    <input type="text" class="form-control" name="otherAssetName" id="otherAssetName" hidden />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.Amt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlantDoc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PlantDoc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PlantDoc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.PlaceLoc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PlaceLoc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PlaceLoc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.ApplyDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ApplyDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ApplyDate, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">故障描述字彙</label>
+            <div class="col-md-10">
+                <select class="form-control" id="troubleDesList">
+                    <option value="" selected>請選擇</option>
+                    <option value="導線(SpO2、EKG、CUFF充氣線)故障">導線(SpO2、EKG、CUFF充氣線)故障</option>
+                    <option value="器械修磨、矯正">器械修磨、矯正</option>
+                    <option value="無法開機">無法開機</option>
+                    <option value="發出異音">發出異音</option>
+                    <option value="硬體(外殼破損、按鈕故障、缺零件)損壞">硬體(外殼破損、按鈕故障、缺零件)損壞</option>
+                    <option value="量測值不準確">量測值不準確</option>
+                    <option value="無蓄電能力">無蓄電能力</option>
+                    <option value="燈泡不亮">燈泡不亮</option>
+                    <option value="影像有雜訊">影像有雜訊</option>
+                    <option value="儀錶(氧氣流量錶、負壓錶、抽吸瓶)漏氣、故障">儀錶(氧氣流量錶、負壓錶、抽吸瓶)漏氣、故障</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.TroubleDes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.TroubleDes, 5, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TroubleDes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.CheckerName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="form-inline">
+                <div class="col-md-10">
+                    @Html.TextBox("CheckerKeyName", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
+                    <input id="btnQtyChecker" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.CheckerName, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CheckerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+                <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("回到簽核列表", "Index", "Home")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

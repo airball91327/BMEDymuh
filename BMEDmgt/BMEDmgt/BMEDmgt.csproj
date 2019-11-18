@@ -1,0 +1,785 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7A4742BD-5D38-444C-9E05-3A7FE6EEFB82}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BMEDmgt</RootNamespace>
+    <AssemblyName>BMEDmgt</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.2.3\lib\net45\WebMatrix.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.2.3\lib\net45\WebMatrix.WebData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="zxing, Version=0.15.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.15.0\lib\net45\zxing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.15.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.15.0\lib\net45\zxing.presentation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AccountController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AppRolesController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AppUsersController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AssetKeepsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AssetMaintainContractsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AssetPurchaseContractsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AssetsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AttainFilesController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\ContractsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\DealStatusController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\DepartmentsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\DeptStoksController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\DeviceClassCodesController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\FailFactorsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\FuncsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\HomeController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepFormatDtlsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepFormatsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepRecordsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepResultsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepCostsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\LabelsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\ManualsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\NewsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireMsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\QuestSendController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\RepairCostsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepDtlsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\RepairDtlsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepEmpsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\RepairEmpsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\KeepFlowsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\RepairFlowsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\RepairsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\TicketDtlsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\TicketsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\Tmail.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\VendorsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Helpers\HtmlExtensions.cs" />
+    <Compile Include="Areas\MedEngMgt\Helpers\QRHelper.cs" />
+    <Compile Include="Areas\MedEngMgt\MedEngMgtAreaRegistration.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AccountViewModels.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AppUser.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Asset.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetKeep.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetMaintainContract.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AttainFile.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetPurchaseContract.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Contract.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\CustOrgan.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AppRoles.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Department.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\DeptStok.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\KeepModels.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Label.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Manual.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\RepairDtlRecord.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\SelectUserVModels .cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Questionnaire.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\RepairCost.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\RepairDtl.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\RepairEmp.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\RepairFlow.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Repair.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\PrintVModels.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\ReportVModels.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\SignModels.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\News.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\TicketDtl.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Ticket.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Ticket_seq_tmp.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\UsersInRoles.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Func.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Vendor.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\MyErrorHandler.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB_GEN_STAFF_PW.cs" />
+    <Compile Include="Models\PSONcontext.cs" />
+    <Compile Include="Models\BMEDcontext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\CustomMembershipProvider.cs" />
+    <Compile Include="Providers\CustomRoleProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\MedEngMgt\Scripts\AssetKeepEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\ContractCreate.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\ContractEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\HtmltoExcel.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepCreate.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\QryDpt.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\FileUpload2.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\InStock.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RoleWithFuncs.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\ManualEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\AssetEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\AssetCreate.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\AssetExcelUpd.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepCostList.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\ManualCreate.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\FileUpload.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepCost.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RepairCostList.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\SelectUser.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\Report.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepRecordEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\NewsCreate.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepEmp.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\TicketEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RepairEmp.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RepairCost.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepDtl.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RepairDtl.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RepCreate.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\KeepNextFlow.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\RepNextFlow.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\FileUpload.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\KeepDtl.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepNextFlow.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepEmp.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\KeepEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\KeepEmp.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\KeepNextFlow.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\SelectUser.js" />
+    <Content Include="Content\bootstrap-combobox.css" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker.min.css" />
+    <Content Include="Content\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.css" />
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\bootstrap-fileinput\css\fileinput.css" />
+    <Content Include="Content\bootstrap-fileinput\css\fileinput.min.css" />
+    <Content Include="Content\bootstrap-fileinput\img\loading-sm.gif" />
+    <Content Include="Content\bootstrap-fileinput\img\loading.gif" />
+    <Content Include="Content\bootstrap-fileinput\themes\fa\theme.js" />
+    <Content Include="Content\bootstrap-fileinput\themes\gly\theme.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\menu\normalize.css" />
+    <Content Include="Content\menu\style.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Images\excel_icon.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\opc-ajax-loader.gif" />
+    <Content Include="Scripts\bootstrap-combobox.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Areas\MedEngMgt\Views\web.config" />
+    <Content Include="Areas\MedEngMgt\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Home\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppRoles\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppRoles\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppRoles\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppRoles\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppRoles\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Departments\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Departments\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Departments\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Departments\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Departments\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairFlows\GetList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairCosts\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\QryVendor.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\Choose.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\SelectList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Tickets\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Tickets\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Tickets\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Tickets\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Tickets\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairFlows\NextFlow.cshtml" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="Content\bootstrap-datepicker3.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker3.css.map" />
+    <Content Include="Content\bootstrap-datepicker.standalone.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Content\bootstrap-datepicker.min.css.map" />
+    <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetKeeps\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\Edit.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\Upload.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepDtls\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepCosts\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFlows\GetList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFlows\NextFlow.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairCosts\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepCosts\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\ShowNews.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Account\Manage.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Labels\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Labels\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Labels\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Labels\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Labels\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairEmps\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairEmps\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepEmps\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepEmps\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Views.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\Views.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepDtls\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\TicketDtls\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\TicketDtls\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\TicketDtls\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\TicketDtls\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\TicketDtls\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Tickets\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepRecords\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\MonthFailRate.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\UpdAssetExcel.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RepairKeep.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\MonthRepair.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\MonthKeep.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Manuals\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Manuals\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Manuals\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Manuals\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Manuals\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Manuals\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\DoHrSumMon.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Print.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairCosts\PrintList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Vendors\QryVendorList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\UnSignList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RpKpHistory.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\Index2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DealStatus\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DealStatus\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DealStatus\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DealStatus\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DealStatus\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\FailFactors\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\FailFactors\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\FailFactors\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\FailFactors\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\FailFactors\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepResults\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepResults\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepResults\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepResults\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepResults\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeviceClassCodes\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeviceClassCodes\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeviceClassCodes\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeviceClassCodes\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DeviceClassCodes\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Questionnaire\New.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Questionnaire\EditorTemplates\Question.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestSend\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestSend\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RepeatFail.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RepKeepStok.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RpKpStokBd.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\StokCost.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\SelectUser.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Shared\_LayoutNtitle.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormats\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormats\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormats\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormats\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormats\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormatDtls\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormatDtls\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormatDtls\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormatDtls\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFormatDtls\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepEmps\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairEmps\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepCosts\Print.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Account\LogOn.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\Upload2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\List2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Funcs\RoleWithFuncs.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Funcs\GetFuncs.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\Index2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\List2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\Index2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\List2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepRecords\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetKeeps\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\AssetView.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\AssetAnalysis.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairCosts\Print.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Account\_ForgetPasswordPartial.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestionnaireMs\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestionnaireMs\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestionnaireMs\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestionnaireMs\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\QuestionnaireMs\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Questionnaire\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Questionnaire\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Questionnaire\Preview.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Questionnaire\Titles.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\QuestionAnalysis.cshtml" />
+    <Content Include="manual_over10.pdf" />
+    <Content Include="manual_less10.pdf" />
+    <Content Include="Areas\MedEngMgt\Views\Contracts\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Contracts\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Contracts\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Contracts\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Contracts\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Contracts\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\AssetKeepList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Keeps\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepDtls\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepEmps\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\UpdCasesList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepFlows\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\KeepEmps\UpdCasesList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AppUsers\SelUsrCases.cshtml" />
+    <Content Include="manual_query.pdf" />
+    <Content Include="Areas\MedEngMgt\Views\DeptStoks\InStock.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\EffectRatio.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\AssetKpSche.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\Index3.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Repairs\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairEmps\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairEmps\UpdCasesList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairFlows\UpdCases.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\DealDesList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairDtls\DealDesDetails.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap2.js" />
+    <Content Include="Scripts\bootstrap2.min.js" />
+    <Content Include="Scripts\fileinput.js" />
+    <Content Include="Scripts\fileinput.min.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\NCKU.pubxml" />
+    <None Include="Properties\PublishProfiles\SMH.pubxml" />
+    <None Include="Properties\PublishProfiles\TAH.pubxml" />
+    <None Include="Properties\PublishProfiles\TMUH.pubxml" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-migrate-3.0.0.js" />
+    <Content Include="Scripts\jquery-migrate-3.0.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\locales\ar.js" />
+    <Content Include="Scripts\locales\bg.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\locales\ca.js" />
+    <Content Include="Scripts\locales\cr.js" />
+    <Content Include="Scripts\locales\cz.js" />
+    <Content Include="Scripts\locales\da.js" />
+    <Content Include="Scripts\locales\de.js" />
+    <Content Include="Scripts\locales\el.js" />
+    <Content Include="Scripts\locales\es.js" />
+    <Content Include="Scripts\locales\fa.js" />
+    <Content Include="Scripts\locales\fi.js" />
+    <Content Include="Scripts\locales\fr.js" />
+    <Content Include="Scripts\locales\hu.js" />
+    <Content Include="Scripts\locales\id.js" />
+    <Content Include="Scripts\locales\it.js" />
+    <Content Include="Scripts\locales\ja.js" />
+    <Content Include="Scripts\locales\LANG.js" />
+    <Content Include="Scripts\locales\nl.js" />
+    <Content Include="Scripts\locales\pl.js" />
+    <Content Include="Scripts\locales\pt-BR.js" />
+    <Content Include="Scripts\locales\pt.js" />
+    <Content Include="Scripts\locales\ro.js" />
+    <Content Include="Scripts\locales\ru.js" />
+    <Content Include="Scripts\locales\sk.js" />
+    <Content Include="Scripts\locales\th.js" />
+    <Content Include="Scripts\locales\tr.js" />
+    <Content Include="Scripts\locales\uk.js" />
+    <Content Include="Scripts\locales\zh-TW.js" />
+    <Content Include="Scripts\locales\zh.js" />
+    <Content Include="Scripts\menu.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\plugins\canvas-to-blob.js" />
+    <Content Include="Scripts\plugins\canvas-to-blob.min.js" />
+    <Content Include="Scripts\plugins\purify.js" />
+    <Content Include="Scripts\plugins\purify.min.js" />
+    <Content Include="Scripts\plugins\sortable.js" />
+    <Content Include="Scripts\plugins\sortable.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="manual2.pdf" />
+    <Content Include="manual_google.pdf" />
+    <Content Include="manual_apply.pdf" />
+    <Content Include="manual.pdf" />
+    <Content Include="manual_noncost.pdf" />
+    <Content Include="manual_screen.pdf" />
+    <Content Include="manual_mailpwd.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Keep\" />
+    <Folder Include="App_Data\MContract\" />
+    <Folder Include="App_Data\PContract\" />
+    <Folder Include="App_Data\Repair\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>5436</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5436/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 封裝。請啟用 NuGet 封裝還原，以下載該封裝。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

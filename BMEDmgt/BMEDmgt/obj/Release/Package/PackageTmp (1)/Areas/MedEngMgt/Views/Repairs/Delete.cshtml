@@ -1,0 +1,152 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Repair
+
+@{
+    ViewBag.Title = "廢除/請修";
+}
+
+<h2>廢除</h2>
+
+<h3>確定要廢除此請修單?</h3>
+<div>
+    <h4>請修</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DptId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DptId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDpt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlantDoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlantDoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaceLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TroubleDes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TroubleDes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlantClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlantClass)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="確定送出" class="btn btn-default" /> |
+            @Html.ActionLink("回到案件列表", "Index", "Home")
+        </div>
+    }
+</div>

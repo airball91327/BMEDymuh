@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.QuestionnaireM>
+
+@{
+    ViewBag.Title = "列表/滿意度問卷";
+}
+
+<h2>滿意度問卷</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Qname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Memo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Flg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Memo)
+        </td>
+        <td>
+            @Html.Raw(item.Flg == "Y" ? "開啟" : "關閉")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RtpName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rtt)
+        </td>
+        <td>
+            @Html.ActionLink("修改", "Edit", new { id=item.VerId }) |
+            @Html.ActionLink("問卷項目", "List","Questionnaire",new { id=item.VerId }, null)<br/>
+            @Html.ActionLink("預覽", "Preview", "Questionnaire", new { id = item.VerId }, null)
+
+        </td>
+    </tr>
+}
+
+</table>

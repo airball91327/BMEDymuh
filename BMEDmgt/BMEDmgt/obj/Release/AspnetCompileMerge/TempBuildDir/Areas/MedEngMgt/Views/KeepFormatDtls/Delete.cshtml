@@ -1,0 +1,34 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.KeepFormatDtl
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>保養格式明細/刪除</h2>
+
+<h3>您確定要刪除此記錄嗎?</h3>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+<fieldset>
+    <legend>KeepFormat_Dtl</legend>
+    @Html.HiddenFor(model => model.FormatId)
+    @Html.HiddenFor(model => model.Sno)
+    @Html.HiddenFor(model => model.Descript)
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FormatId)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Sno)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Descript)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descript)
+    </div>
+</fieldset>
+    <p>
+        <input type="submit" value="確定刪除" /> |
+        @Html.ActionLink("回到列表", "Edit", "KeepFormat", new { id = Model.FormatId }, null)
+    </p>
+}

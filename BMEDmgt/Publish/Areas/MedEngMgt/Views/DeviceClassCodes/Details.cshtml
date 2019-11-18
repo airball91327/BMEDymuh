@@ -1,0 +1,26 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.DeviceClassCode
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DeviceClassCode</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.M_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.M_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.M_code }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,139 @@
+﻿@model PagedList.IPagedList<BMEDmgt.Areas.MedEngMgt.Models.KeepListVModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div>
+    <input class="btn btn-default" id="btnEDITALL2" type="button" value="大量編輯" />
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.CheckBox("chkALL")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DocType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DocId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AccDptName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AssetName)/廠商
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().InOut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Result)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Memo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Days)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.CheckBox("chkKEEP")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccDptName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssetNo)<br />
+            @Html.DisplayFor(modelItem => item.AssetName)<br />
+            <span style="color:orangered; font-weight:bold;">@Html.DisplayFor(modelItem => item.Vendor)</span>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InOut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Result)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Memo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Days)
+        </td>
+        <td>
+            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
+        {
+            @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "blank" })
+            @Html.Raw("|")
+    }
+            @Html.ActionLink("預覽", "Views", new { id = item.DocId }) |
+            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人"
+            && item.Src == "M")
+        {
+            @Ajax.ActionLink("廢除", "Delete", new { id = item.DocId },
+            new AjaxOptions
+            {
+                HttpMethod = "GET",
+                LoadingElementId = "imgLOADING",
+                Confirm = "您確定要刪除嗎?",
+                OnSuccess = "showSuccess"
+            })
+            @*@Html.ActionLink("廢除", "Delete", new { id = item.DocId })*@
+    }
+        </td>
+    </tr>
+    }
+
+</table>
+<div>
+    @Html.PagedListPager(Model,
+    page => Url.Action("List", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+
+<script>
+    function showSuccess(data) {
+        if (!data.success) {
+            alert(data.error);
+        }
+        else {
+            alert("刪除完成!!");
+            $("#btnQTY2").trigger("click");
+        }
+    };
+    $('input[name="chkALL"]').change(function () {
+        if ($(this).prop("checked")) {
+            $("input[name='chkKEEP']").each(function () {
+                $(this).prop("checked", true);
+            });
+        }
+        else {
+            $("input[name='chkKEEP']").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+    $("#btnEDITALL2").click(function () {
+        var s = "";
+        $("input[name='chkKEEP']:checked").each(function () {
+            s += $(this).parents("tr").children().get(2).innerText.trim();
+            s += ";";
+        });
+        var lk = '@Url.Action("UpdCases", "Keeps")';
+        window.open(lk + '?kps=' + s, 'blank');
+    });
+</script>

@@ -1,0 +1,110 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.StokRecord
+
+@{
+    ViewBag.Title = "庫存進/出貨管理";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/InStock.js"></script>
+
+<h2>庫存進/出貨管理</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4></h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.StokNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StokNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StokNo, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        @Html.HiddenFor(model => model.StokNo)
+        <div class="form-group">
+            @Html.LabelFor(model => model.StokNam, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.StokNam, new { htmlAttributes = new { @class = "form-control" } })
+                    <input id="btnQtyStok" type="button" value="選擇庫存品項" class="btn btn-default" data-toggle="modal" data-target="#modalSTOK">
+                    @Html.ValidationMessageFor(model => model.StokNam, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.StokNam, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StokNam, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StokNam, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalAmt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalAmt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalAmt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.RadioButtonFor(model => model.RecordType, "維修")維修
+                @Html.RadioButtonFor(model => model.RecordType, "保養")保養
+                @Html.RadioButtonFor(model => model.RecordType, "借調")借調
+                @Html.ValidationMessageFor(model => model.RecordType, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.DocId,
+               new { htmlAttributes = new { @class = "form-control", placeholder="表單編號" } })
+            </div>
+            <div class="col-md-4">
+                
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.InOut, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.InOut, "進庫")進庫
+                @Html.RadioButtonFor(model => model.InOut, "出庫")出庫
+                @Html.ValidationMessageFor(model => model.InOut, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("回到列表", "Index")
+</div>
+
+<!-- 庫存品 Modal -->
+<div id="modalSTOK" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇庫存品</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Action("Choose", "DeptStoks")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

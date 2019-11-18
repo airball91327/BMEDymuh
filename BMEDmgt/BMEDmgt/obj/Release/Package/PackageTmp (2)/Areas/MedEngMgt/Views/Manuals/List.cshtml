@@ -1,0 +1,82 @@
+﻿@model PagedList.IPagedList<BMEDmgt.Areas.MedEngMgt.Models.Manual>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@if (Roles.IsUserInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("新增", "Create")
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ManualName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AssetType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AssetBrand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FileType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FileLanguage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FilePath)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManualName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetBrand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileLanguage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+            <td>
+                <a href=@(item.FilePath+item.FileName)>下載</a>
+            </td>
+            <td>
+                @if (Roles.IsUserInRole("Admin"))
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.FileId })<br />
+                    @Html.ActionLink("刪除", "Delete", new { id = item.FileId })
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+<div>
+    @Html.PagedListPager(Model,
+    page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.DeptStok>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StokNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StokNam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StokNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StokNam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qty)
+            </td>
+            <td>
+                <input type="radio" name="rblSELECT" />
+            </td>
+        </tr>
+    }
+
+</table>

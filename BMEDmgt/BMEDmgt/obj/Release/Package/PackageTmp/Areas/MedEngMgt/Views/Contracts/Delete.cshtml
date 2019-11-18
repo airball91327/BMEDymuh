@@ -1,0 +1,80 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Contract
+
+@{
+    ViewBag.Title = "刪除/合約";
+}
+
+<h2>刪除</h2>
+
+<h3>您確定要刪除此合約?</h3>
+<div>
+    <h4>合約</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Status == "Y" ? "正常" : "終止")
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="確定刪除" class="btn btn-default" /> |
+            @Html.ActionLink("回到列表", "Index")
+        </div>
+    }
+</div>

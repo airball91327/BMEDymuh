@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.MonthFailRateVModel>
+
+@*<p>
+    @Html.ActionLink("匯出Excel", "MonthFailRateExcel")
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustNam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlantAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FailRate)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustNam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlantAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FailRate)
+        </td>
+    </tr>
+}
+
+</table>

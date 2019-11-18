@@ -1,0 +1,78 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.FuncsInRoles
+@{
+    ViewBag.Title = "角色功能權限設定";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/RoleWithFuncs.js"></script>
+
+<h2>角色功能權限設定</h2>
+@using (Ajax.BeginForm("RoleWithFuncs", "Funcs",
+                                        new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING", OnSuccess = "showmsg" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>角色功能權限設定</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RoleId, null,
+               "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Module, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Module, null,
+               "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Module, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQRY" type="button" value="查詢" class="btn btn-default" />
+            </div>
+        </div>
+        @if (Model != null)
+        {
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <label>設定功能權限</label>
+            </div>
+            <div class="col-md-10">
+                <div class="editor-field">
+                    <table style="width: 50%">
+                        @for (int i = 0; i < Model.InFuncs.Count; i++)
+                        {
+                            if (i % 3 == 0)
+                            {
+                                @Html.Raw("<tr>")
+                            }
+                            @Html.Raw("<td width='25%'>")
+                            @Html.CheckBoxFor(model => model.InFuncs[i].IsSelected)
+                            @Html.HiddenFor(model => model.InFuncs[i].FuncId)
+                            @Html.HiddenFor(model => model.InFuncs[i].FuncName)
+                            @Html.Raw(Model.InFuncs[i].FuncName)
+                            @Html.Raw("</td>")
+                            if (i % 3 == 2)
+                            {
+                                @Html.Raw("</tr>")
+                            }
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSEND" type="submit" value="儲存" class="btn btn-default" />
+                <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+        }
+    </div>
+}
+

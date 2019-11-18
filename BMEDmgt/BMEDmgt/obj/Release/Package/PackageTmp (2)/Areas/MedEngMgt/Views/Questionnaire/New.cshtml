@@ -1,0 +1,38 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Evaluation
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+@Styles.Render("~/Content/css", "~/Content/themes/base/jquery-ui.css")
+@{
+    Layout = "";
+}
+<div class="content-wrapper">
+    <h2>醫療儀器管理系統-服務滿意度調查</h2>
+    <br />
+</div>
+<div id="body">
+    <section class="content-wrapper main-content clear-fix">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Docid)
+            @Html.HiddenFor(model => model.YYYYmm)
+            @Html.HiddenFor(model => model.CustId)
+            @Html.HiddenFor(model => model.CustNam)
+            @Html.EditorFor(model => model.Questions)
+            <input id="btnSEND" type="submit" />
+        }
+    </section>
+</div>
+<script>
+    var i = 0;
+    $("input:radio").change(function () {
+        $(this).parents("tr").find("span").text('');
+        i++;
+    });
+    $("#btnSEND").click(function () {              
+        if(i < 10)
+        {
+            alert('尚有項目未圈選!!');
+            return false;
+        }
+    });
+</script>

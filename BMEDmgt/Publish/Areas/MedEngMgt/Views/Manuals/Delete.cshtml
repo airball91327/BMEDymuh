@@ -1,0 +1,120 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Manual
+
+@{
+    ViewBag.Title = "手冊/刪除";
+}
+
+<h2>刪除</h2>
+
+<h3>您確定要刪除此資料?</h3>
+<div>
+    <h4>手冊</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ManualName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManualName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetBrand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetBrand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileLanguage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileLanguage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileGuid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileGuid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileAuth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="確定送出" class="btn btn-default" /> |
+            @Html.ActionLink("會到列表", "Index")
+        </div>
+    }
+</div>

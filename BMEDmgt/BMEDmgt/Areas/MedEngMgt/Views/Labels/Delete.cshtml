@@ -1,0 +1,65 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Label
+
+@{
+    ViewBag.Title = "刪除/標籤";
+}
+
+<h2>刪除</h2>
+
+<h3>您確定要刪除此資料?</h3>
+<div>
+    <h4>標籤</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LabelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LabelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+            @Html.DisplayFor(model => model.RtpName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="確定刪除" class="btn btn-default" /> |
+            @Html.ActionLink("回到標籤列表", "Index")
+        </div>
+    }
+</div>

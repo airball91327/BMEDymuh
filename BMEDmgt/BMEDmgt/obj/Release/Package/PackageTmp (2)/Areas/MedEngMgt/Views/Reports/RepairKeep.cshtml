@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.RepairKeepVModel>
+
+<p>
+    @Html.ActionLink("匯出Excel", "RepairKeepExcel")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustNam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastMonKpAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeepAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeepCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverThousandCost)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustNam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastMonKpAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KeepAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KeepCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverThousandCost)
+        </td>
+    </tr>
+}
+
+</table>

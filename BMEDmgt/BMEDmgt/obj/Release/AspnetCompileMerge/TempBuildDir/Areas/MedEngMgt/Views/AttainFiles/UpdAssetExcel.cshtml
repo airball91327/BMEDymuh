@@ -1,0 +1,27 @@
+﻿
+@Styles.Render("~/Content/fileinput/css")
+<script src="~/Areas/MedEngMgt/Scripts/AssetExcelUpd.js"></script>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.Label("FileLink","資產Excel檔", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("FileLink", new { htmlAttributes = new { @class = "form-control",type="file" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnUPLOAD" type="button" value="確定上載" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+

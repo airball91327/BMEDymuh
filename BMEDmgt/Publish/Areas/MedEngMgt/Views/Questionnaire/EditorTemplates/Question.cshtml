@@ -1,0 +1,27 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Question
+<div>
+    @Html.HiddenFor(model => model.ID)
+    <h3>@Model.QuestionText </h3>
+    @if (Model.Typ == "select")
+    {
+        <table style="border: 1px solid lightgray">
+            <tr>
+                <td>很不滿意</td>
+                @foreach (var a in Model.Answers)
+                {
+                    <td>
+                        @Html.RadioButtonFor(model => model.SelectedAnswer, a.ID)  @a.AnswerText
+                    </td>
+                }
+                <td>很滿意</td>
+                <td><span style="color:red">*</span></td>
+            </tr>
+        </table>
+    }
+    else if (Model.Typ == "text")
+    { 
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.SelectedAnswer, new { style = "width: 475px; height: 100px;" })
+        </div>
+    }
+</div>

@@ -1,0 +1,37 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.SelectUserVModel
+
+<script src="~/Areas/MedEngMgt/Scripts/SelectUser.js"></script>
+
+<div class="form-horizontal">
+    <h4>人員選擇器</h4>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.Susername, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 text-left">
+            <div class="form-inline">
+                @Html.EditorFor(model => model.Susername, new { htmlAttributes = new { @class = "form-control" } })
+                <input id="btnQuname" type="button" value="查詢" class="btn btn-default" />
+                @Html.ValidationMessageFor(model => model.Susername, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Sdptname, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 text-left">
+            <div class="form-inline">
+                @Html.EditorFor(model => model.Sdptname, new { htmlAttributes = new { @class = "form-control" } })
+                <input id="btnQdname" type="button" value="查詢" class="btn btn-default" />
+                @Html.ValidationMessageFor(model => model.Sdptname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Suserid, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Suserid, null, new { @class = "form-control" })
+            <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            @Html.ValidationMessageFor(model => model.Suserid, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+

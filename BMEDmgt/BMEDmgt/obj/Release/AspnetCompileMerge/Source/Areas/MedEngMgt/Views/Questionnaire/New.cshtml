@@ -1,0 +1,44 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Evaluation
+@{
+    Layout = "~/Areas/MedEngMgt/Views/Shared/_LayoutNtitle.cshtml";
+}
+
+<link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-combobox.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/QuestNew.js"></script>
+
+<div class="form-horizontal">
+
+    <h2>國立成功大學醫學院附設醫院 @Model.Qname</h2>
+    <hr />
+
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING", OnSuccess = "showmsg" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Docid)
+        @Html.HiddenFor(model => model.YYYYmm)
+        <div class="form-group">
+            <div class="form-inline">
+                <div class="col-md-12 text-left">
+                    @Html.Label("CustId", "單位名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownList("CustId", ViewData["Dept"] as SelectList, "請選擇", new { @class = "form-control combobox" })
+                        @Html.ValidationMessageFor(model => model.CustId, "", new { @class = "text-danger" })
+                    </div>
+                    @*@Html.Label("ContractNo", "合約名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownList("ContractNo", ViewData["Contract"] as SelectList, "請選擇", new { @class = "form-control combobox" })
+                        @Html.ValidationMessageFor(model => model.CustId, "", new { @class = "text-danger" })
+                    </div>*@
+                </div>             
+            </div>
+        </div>
+        @Html.EditorFor(model => model.Questions)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSEND" type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>

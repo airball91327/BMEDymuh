@@ -1,0 +1,31 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.QuestReport>
+
+<h2>滿意度調查統計表</h2>
+<p>
+    <a class="btn btn-default" href="@Url.Action("ExcelQA", TempData["qry"])">匯出Excel</a>
+</p>
+<table class="table">
+    @Html.Action("Titles", "Questionnaire")
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContractNo)<br/>
+                @Html.DisplayFor(modelItem => item.Contract)<br />
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DptId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DptName)
+            </td>
+            @foreach (var answer in item.Answers)
+            {
+                <td>
+                    @answer.Answer
+                </td>
+            }
+        </tr>
+    }
+</table>

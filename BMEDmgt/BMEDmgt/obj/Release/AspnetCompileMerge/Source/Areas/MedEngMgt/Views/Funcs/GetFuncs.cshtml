@@ -1,0 +1,7 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.Func>
+
+@foreach (var item in Model) {
+    <li>
+        <a href="@Url.Content(item.Href)">@item.FuncName</a>
+    </li>
+}

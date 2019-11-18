@@ -1,0 +1,62 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.Repair>
+
+<script src="~/Areas/MedEngMgt/Scripts/QryDpt.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<h4>請修案件查詢</h4>
+@using (Ajax.BeginForm("Index2", "Repairs", null,
+                                                                new AjaxOptions
+                                                                {
+                                                                    UpdateTargetId = "pnlREPAIRLIST",
+                                                                    HttpMethod = "POST",
+                                                                    LoadingElementId = "imgLOADING"
+                                                                },
+                                                                new { @class = "form-horizontal" }))
+{
+    <div class="form-group">
+        <div class="form-inline">
+            @Html.Label("qtyDOCID", "維修編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyDOCID", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyASSETNO", "財產編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyASSETNO", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyASSETNAME", "儀器名稱(關鍵字)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyASSETNAME", "", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("AccdptKeyName", "成本中心", new { @class = "control-label col-md-2" })
+        <div class="col-md-10 text-left">
+            <div class="form-inline">
+                @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownList("qtyACCDPT", ViewData["ACCDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("ApplydptKeyName", "申請部門", new { @class = "control-label col-md-2" })
+        <div class="col-md-10 text-left">
+            <div class="form-inline">
+                @Html.TextBox("ApplydptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyApplydpt" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownList("qtyDPTID", ViewData["APPLYDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+            <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+        </div>
+    </div>
+
+}
+
+<div id="pnlREPAIRLIST" style="margin: 20px 0">
+
+</div>

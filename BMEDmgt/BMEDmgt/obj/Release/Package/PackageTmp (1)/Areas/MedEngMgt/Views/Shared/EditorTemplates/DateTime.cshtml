@@ -1,0 +1,27 @@
+﻿@model DateTime?
+@if (Model.HasValue)
+{
+    if (Request.Browser.Browser == "Chrome")
+    {
+        @Html.TextBox("", Model.Value.ToString("yyyy-MM-dd"),
+     new { type = "date" })
+    }
+    else
+    {
+        @Html.TextBox("", Model.Value.ToString("yyyy/MM/dd"),
+  new { @class = "datefield", type = "date" })
+    }
+}
+else
+{
+    if (Request.Browser.Browser == "Chrome")
+    {
+        @Html.TextBox("", "",
+  new { @class = "form-control", type = "date" })
+    }
+    else
+    {
+        @Html.TextBox("", "",
+  new { @class = "form-control datefield", type = "date" })
+    }
+}
