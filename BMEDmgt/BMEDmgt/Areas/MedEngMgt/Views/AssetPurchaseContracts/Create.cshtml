@@ -57,6 +57,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.VendorUniteNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VendorUniteNo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.VendorUniteNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.VendorPhone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.VendorPhone, new { htmlAttributes = new { @class = "form-control" } })
@@ -187,11 +195,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PurchaseUName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("PurchaseUNameKeyName", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
-                @Html.HiddenFor(model => model.PurchaseUName)
-                <input id="btnQtyPurchaseUName" type="button" value="查詢" class="btn btn-default">
-                @Html.DropDownListFor(model => model.PurchaseUid, null, "請選擇", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PurchaseUid, "", new { @class = "text-danger" })
+                <div class="form-inline">
+                    @Html.TextBox("PurchaseUNameKeyName", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
+                    @Html.HiddenFor(model => model.PurchaseUName)
+                    <input id="btnQtyPurchaseUName" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.PurchaseUid, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PurchaseUid, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -222,8 +232,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SponsorUid, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SponsorUid, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SponsorUid, "", new { @class = "text-danger" })
+                <div class="form-inline">
+                    @Html.TextBox("SponsorKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtySponsor" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.SponsorUid, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SponsorUid, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -238,8 +252,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CoOrganizerUid, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CoOrganizerUid, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CoOrganizerUid, "", new { @class = "text-danger" })
+                <div class="form-inline">
+                    @Html.TextBox("CoOrganizerKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyCoOrganizer" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.CoOrganizerUid, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CoOrganizerUid, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -360,6 +378,122 @@
             //        }
             //    });
             //});
+            $("#btnQtyUseDpt").click(function () {
+                var keynam = $("#UseDptKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../Departments/GetDptsByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                        });
+                        $('#UseDpt').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtyPurchaseDpt").click(function () {
+                var keynam = $("#PurchaseDptKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../Departments/GetDptsByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                        });
+                        $('#PurchaseDpt').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtyPurchaseUName").click(function () {
+                var keynam = $("#PurchaseUNameKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#PurchaseUid').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtySponsor").click(function () {
+                var keynam = $("#SponsorKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#SponsorUid').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtyCoOrganizer").click(function () {
+                var keynam = $("#CoOrganizerKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#CoOrganizerUid').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
         });
     </script>
     @Scripts.Render("~/bundles/jqueryval")

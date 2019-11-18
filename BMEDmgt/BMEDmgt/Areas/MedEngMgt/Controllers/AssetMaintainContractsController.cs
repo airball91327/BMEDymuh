@@ -20,7 +20,45 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/AssetMaintainContracts
         public ActionResult Index()
         {
-            return View(db.AssetMaintainContracts.ToList());
+            return View();
+        }
+
+        // POST: MedEngMgt/AssetMaintainContracts
+        [HttpPost]
+        public ActionResult Index(FormCollection fm)
+        {
+            string cno = fm["qtyContractNo"];
+            string aname = fm["qtyASSETNAME"];
+            string ano = fm["qtyASSETNO"];
+            string vname = fm["qtyVendorName"];
+            string vuniteno = fm["qtyVendorUniteNo"];
+
+            //List<AssetMaintainContract> ac = new List<AssetMaintainContract>();
+
+            var contracts = db.AssetMaintainContracts.ToList();
+
+            if(!string.IsNullOrEmpty(cno))  //契約號
+            {
+                contracts = contracts.Where(c => c.ContractNo == cno).ToList();
+            }
+            if (!string.IsNullOrEmpty(aname))   //財產關鍵字
+            {
+                contracts = contracts.Where(c => c.AssetName.Contains(aname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(ano))     //財產編號
+            {
+                contracts = contracts.Where(c => c.AssetNo == ano).ToList();
+            }
+            if (!string.IsNullOrEmpty(vname))   //廠商名稱關鍵字
+            {
+                contracts = contracts.Where(c => c.VendorName.Contains(vname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(vuniteno))    //廠商統編
+            {
+                contracts = contracts.Where(c => c.VendorUniteNo == vuniteno).ToList();
+            }
+
+            return View("List", contracts);
         }
 
         // GET: MedEngMgt/AssetMaintainContracts/Details/5

@@ -1,227 +1,55 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetPurchaseContract>
 
 @{
-    ViewBag.Title = "列表/設備新購合約管理";
+    ViewBag.Title = "查詢/設備新購合約管理";
 }
 
-<h2>合約列表</h2>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script>
+    $(function () {
+        $("#QryForm").submit();
+    });
+</script>
+
+<h2>合約查詢</h2>
 <h4>設備新購合約</h4>
 
-<p>
-    <a class="btn btn-primary" href="@Url.Action("Create")">新增合約</a>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PurchaseNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PurchaseName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeaveLoc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VendorId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VendorName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VendorPhone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Budget)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BasicPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContractClass)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContractTotalPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AwardDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AcceptDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Warranty)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AssetClass)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WarrantySdate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WarrantyEdate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WarrantyMargin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PerformanceMargin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UseDpt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PurchaseDpt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PurchaseUid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PurchaseUName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PermitNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PermitValid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sponsor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SponsorUid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CoOrganizer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CoOrganizerUid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PAssetClass)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Note)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rtp)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rtt)
-        </th>*@
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+@using (Ajax.BeginForm("Index", "AssetPurchaseContracts", null,
+    new AjaxOptions
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveLoc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Budget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BasicPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContractClass)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContractTotalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwardDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AcceptDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Warranty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AssetClass)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WarrantySdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WarrantyEdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WarrantyMargin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerformanceMargin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UseDpt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseDpt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseUid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseUName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermitNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermitValid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sponsor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SponsorUid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoOrganizer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoOrganizerUid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PAssetClass)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rtp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rtt)
-            </td>*@
-            <td>
-                @Html.ActionLink("編輯", "Edit", new { id=item.ContractNo }) |
-                @Html.ActionLink("詳細內容", "Details", new { id=item.ContractNo }) |
-                @Html.ActionLink("刪除", "Delete", new { id=item.ContractNo })
-            </td>
-        </tr>
-    }
+        UpdateTargetId = "pnlCONTRACTLIST",
+        HttpMethod = "POST",
+        LoadingElementId = "imgLOADING"
+    },
+    new { @class = "form-horizontal", id = "QryForm" }))
+{
+    <div class="form-group">
+        <div class="form-inline">
+            @Html.Label("qtyContractNo", "採購編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyContractNo", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyVendorName", "廠商名稱(關鍵字)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyVendorName", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyVendorUniteNo", "廠商統一編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyVendorUniteNo", "", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+   
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+            <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+        </div>
+    </div>
 
-</table>
+}
+
+<div id="pnlCONTRACTLIST" style="margin: 20px 0">
+
+</div>

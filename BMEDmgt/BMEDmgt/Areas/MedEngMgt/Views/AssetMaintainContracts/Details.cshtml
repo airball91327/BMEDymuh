@@ -171,7 +171,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EndNotice)
+            @if (Model.EndNotice == "Y")
+            {
+                <span>是</span>
+            }
+            else
+            {
+                <span>否</span>
+            }
         </dd>
 
         <dt>
@@ -182,7 +189,7 @@
             @Html.DisplayFor(model => model.Note)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Status)
         </dt>
 
@@ -204,7 +211,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.Rtt)
-        </dd>
+        </dd>*@
 
     </dl>
 </div>

@@ -322,7 +322,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<AppUser> ul;
             List<UserList> us = new List<UserList>();
             string s = "";
-            ul = db.AppUsers.Where(p => p.FullName.Contains(keyname)).ToList();
+            ul = db.AppUsers.Where(p => p.FullName.Contains(keyname) || p.UserName == keyname).ToList();
             foreach (AppUser f in ul)
             {
                 UserList u = new UserList();

@@ -7,7 +7,7 @@
 <h2>詳細內容</h2>
 
 <div id="pnlFILES" style="margin: 10pt">
-    @Html.Action("List", "AttainFiles", new { id = Model.ContractNo, typ = "7" })
+    @Html.Action("List", "AttainFiles", new { id = Model.ContractNo, typ = "8" })
 </div>
 
 <div>
@@ -254,7 +254,7 @@
             @Html.DisplayFor(model => model.Note)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Status)
         </dt>
 
@@ -276,7 +276,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.Rtt)
-        </dd>
+        </dd>*@
 
     </dl>
 </div>

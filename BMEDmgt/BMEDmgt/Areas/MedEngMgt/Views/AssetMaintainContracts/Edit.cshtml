@@ -189,7 +189,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndNotice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndNotice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.RadioButton("EndNotice", "Y") 是
+                @Html.RadioButton("EndNotice", "N") 否
                 @Html.ValidationMessageFor(model => model.EndNotice, "", new { @class = "text-danger" })
             </div>
         </div>

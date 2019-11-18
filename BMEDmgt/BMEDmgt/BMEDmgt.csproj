@@ -568,6 +568,8 @@
     <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Details.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Edit.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\List.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

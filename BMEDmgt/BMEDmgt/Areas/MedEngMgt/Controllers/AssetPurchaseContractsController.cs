@@ -19,7 +19,32 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/AssetPurchaseContracts
         public ActionResult Index()
         {
-            return View(db.AssetPurchaseContracts.ToList());
+            return View();
+        }
+
+        // POST: MedEngMgt/AssetPurchaseContracts
+        [HttpPost]
+        public ActionResult Index(FormCollection fm)
+        {
+            string cno = fm["qtyContractNo"];
+            string vname = fm["qtyVendorName"];
+            string vuniteno = fm["qtyVendorUniteNo"];
+
+            var contracts = db.AssetPurchaseContracts.ToList();
+            if (!string.IsNullOrEmpty(cno))  //契約號
+            {
+                contracts = contracts.Where(c => c.ContractNo == cno).ToList();
+            }
+            if (!string.IsNullOrEmpty(vname))   //廠商名稱關鍵字
+            {
+                contracts = contracts.Where(c => c.VendorName.Contains(vname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(vuniteno))    //廠商統編
+            {
+                contracts = contracts.Where(c => c.VendorUniteNo == vuniteno).ToList();
+            }
+
+            return View("List", contracts);
         }
 
         // GET: MedEngMgt/AssetPurchaseContracts/Details/5
@@ -40,6 +65,26 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/AssetPurchaseContracts/Create
         public ActionResult Create()
         {
+            List<SelectListItem> Dpts = new List<SelectListItem>();
+            db.Departments.ToList()
+                .ForEach(dp =>
+                {
+                    Dpts.Add(new SelectListItem
+                    {
+                        Value = dp.DptId,
+                        Text = dp.Name_C,
+                        Selected = false
+                    });
+                });
+            ViewData["UseDpt"] = Dpts;
+            ViewData["PurchaseDpt"] = Dpts;
+
+            List<SelectListItem> ListItem1 = new List<SelectListItem>();
+            ListItem1.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            ViewData["PurchaseUid"] = ListItem1;
+            ViewData["SponsorUid"] = ListItem1;
+            ViewData["CoOrganizerUid"] = ListItem1;
+
             return View();
         }
 
