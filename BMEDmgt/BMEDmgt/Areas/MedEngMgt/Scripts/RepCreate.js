@@ -27,8 +27,8 @@ $(function () {
                     type: "GET",
                     data: { keyname: keynam },
                     dataType: "json",
+                    async: false,
                     success: function (data) {
-                        //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
                         var jsdata = JSON.parse(data);
                         var appenddata;
                         appenddata += "<option value = ''>請選擇</option>";
@@ -42,14 +42,14 @@ $(function () {
                     }
                 });
             }
-            $("#AssetNo").val("000");
+            $("#AssetNo").find('option[value="000"]').attr('selected', 'selected');
             //$("#TroubleDes").val("設備名稱: \n\n故障描述: ");
         }
         else {
             $("#pnlASSET").show();
             $("#pnlAssetName").hide();
             $("#AssetName").val("");
-            $("#AssetNo").val("");
+            $("#AssetNo").find('option[value=""]').attr('selected', 'selected');
             //$("#TroubleDes").val('');
         }
     });
