@@ -201,7 +201,7 @@ $(function () {
                 $.each(jsdata, function (key, value) {
                     appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
                 });
-                $('#CheckerName').html(appenddata);
+                //$('#CheckerName').html(appenddata);
                 //
                 $.ajax({
                     contentType: "application/json; charset=utf-8",
