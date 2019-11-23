@@ -63,7 +63,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "請購單位")]
         public string PurchaseDpt { get; set; }
         [Display(Name = "採購人員代號")]
-        public string PurchaseUid { get; set; }
+        public int? PurchaseUid { get; set; }
         [Display(Name = "採購人員")]
         public string PurchaseUName { get; set; }
         [Display(Name = "醫療器材許可證號")]

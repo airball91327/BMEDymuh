@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -76,14 +77,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Selected = false
                     });
                 });
-            ViewData["UseDpt"] = Dpts;
-            ViewData["PurchaseDpt"] = Dpts;
+            ViewData["UseDpt"] = new SelectList(Dpts, "Value", "Text");
+            ViewData["PurchaseDpt"] = new SelectList(Dpts, "Value", "Text");
 
             List<SelectListItem> ListItem1 = new List<SelectListItem>();
             ListItem1.Add(new SelectListItem { Text = "請選擇", Value = "" });
-            ViewData["PurchaseUid"] = ListItem1;
-            ViewData["SponsorUid"] = ListItem1;
-            ViewData["CoOrganizerUid"] = ListItem1;
+            ViewData["PurchaseUid"] = new SelectList(ListItem1, "Value", "Text", "");
+            ViewData["SponsorUid"] = new SelectList(ListItem1, "Value", "Text", "");
+            ViewData["CoOrganizerUid"] = new SelectList(ListItem1, "Value", "Text", "");
 
             return View();
         }
@@ -97,6 +98,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                assetPurchaseContract.Status = "Y";
+                assetPurchaseContract.Rtp = WebSecurity.CurrentUserId;
+                assetPurchaseContract.Rtt = DateTime.Now;
+
                 db.AssetPurchaseContracts.Add(assetPurchaseContract);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -112,12 +117,59 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssetPurchaseContract assetPurchaseContract = db.AssetPurchaseContracts.Find(id);
-            if (assetPurchaseContract == null)
+            AssetPurchaseContract assetPContract = db.AssetPurchaseContracts.Find(id);
+            if (assetPContract == null)
             {
                 return HttpNotFound();
             }
-            return View(assetPurchaseContract);
+
+            List<SelectListItem> Dpts = new List<SelectListItem>();
+            db.Departments.ToList()
+                .ForEach(dp =>
+                {
+                    Dpts.Add(new SelectListItem
+                    {
+                        Value = dp.DptId,
+                        Text = dp.Name_C,
+                        Selected = false
+                    });
+                });
+            ViewData["UseDpt"] = new SelectList(Dpts, "Value", "Text", assetPContract.UseDpt);
+            ViewData["PurchaseDpt"] = new SelectList(Dpts, "Value", "Text", assetPContract.PurchaseDpt);
+
+            List<SelectListItem> ListItem1 = new List<SelectListItem>();
+            AppUser ur;
+            ListItem1.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            if (assetPContract.PurchaseUid != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.PurchaseUid).FirstOrDefault();
+                if (ur != null)
+                {
+                    ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+            if (assetPContract.SponsorUid != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
+                if (ur != null)
+                {
+                    ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+
+            if (assetPContract.CoOrganizerUid != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
+                if (ur != null)
+                {
+                    ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+            ViewData["PurchaseUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.PurchaseUid);
+            ViewData["SponsorUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.SponsorUid);
+            ViewData["CoOrganizerUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.CoOrganizerUid);
+
+            return View(assetPContract);
         }
 
         // POST: MedEngMgt/AssetPurchaseContracts/Edit/5
@@ -129,6 +181,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                assetPurchaseContract.Status = "Y";
+                assetPurchaseContract.Rtp = WebSecurity.CurrentUserId;
+                assetPurchaseContract.Rtt = DateTime.Now;
+
                 db.Entry(assetPurchaseContract).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
