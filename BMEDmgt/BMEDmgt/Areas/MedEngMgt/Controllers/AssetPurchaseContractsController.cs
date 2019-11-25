@@ -45,6 +45,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 contracts = contracts.Where(c => c.VendorUniteNo == vuniteno).ToList();
             }
 
+            foreach(var item in contracts)
+            {
+                var dptU = db.Departments.Where(d => d.DptId == item.UseDpt).FirstOrDefault();
+                var dptP = db.Departments.Where(d => d.DptId == item.PurchaseDpt).FirstOrDefault();
+                var dptS = db.Departments.Where(d => d.DptId == item.Sponsor).FirstOrDefault();
+                var dptC = db.Departments.Where(d => d.DptId == item.CoOrganizer).FirstOrDefault();
+                var userS = db.AppUsers.Where(u => u.Id == item.SponsorUid).FirstOrDefault();
+                var userC = db.AppUsers.Where(u => u.Id == item.CoOrganizerUid).FirstOrDefault();
+                item.UseDptName = dptU == null ? "" : dptU.Name_C;
+                item.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
+                item.SponsorDptName = dptS == null ? "" : dptS.Name_C;
+                item.CoOrganizerDptName = dptC == null ? "" : dptC.Name_C;
+                item.SponsorName = userS == null ? "" : userS.FullName;
+                item.CoOrganizerName = userC == null ? "" : userC.FullName;
+            }
+
             return View("List", contracts);
         }
 
@@ -55,12 +71,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssetPurchaseContract assetPurchaseContract = db.AssetPurchaseContracts.Find(id);
-            if (assetPurchaseContract == null)
+            AssetPurchaseContract assetPContract = db.AssetPurchaseContracts.Find(id);
+            if (assetPContract == null)
             {
                 return HttpNotFound();
             }
-            return View(assetPurchaseContract);
+            var dptU = db.Departments.Where(d => d.DptId == assetPContract.UseDpt).FirstOrDefault();
+            var dptP = db.Departments.Where(d => d.DptId == assetPContract.PurchaseDpt).FirstOrDefault();
+            var dptS = db.Departments.Where(d => d.DptId == assetPContract.Sponsor).FirstOrDefault();
+            var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).FirstOrDefault();
+            var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
+            var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
+            assetPContract.UseDptName = dptU == null ? "" : dptU.Name_C;
+            assetPContract.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
+            assetPContract.SponsorDptName = dptS == null ? "" : dptS.Name_C;
+            assetPContract.CoOrganizerDptName = dptC == null ? "" : dptC.Name_C;
+            assetPContract.SponsorName = userS == null ? "" : userS.FullName;
+            assetPContract.CoOrganizerName = userC == null ? "" : userC.FullName;
+
+            return View(assetPContract);
         }
 
         // GET: MedEngMgt/AssetPurchaseContracts/Create
@@ -79,6 +108,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
             ViewData["UseDpt"] = new SelectList(Dpts, "Value", "Text");
             ViewData["PurchaseDpt"] = new SelectList(Dpts, "Value", "Text");
+            ViewData["Sponsor"] = new SelectList(Dpts, "Value", "Text");
+            ViewData["CoOrganizer"] = new SelectList(Dpts, "Value", "Text");
 
             List<SelectListItem> ListItem1 = new List<SelectListItem>();
             ListItem1.Add(new SelectListItem { Text = "請選擇", Value = "" });
@@ -136,6 +167,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
             ViewData["UseDpt"] = new SelectList(Dpts, "Value", "Text", assetPContract.UseDpt);
             ViewData["PurchaseDpt"] = new SelectList(Dpts, "Value", "Text", assetPContract.PurchaseDpt);
+            ViewData["Sponsor"] = new SelectList(Dpts, "Value", "Text", assetPContract.Sponsor);
+            ViewData["CoOrganizer"] = new SelectList(Dpts, "Value", "Text", assetPContract.CoOrganizer);
 
             List<SelectListItem> ListItem1 = new List<SelectListItem>();
             AppUser ur;
@@ -199,12 +232,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssetPurchaseContract assetPurchaseContract = db.AssetPurchaseContracts.Find(id);
-            if (assetPurchaseContract == null)
+            AssetPurchaseContract assetPContract = db.AssetPurchaseContracts.Find(id);
+            if (assetPContract == null)
             {
                 return HttpNotFound();
             }
-            return View(assetPurchaseContract);
+            var dptU = db.Departments.Where(d => d.DptId == assetPContract.UseDpt).FirstOrDefault();
+            var dptP = db.Departments.Where(d => d.DptId == assetPContract.PurchaseDpt).FirstOrDefault();
+            var dptS = db.Departments.Where(d => d.DptId == assetPContract.Sponsor).FirstOrDefault();
+            var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).FirstOrDefault();
+            var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
+            var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
+            assetPContract.UseDptName = dptU == null ? "" : dptU.Name_C;
+            assetPContract.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
+            assetPContract.SponsorDptName = dptS == null ? "" : dptS.Name_C;
+            assetPContract.CoOrganizerDptName = dptC == null ? "" : dptC.Name_C;
+            assetPContract.SponsorName = userS == null ? "" : userS.FullName;
+            assetPContract.CoOrganizerName = userC == null ? "" : userC.FullName;
+
+            return View(assetPContract);
         }
 
         // POST: MedEngMgt/AssetPurchaseContracts/Delete/5
@@ -216,6 +262,31 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.AssetPurchaseContracts.Remove(assetPurchaseContract);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: MedEngMgt/AssetPurchaseContracts/CheckCNo/5
+        public ActionResult CheckCNo(string id)
+        {
+            string result;
+            var checkCNo = db.AssetPurchaseContracts.Find(id);
+            if (checkCNo != null)
+            {
+                result = "<span style='color:red;'>已有相同合約編號</span>";
+                return new JsonResult
+                {
+                    Data = new { success = false, error = "", data = result },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            else
+            {
+                result = "<span style='color:green;'>可用編號</span>";
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "", data = result },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
         }
 
         protected override void Dispose(bool disposing)

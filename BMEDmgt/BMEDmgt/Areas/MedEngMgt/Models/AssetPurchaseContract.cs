@@ -60,8 +60,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int? PerformanceMargin { get; set; }
         [Display(Name = "使用單位")]
         public string UseDpt { get; set; }
+        [NotMapped]
+        public string UseDptName { get; set; }
         [Display(Name = "請購單位")]
         public string PurchaseDpt { get; set; }
+        [NotMapped]
+        public string PurchaseDptName { get; set; }
         [Display(Name = "採購人員代號")]
         public int? PurchaseUid { get; set; }
         [Display(Name = "採購人員")]
@@ -72,12 +76,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string PermitValid { get; set; }
         [Display(Name = "主辦單位")]
         public string Sponsor { get; set; }
+        [NotMapped]
+        public string SponsorDptName { get; set; }
         [Display(Name = "主辦人員代號")]
         public int? SponsorUid { get; set; }
+        [NotMapped]
+        [Display(Name = "主辦人員")]
+        public string SponsorName { get; set; }
         [Display(Name = "協辦單位")]
         public string CoOrganizer { get; set; }
+        [NotMapped]
+        public string CoOrganizerDptName { get; set; }
         [Display(Name = "協辦人員代號")]
         public int? CoOrganizerUid { get; set; }
+        [NotMapped]
+        [Display(Name = "主辦人員")]
+        public string CoOrganizerName { get; set; }
         [Display(Name = "採購設備類別")]
         public string PAssetClass { get; set; }
         [Display(Name = "備註")]

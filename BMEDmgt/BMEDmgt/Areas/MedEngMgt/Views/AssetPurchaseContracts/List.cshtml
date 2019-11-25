@@ -74,9 +74,6 @@
             @Html.DisplayNameFor(model => model.PurchaseDpt)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PurchaseUid)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.PurchaseUName)
         </th>
         <th>
@@ -89,13 +86,13 @@
             @Html.DisplayNameFor(model => model.Sponsor)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SponsorUid)
+            @Html.DisplayNameFor(model => model.SponsorName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CoOrganizer)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CoOrganizerUid)
+            @Html.DisplayNameFor(model => model.CoOrganizerName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PAssetClass)
@@ -173,13 +170,12 @@
                 @Html.DisplayFor(modelItem => item.PerformanceMargin)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UseDpt)
+                @Html.DisplayFor(modelItem => item.UseDpt)<br />
+                @Html.DisplayFor(modelItem => item.UseDptName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PurchaseDpt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseUid)
+                @Html.DisplayFor(modelItem => item.PurchaseDpt)<br />
+                @Html.DisplayFor(modelItem => item.PurchaseDptName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PurchaseUName)
@@ -191,16 +187,16 @@
                 @Html.DisplayFor(modelItem => item.PermitValid)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sponsor)
+                @Html.DisplayFor(modelItem => item.SponsorDptName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SponsorUid)
+                @Html.DisplayFor(modelItem => item.SponsorName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CoOrganizer)
+                @Html.DisplayFor(modelItem => item.CoOrganizerDptName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CoOrganizerUid)
+                @Html.DisplayFor(modelItem => item.CoOrganizerName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PAssetClass)

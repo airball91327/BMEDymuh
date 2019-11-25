@@ -6,6 +6,33 @@
 
 <h2>新增合約</h2>
 
+<div id="AttainDIV" hidden>
+    <div id="pnlFILES" style="margin: 10pt">
+    </div>
+    <div class="form-group">
+        <div>
+            <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+        </div>
+    </div>
+    <!-- 夾帶檔案 Modal -->
+    <div id="modalFILES" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">選擇上傳檔案</h4>
+                </div>
+                <div class="modal-body">
+                    @Html.Action("Upload", "AttainFiles", new { doctype = "8", docid = "000" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -17,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ContractNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })<span id="CheckCNoResult"></span>
                 @Html.ValidationMessageFor(model => model.ContractNo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -224,8 +251,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Sponsor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Sponsor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Sponsor, "", new { @class = "text-danger" })
+                <div class="form-inline">
+                    @Html.TextBox("SponsorDptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtySponsorDpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.Sponsor, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Sponsor, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -244,8 +275,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CoOrganizer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CoOrganizer, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CoOrganizer, "", new { @class = "text-danger" })
+                <div class="form-inline">
+                    @Html.TextBox("CoOrganizerDptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyCoOrganizerDpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.CoOrganizer, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CoOrganizer, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
@@ -272,7 +307,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Note, 5, 50, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -367,17 +402,18 @@
                     });
                 }
             });
-            //$('#modalFILES').on('hidden.bs.modal', function () {
-            //    var docid = $("#DocId").val();
-            //    $.ajax({
-            //        url: '../../AttainFiles/List2',
-            //        type: "POST",
-            //        data: { id: docid, typ: "1" },
-            //        success: function (data) {
-            //            $("#pnlFILES").html(data);
-            //        }
-            //    });
-            //});
+            $('#modalFILES').on('hidden.bs.modal', function () {
+                var docid = $("#DocId").val();
+                $.ajax({
+                    url: '../AttainFiles/List2',
+                    type: "POST",
+                    data: { id: docid, typ: "8" },
+                    success: function (data) {
+                        $("#pnlFILES").html(data);
+                        CheckFileList();
+                    }
+                });
+            });
             $("#btnQtyUseDpt").click(function () {
                 var keynam = $("#UseDptKeyName").val();
                 $.ajax({
@@ -494,7 +530,118 @@
                     }
                 });
             });
+
+            $("#btnQtySponsorDpt").click(function () {
+                var keynam = $("#SponsorDptKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../Departments/GetDptsByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                        });
+                        $('#Sponsor').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+            $("#btnQtyCoOrganizerDpt").click(function () {
+                var keynam = $("#CoOrganizerDptKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../Departments/GetDptsByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                        });
+                        $('#CoOrganizer').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#ContractNo").change(function () {
+                var keynam = $(this).val();
+                if (keynam !== "") {
+                    $.ajax({
+                        url: '../AssetPurchaseContracts/CheckCNo',
+                        type: "GET",
+                        dataType: "json",
+                        data: { id: keynam },
+                        success: function (data) {
+                            $("#CheckCNoResult").html(data.data);
+                            if (!data.success) {
+                                $("#AttainDIV").hide();
+                            }
+                            else {
+                                $("#AttainDIV").show();
+                                $("#DocId").val(keynam);
+                            }
+                        },
+                        error: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }
+            });
+
+            $("#pnlFILES").on("click", "a", function () {
+                CheckFileList2();
+            });
+
         });
+
+        function CheckFileList() {
+            var docid = $("#DocId").val();
+            $.ajax({
+                url: '../AttainFiles/CountFile',
+                type: "POST",
+                data: { id: docid, typ: "8" },
+                success: function (data) {
+                    if (data != "0") {
+                        $("#ContractNo").attr("readonly", "readonly");
+                    }
+                    else {
+                        $("#ContractNo").removeAttr("readonly");
+                    }
+                }
+            });
+        }
+
+        function CheckFileList2() {
+            var docid = $("#DocId").val();
+            $.ajax({
+                url: '../AttainFiles/CountFile',
+                type: "POST",
+                data: { id: docid, typ: "8" },
+                success: function (data) {
+                    if (data != "1") {
+                        $("#ContractNo").attr("readonly", "readonly");
+                    }
+                    else {
+                        $("#ContractNo").removeAttr("readonly");
+                    }
+                }
+            });
+        }
     </script>
     @Scripts.Render("~/bundles/jqueryval")
 }
