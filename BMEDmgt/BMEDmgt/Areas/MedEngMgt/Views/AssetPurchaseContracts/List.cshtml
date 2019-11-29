@@ -14,58 +14,28 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PurchaseNo)
-        </th>
-        <th>
+            @Html.DisplayNameFor(model => model.ContractNo)<br />
+            @Html.DisplayNameFor(model => model.PurchaseNo)<br />
             @Html.DisplayNameFor(model => model.PurchaseName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LeaveLoc)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VendorName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VendorUniteNo)
-        </th>
-        <th>
+            @Html.DisplayNameFor(model => model.VendorName)<br />
+            @Html.DisplayNameFor(model => model.VendorUniteNo)<br />
             @Html.DisplayNameFor(model => model.VendorPhone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Budget)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BasicPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContractClass)
-        </th>
-        <th>
+            @Html.DisplayNameFor(model => model.ContractClass)<br />
             @Html.DisplayNameFor(model => model.ContractTotalPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AwardDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AcceptDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Warranty)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AssetClass)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.WarrantySdate)
-        </th>
-        <th>
+            @Html.DisplayNameFor(model => model.WarrantySdate)<br />
             @Html.DisplayNameFor(model => model.WarrantyEdate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.WarrantyMargin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PerformanceMargin)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.UseDpt)
@@ -77,25 +47,12 @@
             @Html.DisplayNameFor(model => model.PurchaseUName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PermitNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PermitValid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sponsor)
-        </th>
-        <th>
+            @Html.DisplayNameFor(model => model.Sponsor)<br />
             @Html.DisplayNameFor(model => model.SponsorName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CoOrganizer)
-        </th>
-        <th>
+            @Html.DisplayNameFor(model => model.CoOrganizer)<br />
             @Html.DisplayNameFor(model => model.CoOrganizerName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PAssetClass)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Note)
@@ -109,97 +66,54 @@
             <th>
                 @Html.DisplayNameFor(model => model.Rtt)
             </th>*@
-        <th></th>
+        <th style="min-width:120px;"></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseNo)
-            </td>
-            <td>
+            <td style="min-width:100px;">
+                @Html.DisplayFor(modelItem => item.ContractNo)<br />
+                @Html.DisplayFor(modelItem => item.PurchaseNo)<br />
                 @Html.DisplayFor(modelItem => item.PurchaseName)
             </td>
-            <td>
+            <td style="min-width:75px;">
                 @Html.DisplayFor(modelItem => item.LeaveLoc)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VendorUniteNo)
-            </td>
-            <td>
+            <td style="min-width:150px;">
+                @Html.DisplayFor(modelItem => item.VendorName)<br />
+                @Html.DisplayFor(modelItem => item.VendorUniteNo)<br />
                 @Html.DisplayFor(modelItem => item.VendorPhone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Budget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BasicPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContractClass)
-            </td>
-            <td>
+                @Html.DisplayFor(modelItem => item.ContractClass)<br />
                 @Html.DisplayFor(modelItem => item.ContractTotalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwardDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AcceptDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Warranty)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AssetClass)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.WarrantySdate)
-            </td>
-            <td>
+                @Html.DisplayFor(modelItem => item.WarrantySdate)<br />
                 @Html.DisplayFor(modelItem => item.WarrantyEdate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WarrantyMargin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerformanceMargin)
-            </td>
-            <td>
+            <td style="min-width:125px;">
                 @Html.DisplayFor(modelItem => item.UseDpt)<br />
                 @Html.DisplayFor(modelItem => item.UseDptName)
             </td>
-            <td>
+            <td style="min-width:125px;">
                 @Html.DisplayFor(modelItem => item.PurchaseDpt)<br />
                 @Html.DisplayFor(modelItem => item.PurchaseDptName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PurchaseUName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermitNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermitValid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SponsorDptName)
-            </td>
-            <td>
+            <td style="min-width:125px;">
+                @Html.DisplayFor(modelItem => item.SponsorDptName)<br />
                 @Html.DisplayFor(modelItem => item.SponsorName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CoOrganizerDptName)
-            </td>
-            <td>
+            <td style="min-width:125px;">
+                @Html.DisplayFor(modelItem => item.CoOrganizerDptName)<br />
                 @Html.DisplayFor(modelItem => item.CoOrganizerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PAssetClass)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Note)
