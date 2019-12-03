@@ -286,13 +286,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         }
 
         // GET: MedEngMgt/Assets/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(string ano)
         {
-            if (id == null)
+            if (ano == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Asset asset = db.Assets.Find(id);
+            Asset asset = db.Assets.Find(ano);
             if (asset == null)
             {
                 return HttpNotFound();
@@ -301,9 +301,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 asset.DelivEmp = "(" + db.AppUsers.Find(asset.DelivUid.Value).UserName + ") "
                     + asset.DelivEmp;
-            }           
-            asset.DelivDptName = db.Departments.Find(asset.DelivDpt).Name_C;
-            asset.AccDptName = db.Departments.Find(asset.AccDpt).Name_C;
+            }
+            if (!string.IsNullOrEmpty(asset.DelivDpt))
+            {
+                asset.DelivDptName = db.Departments.Find(asset.DelivDpt).Name_C;
+            }
+            if (!string.IsNullOrEmpty(asset.AccDpt))
+            {
+                asset.AccDptName = db.Departments.Find(asset.AccDpt).Name_C;
+            }
             asset.VendorName = asset.VendorId == null ? "" : db.Vendors.Find(asset.VendorId).VendorName;
 
             return View(asset);

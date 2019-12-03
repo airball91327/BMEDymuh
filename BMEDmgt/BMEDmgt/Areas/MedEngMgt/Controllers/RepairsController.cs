@@ -277,7 +277,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 rv = rv.Where(v => v.DealState == dealstatus).ToList();
             }
-            rv = rv.OrderByDescending(k => k.Days).ToList();
+            rv = rv.OrderBy(k => k.Days).ToList();
 
             return PartialView("List", rv);
         }
@@ -782,7 +782,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 rv = rv.Where(v => v.DealState == dealstatus).ToList();
             }
-            rv = rv.OrderByDescending(k => k.Days).ToList();
+            rv = rv.OrderBy(k => k.Days).ToList();
 
             if (rv.ToPagedList(page, pageSize).Count <= 0)
                 return PartialView(rv.ToPagedList(1, pageSize));

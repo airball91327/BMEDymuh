@@ -53,6 +53,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     case "4":
                         keepDtl.InOut = "借用";
                         break;
+                    case "5":
+                        keepDtl.InOut = "委外/自行";
+                        break;
                 }
                 switch (keepDtl.Result)
                 {
@@ -107,6 +110,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem1.Add(new SelectListItem { Text = "租賃", Value = "2" });
             listItem1.Add(new SelectListItem { Text = "保固", Value = "3" });
             listItem1.Add(new SelectListItem { Text = "借用", Value = "4" });
+            listItem1.Add(new SelectListItem { Text = "委外/自行", Value = "5" });
             ViewData["InOut"] = new SelectList(listItem1, "Value", "Text", "");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
@@ -202,6 +206,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem1.Add(new SelectListItem { Text = "租賃", Value = "2" });
             listItem1.Add(new SelectListItem { Text = "保固", Value = "3" });
             listItem1.Add(new SelectListItem { Text = "借用", Value = "4" });
+            listItem1.Add(new SelectListItem { Text = "委外/自行", Value = "5" });
             ViewData["InOut"] = new SelectList(listItem1, "Value", "Text", "");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
@@ -246,6 +251,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         break;
                     case "4":
                         keepDtl.InOut = "借用";
+                        break;
+                    case "5":
+                        keepDtl.InOut = "委外/自行";
                         break;
                 }
                 switch (keepDtl.Result)

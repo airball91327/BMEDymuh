@@ -124,6 +124,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     case "借用":
                         dl.InOut = "4";
                         break;
+                    case "委外/自行":
+                        dl.InOut = "5";
+                        break;
                     default:
                         dl.InOut = "0";
                         break;
@@ -262,6 +265,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem3.Add(new SelectListItem { Text = "租賃", Value = "租賃" });
             listItem3.Add(new SelectListItem { Text = "保固", Value = "保固" });
             listItem3.Add(new SelectListItem { Text = "借用", Value = "借用" });
+            listItem3.Add(new SelectListItem { Text = "委外/自行", Value = "委外/自行" });
             ViewData["INOUT"] = new SelectList(listItem3, "Value", "Text");
 
             return PartialView();
@@ -556,6 +560,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem3.Add(new SelectListItem { Text = "租賃", Value = "租賃" });
             listItem3.Add(new SelectListItem { Text = "保固", Value = "保固" });
             listItem3.Add(new SelectListItem { Text = "借用", Value = "借用" });
+            listItem3.Add(new SelectListItem { Text = "委外/自行", Value = "委外/自行" });
             ViewData["INOUT"] = new SelectList(listItem3, "Value", "Text");
             ViewData["FLOWID"] = new SelectList(new List<SelectListItem>() {
             new SelectListItem(){ Text=u.FullName, Value=u.Id.ToString()} }, "Value", "Text");
@@ -683,7 +688,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         j.keepdtl.InOut == "1" ? "委外" :
                         j.keepdtl.InOut == "2" ? "租賃" :
                         j.keepdtl.InOut == "3" ? "保固" :
-                        j.keepdtl.InOut == "4" ? "借用" : "",
+                        j.keepdtl.InOut == "4" ? "借用" :
+                        j.keepdtl.InOut == "5" ? "委外/自行" : "",
                         Memo = j.keepdtl.Memo,
                         Cost = j.keepdtl.Cost,
                         Days = DateTime.Now.Subtract(j.keep.SentDate.GetValueOrDefault()).Days,
@@ -794,6 +800,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "借用":
                     data = data.Where(r => r.keepdtl.InOut == "4").ToList();
                     break;
+                case "委外/自行":
+                    data = data.Where(r => r.keepdtl.InOut == "5").ToList();
+                    break;
             }
             data.ForEach(j =>
                     {
@@ -810,7 +819,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         j.keepdtl.InOut == "1" ? "委外" :
                         j.keepdtl.InOut == "2" ? "租賃" :
                         j.keepdtl.InOut == "3" ? "保固" :
-                        j.keepdtl.InOut == "4" ? "借用" : "";
+                        j.keepdtl.InOut == "4" ? "借用" :
+                        j.keepdtl.InOut == "5" ? "委外/自行" : "";
                         dw[6] = j.keepdtl.Memo;
                         dw[7] = j.keepdtl.Cost;
                         dw[8] = DateTime.Now.Subtract(j.keep.SentDate.GetValueOrDefault()).Days;
@@ -911,7 +921,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         j.keepdtl.InOut == "1" ? "委外" :
                         j.keepdtl.InOut == "2" ? "租賃" :
                         j.keepdtl.InOut == "3" ? "保固" :
-                        j.keepdtl.InOut == "4" ? "借用" : "",
+                        j.keepdtl.InOut == "4" ? "借用" :
+                        j.keepdtl.InOut == "5" ? "委外/自行" : "",
                         Memo = j.keepdtl.Memo,
                         Cost = j.keepdtl.Cost,
                         Days = DateTime.Now.Subtract(j.keep.SentDate.GetValueOrDefault()).Days,
@@ -984,7 +995,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         j.x.j.keepdtl.InOut == "1" ? "委外" :
                         j.x.j.keepdtl.InOut == "2" ? "租賃" :
                         j.x.j.keepdtl.InOut == "3" ? "保固" :
-                        j.x.j.keepdtl.InOut == "4" ? "借用" : "",
+                        j.x.j.keepdtl.InOut == "4" ? "借用" :
+                        j.x.j.keepdtl.InOut == "5" ? "委外/自行" : "",
                         Memo = j.x.j.keepdtl.Memo,
                         Cost = j.x.j.keepdtl.Cost,
                         Days = DateTime.Now.Subtract(j.x.j.keep.SentDate.GetValueOrDefault()).Days,
@@ -1043,7 +1055,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         j.x.j.keepdtl.InOut == "1" ? "委外" :
                         j.x.j.keepdtl.InOut == "2" ? "租賃" :
                         j.x.j.keepdtl.InOut == "3" ? "保固" :
-                        j.x.j.keepdtl.InOut == "4" ? "借用" : "",
+                        j.x.j.keepdtl.InOut == "4" ? "借用" :
+                        j.x.j.keepdtl.InOut == "5" ? "委外/自行" : "",
                         Memo = j.x.j.keepdtl.Memo,
                         Cost = j.x.j.keepdtl.Cost,
                         Days = DateTime.Now.Subtract(j.x.j.keep.SentDate.GetValueOrDefault()).Days,

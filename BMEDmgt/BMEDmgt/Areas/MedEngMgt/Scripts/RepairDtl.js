@@ -11,7 +11,7 @@
             data: { 'id': $("#DocId").val() },
             async: true,
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 $("#pnlREPDESLIST").html(data);
             }
         });
