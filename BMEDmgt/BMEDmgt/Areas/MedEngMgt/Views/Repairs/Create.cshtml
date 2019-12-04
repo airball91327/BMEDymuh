@@ -156,7 +156,8 @@
             <label class="control-label col-md-2">設備名稱</label>
             <div class="form-inline">
                 <div class="col-md-10">
-                    <select class="form-control" id="assetNameList">
+                    @Html.DropDownList("assetNameList", null, new { @class = "form-control", @id = "assetNameList" })
+                    @*<select class="form-control" id="assetNameList">
                         <option value="聽診器" select>聽診器</option>
                         <option value="氣體流量錶">氣體流量錶</option>
                         <option value="負壓抽吸錶">負壓抽吸錶</option>
@@ -168,7 +169,7 @@
                         <option value="管路加熱器">管路加熱器</option>
                         <option value="租賃儀器">租賃儀器</option>
                         <option value="000">其他類</option>
-                    </select>
+                    </select>*@
                     <input type="text" class="form-control" name="otherAssetName" id="otherAssetName" hidden />
                 </div>
             </div>

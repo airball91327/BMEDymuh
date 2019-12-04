@@ -75,4 +75,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public decimal? Cost { get; set; }
     }
 
+    [Table("NoAssetNoList")]
+    public class NoAssetNoList
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Required]
+        [Display(Name = "設備名稱")]
+        public string Title { get; set; }
+        [Required]
+        [Display(Name = "狀態")]
+        public string Flg { get; set; }
+    }
+
 }

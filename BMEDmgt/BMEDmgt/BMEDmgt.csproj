@@ -191,6 +191,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\LabelsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\ManualsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\NewsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\NoAssetNoListsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireMsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\QuestSendController.cs" />
@@ -570,6 +571,11 @@
     <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\Index.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\List.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Index.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

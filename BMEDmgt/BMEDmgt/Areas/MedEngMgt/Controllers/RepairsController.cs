@@ -277,7 +277,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 rv = rv.Where(v => v.DealState == dealstatus).ToList();
             }
-            rv = rv.OrderBy(k => k.Days).ToList();
+            rv = rv.OrderByDescending(k => k.DocId).ToList();
 
             return PartialView("List", rv);
         }
@@ -782,7 +782,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 rv = rv.Where(v => v.DealState == dealstatus).ToList();
             }
-            rv = rv.OrderBy(k => k.Days).ToList();
+            rv = rv.OrderByDescending(k => k.DocId).ToList();
 
             if (rv.ToPagedList(page, pageSize).Count <= 0)
                 return PartialView(rv.ToPagedList(1, pageSize));
@@ -930,6 +930,20 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 alist = db.Assets.Where(at => at.AccDpt == s)
                     .Where(at => at.DisposeKind != "報廢").ToList();
             }
+
+            List<SelectListItem> assetNameList = new List<SelectListItem>();
+            db.NoAssetNoLists.ToList()
+                .ForEach(an =>
+                {
+                    assetNameList.Add(new SelectListItem
+                    {
+                        Value = an.Title,
+                        Text = an.Title,
+                        Selected = false
+                    });
+                });
+            assetNameList.Add(new SelectListItem { Value = "000", Text = "其他類", Selected = false});
+            ViewData["assetNameList"] = assetNameList;
 
             return View(r);
         }

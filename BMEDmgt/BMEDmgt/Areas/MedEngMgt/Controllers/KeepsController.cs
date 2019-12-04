@@ -1092,6 +1092,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (!string.IsNullOrEmpty(inout))
                 kv = kv.Where(r => r.InOut == inout).ToList();
+            kv = kv.OrderByDescending(k => k.DocId).ToList();
 
             if (kv.ToPagedList(page, pageSize).Count <= 0)
                 return PartialView(kv.ToPagedList(1, pageSize));
