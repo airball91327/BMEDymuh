@@ -179,6 +179,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\DepartmentsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\DeptStoksController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\DeviceClassCodesController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\EngSubStaffsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\FailFactorsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\FuncsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\HomeController.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Areas\MedEngMgt\Models\AppRoles.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Department.cs" />
     <Compile Include="Areas\MedEngMgt\Models\DeptStok.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\EngSubStaff.cs" />
     <Compile Include="Areas\MedEngMgt\Models\KeepModels.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Label.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Manual.cs" />
@@ -576,6 +578,11 @@
     <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Details.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Edit.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\NoAssetNoLists\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Index.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

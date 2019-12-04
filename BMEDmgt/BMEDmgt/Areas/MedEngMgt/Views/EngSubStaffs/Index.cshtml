@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.EngSubStaff>
+
+@{
+    ViewBag.Title = "設定代理人";
+}
+
+<h2>設定代理人</h2>
+
+@{
+    if (Model.Count() == 0)
+    {
+        <p>
+            <a class="btn btn-primary" href="@Url.Action("Create")" id="createBtn">新增代理人</a>
+        </p>
+    }
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EngId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubUserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubstituteId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            操作
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EngAppUsers.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubAppUsers.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubAppUsers.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.EngId })" id="createBtn">編輯</a>
+                <a class="btn btn-primary" href="@Url.Action("Delete", new { id = item.EngId })" id="createBtn">刪除</a>
+            </td>
+        </tr>
+    }
+
+</table>

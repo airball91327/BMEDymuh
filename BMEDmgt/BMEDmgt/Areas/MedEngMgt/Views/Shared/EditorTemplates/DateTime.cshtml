@@ -4,12 +4,12 @@
     if (Request.Browser.Browser == "Chrome")
     {
         @Html.TextBox("", Model.Value.ToString("yyyy-MM-dd"),
-     new { type = "date" })
+     new { @class = "form-control", type = "date" })
     }
     else
     {
         @Html.TextBox("", Model.Value.ToString("yyyy/MM/dd"),
-  new { @class = "datefield", type = "date" })
+  new { @class = "form-control datefield", type = "date" })
     }
 }
 else

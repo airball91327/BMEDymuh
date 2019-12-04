@@ -1010,6 +1010,24 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //{
                 //    throw new Exception("無工程師資料!!");
                 //}
+
+                /* 如有代理人，將工程師改為代理人*/
+                if (at != null)
+                {
+                    var subStaff = db.EngSubStaffs.SingleOrDefault(e => e.EngId == at.EngId);
+                    if (subStaff != null)
+                    {
+                        int startDate = Convert.ToInt32(subStaff.StartDate.Value.ToString("yyyyMMdd"));
+                        int endDate = Convert.ToInt32(subStaff.EndDate.Value.ToString("yyyyMMdd"));
+                        int today = Convert.ToInt32(DateTime.UtcNow.AddHours(08).ToString("yyyyMMdd"));
+                        /* 如在代理期間內，將代理人指定為負責工程師 */
+                        if (today >= startDate && today <= endDate)
+                        {
+                            at.EngId = subStaff.SubstituteId;
+                        }
+                    }
+                }
+
                 rf = new RepairFlow();
                 rf.DocId = repair.DocId;
                 rf.StepId = 2;
