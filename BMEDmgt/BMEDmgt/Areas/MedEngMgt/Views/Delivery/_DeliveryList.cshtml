@@ -1,0 +1,98 @@
+﻿@model IEnumerable<MedEngMgr.Models.DeliveryListVModel>
+
+<table style="width: 100%">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DocType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Docid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustNam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccDptNam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContractNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PurchaseNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CrlItemNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BudgetId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Days)
+        </th>
+        <th></th>
+    </tr>
+    @{int i = 0;
+      var s = "#efeeef";}
+    @foreach (var item in Model)
+    {
+        //i++;
+        //if (i % 2 == 0)
+        //{
+        //    s = "#efeeef";
+        //}
+        //else
+        //{
+        //    s = "#ffffff";
+        //}
+    <tr style="background-color: @s" }>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Docid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustNam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccDptNam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContractNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PurchaseNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CrlItemNo)
+        </td>
+        <td style="color: blue">
+            @Html.DisplayFor(modelItem => item.BudgetId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Days)
+        </td>
+        <td>
+            @if (item.Flg == "?" && WebSecurity.CurrentUserId == item.FlowUid)
+        {
+            @Html.ActionLink("編輯", "Edit", "Delivery", new { id = item.Docid }, new { target = "_blank" })
+    }
+    else
+    {
+        @Html.ActionLink("查看", "Details", "Delivery", new { id = item.Docid }, new { target = "_blank" })
+}
+        </td>
+    </tr>
+        <tr>
+            <td colspan="9">
+                <div style="margin-left: 50px">
+                    <h3>儀器列表</h3>
+                    <div style="padding-left: 20px; color: gray">
+                        @Html.Action("BuyEvaluateListItem", "Asset", new { id = item.Docid, upload = "查看" })
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

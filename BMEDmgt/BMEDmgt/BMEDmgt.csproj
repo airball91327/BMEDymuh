@@ -176,6 +176,8 @@
     <Compile Include="Areas\MedEngMgt\Controllers\AttainFilesController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\ContractsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\DealStatusController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\DeliveryController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\DelivFlowController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\DepartmentsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\DeptStoksController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\DeviceClassCodesController.cs" />
@@ -222,6 +224,8 @@
     <Compile Include="Areas\MedEngMgt\Models\Contract.cs" />
     <Compile Include="Areas\MedEngMgt\Models\CustOrgan.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AppRoles.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\Delivery.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\DeliveryListVModels.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Department.cs" />
     <Compile Include="Areas\MedEngMgt\Models\DeptStok.cs" />
     <Compile Include="Areas\MedEngMgt\Models\EngSubStaff.cs" />
@@ -262,6 +266,7 @@
     <Content Include="Areas\MedEngMgt\Scripts\AssetKeepEdit.js" />
     <Content Include="Areas\MedEngMgt\Scripts\ContractCreate.js" />
     <Content Include="Areas\MedEngMgt\Scripts\ContractEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\DelivNextFlow.js" />
     <Content Include="Areas\MedEngMgt\Scripts\HtmltoExcel.js" />
     <Content Include="Areas\MedEngMgt\Scripts\KeepCreate.js" />
     <Content Include="Areas\MedEngMgt\Scripts\KeepEdit.js" />
@@ -583,6 +588,20 @@
     <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Details.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Edit.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\EngSubStaffs\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Create2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\Index2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\WartyData.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\_AttainFile.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\_ChooseVendor.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\_DeliveryList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Delivery\_DeliveryListIndex.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DelivFlow\GetList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\DelivFlow\NextFlow.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
