@@ -116,11 +116,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["KeepEngId"] = new SelectList(listItem, "Value", "Text", "");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
-            string dptid = at2.First().DelivDpt;
-            db.AppUsers.Where(u => u.DptId == dptid).ToList()
-                .ForEach(u => {
-                    listItem2.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
-                });
+            if (at2.Count() >= 1)
+            {
+                string dptid = at2.First().DelivDpt;
+                db.AppUsers.Where(u => u.DptId == dptid).ToList()
+                    .ForEach(u => {
+                        listItem2.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                    });
+            }
             ViewData["DelivUid"] = new SelectList(listItem2, "Value", "Text", "");
             //
             if (at2.ToPagedList(page, pageSize).Count <= 0)
