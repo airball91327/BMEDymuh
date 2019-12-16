@@ -49,18 +49,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Required]
         public DateTime Edate { get; set; }
-        [Display(Name = "保養週期")]
+        [Display(Name = "保養週期(月)")]
         public int? Cycle { get; set; }
-        [Display(Name = "年限")]
+        [Display(Name = "年限(年)")]
         public int? UseLife { get; set; }
         [Display(Name = "總費用")]
-        public int TotalCost { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public decimal TotalCost { get; set; }
         [Display(Name = "費用/年")]
-        public int? YearCost { get; set; }
-        [Display(Name = "付款分期")]
-        public string StagePayment { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public decimal? YearCost { get; set; }
+        [Display(Name = "付款分期(次)")]
+        public int? StagePayment { get; set; }
         [Display(Name = "每期金額")]
-        public int? StageCost { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public decimal? StageCost { get; set; }
         [Display(Name = "合約結束通知")]
         public string EndNotice { get; set; }
         [Display(Name = "備註")]

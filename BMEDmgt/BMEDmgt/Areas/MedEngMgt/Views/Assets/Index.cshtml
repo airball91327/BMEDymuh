@@ -8,7 +8,7 @@
 
 
 @using (Html.BeginForm("Index", "Assets", FormMethod.Post,
-               new { id = "frmASSETLIST"}))
+               new { id = "frmASSETLIST" }))
 {
     <div class="form-horizontal">
 
@@ -23,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AssetName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "form-control", placeholder="輸入關鍵字" } })
+                @Html.EditorFor(model => model.AssetName, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入關鍵字" } })
                 @Html.ValidationMessageFor(model => model.AssetName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,6 +33,24 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RiskLvl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RiskLvl, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RiskLvl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="CVendor" class="form-group">
+            @Html.HiddenFor(model => model.VendorId)
+            @Html.LabelFor(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 form-inline">
+                @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @class = "form-control" } })
+                <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
+                @Html.ValidationMessageFor(model => model.VendorName, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -58,6 +76,15 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.BuyDate1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 form-inline">
+                @Html.EditorFor(model => model.BuyDate1, new { htmlAttributes = new { @class = "form-control" } })
+                <span> ~ </span>
+                @Html.EditorFor(model => model.BuyDate2, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input id="btnQTY" type="button" value="查詢" class="btn btn-default" />
                 <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
@@ -71,6 +98,24 @@
     @*@Html.Action("List")*@
 </div>
 
+<!-- 廠商 Modal -->
+<div id="modalVENDOR" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇廠商</h4>
+            </div>
+            <div id="pnlSELECTVENDOR" class="modal-body">
+                @Html.Action("QryVendor", "Vendors")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(function () {
         var page = window.location.hash
@@ -78,6 +123,20 @@
         fetchPage(page);
         $('#btnQTY').click(function () {
             fetchPage(1);
+        });
+
+        $('.modal').on('shown.bs.modal', function () {
+            //Make sure the modal and backdrop are siblings (changes the DOM)
+            $(this).before($('.modal-backdrop'));
+            //Make sure the z-index is higher than the backdrop
+            $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+        });
+
+        $('#modalVENDOR').on('hidden.bs.modal', function () {
+            var vno = $("#Vno option:selected").val();
+            var vname = $("#Vno option:selected").text();
+            $("#VendorId").val(vno);
+            $("#VendorName").val(vname);
         });
 
         $("#btnQtyAccdpt").click(function () {

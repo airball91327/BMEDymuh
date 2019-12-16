@@ -41,6 +41,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["ACCDPT"] = new SelectList(listItem2, "Value", "Text");
             ViewData["DELIVDPT"] = new SelectList(listItem2, "Value", "Text");
 
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Value = "", Text = "請選擇" });
+            listItem3.Add(new SelectListItem { Value = "0", Text = "無" });
+            listItem3.Add(new SelectListItem { Value = "1", Text = "I" });
+            listItem3.Add(new SelectListItem { Value = "2", Text = "II" });
+            listItem3.Add(new SelectListItem { Value = "3", Text = "III" });
+            ViewData["RiskLvl"] = new SelectList(listItem3, "Value", "Text");
+
+            List<SelectListItem> listItem4 = new List<SelectListItem>();
+            ViewData["VENDORID"] = new SelectList(listItem4, "Value", "Text");
+
             return View();
         }
 
@@ -53,6 +64,46 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             qryAsset.AccDpt = fm["AccDpt"];
             qryAsset.DelivDpt = fm["DelivDpt"];
             qryAsset.Type = fm["Type"];
+            qryAsset.RiskLvl = fm["RiskLvl"];
+            qryAsset.VendorId = fm["VendorId"];
+
+            string buyDate1 = fm["BuyDate1"];
+            string buyDate2 = fm["BuyDate2"];
+            DateTime buyDateFrom = DateTime.Now;
+            DateTime buyDateTo = DateTime.Now;
+            /* Dealing search by date. */
+            if (buyDate1 != "" && buyDate2 != "")// If 2 date inputs have been insert, compare 2 dates.
+            {
+                DateTime date1 = DateTime.Parse(buyDate1);
+                DateTime date2 = DateTime.Parse(buyDate2);
+                int result = DateTime.Compare(date1, date2);
+                if (result < 0)
+                {
+                    buyDateFrom = date1.Date;
+                    buyDateTo = date2.Date;
+                }
+                else if (result == 0)
+                {
+                    buyDateFrom = date1.Date;
+                    buyDateTo = date1.Date;
+                }
+                else
+                {
+                    buyDateFrom = date2.Date;
+                    buyDateTo = date1.Date;
+                }
+            }
+            else if (buyDate1 == "" && buyDate2 != "")
+            {
+                buyDateFrom = DateTime.Parse(buyDate2);
+                buyDateTo = DateTime.Parse(buyDate2);
+            }
+            else if (buyDate1 != "" && buyDate2 == "")
+            {
+                buyDateFrom = DateTime.Parse(buyDate1);
+                buyDateTo = DateTime.Parse(buyDate1);
+            }
+
             TempData["qry"] = qryAsset;
             List<Asset> at = new List<Asset>();
             List<Asset> at2 = new List<Asset>();
@@ -101,6 +152,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(qryAsset.Type))
             {
                 at2 = at2.Where(a => a.Type == qryAsset.Type).ToList();
+            }
+            if (!string.IsNullOrEmpty(qryAsset.RiskLvl))
+            {
+                at2 = at2.Where(a => a.RiskLvl == qryAsset.RiskLvl).ToList();
+            }
+            if (!string.IsNullOrEmpty(qryAsset.VendorId))
+            {
+                var vid = Convert.ToInt32(qryAsset.VendorId);
+                at2 = at2.Where(a => a.VendorId == vid).ToList();
+            }
+            if (string.IsNullOrEmpty(buyDate1) == false || string.IsNullOrEmpty(buyDate2) == false)
+            {
+                at2 = at2.Where(v => v.BuyDate >= buyDateFrom && v.BuyDate <= buyDateTo).ToList();
             }
             //
             List<SelectListItem> listItem = new List<SelectListItem>();
@@ -600,6 +664,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetAssetById(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var result = db.Assets
+                    .Where(a => a.DisposeKind != "報廢")
+                    .Where(a => a.AssetNo == id).FirstOrDefault();
+
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             else
             {

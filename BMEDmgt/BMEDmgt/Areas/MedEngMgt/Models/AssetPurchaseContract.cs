@@ -31,21 +31,24 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "廠商電話")]
         public string VendorPhone { get; set; }
         [Display(Name = "預算金額")]
-        public int? Budget { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public decimal? Budget { get; set; }
         [Display(Name = "底價金額")]
-        public int? BasicPrice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public decimal? BasicPrice { get; set; }
         [Display(Name = "合約類別")]
         public string ContractClass { get; set; }
         [Display(Name = "合約總價")]
-        public int? ContractTotalPrice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0}")]
+        public decimal? ContractTotalPrice { get; set; }
         [Display(Name = "決標日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? AwardDate { get; set; }
         [Display(Name = "驗收日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? AcceptDate { get; set; }
-        [Display(Name = "保固期間")]
-        public string Warranty { get; set; }
+        [Display(Name = "保固期間(年)")]
+        public int Warranty { get; set; }
         [Display(Name = "設備類別")]
         public string AssetClass { get; set; }
         [Display(Name = "保固起始日")]
@@ -72,8 +75,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string PurchaseUName { get; set; }
         [Display(Name = "醫療器材許可證號")]
         public string PermitNo { get; set; }
-        [Display(Name = "許可證效期")]
-        public string PermitValid { get; set; }
+        [Display(Name = "許可證效期(到期日)")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? PermitValid { get; set; }
         [Display(Name = "主辦單位")]
         public string Sponsor { get; set; }
         [NotMapped]

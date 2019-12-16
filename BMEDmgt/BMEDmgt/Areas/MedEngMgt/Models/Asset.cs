@@ -150,6 +150,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string AssetName { get; set; }
         [Display(Name = "型號")]
         public string Type { get; set; }
+        [Display(Name = "廠商")]
+        public string VendorId { get; set; }
+        [Display(Name = "廠商")]
+        public string VendorName { get; set; }
+        [Display(Name = "風險等級")]
+        public string RiskLvl { get; set; }
+        [Display(Name = "購置日期")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? BuyDate1 { get; set; }
+        public DateTime? BuyDate2 { get; set; }
         [Display(Name = "醫療儀器")]
         public string AssetClass1 { get; set; }
         [Display(Name = "工程設施")]

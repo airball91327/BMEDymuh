@@ -257,6 +257,32 @@
                 $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
             });
 
+            $("#UseLife").change(function () {
+                var v1 = $("#UseLife").val();
+                var v2 = $("#TotalCost").val();
+                if (v1 !== "" && v2 !== 0) {
+                    $("#YearCost").val(v2 / v1);
+                }
+            });
+            $("#TotalCost").change(function () {
+                var v1 = $("#UseLife").val();
+                var v2 = $("#TotalCost").val();
+                var v3 = $("#StageCost").val();
+                if (v1 !== "" && v2 !== 0) {
+                    $("#YearCost").val(v2 / v1);
+                }
+                if (v3 !== "" && v2 !== 0) {
+                    $("#StageCost").val(v2 / v3);
+                }
+            });
+            $("#StagePayment").change(function () {
+                var v1 = $("#StagePayment").val();
+                var v2 = $("#TotalCost").val();
+                if (v1 !== "" && v2 !== 0) {
+                    $("#StageCost").val(v2 / v1);
+                }
+            });
+
             $('#modalVENDOR').on('hidden.bs.modal', function () {
                 var vno = $("#Vno option:selected").val();
                 var vname = $("#Vno option:selected").text();
@@ -301,6 +327,31 @@
                     });
                 }
             });
+
+            $("#AssetNo").change(function () {
+                var assetNo = $("#AssetNo").val();
+                if (assetNo !== "") {
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: '../../Assets/GetAssetById',
+                        type: "GET",
+                        data: { id: assetNo },
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            $("#Brand").val(data.Brand);
+                            $("#Type").val(data.Type);
+                            $("#SeqNo").val(data.SeqNo);
+                            $("#Qty").val(data.Qty);
+                            $("#Unite").val(data.Unite);
+                        },
+                        error: function (msg) {
+                            alert(msg);
+                        }
+                    });
+                }
+            });
+
             $('#modalFILES').on('hidden.bs.modal', function () {
                 var docid = $("#ContractNo").val();
                 $.ajax({

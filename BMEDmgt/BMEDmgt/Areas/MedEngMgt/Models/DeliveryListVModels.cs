@@ -10,7 +10,7 @@ using WebMatrix.WebData;
 using BMEDmgt.Models;
 using BMEDmgt.Areas.MedEngMgt.Models;
 
-namespace MedEngMgr.Models
+namespace BMEDmgt.Areas.MedEngMgt.Models
 {
     public class DeliveryListVModel
     {
