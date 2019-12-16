@@ -41,12 +41,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             SelectListItem li;
-            db.CustOrgans.ToList()
+            db.Departments.ToList()
                 .ForEach(d =>
                 {
                     li = new SelectListItem();
-                    li.Text = d.CustNam;
-                    li.Value = d.CustId;
+                    li.Text = d.Name_C;
+                    li.Value = d.DptId;
                     listItem2.Add(li);
 
                 });
@@ -312,10 +312,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
-            CustOrgan c = db.CustOrgans.Find(delivery.AccDpt);
+            Department c = db.Departments.Find(delivery.AccDpt);
             if (c != null)
-                delivery.AccDptNam = c.CustNam;
-            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorNo).FirstOrDefault();
+                delivery.AccDptNam = c.Name_C;
+            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));
@@ -331,7 +331,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Delivery r = new Delivery();
             AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-            //CustOrgan c = db.CustOrgans.Find(u.CustId);
+            Department c = db.Departments.Find(u.DptId);
             Vendor v = db.Vendors.Find(u.VendorId);
             if (id != null)
             {
@@ -364,16 +364,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.Docid = r.GetID(ref db);
             r.UserId = u.Id;
             r.UserName = u.FullName;
-            //c = db.CustOrgans.Find(u.CustId);
-            //if (c != null)
-            //{
-            //    r.Company = c.CustId == null ? "" : c.CustNam;
-            //    if (r.AccDpt == null)
-            //    {
-            //        r.AccDpt = c.CustId == null ? "" : c.CustId;
-            //        r.AccDptNam = c.CustId == null ? "" : c.CustNam;
-            //    }
-            //}
+            c = db.Departments.Find(u.DptId);
+            if (c != null)
+            {
+                r.Company = c.DptId == null ? "" : c.Name_C;
+                if (r.AccDpt == null)
+                {
+                    r.AccDpt = c.DptId == null ? "" : c.DptId;
+                    r.AccDptNam = c.DptId == null ? "" : c.Name_C;
+                }
+            }
             r.Contact = u.Mobile;
             r.ApplyDate = DateTime.Now;
             r.PurchaseNo = id;
@@ -467,10 +467,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rf.Stepid = 2;
                 rf.Status = "?";
                 AppUser u;
-                //CustOrgan c = db.CustOrgans.Find(db.UserProfiles.Find(WebSecurity.CurrentUserId).CustId);
+                //Department c = db.Departments.Find(db.AppUsers.Find(WebSecurity.CurrentUserId).DptId);
                 //foreach (string l in Roles.GetUsersInRole("MedToDo").ToList())
                 //{
-                //    u = db.UserProfiles.Find(WebSecurity.GetUserId(l));
+                //    u = db.AppUsers.Find(WebSecurity.GetUserId(l));
                 //    if (c.GroupId == db.CustOrgans.Find(u.CustId).GroupId)
                 //    {
                 //        rf.Userid = u.UserId;
@@ -496,7 +496,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 u = db.AppUsers.Find(Convert.ToInt32(delivery.UserDpt));
                 foreach (Asset a in ar)
                 {
-                    v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorNo).FirstOrDefault();
+                    v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
                     if (v != null)
                         a.VendorId = v.VendorId;
                     a.DelivUid = u.Id;
@@ -553,7 +553,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             CustOrgan c = db.CustOrgans.Find(delivery.AccDpt);
             if (c != null)
                 delivery.AccDptNam = c.CustNam;
-            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorNo).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));

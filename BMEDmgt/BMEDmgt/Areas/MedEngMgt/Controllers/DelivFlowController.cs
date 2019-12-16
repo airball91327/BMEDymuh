@@ -289,7 +289,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ListItem li;
             Delivery r = db.Deliveries.Find(docid);
             //string c = db.UserProfiles.Find(r.UserId).CustId;
-            //string c = db.AppUsers.Find(WebSecurity.CurrentUserId).CustId;
+            string c = db.AppUsers.Find(WebSecurity.CurrentUserId).DptId;
             //string g = db.CustOrgans.Find(c).GroupId;
             AppUser u;
             List<AppUser> uv;
@@ -315,14 +315,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         else
                             list.Add(li);
                     }
-                    //u = db.UserProfiles.Find(r.EngId);
-                    //if (u != null)
-                    //{
-                    //    li = new ListItem();
-                    //    li.Text = u.FullName;
-                    //    li.Value = u.UserId.ToString();
-                    //    list.Add(li);
-                    //}
+                    u = db.AppUsers.Find(r.EngId);
+                    if (u != null)
+                    {
+                        li = new ListItem();
+                        li.Text = u.FullName;
+                        li.Value = u.Id.ToString();
+                        list.Add(li);
+                    }
                     break;
                 case "設備主管":
                     s = Roles.GetUsersInRole("MedMgr").ToList();
@@ -393,7 +393,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     break;
                 case "得標廠商":
-                    List<Vendor> vv = db.Vendors.Where(v => v.UniteNo == r.VendorNo).ToList();
+                    List<Vendor> vv = db.Vendors.Where(v => v.UniteNo == r.VendorId).ToList();
                     foreach (Vendor v in vv)
                     {
                         uv = db.AppUsers.Where(u2 => u2.VendorId == v.VendorId).ToList();

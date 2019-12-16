@@ -53,7 +53,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [NotMapped]
         public string EngName { get; set; }
         [Display(Name = "得標廠商")]
-        public string VendorNo { get; set; }
+        public string VendorId { get; set; }
         [Display(Name = "廠商名稱")]
         [NotMapped]
         public string VendorNam { get; set; }

@@ -12,238 +12,312 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-<fieldset>
-    <legend>Delivery</legend>
-    @Html.HiddenFor(model => model.Docid)
-    <div class="editor-label">
-        @Html.LabelFor(model => model.UserId)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.UserId)
-        @Html.EditorFor(model => model.UserName)
-        @Html.ValidationMessageFor(model => model.UserId)
-        @Html.ValidationMessageFor(model => model.UserName)
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Company)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Company)
-        @Html.ValidationMessageFor(model => model.Company)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Contact)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Contact)
-        @Html.ValidationMessageFor(model => model.Contact)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.ApplyDate)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.ApplyDate)
-        @Html.ValidationMessageFor(model => model.ApplyDate)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.AccDpt)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.AccDpt)
-        @Html.EditorFor(model => model.AccDptNam)
-        @Html.ValidationMessageFor(model => model.AccDpt)
-        @Html.ValidationMessageFor(model => model.AccDptNam)
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.ContractNo)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.ContractNo)
-        @Html.ValidationMessageFor(model => model.ContractNo)
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.WartyMon)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.WartyMon)
-        @Html.ValidationMessageFor(model => model.WartyMon)
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.WartyNt)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.WartyNt)
-        @Html.ValidationMessageFor(model => model.WartyNt)
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.AcceptDate)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.AcceptDate)
-        @Html.ValidationMessageFor(model => model.AcceptDate)
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.BudgetId)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.BudgetId)
-        @Html.ValidationMessageFor(model => model.BudgetId)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.PurchaseNo)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.PurchaseNo)
-        @Html.ValidationMessageFor(model => model.PurchaseNo)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.CrlItemNo)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.CrlItemNo)
-        @Html.ValidationMessageFor(model => model.CrlItemNo)
-    </div>
-
-    @*<div class="editor-label">
-            @Html.LabelFor(model => model.MakeNo)
+    <fieldset>
+        @*<legend>Delivery</legend>*@
+        @Html.HiddenFor(model => model.Docid)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserId, new { @class = "control-label" })
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.MakeNo)
-            @Html.ValidationMessageFor(model => model.MakeNo)
-        </div>*@
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.DelivDateR)
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.DelivDateR)
-        @Html.ValidationMessageFor(model => model.DelivDateR)
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.EngId)
-    </div>
-    <div class="editor-field">
-        @Html.DropDownListFor(model => model.EngId, ViewData["ENG"] as SelectList)
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.PurchaserId)
-    </div>
-    <div class="editor-field">
-        @Html.DropDownListFor(model => model.PurchaserId, ViewData["PUR"] as SelectList)
-    </div>
-    <div style="margin:5px; padding:10px;background-color: #dedcdc;">
-        <div class="editor-field">
-            @Html.Partial("_ChooseVendor")
-        </div>
-        <div class="display-label">
-            @Html.LabelFor(model => model.VendorNo)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.VendorNo)
-            @Html.ValidationMessageFor(model => model.VendorNo)
+            @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control col-md-2", @readonly = "readonly" } })
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.UserId)
+            @Html.ValidationMessageFor(model => model.UserName)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.VendorNam)
+            @Html.LabelFor(model => model.Company)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.VendorNam)
-            @Html.ValidationMessageFor(model => model.VendorNam)
-        </div><span id="msg" style="color: red"></span>
+            @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Company)
+        </div>
 
-    </div>
-    @*<div class="display-label">
-            @Html.LabelFor(model => model.VendorNo)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Contact)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.VendorNo, ViewData["Vendors"] as SelectList, optionLabel: "請選擇")<span id="msg" style="color: red"></span>
-            <script>
-                $('#VendorNo').change(function () {
-                    $.fn.addItems = function (data) {
+            @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Contact)
+        </div>
 
-                        return this.each(function () {
-                            var list = this;
-                            list.add(new Option("請選擇", ""));
-                            $.each(data, function (val, text) {
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApplyDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApplyDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ApplyDate)
+        </div>
 
-                                var option = new Option(text.Text, text.Value);
-                                list.add(option);
-                            });
-                        });
-                    };
-                    var select = $('#SelDelivPson');
-                    $('option', select).remove();
-                    $.ajax({
-                        url: '../../Vendor/IsInVendor',
-                        type: "POST",
-                        async: true,
-                        dataType: "json",
-                        data: "uniteno=" + $(this).val(),
-                        success: function (data) {
-                            $('#msg').html(data);
-                            if (data != "") {
-                                $('#btnSEND').prop("disabled", true);
-                            }
-                            else {
-                                $('#btnSEND').removeProp("disabled");
-                            }
-                        }
-                    });
-                    $.ajax({
-                        url: '../../Vendor/GetMembers',
-                        type: "POST",
-                        async: true,
-                        dataType: "json",
-                        data: "uniteno=" + $(this).val(),
-                        success: function (data) {
-                            select.addItems(data);
-                        }
-                    });
-                });
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AccDpt)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AccDpt, new { htmlAttributes = new { @class = "form-control col-md-2" } })
+            @Html.EditorFor(model => model.AccDptNam, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AccDpt)
+            @Html.ValidationMessageFor(model => model.AccDptNam)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContractNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ContractNo)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WartyMon)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.WartyMon, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.WartyMon)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WartyNt)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.WartyNt, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.WartyNt)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AcceptDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AcceptDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AcceptDate)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BudgetId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BudgetId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.BudgetId)
+        </div>
 
-            </script>
-        </div>*@
-    <div class="display-label">
-        @Html.LabelFor(model => model.DelivPson)
-    </div>
-    <div class="editor-field">
-        @Html.DropDownListFor(model => model.DelivPson, ViewData["Item2"] as SelectList, "請選擇", new { @id = "SelDelivPson" })
-        @Html.ValidationMessageFor(model => model.DelivPson)
-    </div>
-    <div class="display-label">
-        使用單位人員
-    </div>
-    <div class="editor-field">
-        @Html.DropDownListFor(model => model.UserDpt, ViewData["Users"] as SelectList, optionLabel: "請選擇")
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.Memo)
-    </div>
-    <div class="editor-field">
-        @Html.TextAreaFor(model => model.Memo)
-        @Html.ValidationMessageFor(model => model.Memo)
-    </div>
-    <div class="display-label">
-        儀器列表
-    </div>
-    <div style="padding-left: 20px; color: gray">
-        @*@Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = false })*@
-    </div>
-    <p>
-        <input id="btnSEND" type="submit" value="確定送出" />
-    </p>
-</fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PurchaseNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PurchaseNo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CrlItemNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CrlItemNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CrlItemNo)
+        </div>
+
+        @*<div class="editor-label">
+                @Html.LabelFor(model => model.MakeNo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MakeNo)
+                @Html.ValidationMessageFor(model => model.MakeNo)
+            </div>*@
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DelivDateR)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DelivDateR, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DelivDateR)
+        </div>
+        <div class="display-label">
+            @Html.LabelFor(model => model.EngId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.EngId, ViewData["ENG"] as SelectList, new { @class = "form-control" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PurchaserId)
+        </div>
+        <div class="editor-field">
+            <div class="form-inline">
+                @Html.TextBox("PurchaserKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyPurchaser" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownListFor(model => model.PurchaserId, ViewData["PUR"] as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PurchaserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="editor-label">
+            得標廠商
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.VendorId)
+            <div id="CVendor" class="form-group">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.VendorNam, new { htmlAttributes = new { @class = "form-control" } })
+                    <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
+                    @Html.ValidationMessageFor(model => model.VendorNam, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DelivPson)
+        </div>
+        <div class="editor-field">
+            <div class="form-inline">
+                @Html.TextBox("DelivPsonKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyDelivPson" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownListFor(model => model.DelivPson, ViewData["Item2"] as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DelivPson, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="editor-label">
+            使用單位人員
+        </div>
+        <div class="editor-field">
+            <div class="form-inline">
+                @Html.TextBox("UserDptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                <input id="btnQtyUserDpt" type="button" value="查詢" class="btn btn-default">
+                @Html.DropDownListFor(model => model.UserDpt, ViewData["Users"] as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserDpt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Memo)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Memo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Memo)
+        </div>
+        <div class="display-label">
+            儀器列表
+        </div>
+        <div style="padding-left: 20px; color: gray">
+            @*@Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = false })*@
+        </div>
+        <p>
+            <input class="btn btn-default" id="btnSEND" type="submit" value="確定送出" />
+        </p>
+    </fieldset>
 }
 
 <div>
-    @Html.ActionLink("回到列表", "Index")
+    @Html.ActionLink("回到列表", "Index", "Home")
+</div>
+
+
+<!-- 廠商 Modal -->
+<div id="modalVENDOR" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇廠商</h4>
+            </div>
+            <div id="pnlSELECTVENDOR" class="modal-body">
+                @Html.Action("QryVendor", "Vendors")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/VendorChoose.js")
+    <script>
+        $(function () {
+            /* Prevent submit for pressing Enter. */
+            $('input').keypress(function (e) {
+                code = e.keyCode ? e.keyCode : e.which; // in case of browser compatibility
+                if (code == 13) {
+                    e.preventDefault();
+                    // do something
+                    /* also can use return false; instead. */
+                }
+            });
+
+            $(".datefield").datepicker({
+                format: "yyyy/mm/dd"
+            });
+
+            $('.modal').on('shown.bs.modal', function () {
+                //Make sure the modal and backdrop are siblings (changes the DOM)
+                $(this).before($('.modal-backdrop'));
+                //Make sure the z-index is higher than the backdrop
+                $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+            });
+
+            $('#modalVENDOR').on('hidden.bs.modal', function () {
+                var vno = $("#Vno option:selected").val();
+                var vname = $("#Vno option:selected").text();
+                $("#VendorId").val(vno);
+                $("#VendorNam").val(vname);
+            });
+
+            $("#btnQtyPurchaser").click(function () {
+                var keynam = $("#PurchaserKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#PurchaserId').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtyDelivPson").click(function () {
+                var keynam = $("#DelivPsonKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#DelivPson').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtyUserDpt").click(function () {
+                var keynam = $("#UserDptKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#UserDpt').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+        });
+    </script>
 }

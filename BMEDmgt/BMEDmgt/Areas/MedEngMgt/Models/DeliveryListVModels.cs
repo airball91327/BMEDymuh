@@ -227,7 +227,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                     i.Days = null;
                 i.Flg = f.Status;
                 i.FlowUid = f.Userid;
-                i.VendorNo = r.VendorNo;
+                i.VendorNo = r.VendorId;
                 dv.Add(i);
             }
             //
