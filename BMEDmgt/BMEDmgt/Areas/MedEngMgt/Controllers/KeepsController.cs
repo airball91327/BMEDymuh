@@ -41,7 +41,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.Company = d == null ? "" : d.Name_C;
             r.AccDpt = d == null ? "" : d.DptId;
             r.AccDptName = d == null ? "" : d.Name_C;
-            r.Contact = u.Mobile == null ? "" : u.Mobile;
+            r.Contact = u.Ext == null ? "" : u.Ext;
             //
             db.Keeps.Add(r);
             db.SaveChanges();

@@ -66,5 +66,6 @@ namespace BMEDmgt.Models
         public DbSet<EngSubStaff> EngSubStaffs { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<DelivFlow> DelivFlows { get; set; }
+        public DbSet<AssetPContractPermit> AssetPContractPermits { get; set; }
     }
 }

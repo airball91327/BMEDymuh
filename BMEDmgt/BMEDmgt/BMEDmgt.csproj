@@ -219,6 +219,7 @@
     <Compile Include="Areas\MedEngMgt\Models\Asset.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetKeep.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetMaintainContract.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetPContractPermit.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AttainFile.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetPurchaseContract.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Contract.cs" />
@@ -602,6 +603,8 @@
     <Content Include="Areas\MedEngMgt\Views\Delivery\_DeliveryListIndex.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\DelivFlow\GetList.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\DelivFlow\NextFlow.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\CreatePermit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetPurchaseContracts\PermitList.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -1,5 +1,5 @@
 ﻿function showmsg(data) {
-    if (data.success != null) {
+    if (data.success !== null) {
         if (!data.success)
             alert(data.error);
         else {
@@ -20,7 +20,7 @@ $(function () {
             $("#assetNameList").trigger('change');
 
             var keynam = '000';
-            if (keynam != "") {
+            if (keynam !== "") {
                 $.ajax({
                     contentType: "application/json; charset=utf-8",
                     url: '../Assets/GetAssetsByKeyname',
@@ -56,7 +56,7 @@ $(function () {
 
     $("#btnQtyChecker").click(function () {
         var keynam = $("#CheckerKeyName").val();
-        if (keynam == "") {
+        if (keynam === "") {
             $("#AssetNo").trigger("change");
         }
         else {
@@ -85,7 +85,7 @@ $(function () {
 
     $("#btnQtyAsset").click(function () {
         var keynam = $("#AssetKeyName").val();
-        if (keynam != "") {
+        if (keynam !== "") {
             $.ajax({
                 contentType: "application/json; charset=utf-8",
                 url: '../Assets/GetAssetsByKeyname',

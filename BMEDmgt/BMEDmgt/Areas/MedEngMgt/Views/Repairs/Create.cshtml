@@ -115,6 +115,14 @@
             <div class="col-md-10">
                 @*@Html.RadioButton("PlantClass", "工務")工程設施*@
                 @Html.RadioButton("PlantClass", "醫療儀器", true)醫療儀器
+                @Html.RadioButton("PlantClass", "雜項")雜項
+                @Html.RadioButton("PlantClass", "水電")水電
+                @Html.RadioButton("PlantClass", "空調")空調
+                @Html.RadioButton("PlantClass", "消防")消防
+                @Html.RadioButton("PlantClass", "護士呼叫")護士呼叫
+                @Html.RadioButton("PlantClass", "病床")病床
+                @Html.RadioButton("PlantClass", "氣體")氣體
+                @Html.RadioButton("PlantClass", "氣送")氣送
                 @Html.ValidationMessageFor(model => model.PlantClass, "", new { @class = "text-danger" })
             </div>
         </div>

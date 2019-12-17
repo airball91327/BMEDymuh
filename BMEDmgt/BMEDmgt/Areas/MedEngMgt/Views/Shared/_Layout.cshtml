@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 醫療設備管理系統</title>
+    <title>@ViewBag.Title - 醫療暨工務設備管理系統</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/menu/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -25,7 +25,7 @@
 
             </div>
             <div class="navbar-collapse collapse">
-                @Html.ActionLink("醫療設備管理系統", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("醫療暨工務設備管理系統", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -86,8 +86,8 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 國立陽明大學附設醫院　組別：醫工組</p>
-            <p>總機電話專線 : (03)932-5192</p>
+            <p>&copy; @DateTime.Now.Year - 國立陽明大學附設醫院　工務室</p>
+            <p>若有相關問題請撥打工務室分機：10076，電話佔線時請耐心等候</p>
             <p>蘭陽院區 : 26058 宜蘭市校舍路169號</p>
             <p>新民院區 : 26042 宜蘭市新民路152號</p>
         </footer>

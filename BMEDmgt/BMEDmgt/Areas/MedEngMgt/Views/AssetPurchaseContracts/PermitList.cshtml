@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetPContractPermit>
+@{ 
+    Layout = null;
+}
+
+<script>
+    $(function () {
+        $("#permitListPnl a").click(function () {
+            if (confirm("確定要刪除此資料?")) {
+                var pid = $("#PurchaseNo").val();
+                var tr = $(this).parents('tr');
+                var seq = $(this).parents('tr').children();
+                $.ajax({
+                    url: "../AssetPurchaseContracts/DeletePermit",
+                    type: "POST",
+                    data: { 'purchaseNo': pid, 'permitNo': seq.get(0).innerText.trim() },
+                    async: true,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            tr.remove();
+                        }
+                        else {
+                            alert(data.error);
+                        }
+                    }
+                });
+                return false;
+            }
+            else
+                return false;
+        });
+    });
+</script>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PermitNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PermitValid)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermitNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermitValid)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtt)
+                </td>*@
+            <td>
+                @Html.ActionLink("刪除", "Delete", new { purchaseNo = item.PurchaseNo, permitNo = item.PermitNo })
+            </td>
+        </tr>
+    }
+</table>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Filters;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -125,13 +126,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {
                 assetPurchaseContract.Status = "Y";
                 assetPurchaseContract.Rtp = WebSecurity.CurrentUserId;
                 assetPurchaseContract.Rtt = DateTime.Now;
+
+                if (string.IsNullOrEmpty(assetPurchaseContract.ContractNo))
+                {
+                    assetPurchaseContract.ContractNo = "無";
+                }
 
                 db.AssetPurchaseContracts.Add(assetPurchaseContract);
                 db.SaveChanges();
@@ -286,6 +292,109 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     Data = new { success = true, error = "", data = result },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
+            }
+        }
+
+        // GET: MedEngMgt/AssetPurchaseContracts/CheckPNo/5
+        public ActionResult CheckPNo(string id)
+        {
+            string result;
+            var checkPNo = db.AssetPurchaseContracts.Find(id);
+            if (checkPNo != null)
+            {
+                result = "<span style='color:red;'>已有相同合約編號</span>";
+                return new JsonResult
+                {
+                    Data = new { success = false, error = "", data = result },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            else
+            {
+                result = "<span style='color:green;'>可用編號</span>";
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "", data = result },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+        }
+
+        // GET: MedEngMgt/AssetPurchaseContracts/CreatePermit/5
+        public ActionResult CreatePermit()
+        {
+            return PartialView();
+        }
+
+        // POST: MedEngMgt/AssetPurchaseContracts/CreatePermit/5
+        [MyErrorHandler]
+        [HttpPost]
+        public ActionResult CreatePermit(string purchaseNo, string permitNo, DateTime? permitValid)
+        {
+            if (string.IsNullOrEmpty(purchaseNo) || string.IsNullOrEmpty(permitNo) )
+            {
+                throw new Exception("尚未輸入採購編號及證號!");
+            }
+            if (permitValid == null)
+            {
+                throw new Exception("尚未輸入日期!");
+            }
+            var checkNo = db.AssetPContractPermits.Find(purchaseNo, permitNo);
+            if (checkNo != null)
+            {
+                throw new Exception("已有相同證號!");
+            }
+            else
+            {
+                AssetPContractPermit permit = new AssetPContractPermit();
+                permit.PurchaseNo = purchaseNo;
+                permit.PermitNo = permitNo;
+                permit.PermitValid = permitValid;
+                permit.Status = "Y";
+                permit.Rtp = WebSecurity.CurrentUserId;
+                permit.Rtt = DateTime.Now;
+                db.AssetPContractPermits.Add(permit);
+                db.SaveChanges();
+
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "", data = "" },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+        }
+
+        // GET: MedEngMgt/AssetPurchaseContracts/GetPermitList/5
+        public ActionResult GetPermitList(string purchaseNo)
+        {
+            if (!string.IsNullOrEmpty(purchaseNo))
+            {
+                var permitList = db.AssetPContractPermits.Where(a => a.PurchaseNo == purchaseNo).ToList();
+
+                return View("PermitList", permitList);
+            }
+            return View("PermitList");
+        }
+
+        // GET: MedEngMgt/AssetPurchaseContracts/DeletePermit/5
+        [MyErrorHandler]
+        public ActionResult DeletePermit(string purchaseNo, string permitNo)
+        {
+            try
+            {
+                AssetPContractPermit permit = db.AssetPContractPermits.Find(purchaseNo, permitNo);
+                db.AssetPContractPermits.Remove(permit);
+                db.SaveChanges();
+
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "" },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

@@ -41,6 +41,15 @@
         <h4>設備維護合約</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })*<span id="CheckPNoResult"></span>
+                @Html.ValidationMessageFor(model => model.PurchaseNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.ContractNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -373,16 +382,16 @@
                     }
                 });
             });
-            $("#ContractNo").change(function () {
+            $("#PurchaseNo").change(function () {
                 var keynam = $(this).val();
                 if (keynam !== "") {
                     $.ajax({
-                        url: '../AssetMaintainContracts/CheckCNo',
+                        url: '../AssetMaintainContracts/CheckPNo',
                         type: "GET",
                         dataType: "json",
                         data: { id: keynam },
                         success: function (data) {
-                            $("#CheckCNoResult").html(data.data);
+                            $("#CheckPNoResult").html(data.data);
                             if (!data.success) {
                                 $("#AttainDIV").hide();
                             }
@@ -411,10 +420,10 @@
                 data: { id: docid, typ: "7" },
                 success: function (data) {
                     if (data != "0") {
-                        $("#ContractNo").attr("readonly", "readonly");
+                        $("#PurchaseNo").attr("readonly", "readonly");
                     }
                     else {
-                        $("#ContractNo").removeAttr("readonly");
+                        $("#PurchaseNo").removeAttr("readonly");
                     }
                 }
             });
@@ -428,10 +437,10 @@
                 data: { id: docid, typ: "7" },
                 success: function (data) {
                     if (data != "1") {
-                        $("#ContractNo").attr("readonly", "readonly");
+                        $("#PurchaseNo").attr("readonly", "readonly");
                     }
                     else {
-                        $("#ContractNo").removeAttr("readonly");
+                        $("#PurchaseNo").removeAttr("readonly");
                     }
                 }
             });
