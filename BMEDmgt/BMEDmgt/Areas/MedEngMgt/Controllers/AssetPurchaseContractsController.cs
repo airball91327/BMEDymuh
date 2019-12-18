@@ -126,7 +126,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {
@@ -216,7 +216,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Edit([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {
@@ -376,8 +376,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return View("PermitList");
         }
 
-        // GET: MedEngMgt/AssetPurchaseContracts/DeletePermit/5
+        // POST: MedEngMgt/AssetPurchaseContracts/DeletePermit/5
         [MyErrorHandler]
+        [HttpPost]
         public ActionResult DeletePermit(string purchaseNo, string permitNo)
         {
             try

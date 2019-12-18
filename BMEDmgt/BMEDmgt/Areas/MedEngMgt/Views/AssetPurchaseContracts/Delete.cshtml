@@ -28,6 +28,38 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.ContractNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAssetClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAssetClass)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.LeaveLoc)
         </dt>
 
@@ -40,15 +72,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VendorId)
+            @Html.DisplayFor(model => model.VendorName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.VendorName)
+            @Html.DisplayNameFor(model => model.VendorUniteNo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VendorName)
+            @Html.DisplayFor(model => model.VendorUniteNo)
         </dd>
 
         <dt>
@@ -68,38 +100,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BasicPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BasicPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContractClass)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContractClass)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContractTotalPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContractTotalPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AwardDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AwardDate)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.AcceptDate)
         </dt>
 
@@ -113,14 +113,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Warranty)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AssetClass)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssetClass)
         </dd>
 
         <dt>
@@ -156,6 +148,51 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.BasicPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BasicPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractTotalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractTotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AwardDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AwardDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasPermitNo)
+        </dt>
+
+        <dd>
+            @if (Model.HasPermitNo == "Y")
+            {
+                <span>是</span>
+            }
+            else
+            {
+                <span>否</span>
+            }
+        </dd>
+
+        <dt></dt>
+
+        <dd class="col-md-offset-2">
+            @Html.Action("GetPermitList", new { purchaseNo = Model.PurchaseNo })
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.UseDpt)
         </dt>
 
@@ -179,21 +216,21 @@
             @Html.DisplayFor(model => model.PurchaseUName)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PermitNo)
-        </dt>
+        @*<dt>
+                @Html.DisplayNameFor(model => model.PermitNo)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PermitNo)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.PermitNo)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PermitValid)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.PermitValid)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PermitValid)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.PermitValid)
+            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Sponsor)
@@ -228,14 +265,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PAssetClass)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PAssetClass)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Note)
         </dt>
 
@@ -243,13 +272,13 @@
             @Html.DisplayFor(model => model.Note)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
 
-        @*<dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Rtp)
@@ -265,7 +294,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.Rtt)
-        </dd>*@
+        </dd>
 
     </dl>
 

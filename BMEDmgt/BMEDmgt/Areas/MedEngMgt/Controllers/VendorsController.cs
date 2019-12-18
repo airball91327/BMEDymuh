@@ -220,6 +220,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return Json("查無資料", JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetVendorDetails(int id)
+        {
+            var vendor = db.Vendors.Find(id);
+            if (vendor != null)
+            {
+                return Json(vendor, JsonRequestBehavior.AllowGet);
+            }
+            return Json("查無資料", JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -70,6 +70,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string EndNotice { get; set; }
         [Display(Name = "備註")]
         public string Note { get; set; }
+        [Display(Name = "是否教育訓練")]
+        public string IsTraining { get; set; }
+        [Display(Name = "是否年度保養報告")]
+        public string IsYearKeepReport { get; set; }
+        [Display(Name = "合約負責人")]
+        public int ContractMgr { get; set; }
+        [Display(Name = "合約執行方案")]
+        public string ContractType { get; set; }
+        [Display(Name = "保養匯率")]
+        public decimal? KeepCostRate { get; set; }
+        [Display(Name = "設備單價")]
+        public decimal? UniteCost { get; set; }
 
         [Display(Name = "狀態")]
         public string Status { get; set; }

@@ -10,8 +10,13 @@
                 var pid = $("#PurchaseNo").val();
                 var tr = $(this).parents('tr');
                 var seq = $(this).parents('tr').children();
+                var currentUrl = window.location.href;
+                var url = "../AssetPurchaseContracts/DeletePermit";
+                if (currentUrl.indexOf("Edit") != -1) {
+                    url = "../../AssetPurchaseContracts/DeletePermit"
+                }
                 $.ajax({
-                    url: "../AssetPurchaseContracts/DeletePermit",
+                    url: url,
                     type: "POST",
                     data: { 'purchaseNo': pid, 'permitNo': seq.get(0).innerText.trim() },
                     async: true,

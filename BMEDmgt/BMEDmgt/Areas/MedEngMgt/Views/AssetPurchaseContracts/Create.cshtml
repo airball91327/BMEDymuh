@@ -46,7 +46,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })<span id="CheckPNoResult"></span>
+                @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })
+                <span id="CheckPNoResult"></span>
                 @Html.ValidationMessageFor(model => model.PurchaseNo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,6 +64,30 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContractNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContractClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContractClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssetClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PAssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PAssetClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PAssetClass, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -101,46 +126,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Budget, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BasicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BasicPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BasicPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractClass, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractTotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractTotalPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractTotalPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AwardDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AwardDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AwardDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.AcceptDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AcceptDate, new { htmlAttributes = new { @class = "form-control" } })
@@ -153,14 +138,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AssetClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AssetClass, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -194,6 +171,52 @@
                 @Html.EditorFor(model => model.PerformanceMargin, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PerformanceMargin, "", new { @class = "text-danger" })
             </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Budget, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BasicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BasicPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BasicPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractTotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContractTotalPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContractTotalPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AwardDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AwardDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AwardDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HasPermitNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButton("HasPermitNo", "Y", true)是
+                @Html.RadioButton("HasPermitNo", "N")否
+                @Html.ValidationMessageFor(model => model.HasPermitNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-offset-2" id="permitPnl">
+            @Html.Action("CreatePermit")
         </div>
 
         <div class="form-group">
@@ -231,19 +254,6 @@
                     @Html.ValidationMessageFor(model => model.PurchaseUid, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HasPermitNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButton("HasPermitNo", "Y", true)是
-                @Html.RadioButton("HasPermitNo", "N")否
-                @Html.ValidationMessageFor(model => model.HasPermitNo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-offset-2" id="permitPnl">
-            @Html.Action("CreatePermit")
         </div>
 
         <div class="form-group">
@@ -291,14 +301,6 @@
                     @Html.DropDownListFor(model => model.CoOrganizerUid, null, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CoOrganizerUid, "", new { @class = "text-danger" })
                 </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PAssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PAssetClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PAssetClass, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -375,12 +377,13 @@
                 if (vno !== "") {
                     $.ajax({
                         contentType: "application/json; charset=utf-8",
-                        url: '../Vendors/GetVendorUnite',
+                        url: '../Vendors/GetVendorDetails',
                         type: "GET",
                         data: { id: vno },
                         dataType: "json",
                         success: function (data) {
-                            $('#VendorUniteNo').val(data);
+                            $('#VendorUniteNo').val(data.UniteNo);
+                            $('#VendorPhone').val(data.Tel);
                         }
                     });
                 }
@@ -626,6 +629,37 @@
                 CheckFileList2();
             });
 
+            $("#BtnCreatePermit").click(function () {
+                var v1 = $("#PurchaseNo").val();
+                var v2 = $("#PermitNo").val();
+                var v3 = $("#PermitValid").val();
+                //console.log("v1:" + v1 + "v2:" + v2 + "v3" + v3);
+                $.ajax({
+                    url: "../AssetPurchaseContracts/CreatePermit",
+                    type: "POST",
+                    data: { 'purchaseNo': v1, 'permitNo': v2, 'permitValid': v3 },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!data.success)
+                            alert(data.error);
+                        else {
+                            alert("新增成功!");
+                        }
+                    }
+                });
+
+                $.ajax({
+                    url: "../AssetPurchaseContracts/GetPermitList",
+                    type: "GET",
+                    data: { 'purchaseNo': v1 },
+                    async: true,
+                    cache: false,   // For IE11 to workng fine.
+                    success: function (data) {
+                        $("#permitListPnl").html(data);
+                    }
+                });
+            });
 
         });
 

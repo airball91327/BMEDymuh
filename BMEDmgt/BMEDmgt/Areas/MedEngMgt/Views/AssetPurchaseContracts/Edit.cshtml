@@ -1,4 +1,5 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetPurchaseContract
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
 @{
     ViewBag.Title = "編輯/設備新購合約";
@@ -7,7 +8,7 @@
 <h2>編輯合約</h2>
 
 <div id="pnlFILES" style="margin: 10pt">
-    @Html.Action("List2", "AttainFiles", new { id = Model.ContractNo, typ = "8" })
+    @Html.Action("List2", "AttainFiles", new { id = Model.PurchaseNo, typ = "8" })
 </div>
 <div class="form-group">
     <div>
@@ -23,7 +24,7 @@
                 <h4 class="modal-title">選擇上傳檔案</h4>
             </div>
             <div class="modal-body">
-                @Html.Action("Upload2", "AttainFiles", new { doctype = "8", docid = Model.ContractNo })
+                @Html.Action("Upload2", "AttainFiles", new { doctype = "8", docid = Model.PurchaseNo })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
@@ -40,22 +41,13 @@
         <h4>設備新購合約</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ContractNo)
+        @Html.HiddenFor(model => model.PurchaseNo)
         @Html.HiddenFor(model => model.Status)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContractNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="padding-top: 7px;">
-                @Html.DisplayFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractNo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PurchaseNo, "", new { @class = "text-danger" })
+            <div class="col-md-10" style="padding-top: 7px;">
+                @Html.DisplayFor(model => model.PurchaseNo)
             </div>
         </div>
 
@@ -64,6 +56,38 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PurchaseName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PurchaseName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="padding-top: 7px;">
+                @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContractNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContractClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContractClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssetClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PAssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PAssetClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PAssetClass, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -110,38 +134,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BasicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BasicPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BasicPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractClass, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContractTotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContractTotalPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContractTotalPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AwardDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AwardDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AwardDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.AcceptDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AcceptDate, new { htmlAttributes = new { @class = "form-control" } })
@@ -154,14 +146,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AssetClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AssetClass, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -195,6 +179,51 @@
                 @Html.EditorFor(model => model.PerformanceMargin, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PerformanceMargin, "", new { @class = "text-danger" })
             </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BasicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BasicPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BasicPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractTotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContractTotalPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContractTotalPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AwardDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AwardDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AwardDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HasPermitNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.HasPermitNo == "Y")
+                {
+                    @Html.RadioButton("HasPermitNo", "Y", true)<span>是</span>
+                    @Html.RadioButton("HasPermitNo", "N")<span>否</span>
+                }
+                else
+                {
+                    @Html.RadioButton("HasPermitNo", "Y")<span>是</span>
+                    @Html.RadioButton("HasPermitNo", "N", true)<span>否</span>
+                }
+                @Html.ValidationMessageFor(model => model.HasPermitNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-offset-2" id="permitPnl">
+            @Html.Action("CreatePermit")
         </div>
 
         <div class="form-group">
@@ -234,21 +263,21 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PermitNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PermitNo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PermitNo, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.PermitNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PermitNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PermitNo, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PermitValid, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PermitValid, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PermitValid, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PermitValid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PermitValid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PermitValid, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Sponsor, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -298,13 +327,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PAssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PAssetClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PAssetClass, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -347,6 +370,25 @@
 @section Scripts {
     <script>
         $(function () {
+            $.ajax({
+                url: "../../AssetPurchaseContracts/GetPermitList",
+                type: "GET",
+                data: { 'purchaseNo': $("#PurchaseNo").val() },
+                async: true,
+                cache: false,   // For IE11 to workng fine.
+                success: function (data) {
+                    $("#permitListPnl").html(data);
+                }
+            });
+
+            var defaultPNO = $("input[type=radio][name=HasPermitNo]:checked").val();
+            if (defaultPNO == 'Y') {
+                $("#permitPnl").show();
+            }
+            else if (defaultPNO == 'N') {
+                $("#permitPnl").hide();
+            }
+
             /* Prevent submit for pressing Enter. */
             $('input').keypress(function (e) {
                 code = e.keyCode ? e.keyCode : e.which; // in case of browser compatibility
@@ -368,23 +410,31 @@
                 $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
             });
 
+            $("input[type=radio][name=HasPermitNo]").change(function () {
+                if (this.value == 'Y') {
+                    $("#permitPnl").show();
+                }
+                else if (this.value == 'N') {
+                    $("#permitPnl").hide();
+                }
+            });
+
             $('#modalVENDOR').on('hidden.bs.modal', function () {
                 var vno = $("#Vno option:selected").val();
                 var vname = $("#Vno option:selected").text();
                 $("#VendorId").val(vno);
                 $("#VendorName").val(vname);
-                if (vno !== "") {
-                    $.ajax({
-                        contentType: "application/json; charset=utf-8",
-                        url: '../../Vendors/GetVendorUnite',
-                        type: "GET",
-                        data: { id: vno },
-                        dataType: "json",
-                        success: function (data) {
-                            $('#VendorUniteNo').val(data);
-                        }
-                    });
-                }
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../../Vendors/GetVendorDetails',
+                    type: "GET",
+                    data: { id: vno },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#VendorUniteNo').val(data.UniteNo);
+                        $('#VendorPhone').val(data.Tel);
+                    }
+                });
             });
 
             $("#btnQtyAsset").click(function () {
@@ -531,7 +581,7 @@
             });
 
             $('#modalFILES').on('hidden.bs.modal', function () {
-                var docid = $("#ContractNo").val();
+                var docid = $("#PurchaseNo").val();
                 $.ajax({
                     url: '../../AttainFiles/List2',
                     type: "POST",
@@ -589,7 +639,39 @@
                 });
             });
 
+            $("#BtnCreatePermit").click(function () {
+                var v1 = $("#PurchaseNo").val();
+                var v2 = $("#PermitNo").val();
+                var v3 = $("#PermitValid").val();
+                //console.log("v1:" + v1 + "v2:" + v2 + "v3" + v3);
+                $.ajax({
+                    url: "../../AssetPurchaseContracts/CreatePermit",
+                    type: "POST",
+                    data: { 'purchaseNo': v1, 'permitNo': v2, 'permitValid': v3 },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (!data.success)
+                            alert(data.error);
+                        else {
+                            alert("新增成功!");
+                            $.ajax({
+                                url: "../../AssetPurchaseContracts/GetPermitList",
+                                type: "GET",
+                                data: { 'purchaseNo': v1 },
+                                async: true,
+                                success: function (data) {
+                                    $("#permitListPnl").html(data);
+                                }
+                            });
+                        }
+                    }
+                });
+
+            });
+
         });
+
     </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

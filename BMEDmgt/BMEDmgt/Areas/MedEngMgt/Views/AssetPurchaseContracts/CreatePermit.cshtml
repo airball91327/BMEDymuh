@@ -1,40 +1,4 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetPContractPermit
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script>
-    $(function () {
-
-        $("#BtnCreatePermit").click(function () {
-            var v1 = $("#PurchaseNo").val();
-            var v2 = $("#PermitNo").val();
-            var v3 = $("#PermitValid").val();
-            //console.log("v1:" + v1 + "v2:" + v2 + "v3" + v3);
-            $.ajax({
-                url: "../AssetPurchaseContracts/CreatePermit",
-                type: "POST",
-                data: { 'purchaseNo': v1, 'permitNo': v2, 'permitValid': v3 },
-                async: false,
-                dataType: "json",
-                success: function (data) {
-                    if (!data.success)
-                        alert(data.error);
-                    else {
-                        alert("新增成功!");
-                    }
-                }
-            });
-            $.ajax({
-                url: "../AssetPurchaseContracts/GetPermitList",
-                type: "GET",
-                data: { 'purchaseNo': v1 },
-                async: false,
-                success: function (data) {
-                    $("#permitListPnl").html(data);
-                }
-            });
-        });
-
-    });
-</script>
 
 <div class="form-horizontal panel panel-default">
     <h4>新增衛署登記證</h4>

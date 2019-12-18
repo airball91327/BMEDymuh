@@ -13,6 +13,7 @@
 <table class="table">
     <tr>
         <th style="min-width:100px;">
+            @Html.DisplayNameFor(model => model.PurchaseNo)<br />
             @Html.DisplayNameFor(model => model.ContractNo)<br />
             @Html.DisplayNameFor(model => model.ContractName)
         </th>
@@ -80,6 +81,7 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.PurchaseNo)<br />
                 @Html.DisplayFor(modelItem => item.ContractNo)<br />
                 @Html.DisplayFor(modelItem => item.ContractName)
             </td>
@@ -141,9 +143,9 @@
                     @Html.DisplayFor(modelItem => item.Rtt)
                 </td>*@
             <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.ContractNo }) |
-                @Html.ActionLink("詳細內容", "Details", new { id = item.ContractNo }) |
-                @Html.ActionLink("刪除", "Delete", new { id = item.ContractNo })
+                @Html.ActionLink("編輯", "Edit", new { id = item.PurchaseNo }) |
+                @Html.ActionLink("詳細內容", "Details", new { id = item.PurchaseNo }) |
+                @Html.ActionLink("刪除", "Delete", new { id = item.PurchaseNo })
             </td>
         </tr>
     }
