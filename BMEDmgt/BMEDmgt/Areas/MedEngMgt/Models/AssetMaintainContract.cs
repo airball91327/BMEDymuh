@@ -38,7 +38,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "型號")]
         public string Type { get; set; }
         [Display(Name = "序號")]
-        public string SeqNo { get; set; }
+        public string SerialNo { get; set; }
         [Display(Name = "台數")]
         public string Qty { get; set; }
         [Display(Name = "單位")]
@@ -75,7 +75,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "是否年度保養報告")]
         public string IsYearKeepReport { get; set; }
         [Display(Name = "合約負責人")]
-        public int ContractMgr { get; set; }
+        public int? ContractMgr { get; set; }
         [Display(Name = "合約執行方案")]
         public string ContractType { get; set; }
         [Display(Name = "保養匯率")]

@@ -7,7 +7,7 @@
 <h2>詳細內容</h2>
 
 <div id="pnlFILES" style="margin: 10pt">
-    @Html.Action("List", "AttainFiles", new { id = Model.ContractNo, typ = "7" })
+    @Html.Action("List", "AttainFiles", new { id = Model.PurchaseNo, typ = "7" })
 </div>
 
 <div>
@@ -79,11 +79,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SeqNo)
+            @Html.DisplayNameFor(model => model.SerialNo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SeqNo)
+            @Html.DisplayFor(model => model.SerialNo)
         </dd>
 
         <dt>
@@ -216,6 +216,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("編輯合約", "Edit", new { id = Model.ContractNo }) |
+    @Html.ActionLink("編輯合約", "Edit", new { id = Model.PurchaseNo }) |
     @Html.ActionLink("回到合約列表", "Index")
 </p>

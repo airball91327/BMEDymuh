@@ -7,7 +7,7 @@
 <h2>編輯合約</h2>
 
 <div id="pnlFILES" style="margin: 10pt">
-    @Html.Action("List2", "AttainFiles", new { id = Model.ContractNo, typ = "7" })
+    @Html.Action("List2", "AttainFiles", new { id = Model.PurchaseNo, typ = "7" })
 </div>
 <div class="form-group">
     <div>
@@ -23,7 +23,7 @@
                 <h4 class="modal-title">選擇上傳檔案</h4>
             </div>
             <div class="modal-body">
-                @Html.Action("Upload2", "AttainFiles", new { doctype = "7", docid = Model.ContractNo })
+                @Html.Action("Upload2", "AttainFiles", new { doctype = "7", docid = Model.PurchaseNo })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
@@ -99,10 +99,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SeqNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SerialNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SeqNo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SeqNo, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
             </div>
         </div>
 

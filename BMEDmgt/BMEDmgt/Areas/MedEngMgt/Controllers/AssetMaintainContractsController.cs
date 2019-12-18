@@ -79,6 +79,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/AssetMaintainContracts/Create
         public ActionResult Create()
         {
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            listItem.Add(new SelectListItem { Text = "全責", Value = "全責" });
+            listItem.Add(new SelectListItem { Text = "半責", Value = "半責" });
+            ViewData["ContractType"] = new SelectList(listItem, "Value", "Text", "全責");
+
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            ViewData["ContractMgr"] = new SelectList(listItem2, "Value", "Text", "");
+
             return View();
         }
 
@@ -87,14 +96,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
         {
-            var checkCNo = db.AssetMaintainContracts.Find(assetMaintainContract.ContractNo);
-            if (checkCNo != null)
-            {
-                ModelState.AddModelError("ContractNo", "已有相同合約編號");
-                return View(assetMaintainContract);
-            }
             if (ModelState.IsValid)
             {
                 var asset = db.Assets.Find(assetMaintainContract.AssetNo);
@@ -135,6 +138,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 listItem.Add(new SelectListItem { Text = "", Value = "" });
                 ViewData["DefaultAsset"] = listItem;
             }
+
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "全責", Value = "全責" });
+            listItem2.Add(new SelectListItem { Text = "半責", Value = "半責" });
+
+            ViewData["ContractType"] = listItem2;
             return View(assetMaintainContract);
         }
 
@@ -143,7 +152,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
         {
             if (ModelState.IsValid)
             {
@@ -185,12 +194,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: MedEngMgt/AssetMaintainContracts/CheckCNo/5
-        public ActionResult CheckCNo(string id)
+        // GET: MedEngMgt/AssetMaintainContracts/CheckPNo/5
+        public ActionResult CheckPNo(string id)
         {
             string result;
-            var checkCNo = db.AssetMaintainContracts.Find(id);
-            if (checkCNo != null)
+            var checkPNo = db.AssetMaintainContracts.Find(id);
+            if (checkPNo != null)
             {
                 result = "<span style='color:red;'>已有相同合約編號</span>";
                 return new JsonResult
