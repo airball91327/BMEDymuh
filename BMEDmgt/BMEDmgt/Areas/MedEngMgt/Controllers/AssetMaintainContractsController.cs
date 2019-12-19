@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
+using OfficeOpenXml;
 using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
@@ -27,7 +30,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection fm)
         {
-            string cno = fm["qtyContractNo"];
+            string pno = fm["qtyPurchaseNo"];
             string aname = fm["qtyASSETNAME"];
             string ano = fm["qtyASSETNO"];
             string vname = fm["qtyVendorName"];
@@ -37,9 +40,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             var contracts = db.AssetMaintainContracts.ToList();
 
-            if(!string.IsNullOrEmpty(cno))  //契約號
+            if(!string.IsNullOrEmpty(pno))  //契約號
             {
-                contracts = contracts.Where(c => c.ContractNo == cno).ToList();
+                contracts = contracts.Where(c => c.PurchaseNo == pno).ToList();
             }
             if (!string.IsNullOrEmpty(aname))   //財產關鍵字
             {
@@ -73,6 +76,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
+            if (assetMaintainContract.ContractMgr != null)
+            {
+                assetMaintainContract.ContractMgrName = db.AppUsers.Find(assetMaintainContract.ContractMgr).FullName;
+            }
             return View(assetMaintainContract);
         }
 
@@ -89,6 +96,59 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["ContractMgr"] = new SelectList(listItem2, "Value", "Text", "");
 
             return View();
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/Create2
+        public ActionResult Create2(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            AssetMaintainContract oldContract = db.AssetMaintainContracts.Find(id);
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            if (oldContract == null)
+            {
+                return HttpNotFound();
+            }
+            if (oldContract.AssetNo != null)
+            {
+                listItem.Add(new SelectListItem
+                {
+                    Text = oldContract.AssetName + "(" + oldContract.AssetNo + ")",
+                    Value = oldContract.AssetNo
+                });
+                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text", oldContract.AssetNo);
+            }
+            else
+            {
+                listItem.Add(new SelectListItem { Text = "", Value = "" });
+                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text");
+            }
+
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "全責", Value = "全責" });
+            listItem2.Add(new SelectListItem { Text = "半責", Value = "半責" });
+            ViewData["ContractType"] = new SelectList(listItem2, "Value", "Text", oldContract.ContractType);
+
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            AppUser ur;
+            listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            if (oldContract.ContractMgr != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == oldContract.ContractMgr).FirstOrDefault();
+                if (ur != null)
+                {
+                    listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+            ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", oldContract.ContractMgr);
+
+            AssetMaintainContract newContract = oldContract;
+            newContract.PurchaseNo = null;
+
+            return View(newContract);
         }
 
         // POST: MedEngMgt/AssetMaintainContracts/Create
@@ -131,19 +191,32 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 listItem.Add(new SelectListItem { Text = assetMaintainContract.AssetName + "(" + assetMaintainContract.AssetNo + ")",
                                                   Value = assetMaintainContract.AssetNo });
-                ViewData["DefaultAsset"] = listItem;
+                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text", assetMaintainContract.AssetNo);
             }
             else
             {
                 listItem.Add(new SelectListItem { Text = "", Value = "" });
-                ViewData["DefaultAsset"] = listItem;
+                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text");
             }
 
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             listItem2.Add(new SelectListItem { Text = "全責", Value = "全責" });
             listItem2.Add(new SelectListItem { Text = "半責", Value = "半責" });
+            ViewData["ContractType"] = new SelectList(listItem2, "Value", "Text", assetMaintainContract.ContractType);
 
-            ViewData["ContractType"] = listItem2;
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            AppUser ur;
+            listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            if (assetMaintainContract.ContractMgr != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.ContractMgr).FirstOrDefault();
+                if (ur != null)
+                {
+                    listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+            ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", assetMaintainContract.ContractMgr);
+
             return View(assetMaintainContract);
         }
 
@@ -179,6 +252,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (assetMaintainContract == null)
             {
                 return HttpNotFound();
+            }
+            if (assetMaintainContract.ContractMgr != null)
+            {
+                assetMaintainContract.ContractMgrName = db.AppUsers.Find(assetMaintainContract.ContractMgr).FullName;
             }
             return View(assetMaintainContract);
         }
@@ -216,6 +293,129 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     Data = new { success = true, error = "", data = result },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
+            }
+        }
+
+        public ActionResult ExportToExcel(string contracts)
+        {
+            string[] PNOList = contracts.Split(new char[] { ';' });
+            string fileName = "";
+
+            MemoryStream stream = new MemoryStream();
+            ExcelPackage package = new ExcelPackage(stream);
+
+            package.Workbook.Worksheets.Add("維護合約列表");
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            #region write header
+            sheet.Cells[1, 1].Value = "採購編號";
+            sheet.Cells[1, 2].Value = "契約案號";
+            sheet.Cells[1, 3].Value = "合約名稱";
+            sheet.Cells[1, 4].Value = "合約廠商";
+            sheet.Cells[1, 5].Value = "廠商統一編號";
+            sheet.Cells[1, 6].Value = "財產編號";
+            sheet.Cells[1, 7].Value = "財產名稱";
+            sheet.Cells[1, 8].Value = "廠牌";
+            sheet.Cells[1, 9].Value = "型號";
+            sheet.Cells[1, 10].Value = "序號";
+            sheet.Cells[1, 11].Value = "台數";
+            sheet.Cells[1, 12].Value = "單位";
+            sheet.Cells[1, 13].Value = "合約起始日";
+            sheet.Cells[1, 14].Value = "合約終止日";
+            sheet.Cells[1, 15].Value = "保養週期(月)";
+            sheet.Cells[1, 16].Value = "年限(年)";
+            sheet.Cells[1, 17].Value = "總費用";
+            sheet.Cells[1, 18].Value = "費用/年";
+            sheet.Cells[1, 19].Value = "付款分期(次)";
+            sheet.Cells[1, 20].Value = "每期金額";
+            sheet.Cells[1, 21].Value = "合約結束通知";
+            sheet.Cells[1, 22].Value = "是否教育訓練";
+            sheet.Cells[1, 23].Value = "是否年度保養報告";
+            sheet.Cells[1, 24].Value = "合約負責人";
+            sheet.Cells[1, 25].Value = "合約執行方案";
+            sheet.Cells[1, 26].Value = "保養匯率";
+            sheet.Cells[1, 27].Value = "設備單價";
+            sheet.Cells[1, 28].Value = "備註";
+            sheet.Cells[1, 29].Value = "異動人員";
+            sheet.Cells[1, 30].Value = "異動日期";
+
+            using (ExcelRange range = sheet.Cells[1, 1, 1, 30])
+            {
+                //range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                //range.Style.Fill.BackgroundColor.SetColor(Color.Gray);
+                range.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+                range.Style.Border.Bottom.Color.SetColor(Color.Black);
+                //range.AutoFitColumns(4);
+            }
+            #endregion
+
+            #region write content
+            List<AssetMaintainContract> ContractList = new List<AssetMaintainContract>();
+            foreach (string purchaseNo in PNOList)
+            {
+                var targetContract = db.AssetMaintainContracts.Where(s => s.PurchaseNo == purchaseNo).FirstOrDefault();
+                if (targetContract != null)
+                {
+                    ContractList.Add(targetContract);
+                }
+            }
+
+            int pos = 2;
+            foreach (AssetMaintainContract s in ContractList)
+            {
+                sheet.Cells[pos, 1].Value = s.PurchaseNo;
+                sheet.Cells[pos, 2].Value = s.ContractNo;
+                sheet.Cells[pos, 3].Value = s.ContractName;
+                sheet.Cells[pos, 4].Value = s.VendorName;
+                sheet.Cells[pos, 5].Value = s.VendorUniteNo;
+                sheet.Cells[pos, 6].Value = s.AssetNo;
+                sheet.Cells[pos, 7].Value = s.AssetName;
+                sheet.Cells[pos, 8].Value = s.Brand;
+                sheet.Cells[pos, 9].Value = s.Type;
+                sheet.Cells[pos, 10].Value = s.SerialNo;
+                sheet.Cells[pos, 11].Value = s.Qty;
+                sheet.Cells[pos, 12].Value = s.Unite;
+                sheet.Cells[pos, 13].Value = s.Sdate == null ? "" : s.Sdate.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 14].Value = s.Edate == null ? "" : s.Edate.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 15].Value = s.Cycle;
+                sheet.Cells[pos, 16].Value = s.UseLife;
+                sheet.Cells[pos, 17].Value = s.TotalCost;
+                sheet.Cells[pos, 18].Value = s.YearCost;
+                sheet.Cells[pos, 19].Value = s.StagePayment;
+                sheet.Cells[pos, 20].Value = s.StageCost;
+                sheet.Cells[pos, 21].Value = s.EndNotice == "Y" ? "是" : "否";
+                sheet.Cells[pos, 22].Value = s.IsTraining == "Y" ? "是" : "否";
+                sheet.Cells[pos, 23].Value = s.IsYearKeepReport == "Y" ? "是" : "否";
+                sheet.Cells[pos, 24].Value = s.ContractMgr == null ? "" : db.AppUsers.Find(s.ContractMgr).FullName;
+                sheet.Cells[pos, 25].Value = s.ContractType;
+                sheet.Cells[pos, 26].Value = s.KeepCostRate;
+                sheet.Cells[pos, 27].Value = s.UniteCost;
+                sheet.Cells[pos, 28].Value = s.Note;
+                sheet.Cells[pos, 29].Value = db.AppUsers.Where(a => a.Id == s.Rtp).FirstOrDefault() == null ? "" : db.AppUsers.Where(a => a.Id == s.Rtp).FirstOrDefault().FullName;
+                sheet.Cells[pos, 30].Value = s.Rtt == null ? "" : s.Rtt.ToString("yyyy/MM/dd");
+
+                using (ExcelRange range = sheet.Cells[pos, 1, pos, 30])
+                {
+                    //range.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    //range.Style.Border.Bottom.Color.SetColor(Color.Black);
+                    range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                }
+                pos++;
+            }
+            #endregion
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = "維護合約列表_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+            }
+            //因為是用Query的方式,這個地方要用串流的方式來存檔
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                package.SaveAs(memoryStream);
+                //請注意 一定要加入這行,不然Excel會是空檔
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                //注意Excel的ContentType,是要用這個"application/vnd.ms-excel"
+                return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", fileName);
             }
         }
 

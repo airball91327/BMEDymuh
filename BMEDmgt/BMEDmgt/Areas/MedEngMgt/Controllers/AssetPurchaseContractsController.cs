@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -9,6 +11,7 @@ using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Filters;
 using BMEDmgt.Models;
+using OfficeOpenXml;
 using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
@@ -28,14 +31,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [HttpPost]
         public ActionResult Index(FormCollection fm)
         {
-            string cno = fm["qtyContractNo"];
+            string pno = fm["qtyPurchaseNo"];
             string vname = fm["qtyVendorName"];
             string vuniteno = fm["qtyVendorUniteNo"];
 
             var contracts = db.AssetPurchaseContracts.ToList();
-            if (!string.IsNullOrEmpty(cno))  //契約號
+            if (!string.IsNullOrEmpty(pno))  //契約號
             {
-                contracts = contracts.Where(c => c.ContractNo == cno).ToList();
+                contracts = contracts.Where(c => c.PurchaseNo == pno).ToList();
             }
             if (!string.IsNullOrEmpty(vname))   //廠商名稱關鍵字
             {
@@ -126,7 +129,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {
@@ -216,7 +219,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,PurchaseUName,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Edit([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {
@@ -374,6 +377,143 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return View("PermitList", permitList);
             }
             return View("PermitList");
+        }
+
+        // GET: MedEngMgt/AssetPurchaseContracts/GetPermitList2/5
+        public ActionResult GetPermitList2(string purchaseNo)
+        {
+            if (!string.IsNullOrEmpty(purchaseNo))
+            {
+                var permitList = db.AssetPContractPermits.Where(a => a.PurchaseNo == purchaseNo).ToList();
+
+                return View("PermitList2", permitList);
+            }
+            return View("PermitList2");
+        }
+
+        public ActionResult ExportToExcel(string contracts)
+        {
+            string[] PNOList = contracts.Split(new char[] { ';' });
+            string fileName = "";
+
+            MemoryStream stream = new MemoryStream();
+            ExcelPackage package = new ExcelPackage(stream);
+
+            package.Workbook.Worksheets.Add("新購合約列表");
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            #region write header
+            sheet.Cells[1, 1].Value = "採購編號";
+            sheet.Cells[1, 2].Value = "採購名稱";
+            sheet.Cells[1, 3].Value = "契約案號";
+            sheet.Cells[1, 4].Value = "存置院區";
+            sheet.Cells[1, 5].Value = "合約廠商";
+            sheet.Cells[1, 6].Value = "廠商統一編號";
+            sheet.Cells[1, 7].Value = "廠商電話";
+            sheet.Cells[1, 8].Value = "預算金額";
+            sheet.Cells[1, 9].Value = "底價金額";
+            sheet.Cells[1, 10].Value = "合約類別";
+            sheet.Cells[1, 11].Value = "合約總價";
+            sheet.Cells[1, 12].Value = "決標日期";
+            sheet.Cells[1, 13].Value = "驗收日期";
+            sheet.Cells[1, 14].Value = "保固期間(年)";
+            sheet.Cells[1, 15].Value = "設備類別";
+            sheet.Cells[1, 16].Value = "保固起始日";
+            sheet.Cells[1, 17].Value = "保固終止日";
+            sheet.Cells[1, 18].Value = "保固保證金金額";
+            sheet.Cells[1, 19].Value = "履約保證金金額";
+            sheet.Cells[1, 20].Value = "使用單位";
+            sheet.Cells[1, 21].Value = "請購單位";
+            sheet.Cells[1, 22].Value = "採購人員";
+            sheet.Cells[1, 23].Value = "是否有衛署登記證";
+            sheet.Cells[1, 24].Value = "主辦單位";
+            sheet.Cells[1, 25].Value = "主辦人員";
+            sheet.Cells[1, 26].Value = "協辦單位";
+            sheet.Cells[1, 27].Value = "協辦人員";
+            sheet.Cells[1, 28].Value = "採購設備類別";
+            sheet.Cells[1, 29].Value = "備註";
+            sheet.Cells[1, 30].Value = "異動人員";
+            sheet.Cells[1, 31].Value = "異動日期";
+
+            using (ExcelRange range = sheet.Cells[1, 1, 1, 30])
+            {
+                //range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                //range.Style.Fill.BackgroundColor.SetColor(Color.Gray);
+                range.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+                range.Style.Border.Bottom.Color.SetColor(Color.Black);
+                //range.AutoFitColumns(4);
+            }
+            #endregion
+
+            #region write content
+            List<AssetPurchaseContract> ContractList = new List<AssetPurchaseContract>();
+            foreach (string purchaseNo in PNOList)
+            {
+                var targetContract = db.AssetPurchaseContracts.Where(s => s.PurchaseNo == purchaseNo).FirstOrDefault();
+                if (targetContract != null)
+                {
+                    ContractList.Add(targetContract);
+                }
+            }
+
+            int pos = 2;
+            foreach (AssetPurchaseContract s in ContractList)
+            {
+                sheet.Cells[pos, 1].Value = s.PurchaseNo;
+                sheet.Cells[pos, 2].Value = s.PurchaseName;
+                sheet.Cells[pos, 3].Value = s.ContractNo;
+                sheet.Cells[pos, 4].Value = s.LeaveLoc;
+                sheet.Cells[pos, 5].Value = s.VendorName;
+                sheet.Cells[pos, 6].Value = s.VendorUniteNo;
+                sheet.Cells[pos, 7].Value = s.VendorPhone;
+                sheet.Cells[pos, 8].Value = s.Budget;
+                sheet.Cells[pos, 9].Value = s.BasicPrice;
+                sheet.Cells[pos, 10].Value = s.ContractClass;
+                sheet.Cells[pos, 11].Value = s.ContractTotalPrice;
+                sheet.Cells[pos, 12].Value = s.AwardDate == null ? "" : s.AwardDate.Value.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 13].Value = s.AcceptDate == null ? "" : s.AcceptDate.Value.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 14].Value = s.Warranty;
+                sheet.Cells[pos, 15].Value = s.AssetClass;
+                sheet.Cells[pos, 16].Value = s.WarrantySdate == null ? "" : s.WarrantySdate.Value.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 17].Value = s.WarrantyEdate == null ? "" : s.WarrantyEdate.Value.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 18].Value = s.WarrantyMargin;
+                sheet.Cells[pos, 19].Value = s.PerformanceMargin;
+                sheet.Cells[pos, 20].Value = s.UseDpt == null ? "" : db.Departments.Find(s.UseDpt).Name_C;
+                sheet.Cells[pos, 21].Value = s.PurchaseDpt == null ? "" : db.Departments.Find(s.PurchaseDpt).Name_C;
+                sheet.Cells[pos, 22].Value = s.PurchaseUid == null ? "" : db.AppUsers.Find(s.PurchaseUid).FullName;
+                sheet.Cells[pos, 23].Value = s.HasPermitNo == "Y" ? "是" : "否";
+                sheet.Cells[pos, 24].Value = s.Sponsor == null ? "" : db.Departments.Find(s.Sponsor).Name_C;
+                sheet.Cells[pos, 25].Value = s.SponsorUid == null ? "" : db.AppUsers.Find(s.SponsorUid).FullName;
+                sheet.Cells[pos, 26].Value = s.CoOrganizer == null ? "" : db.Departments.Find(s.CoOrganizer).Name_C;
+                sheet.Cells[pos, 27].Value = s.CoOrganizerUid == null ? "" : db.AppUsers.Find(s.CoOrganizerUid).FullName;
+                sheet.Cells[pos, 28].Value = s.PAssetClass;
+                sheet.Cells[pos, 29].Value = s.Note;
+                sheet.Cells[pos, 30].Value = db.AppUsers.Where(a => a.Id == s.Rtp).FirstOrDefault() == null ? "" : db.AppUsers.Where(a => a.Id == s.Rtp).FirstOrDefault().FullName;
+                sheet.Cells[pos, 31].Value = s.Rtt == null ? "" : s.Rtt.ToString("yyyy/MM/dd");
+
+                using (ExcelRange range = sheet.Cells[pos, 1, pos, 30])
+                {
+                    //range.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    //range.Style.Border.Bottom.Color.SetColor(Color.Black);
+                    range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                }
+                pos++;
+            }
+            #endregion
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = "新購合約列表_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+            }
+            //因為是用Query的方式,這個地方要用串流的方式來存檔
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                package.SaveAs(memoryStream);
+                //請注意 一定要加入這行,不然Excel會是空檔
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                //注意Excel的ContentType,是要用這個"application/vnd.ms-excel"
+                return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", fileName);
+            }
         }
 
         // POST: MedEngMgt/AssetPurchaseContracts/DeletePermit/5

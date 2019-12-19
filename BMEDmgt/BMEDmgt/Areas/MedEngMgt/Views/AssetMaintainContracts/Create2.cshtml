@@ -23,7 +23,7 @@
                     <h4 class="modal-title">選擇上傳檔案</h4>
                 </div>
                 <div class="modal-body">
-                    @Html.Action("Upload", "AttainFiles", new { doctype = "7", docid = "000" })
+                    @Html.Action("Upload2", "AttainFiles", new { doctype = "7", docid = "000" })
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "AssetMaintainContracts"))
 {
     @Html.AntiForgeryToken()
 
@@ -91,8 +91,7 @@
                     @Html.TextBox("AssetKeyName", "", new { @class = "form-control", placeholder = "財編或關鍵字" })
                     @Html.HiddenFor(model => model.AssetName)
                     <input id="btnQtyAsset" type="button" value="查詢" class="btn btn-default">
-                    @Html.DropDownList("AssetNo", new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } },
-                                       "請選擇", new { @class = "form-control" })
+                    @Html.DropDownList("AssetNo", ViewData["DefaultAsset"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -358,7 +357,7 @@
                 if (v1 !== "" && v2 !== 0) {
                     $("#StageCost").val(v2 / v1);
                 }
-            }); 
+            });
             $("#UniteCost").change(function () {
                 var v1 = $("#UniteCost").val();
                 var v2 = $("#Qty").val();
@@ -384,7 +383,7 @@
                 if (vno !== "") {
                     $.ajax({
                         contentType: "application/json; charset=utf-8",
-                        url: '../Vendors/GetVendorUnite',
+                        url: '../../Vendors/GetVendorUnite',
                         type: "GET",
                         data: { id: vno },
                         dataType: "json",
@@ -400,7 +399,7 @@
                 if (keynam !== "") {
                     $.ajax({
                         contentType: "application/json; charset=utf-8",
-                        url: '../Assets/GetAssetsByKeyname',
+                        url: '../../Assets/GetAssetsByKeyname',
                         type: "GET",
                         data: { keyname: keynam },
                         dataType: "json",
@@ -426,7 +425,7 @@
                 if (assetNo !== "") {
                     $.ajax({
                         contentType: "application/json; charset=utf-8",
-                        url: '../Assets/GetAssetById',
+                        url: '../../Assets/GetAssetById',
                         type: "GET",
                         data: { id: assetNo },
                         dataType: "json",
@@ -448,7 +447,7 @@
             $('#modalFILES').on('hidden.bs.modal', function () {
                 var docid = $("#DocId").val();
                 $.ajax({
-                    url: '../AttainFiles/List2',
+                    url: '../../AttainFiles/List2',
                     type: "POST",
                     data: { id: docid, typ: "7" },
                     success: function (data) {
@@ -461,7 +460,7 @@
                 var keynam = $(this).val();
                 if (keynam !== "") {
                     $.ajax({
-                        url: '../AssetMaintainContracts/CheckPNo',
+                        url: '../../AssetMaintainContracts/CheckPNo',
                         type: "GET",
                         dataType: "json",
                         data: { id: keynam },
@@ -490,7 +489,7 @@
                 var keynam = $("#ContractMgrKeyName").val();
                 $.ajax({
                     contentType: "application/json; charset=utf-8",
-                    url: '../AppUsers/GetUsersByKeyname',
+                    url: '../../AppUsers/GetUsersByKeyname',
                     type: "GET",
                     data: { keyname: keynam },
                     dataType: "json",
@@ -513,7 +512,7 @@
         function CheckFileList() {
             var docid = $("#DocId").val();
             $.ajax({
-                url: '../AttainFiles/CountFile',
+                url: '../../AttainFiles/CountFile',
                 type: "POST",
                 data: { id: docid, typ: "7" },
                 success: function (data) {
@@ -530,7 +529,7 @@
         function CheckFileList2() {
             var docid = $("#DocId").val();
             $.ajax({
-                url: '../AttainFiles/CountFile',
+                url: '../../AttainFiles/CountFile',
                 type: "POST",
                 data: { id: docid, typ: "7" },
                 success: function (data) {

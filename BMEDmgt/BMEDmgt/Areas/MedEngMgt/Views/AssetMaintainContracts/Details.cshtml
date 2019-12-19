@@ -15,6 +15,22 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.PurchaseNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractNo)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.ContractName)
         </dt>
 
@@ -24,14 +40,6 @@
 
         <dt>
             @Html.DisplayNameFor(model => model.VendorId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VendorId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.VendorName)
         </dt>
 
         <dd>
@@ -100,6 +108,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.Unite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UniteCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniteCost)
         </dd>
 
         <dt>
@@ -179,6 +195,44 @@
             {
                 <span>否</span>
             }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTraining)
+        </dt>
+
+        <dd>
+            @if (Model.IsTraining == "Y")
+            {
+                <span>是</span>
+            }
+            else
+            {
+                <span>否</span>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsYearKeepReport)
+        </dt>
+
+        <dd>
+            @if (Model.IsYearKeepReport == "Y")
+            {
+                <span>是</span>
+            }
+            else
+            {
+                <span>否</span>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractMgr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractMgrName)
         </dd>
 
         <dt>

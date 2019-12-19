@@ -40,8 +40,23 @@
         <h4>設備維護合約</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ContractNo)
+        @Html.HiddenFor(model => model.PurchaseNo)
         @Html.HiddenFor(model => model.Status)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="padding-top: 7px;">
+                @Html.DisplayFor(model => model.PurchaseNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContractNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ContractName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -76,7 +91,7 @@
                     @Html.TextBox("AssetKeyName", "", new { @class = "form-control", placeholder = "財編或關鍵字" })
                     @Html.HiddenFor(model => model.AssetName)
                     <input id="btnQtyAsset" type="button" value="查詢" class="btn btn-default">
-                    @Html.DropDownList("AssetNo", ViewData["DefaultAsset"] as List<SelectListItem>, new { @class = "form-control" })
+                    @Html.DropDownList("AssetNo", ViewData["DefaultAsset"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -119,6 +134,14 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Unite, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Unite, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UniteCost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UniteCost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UniteCost, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -187,11 +210,57 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.KeepCostRate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.KeepCostRate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.KeepCostRate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.EndNotice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.RadioButton("EndNotice", "Y") 是
                 @Html.RadioButton("EndNotice", "N") 否
                 @Html.ValidationMessageFor(model => model.EndNotice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsTraining, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButton("IsTraining", "Y", true) 是
+                @Html.RadioButton("IsTraining", "N") 否
+                @Html.ValidationMessageFor(model => model.IsTraining, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsYearKeepReport, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButton("IsYearKeepReport", "Y", true) 是
+                @Html.RadioButton("IsYearKeepReport", "N") 否
+                @Html.ValidationMessageFor(model => model.IsYearKeepReport, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractMgr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.TextBox("ContractMgrKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyContractMgr" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.ContractMgr, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ContractMgr, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContractType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ContractType", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractType, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -267,12 +336,17 @@
             $("#TotalCost").change(function () {
                 var v1 = $("#UseLife").val();
                 var v2 = $("#TotalCost").val();
-                var v3 = $("#StageCost").val();
+                var v3 = $("#StagePayment").val();
+                var v4 = $("#UniteCost").val();
+                var v5 = $("#Qty").val();
                 if (v1 !== "" && v2 !== 0) {
                     $("#YearCost").val(v2 / v1);
                 }
                 if (v3 !== "" && v2 !== 0) {
                     $("#StageCost").val(v2 / v3);
+                }
+                if (v4 !== "" && v5 !== "" && v2 !== 0) {
+                    $("#KeepCostRate").val(v2 / (v4 * v5));
                 }
             });
             $("#StagePayment").change(function () {
@@ -280,6 +354,22 @@
                 var v2 = $("#TotalCost").val();
                 if (v1 !== "" && v2 !== 0) {
                     $("#StageCost").val(v2 / v1);
+                }
+            });
+            $("#UniteCost").change(function () {
+                var v1 = $("#UniteCost").val();
+                var v2 = $("#Qty").val();
+                var v3 = $("#TotalCost").val();
+                if (v1 !== "" && v2 !== "" && v3 !== 0) {
+                    $("#KeepCostRate").val(v3 / (v1 * v2));
+                }
+            });
+            $("#Qty").change(function () {
+                var v1 = $("#UniteCost").val();
+                var v2 = $("#Qty").val();
+                var v3 = $("#TotalCost").val();
+                if (v1 !== "" && v2 !== "" && v3 !== 0) {
+                    $("#KeepCostRate").val(v3 / (v1 * v2));
                 }
             });
 
@@ -363,6 +453,30 @@
                     }
                 });
             });
+
+            $("#btnQtyContractMgr").click(function () {
+                var keynam = $("#ContractMgrKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#ContractMgr').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
         });
     </script>
     @Scripts.Render("~/bundles/jqueryval")

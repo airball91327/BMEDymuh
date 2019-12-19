@@ -76,6 +76,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string IsYearKeepReport { get; set; }
         [Display(Name = "合約負責人")]
         public int? ContractMgr { get; set; }
+        [NotMapped]
+        public string ContractMgrName { get; set; }
         [Display(Name = "合約執行方案")]
         public string ContractType { get; set; }
         [Display(Name = "保養匯率")]

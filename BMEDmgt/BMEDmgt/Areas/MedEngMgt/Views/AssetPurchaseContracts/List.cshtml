@@ -5,15 +5,66 @@
     ViewBag.Title = "列表/設備新購合約管理";
 }
 
+<script>
+        $(function(){
+            $('input[name="chkALL"]').change(function () {
+                if ($(this).prop("checked")) {
+                    $("input[name='chkCONTRACT']").each(function () {
+                        $(this).prop("checked", true);
+                    });
+                }
+                else {
+                    $("input[name='chkCONTRACT']").each(function () {
+                        $(this).prop("checked", false);
+                    });
+                }
+            });
+            /* Export excel. */
+            $("#BtnExportExcel").click(function () {
+                var s = "";
+                $("input[name='chkCONTRACT']:checked").each(function () {
+                    s += $(this).parents("tr").children().get(1).innerText.trim();
+                    s += ";";
+                });
+                if (s != "") {
+                    $.ajax({
+                        url: '@Url.Action("ExportToExcel", "AssetPurchaseContracts")',
+                        data: { contracts: s },
+                        type: "GET",
+                        beforeSend: function () {
+                            $("#imgLOADING2").show();
+                        },
+                        success: function (data) {
+                            window.location.href = '@Url.Action("ExportToExcel", "AssetPurchaseContracts")' + '?contracts=' + s;
+                            $("#imgLOADING2").hide();
+                        },
+                        error: function (msg) {
+                            alert(msg);
+                            $("#imgLOADING2").hide()
+                        }
+                    });
+                }
+                else {
+                    alert("尚未選擇合約!");
+                }
+            });
+        });
+</script>
+
 <h3>合約列表</h3>
 
-@*<p>
-    <a class="btn btn-primary" href="@Url.Action("Create")">新增合約</a>
-</p>*@
+<button type="button" class="btn btn-primary" id="BtnExportExcel">匯出Excel</button>
+<img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+
 <table class="table">
     <tr>
+        <th style="min-width: 80px;">
+            @Html.CheckBox("chkALL") 全選
+        </th>
+        <th style="min-width:100px;">
+            @Html.DisplayNameFor(model => model.PurchaseNo)
+        </th>
         <th>
-            @Html.DisplayNameFor(model => model.PurchaseNo)<br />
             @Html.DisplayNameFor(model => model.PurchaseName)<br />
             @Html.DisplayNameFor(model => model.ContractNo)
         </th>
@@ -49,30 +100,26 @@
             @Html.DisplayNameFor(model => model.Sponsor)<br />
             @Html.DisplayNameFor(model => model.SponsorName)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.CoOrganizer)<br />
             @Html.DisplayNameFor(model => model.CoOrganizerName)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Note)
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rtp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rtt)
-            </th>*@
         <th style="min-width:120px;"></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.CheckBox("chkCONTRACT")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseNo)
+            </td>
             <td style="min-width:100px;">
-                @Html.DisplayFor(modelItem => item.PurchaseNo)<br />
                 @Html.DisplayFor(modelItem => item.PurchaseName)<br />
                 @Html.DisplayFor(modelItem => item.ContractNo)
             </td>
@@ -110,24 +157,15 @@
                 @Html.DisplayFor(modelItem => item.SponsorDptName)<br />
                 @Html.DisplayFor(modelItem => item.SponsorName)
             </td>
-            <td style="min-width:125px;">
+            @*<td style="min-width:125px;">
                 @Html.DisplayFor(modelItem => item.CoOrganizerDptName)<br />
                 @Html.DisplayFor(modelItem => item.CoOrganizerName)
-            </td>
-            <td style="min-width:125px;">
+            </td>*@
+            <td style="min-width:100px; max-width:200px; word-wrap:break-word;">
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rtp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rtt)
-                </td>*@
             <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.PurchaseNo}) |
+                @Html.ActionLink("編輯", "Edit", new { id = item.PurchaseNo }) |
                 @Html.ActionLink("詳細內容", "Details", new { id = item.PurchaseNo }) |
                 @Html.ActionLink("刪除", "Delete", new { id = item.PurchaseNo })
             </td>

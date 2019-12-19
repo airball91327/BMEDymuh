@@ -255,7 +255,6 @@
             <div class="col-md-10">
                 <div class="form-inline">
                     @Html.TextBox("PurchaseUNameKeyName", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
-                    @Html.HiddenFor(model => model.PurchaseUName)
                     <input id="btnQtyPurchaseUName" type="button" value="查詢" class="btn btn-default">
                     @Html.DropDownListFor(model => model.PurchaseUid, null, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PurchaseUid, "", new { @class = "text-danger" })

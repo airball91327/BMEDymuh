@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetPContractPermit>
+@{ 
+    Layout = null;
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PermitNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PermitValid)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermitNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermitValid)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtt)
+                </td>*@
+        </tr>
+    }
+</table>

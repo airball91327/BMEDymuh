@@ -85,6 +85,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string PurchaseDptName { get; set; }
         [Display(Name = "採購人員代號")]
         public int? PurchaseUid { get; set; }
+        [NotMapped]
         [Display(Name = "採購人員")]
         public string PurchaseUName { get; set; }
         [Display(Name = "是否有衛署登記證")]
@@ -110,7 +111,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "協辦人員代號")]
         public int? CoOrganizerUid { get; set; }
         [NotMapped]
-        [Display(Name = "主辦人員")]
+        [Display(Name = "協辦人員")]
         public string CoOrganizerName { get; set; }
         [Display(Name = "採購設備類別")]
         public string PAssetClass { get; set; }
