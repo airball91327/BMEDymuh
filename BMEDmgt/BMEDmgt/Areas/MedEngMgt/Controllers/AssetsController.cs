@@ -107,32 +107,39 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             TempData["qry"] = qryAsset;
             List<Asset> at = new List<Asset>();
             List<Asset> at2 = new List<Asset>();
-            db.Assets.GroupJoin(db.Departments, a => a.DelivDpt, d => d.DptId,
-                (a, d) => new { Asset = a, Department = d })
-                .SelectMany(p => p.Department.DefaultIfEmpty(),
-                (x, y) => new { Asset = x.Asset, Department = y })
-                .ToList()
-                .GroupJoin(db.AppUsers, e => e.Asset.DelivUid, u => u.Id,
-                (e, u) => new { Asset = e, AppUser = u })
-                .SelectMany(p => p.AppUser.DefaultIfEmpty(),
-                (e, y) => new { Asset = e.Asset.Asset, Department = e.Asset.Department, AppUser = y })
-                .ToList()
-                .ForEach(p =>
-                {
-                    p.Asset.DelivDptName = p.Department == null ? "" : p.Department.Name_C;
-                    p.Asset.DelivEmp = p.AppUser == null ? "" : p.AppUser.FullName;
-                    at.Add(p.Asset);
-                });
-            at.GroupJoin(db.Departments, a => a.AccDpt, d => d.DptId,
-                (a, d) => new { Asset = a, Department = d })
-                .SelectMany(p => p.Department.DefaultIfEmpty(),
-                (x, y) => new { Asset = x.Asset, Department = y })
-                .ToList()
-                .ForEach(p =>
-                {
-                    p.Asset.AccDptName = p.Department == null ? "" : p.Department.Name_C;
-                    at2.Add(p.Asset);
-                });
+           try {
+                db.Assets.GroupJoin(db.Departments, a => a.DelivDpt, d => d.DptId,
+               (a, d) => new { Asset = a, Department = d })
+               .SelectMany(p => p.Department.DefaultIfEmpty(),
+               (x, y) => new { Asset = x.Asset, Department = y })
+               .ToList()
+               .GroupJoin(db.AppUsers, e => e.Asset.DelivUid, u => u.Id,
+               (e, u) => new { Asset = e, AppUser = u })
+               .SelectMany(p => p.AppUser.DefaultIfEmpty(),
+               (e, y) => new { Asset = e.Asset.Asset, Department = e.Asset.Department, AppUser = y })
+               .ToList()
+               .ForEach(p =>
+               {
+                   p.Asset.DelivDptName = p.Department == null ? "" : p.Department.Name_C;
+                   p.Asset.DelivEmp = p.AppUser == null ? "" : p.AppUser.FullName;
+                   at.Add(p.Asset);
+               });
+                at.GroupJoin(db.Departments, a => a.AccDpt, d => d.DptId,
+                    (a, d) => new { Asset = a, Department = d })
+                    .SelectMany(p => p.Department.DefaultIfEmpty(),
+                    (x, y) => new { Asset = x.Asset, Department = y })
+                    .ToList()
+                    .ForEach(p =>
+                    {
+                        p.Asset.AccDptName = p.Department == null ? "" : p.Department.Name_C;
+                        at2.Add(p.Asset);
+                    });
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            
             if (!string.IsNullOrEmpty(qryAsset.AssetNo))
             {
                 at2 = at2.Where(a => a.AssetNo == qryAsset.AssetNo).ToList();

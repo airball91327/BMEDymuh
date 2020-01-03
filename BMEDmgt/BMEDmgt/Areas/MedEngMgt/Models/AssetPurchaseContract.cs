@@ -13,7 +13,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
     public class AssetPurchaseContract
     {
         [Key]
-        [Display(Name = "採購編號")]
+        [Display(Name = "採購案號")]
         [Required]
         public string PurchaseNo { get; set; }
         [Display(Name = "契約案號")]

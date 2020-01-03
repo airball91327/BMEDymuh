@@ -13,7 +13,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
     public class AssetMaintainContract
     {
         [Key]
-        [Display(Name = "採購編號")]
+        [Display(Name = "採購案號")]
         [Required]
         public string PurchaseNo { get; set; }
         [Display(Name = "契約案號")]
@@ -41,7 +41,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string SerialNo { get; set; }
         [Display(Name = "台數")]
         public string Qty { get; set; }
-        [Display(Name = "單位")]
+        [Display(Name = "使用單位")]
         public string Unite { get; set; }
         [Display(Name = "合約起始日")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
@@ -80,7 +80,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string ContractMgrName { get; set; }
         [Display(Name = "合約執行方案")]
         public string ContractType { get; set; }
-        [Display(Name = "保養匯率")]
+        [Display(Name = "保養費率(%)")]
         public decimal? KeepCostRate { get; set; }
         [Display(Name = "設備單價")]
         public decimal? UniteCost { get; set; }

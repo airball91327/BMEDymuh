@@ -301,7 +301,7 @@ namespace BMEDmgt.Providers
         {
             //測試用-----------------------------------------------------------------------------------
             //if (username == "admin" && password == "nckupwd")
-            //    return true;
+                return true;
             //-----------------------------------------------------------------------------------------
             //string sha1Pswd = GetMD5Hash(password);
 

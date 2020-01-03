@@ -93,12 +93,19 @@
                     <input id="btnQtyAsset" type="button" value="查詢" class="btn btn-default">
                     @Html.DropDownList("AssetNo", new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } },
                                        "請選擇", new { @class = "form-control" })
+                    <input id="addAsset" type="button" value="加入設備" class="btn btn-success">
                     @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
         <div class="form-group">
+            <div id="pnlASSETLIST">
+                <p>Asset list here</p>
+            </div>
+        </div>
+
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
@@ -120,7 +127,7 @@
                 @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -138,13 +145,13 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.UniteCost, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.UniteCost, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UniteCost, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Sdate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -421,28 +428,67 @@
                 }
             });
 
-            $("#AssetNo").change(function () {
+            $('#addAsset').click(function () {
+                var pNo = $("#PurchaseNo").val();
                 var assetNo = $("#AssetNo").val();
                 if (assetNo !== "") {
                     $.ajax({
                         contentType: "application/json; charset=utf-8",
-                        url: '../Assets/GetAssetById',
-                        type: "GET",
-                        data: { id: assetNo },
+                        url: '../AssetMaintainContracts/AddContractAsset',
+                        type: "POST",
+                        data: { purchaseNo: pNo, assetNo: assetNo },
                         dataType: "json",
                         success: function (data) {
-                            console.log(data);
-                            $("#Brand").val(data.Brand);
-                            $("#Type").val(data.Type);
-                            $("#SerialNo").val(data.SeqNo);
-                            $("#Qty").val(data.Qty);
-                            $("#Unite").val(data.Unite);
+                            $.ajax({
+                                contentType: "application/json; charset=utf-8",
+                                url: '../AssetMaintainContracts/GetContractAssetList',
+                                type: "POST",
+                                data: { purchaseNo: pNo },
+                                dataType: "json",
+                                success: function (data) {
+                                    $("#pnlASSETLIST").html(data);
+                                },
+                                error: function (msg) {
+                                    alert(msg);
+                                }
+                            });
                         },
                         error: function (msg) {
                             alert(msg);
                         }
                     });
                 }
+            });
+
+            $("#pnlASSETLIST a").click(function () {
+
+                if (confirm("確定要刪除此資料?")) {
+                    var id = $("#PurchaseNo").val();
+                    var tr = $(this).parents('tr');
+                    var seq = $(this).parents('tr').children();
+                    $.ajax({
+                        url: "../AssetMaintainContracts/DeleteAsset",
+                        type: "POST",
+                        data: { 'pNo': id, 'assetNo': seq.get(0).innerText.trim() },
+                        async: true,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                tr.remove();
+                            }
+                            else {
+                                alert(data.error);
+                            }
+                        }
+                    });
+                    return false;
+                }
+                else
+                    return false;
+            });
+
+            $("#AssetNo").change(function () {
+                
             });
 
             $('#modalFILES').on('hidden.bs.modal', function () {

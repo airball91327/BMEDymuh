@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Filters;
 using BMEDmgt.Models;
 using OfficeOpenXml;
 using WebMatrix.WebData;
@@ -293,6 +294,71 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     Data = new { success = true, error = "", data = result },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
+            }
+        }
+
+        // POST: MedEngMgt/AssetMaintainContracts/AddContractAsset/5
+        [HttpPost]
+        [MyErrorHandler]
+        public ActionResult AddContractAsset(string purchaseNo , string assetNo)
+        {
+            if (!string.IsNullOrEmpty(purchaseNo) && !string.IsNullOrEmpty(assetNo))
+            {
+                var dataExist = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo && a.AssetNo == assetNo)
+                                                     .FirstOrDefault();
+                if (dataExist != null)
+                {
+                    throw new Exception("設備或案號重複");
+                }
+                var asset = db.Assets.Where(a => a.AssetNo == assetNo).FirstOrDefault();
+                AssetsInMContracts ac = new AssetsInMContracts();
+                ac.PurchaseNo = purchaseNo;
+                ac.AssetNo = asset.AssetNo;
+                ac.AssetName = asset.Cname;
+                ac.Brand = asset.Brand;
+                ac.Type = asset.Type;
+                ac.SerialNo = "";
+                ac.Qty = "1";
+                ac.UniteCost = asset.Cost;
+                ac.Rtp = WebSecurity.CurrentUserId;
+                ac.Rtt = DateTime.Now;
+
+                db.AssetsInMContracts.Add(ac);
+                db.SaveChanges();
+            }
+            return new JsonResult
+            {
+                Data = new { success = true, error = "" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        // GET: MedEngMgt/AssetMaintainContracts/GetContractAssetList/5
+        public ActionResult GetContractAssetList(string purchaseNo)
+        {
+            var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo).ToList();
+            return PartialView(assets);
+        }
+
+        // POST: MedEngMgt/AssetMaintainContracts/DeleteAsset/5
+        [HttpPost]
+        [MyErrorHandler]
+        public ActionResult Delete(string purchaseNo, string assetNo)
+        {
+            try
+            {
+                AssetsInMContracts asset = db.AssetsInMContracts.Find(purchaseNo, assetNo);
+                db.AssetsInMContracts.Remove(asset);
+                db.SaveChanges();
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "" },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 
