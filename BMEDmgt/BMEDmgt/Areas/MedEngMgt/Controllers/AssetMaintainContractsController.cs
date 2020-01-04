@@ -302,7 +302,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult AddContractAsset(string purchaseNo , string assetNo)
         {
-            if (!string.IsNullOrEmpty(purchaseNo) && !string.IsNullOrEmpty(assetNo))
+            if (string.IsNullOrEmpty(purchaseNo))
+            {
+                throw new Exception("尚未輸入案號");
+            }
+                if (!string.IsNullOrEmpty(purchaseNo) && !string.IsNullOrEmpty(assetNo))
             {
                 var dataExist = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo && a.AssetNo == assetNo)
                                                      .FirstOrDefault();
@@ -343,7 +347,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // POST: MedEngMgt/AssetMaintainContracts/DeleteAsset/5
         [HttpPost]
         [MyErrorHandler]
-        public ActionResult Delete(string purchaseNo, string assetNo)
+        public ActionResult DeleteAsset(string purchaseNo, string assetNo)
         {
             try
             {

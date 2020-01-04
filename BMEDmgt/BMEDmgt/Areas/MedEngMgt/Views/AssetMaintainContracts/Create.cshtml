@@ -101,7 +101,7 @@
 
         <div class="form-group">
             <div id="pnlASSETLIST">
-                <p>Asset list here</p>
+
             </div>
         </div>
 
@@ -430,61 +430,27 @@
 
             $('#addAsset').click(function () {
                 var pNo = $("#PurchaseNo").val();
-                var assetNo = $("#AssetNo").val();
-                if (assetNo !== "") {
+                var aNo = $("#AssetNo").val();
+                if (aNo !== "") {
                     $.ajax({
-                        contentType: "application/json; charset=utf-8",
                         url: '../AssetMaintainContracts/AddContractAsset',
                         type: "POST",
-                        data: { purchaseNo: pNo, assetNo: assetNo },
+                        data: { purchaseNo: pNo, assetNo: aNo },
                         dataType: "json",
                         success: function (data) {
-                            $.ajax({
-                                contentType: "application/json; charset=utf-8",
-                                url: '../AssetMaintainContracts/GetContractAssetList',
-                                type: "POST",
-                                data: { purchaseNo: pNo },
-                                dataType: "json",
-                                success: function (data) {
-                                    $("#pnlASSETLIST").html(data);
-                                },
-                                error: function (msg) {
-                                    alert(msg);
-                                }
-                            });
+                            GetAssetList(pNo);
+                            if (data.success !== null) {
+                                if (!data.success)
+                                    alert(data.error);
+                                else
+                                    alert("新增成功!");
+                            }
                         },
                         error: function (msg) {
                             alert(msg);
                         }
                     });
                 }
-            });
-
-            $("#pnlASSETLIST a").click(function () {
-
-                if (confirm("確定要刪除此資料?")) {
-                    var id = $("#PurchaseNo").val();
-                    var tr = $(this).parents('tr');
-                    var seq = $(this).parents('tr').children();
-                    $.ajax({
-                        url: "../AssetMaintainContracts/DeleteAsset",
-                        type: "POST",
-                        data: { 'pNo': id, 'assetNo': seq.get(0).innerText.trim() },
-                        async: true,
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.success) {
-                                tr.remove();
-                            }
-                            else {
-                                alert(data.error);
-                            }
-                        }
-                    });
-                    return false;
-                }
-                else
-                    return false;
             });
 
             $("#AssetNo").change(function () {
@@ -587,6 +553,42 @@
                         $("#PurchaseNo").removeAttr("readonly");
                     }
                 }
+            });
+        }
+
+        function GetAssetList(pNo) {
+            $.ajax({
+                url: '../AssetMaintainContracts/GetContractAssetList',
+                type: "GET",
+                data: { purchaseNo: pNo },
+                success: function (data) {
+                    $("#pnlASSETLIST").html(data);
+                    CountCost();
+                    CountQty();
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        }
+
+        function CountCost() {
+            var totalCost = 0;
+            $("#pnlASSETLIST table tbody td:nth-child(7)").each(function () {
+                var cost = $.trim($(this).text());
+                totalCost += (cost * 1);
+                $("#TotalCost").val(totalCost);
+                $("#TotalCost").trigger("change");
+            });
+        }
+
+        function CountQty() {
+            var totalQty = 0;
+            $("#pnlASSETLIST table tbody td:nth-child(6)").each(function () {
+                var qty = $.trim($(this).text());
+                totalQty += (qty * 1);
+                $("#Qty").val(totalQty);
+                $("#Qty").trigger("change");
             });
         }
 

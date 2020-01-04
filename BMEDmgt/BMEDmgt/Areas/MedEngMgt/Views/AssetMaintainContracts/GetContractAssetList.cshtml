@@ -1,6 +1,63 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetsInMContracts>
 
-<h5>設備列表</h5>
+<script>
+    $(function () {
+        var URL = "../AssetMaintainContracts/DeleteAsset";
+        if (window.location.href.indexOf("Edit") > -1 || 
+            window.location.href.indexOf("Create2") > -1 ) {
+            URL = "../../AssetMaintainContracts/DeleteAsset";
+        }
+
+        $("#pnlASSETLIST a").click(function () {
+            if (confirm("確定要刪除此資料?")) {
+                var id = $("#PurchaseNo").val();
+                var tr = $(this).parents('tr');
+                var seq = $(this).parents('tr').children();
+                $.ajax({
+                    url: URL,
+                    type: "POST",
+                    data: { purchaseNo: id, assetNo: seq.get(0).innerText.trim() },
+                    async: true,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            tr.remove();
+                            CountCost();
+                            CountQty();
+                        }
+                        else {
+                            alert(data.error);
+                        }
+                    }
+                });
+                return false;
+            }
+            else
+                return false;
+        });
+        function CountCost() {
+            var totalCost = 0;
+            $("#pnlASSETLIST table tbody td:nth-child(7)").each(function () {
+                var cost = $.trim($(this).text());
+                totalCost += (cost * 1);
+                $("#TotalCost").val(totalCost);
+                $("#TotalCost").trigger("change");
+            });
+        }
+
+        function CountQty() {
+            var totalQty = 0;
+            $("#pnlASSETLIST table tbody td:nth-child(6)").each(function () {
+                var qty = $.trim($(this).text());
+                totalQty += (qty * 1);
+                $("#Qty").val(totalQty);
+                $("#Qty").trigger("change");
+            });
+        }
+    });
+</script>
+
+<h5><b>設備列表</b></h5>
 <table class="table">
     <tr>
         <th>
@@ -44,16 +101,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.SerialNo)
         </td>
-        <td>
+        <td name="pnlQTY">
             @Html.DisplayFor(modelItem => item.Qty)
         </td>
-        <td>
+        <td name="pnlUCOST">
             @Html.DisplayFor(modelItem => item.UniteCost)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("刪除", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }
