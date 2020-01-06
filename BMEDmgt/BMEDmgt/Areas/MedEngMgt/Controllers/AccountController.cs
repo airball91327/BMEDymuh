@@ -186,5 +186,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             return Redirect("~/Home/Index");
         }
+
+        public ActionResult UserInfo(int id)
+        {
+            AppUser u = db.AppUsers.Find(id);
+            return View(u);
+        }
     }
 }

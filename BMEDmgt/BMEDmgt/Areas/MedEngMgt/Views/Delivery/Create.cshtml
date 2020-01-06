@@ -183,12 +183,12 @@
             @Html.TextAreaFor(model => model.Memo, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Memo)
         </div>
-        <div class="display-label">
+        @*<div class="display-label">
             儀器列表
         </div>
         <div style="padding-left: 20px; color: gray">
-            @*@Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = false })*@
-        </div>
+            @Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = false })
+        </div>*@
         <p>
             <input class="btn btn-default" id="btnSEND" type="submit" value="確定送出" />
         </p>

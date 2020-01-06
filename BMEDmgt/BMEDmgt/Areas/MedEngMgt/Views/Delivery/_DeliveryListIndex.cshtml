@@ -1,42 +1,55 @@
-﻿@using (Ajax.BeginForm("DeliveryListIndex","Delivery",new AjaxOptions { UpdateTargetId="pnlDELIVERYLIST" }))
+﻿@using (Ajax.BeginForm("DeliveryListIndex","Delivery", new { Area = "MedEngMgt" },
+    new AjaxOptions { UpdateTargetId="pnlDELIVERYLIST", LoadingElementId= "imgLOADING3" }))
 {
-    <table>
-        <tr>
-            <td>@Html.Label("", "表單編號")
-                @Html.TextBox("qtyDOCID")</td>
-            <td>
-                @Html.Label("", "採購案號")
-                @Html.TextBox("qtyPURCHASENO")</td>
-            <td>
-                @Html.Label("", "財產編號")
-                @Html.TextBox("qtyASSETNO")</td>
-            <td>
-                @Html.Label("", "成本中心")
-                @Html.TextBox("qtyACCNO")</td>           
-        </tr>
-        <tr>
-            <td>
-                @Html.Label("", "預算編號")
-                @Html.TextBox("qtyBUDGETID")
-            </td>
-            <td>
-                @Html.Label("", "合約號碼")
-                @Html.TextBox("qtyCONTRACTNO")
-            </td>
-            <td>
-                @Html.Label("", "申請單位")
-                @Html.TextBox("qtyCUSTID")
-            </td>
-            <td>
-                @Html.Label("", "流程狀態")
-                @Html.DropDownList("qtyFLOWTYP", ViewData["Item"] as SelectList)
-            </td>
-        </tr>
-    </table>
-        
-    <p>
-        <input id="btnDelivQry" type="submit" value="查詢" />
-    </p>
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="form-inline">
+            @Html.Label("qtyDOCID", "表單編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyDOCID", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyASSETNO", "財產編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyASSETNO", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyACCNO", "成本中心", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyACCNO", ViewData["ACCDPT"] as SelectList, "", new { @class = "form-control combobox" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-line">
+            @Html.Label("qtyBUDGETID", "預算編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyBUDGETID", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyPURCHASENO", "採購案號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBox("qtyPURCHASENO", "", new { @class = "form-control" })
+            </div>
+            @Html.Label("qtyCUSTID", "申請單位", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyCUSTID", ViewData["qtyCUSTID"] as SelectList, "請選擇", new { @class = "form-control combobox" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-inline">
+            @Html.Label("qtyFLOWTYPE", "流程狀態", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("qtyFLOWTYPE", ViewData["FLOWTYPE"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="btnDelivQry" type="submit" value="查詢" class="btn btn-default" />
+            <img id="imgLOADING3" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+        </div>
+    </div>
+</div>
+
 
 <div id="pnlDELIVERYLIST">
     @Html.Action("DeliveryList","Delivery")

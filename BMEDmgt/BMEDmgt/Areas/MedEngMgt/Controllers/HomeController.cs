@@ -27,8 +27,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 .Where(f => f.UserId == WebSecurity.CurrentUserId), k => k.DocId, f => f.DocId,
                 (k, f) => f).Count();
             v.KeepCount = keepCount;
+            //
+            int deliveryCount = db.Deliveries
+                .Join(db.DelivFlows.Where(f => f.Status == "?")
+                .Where(f => f.Userid == WebSecurity.CurrentUserId), k => k.Docid, f => f.Docid,
+                (k, f) => f).Count();
+            v.DeliveryCount = deliveryCount;
             v.BuyEvalateCount = 0;
-            v.DeliveryCount = 0;
+
             return View(v);
         }
 

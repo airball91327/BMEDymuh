@@ -97,7 +97,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (form["qtyDPTID"] != "")
             {
-                vm = vm.Where(m => m.CustId == form["qtyDPTID"]).ToList();
+                vm = vm.Where(m => m.Company == form["qtyDPTID"]).ToList();
             }
             if (form["qtyBUDGETID"] != "")
             {
@@ -156,7 +156,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
             listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
             listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
-            ViewData["Item"] = new SelectList(listItem, "Value", "Text", "待處理");
+            ViewData["qtyFLOWTYPE"] = new SelectList(listItem, "Value", "Text", "待處理");
+
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            SelectListItem li;
+            db.Departments.ToList()
+                .ForEach(d =>
+                {
+                    li = new SelectListItem();
+                    li.Text = d.Name_C;
+                    li.Value = d.DptId;
+                    listItem2.Add(li);
+
+                });
+            ViewData["ACCDPT"] = new SelectList(listItem2, "Value", "Text");
+            ViewData["qtyCUSTID"] = new SelectList(listItem2, "Value", "Text");
             return PartialView("_DeliveryListIndex");
         }
         [HttpPost]
@@ -166,31 +180,31 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
             listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
             listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
-            ViewData["Item"] = new SelectList(listItem, "Value", "Text", form["qtyFLOWTYP"]);
+            ViewData["qtyFLOWTYPE"] = new SelectList(listItem, "Value", "Text", form["qtyFLOWTYPE"]);
             //
             List<DeliveryListVModel> vm;
-            vm = new DeliveryListVModel().GetList(form["qtyFLOWTYP"]);
-            if (form["qtyDOCID"] != "")
+            vm = new DeliveryListVModel().GetList(form["qtyFLOWTYPE"]);
+            if (!string.IsNullOrEmpty(form["qtyDOCID"]))
             {
                 vm = vm.Where(m => m.Docid == form["qtyDOCID"]).ToList();
             }
-            if (form["qtyPURCHASENO"] != "")
+            if (!string.IsNullOrEmpty(form["qtyPURCHASENO"]))
             {
                 vm = vm.Where(m => m.PurchaseNo == form["qtyPURCHASENO"]).ToList();
             }
-            if (form["qtyCUSTID"] != "")
+            if (!string.IsNullOrEmpty(form["qtyCUSTID"]))
             {
-                vm = vm.Where(m => m.CustId == form["qtyCUSTID"]).ToList();
+                vm = vm.Where(m => m.Company == form["qtyCUSTID"]).ToList();
             }
-            if (form["qtyBUDGETID"] != "")
+            if (!string.IsNullOrEmpty(form["qtyBUDGETID"]))
             {
                 vm = vm.Where(m => m.BudgetId == form["qtyBUDGETID"]).ToList();
             }
-            if (form["qtyCONTRACTNO"] != "")
+            if (!string.IsNullOrEmpty(form["qtyCONTRACTNO"]))
             {
                 vm = vm.Where(m => m.ContractNo == form["qtyCONTRACTNO"]).ToList();
             }
-            if (form["qtyASSETNO"] != "")
+            if (!string.IsNullOrEmpty(form["qtyASSETNO"]))
             {
                 Asset at = db.Assets.Find(form["qtyASSETNO"]);
                 if (at != null)
@@ -550,9 +564,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
-            CustOrgan c = db.CustOrgans.Find(delivery.AccDpt);
+            Department c = db.Departments.Find(delivery.AccDpt);
             if (c != null)
-                delivery.AccDptNam = c.CustNam;
+                delivery.AccDptNam = c.Name_C;
             Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;

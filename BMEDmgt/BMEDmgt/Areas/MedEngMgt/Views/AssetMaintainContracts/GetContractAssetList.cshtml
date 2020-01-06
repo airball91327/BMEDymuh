@@ -40,8 +40,8 @@
             $("#pnlASSETLIST table tbody td:nth-child(7)").each(function () {
                 var cost = $.trim($(this).text());
                 totalCost += (cost * 1);
-                $("#TotalCost").val(totalCost);
-                $("#TotalCost").trigger("change");
+                $("#UniteCost").val(totalCost);
+                $("#UniteCost").trigger("change");
             });
         }
 

@@ -28,7 +28,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string VendorName { get; set; }
         [Display(Name = "廠商統一編號")]
         public string VendorUniteNo { get; set; }
-        [Required]
+        //[Required]
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Display(Name = "財產名稱")]
@@ -55,7 +55,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int? Cycle { get; set; }
         [Display(Name = "年限(年)")]
         public int? UseLife { get; set; }
-        [Display(Name = "總費用")]
+        [Display(Name = "合約總費用")]
         [DisplayFormat(DataFormatString = "{0:0}")]
         public decimal TotalCost { get; set; }
         [Display(Name = "費用/年")]
@@ -82,7 +82,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string ContractType { get; set; }
         [Display(Name = "保養費率(%)")]
         public decimal? KeepCostRate { get; set; }
-        [Display(Name = "設備單價")]
+        [Display(Name = "設備總價")]
         public decimal? UniteCost { get; set; }
 
         [Display(Name = "狀態")]

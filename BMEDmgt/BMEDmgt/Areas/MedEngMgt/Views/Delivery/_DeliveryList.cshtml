@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MedEngMgr.Models.DeliveryListVModel>
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.DeliveryListVModel>
 
 <table style="width: 100%">
     <tr>
@@ -9,7 +9,7 @@
             @Html.DisplayNameFor(model => model.Docid)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustNam)
+            @Html.DisplayNameFor(model => model.CompanyNam)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AccDptNam)
@@ -52,7 +52,7 @@
             @Html.DisplayFor(modelItem => item.Docid)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CustNam)
+            @Html.DisplayFor(modelItem => item.CompanyNam)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AccDptNam)
@@ -83,7 +83,7 @@
 }
         </td>
     </tr>
-        <tr>
+        @*<tr>
             <td colspan="9">
                 <div style="margin-left: 50px">
                     <h3>儀器列表</h3>
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </td>
-        </tr>
+        </tr>*@
     }
 
 </table>

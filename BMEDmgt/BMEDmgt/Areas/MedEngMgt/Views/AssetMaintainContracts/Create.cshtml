@@ -145,13 +145,13 @@
             </div>
         </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.UniteCost, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.UniteCost, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UniteCost, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Sdate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -340,7 +340,7 @@
                 var v1 = $("#UseLife").val();
                 var v2 = $("#TotalCost").val();
                 if (v1 !== "" && v2 !== 0 ) {
-                    $("#YearCost").val(v2/v1);
+                    $("#YearCost").val(v2 / v1);
                 }
             });
             $("#TotalCost").change(function () {
@@ -356,7 +356,7 @@
                     $("#StageCost").val(v2 / v3);
                 }
                 if (v4 !== "" && v5 !== "" && v2 !== 0) {
-                    $("#KeepCostRate").val(v2 / (v4 * v5));
+                    $("#KeepCostRate").val(v2 / v4);
                 }
             });
             $("#StagePayment").change(function () {
@@ -371,7 +371,7 @@
                 var v2 = $("#Qty").val();
                 var v3 = $("#TotalCost").val();
                 if (v1 !== "" && v2 !== "" && v3 !== 0) {
-                    $("#KeepCostRate").val(v3 / (v1 * v2));
+                    $("#KeepCostRate").val(v3 / v1);
                 }
             });
             $("#Qty").change(function () {
@@ -379,7 +379,7 @@
                 var v2 = $("#Qty").val();
                 var v3 = $("#TotalCost").val();
                 if (v1 !== "" && v2 !== "" && v3 !== 0) {
-                    $("#KeepCostRate").val(v3 / (v1 * v2));
+                    $("#KeepCostRate").val(v3 / v1);
                 }
             });
 
@@ -577,8 +577,8 @@
             $("#pnlASSETLIST table tbody td:nth-child(7)").each(function () {
                 var cost = $.trim($(this).text());
                 totalCost += (cost * 1);
-                $("#TotalCost").val(totalCost);
-                $("#TotalCost").trigger("change");
+                $("#UniteCost").val(totalCost);
+                $("#UniteCost").trigger("change");
             });
         }
 

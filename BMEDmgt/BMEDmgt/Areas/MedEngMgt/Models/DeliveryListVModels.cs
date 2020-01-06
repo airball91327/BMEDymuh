@@ -22,10 +22,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int UserId { get; set; }
         [Display(Name = "申請人姓名")]
         public string UserName { get; set; }
-        [Display(Name = "機構代號")]
-        public string CustId { get; set; }
-        [Display(Name = "機構名稱")]
-        public string CustNam { get; set; }
+        [Display(Name = "所屬單位")]
+        public string Company { get; set; }
+        [Display(Name = "所屬單位代號名稱")]
+        public string CompanyNam { get; set; }
         [Display(Name = "成本中心")]
         public string AccDpt { get; set; }
         [Display(Name = "成本中心名稱")]
@@ -113,22 +113,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
             {
                 Delivery r = db.Deliveries.Find(f.Docid);
                 AppUser p = db.AppUsers.Find(r.UserId);
-                //CustOrgan c = db.CustOrgans.Find(p.CustId);
+                Department c = db.Departments.Find(p.DptId);
                 //BuyEvaluate b = db.BuyEvaluates.Find(r.PurchaseNo);
                 i = new DeliveryListVModel();
                 i.DocType = "驗收";
                 i.Docid = r.Docid;
                 i.UserId = r.UserId;
                 i.UserName = r.UserName;
-                //if (p != null && p.CustId != null)
-                //{
-                //    i.CustId = p.CustId;
-                //    i.CustNam = c.CustNam;
-                //}
+                if (p != null && p.DptId != null)
+                {
+                    i.Company = p.DptId;
+                    i.CompanyNam = c == null ? "" : c.Name_C;
+                }
                 i.ContractNo = r.ContractNo;
                 i.PurchaseNo = r.PurchaseNo;
                 i.CrlItemNo = r.CrlItemNo;
-                i.AccDptNam = db.CustOrgans.Find(r.AccDpt) == null ? "": db.CustOrgans.Find(r.AccDpt).CustNam;
+                i.AccDptNam = db.Departments.Find(r.AccDpt) == null ? "": db.Departments.Find(r.AccDpt).Name_C;
                 //if (b != null)
                 //    i.BudgetId = b.BudgetId;
                 //else
