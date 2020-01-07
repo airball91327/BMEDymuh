@@ -773,6 +773,181 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
         }
+
+        public ActionResult BuyEvaluateListItem(string id = null, string upload = null, int page = 1)
+        {
+            List<Asset> at = new List<Asset>();
+            if (upload == "採購人員")
+            {
+                Delivery dd = db.Deliveries.Find(id);
+                if (dd != null)
+                    at = db.Assets.Where(a => a.Docid == dd.Docid).ToList();
+            }
+            else
+                at = db.Assets.Where(a => a.Docid == id).ToList();
+            foreach (Asset e in at)
+            {
+                e.upload = upload;
+            }
+            if (upload == "查看")
+                return PartialView("_BuyEvaluateListItem2", at);
+            if (at.ToPagedList(page, pageSize).Count <= 0)
+                return PartialView("_BuyEvaluateListItem", at.ToPagedList(1, pageSize));
+            return PartialView("_BuyEvaluateListItem", at.ToPagedList(page, pageSize));
+        }
+
+        public ActionResult New(string docid, DateTime rdate)
+        {
+            Asset asset = new Asset();
+            asset.AccDate = DateTime.Now;
+            asset.BuyDate = DateTime.Now;
+            asset.DisposeKind = "正常";
+            if (docid != null)
+            {
+                Delivery dy = db.Deliveries.Find(docid);
+                //BuyEvaluate d = db.BuyEvaluates.Find(dy.PurchaseNo);
+                //if (d != null)
+                //{
+                //    asset.Cname = d.PlantCnam;
+                //    asset.Ename = d.PlantEnam;
+                //}
+                if (dy != null)
+                {
+                    asset.AccDpt = dy.AccDpt;
+                    int vendorId = Convert.ToInt32(dy.VendorId);
+                    Vendor vr = db.Vendors.Where(v => v.VendorId == vendorId).FirstOrDefault();
+                    asset.VendorId = vr == null ? 0 : vr.VendorId;
+                }
+                asset.Docid = docid;
+            }
+            //asset.DelivUid = 34;
+            //asset.DelivEmp = "張三";
+            //asset.DelivDpt = "8420";
+            asset.KeepYm = (rdate.Year - 1911) * 100 + rdate.Month;
+            AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+            if (u != null)
+            {
+                asset.DelivUid = u.Id;
+                asset.DelivEmp = u.FullName;
+                asset.DelivDpt = u.DptId;
+                
+                if (u.DptId != null)
+                {
+                    asset.AccDpt = u.DptId;
+                    asset.DelivDpt = u.DptId;
+                    Department co = db.Departments.Find(u.DptId);
+                    if (co != null)
+                        asset.LeaveSite = co.Name_C;
+                }
+            }
+            //
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            List<SelectListItem> delivdpt = new List<SelectListItem>();
+            List<SelectListItem> accdpt = new List<SelectListItem>();
+            listItem.Add(new SelectListItem { Text = asset.DelivEmp, Value = asset.DelivUid.Value.ToString() });
+            List<AppUser> ul;
+            string gid = "CCH";
+            db.Departments.ToList()
+                .ForEach(o => {
+                    delivdpt.Add(new SelectListItem
+                    {
+                        Text = o.Name_C,
+                        Value = o.DptId
+                    });
+                    accdpt.Add(new SelectListItem
+                    {
+                        Text = o.Name_C,
+                        Value = o.DptId
+                    });
+                });
+            ViewData["DelivUids"] = new SelectList(listItem, "Value", "Text");
+            ViewData["DelivDpts"] = new SelectList(delivdpt, "Value", "Text", asset.DelivDpt);
+            ViewData["AccDpts"] = new SelectList(accdpt, "Value", "Text", asset.AccDpt);
+
+            return PartialView(asset);
+        }
+
+        [HttpPost]
+        public ActionResult New(Asset asset)
+        {
+            if (ModelState.IsValid)
+            {
+                if (asset.AssetNo.Contains(";") || asset.AssetNo.Contains("、") || asset.AssetNo.Contains(","))
+                {
+                    return Content("財產編號只能有一個，請重新輸入!!");
+                }
+                if (db.Assets.Where(a => a.AssetNo == asset.AssetNo).Count() > 0)
+                {
+                    return Content("新增失敗，此財產編號已經存在!!");
+                    //return View(asset);
+                }
+                if (string.IsNullOrEmpty(asset.LeaveSite))
+                {
+                    return Content("[放置地點]不可空白!!");
+                }
+                if (string.IsNullOrEmpty(asset.RiskLvl))
+                {
+                    return Content("[風險等級]不可空白!!");
+                }
+                if (asset.KeepYm == null || asset.Cycle == null)
+                {
+                    return Content("[保養起始年月]或[保養週期]不可空白!!");
+                }
+                if (string.IsNullOrEmpty(asset.MakeNo))
+                {
+                    return Content("[製造號碼]不可空白!!");
+                }
+                if (asset.RelDate == null)
+                {
+                    return Content("[製造日期]不可空白!!");
+                }
+                if (string.IsNullOrEmpty(asset.DelivDpt))
+                {
+                    return Content("[保管部門]不可空白!!");
+                }
+                if (string.IsNullOrEmpty(asset.AccDpt))
+                {
+                    return Content("[成本中心]不可空白!!");
+                }
+                asset.Rtp = WebSecurity.CurrentUserId;
+                asset.Rtt = DateTime.Now;
+                db.Assets.Add(asset);
+                AssetKeep ak = db.AssetKeeps.Find(asset.AssetNo);
+                if (ak == null)
+                {
+                    ak = new AssetKeep();
+                    ak.AssetNo = asset.AssetNo;
+                    ak.KeepYm = asset.KeepYm;
+                    ak.Cycle = asset.Cycle;
+                    db.AssetKeeps.Add(ak);
+                }
+                else
+                {
+                    ak.KeepYm = asset.KeepYm;
+                    ak.Cycle = asset.Cycle;
+                    db.Entry(ak).State = EntityState.Modified;
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return Content("success");
+                }
+                catch (Exception e)
+                {
+                    return Content(e.Message);
+                }
+            }
+            else
+            {
+                string msg = "";
+                foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors))
+                {
+                    msg += error.ErrorMessage + Environment.NewLine;
+                }
+                return Content(msg);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

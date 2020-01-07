@@ -1,0 +1,294 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Asset
+
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="~/Areas/MedEngMgt/Scripts/DatePickerReady.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/themes/base/css")
+
+<div id="body">
+    <section class="main-content clear-fix" id="wrapper">
+        @*@using (Html.BeginForm())*@
+        @using (Ajax.BeginForm("New", "Assets",
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))
+        {
+            @Html.ValidationSummary(true)
+            <table>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.AssetNo)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.AssetNo)
+                            @Html.ValidationMessageFor(model => model.AssetNo)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Cname)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Cname)
+                            @Html.ValidationMessageFor(model => model.Cname)
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Ename)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Ename)
+                @Html.ValidationMessageFor(model => model.Ename)
+            </div>
+            <div class="display-label">
+                @Html.LabelFor(model => model.AssetClass)
+            </div>
+            <div class="editor-field">
+                @Html.RadioButton("AssetClass", "醫工")醫療儀器
+                @Html.RadioButton("AssetClass", "工務")工程設施
+                @Html.ValidationMessageFor(model => model.AssetClass)
+            </div>
+            @Html.HiddenFor(model => model.AccDate)
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.AccDate)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.AccDate)
+                    @Html.ValidationMessageFor(model => model.AccDate)
+                </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.RelDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.RelDate)
+                @Html.ValidationMessageFor(model => model.RelDate)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Brand)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Brand)
+                @Html.ValidationMessageFor(model => model.Brand)
+            </div>
+
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.Standard)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Standard)
+                    @Html.ValidationMessageFor(model => model.Standard)
+                </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Type)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Type)
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
+            @Html.HiddenFor(model => model.VendorId)
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.Vender)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Vender)
+                    @Html.ValidationMessageFor(model => model.Vender)
+                </div>*@
+            @Html.HiddenFor(model => model.DisposeKind)
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.DisposeKind)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DisposeKind)
+                    @Html.ValidationMessageFor(model => model.DisposeKind)
+                </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DelivDpt)
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(model => model.DelivDpt)
+                @Html.DropDownListFor(model => model.DelivDpt, ViewData["DelivDpts"] as SelectList, "請選擇")
+                @Html.ValidationMessageFor(model => model.DelivDpt)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DelivEmp)
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(model => model.DelivUid)
+                @Html.DropDownListFor(model => model.DelivUid, ViewData["DelivUids"] as SelectList, "請選擇")
+                @Html.ValidationMessageFor(model => model.DelivUid)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.LeaveSite)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.LeaveSite)
+                @Html.ValidationMessageFor(model => model.LeaveSite)
+            </div>
+            @Html.HiddenFor(model => model.AccDpt)
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.AccDpt)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.AccDpt, ViewData["AccDpts"] as SelectList, "請選擇")
+                    @Html.ValidationMessageFor(model => model.AccDpt)
+                </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Cost)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Cost)
+                @Html.ValidationMessageFor(model => model.Cost)
+            </div>
+
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.Shares)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Shares)
+                    @Html.ValidationMessageFor(model => model.Shares)
+                </div>*@
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.RiskLvl)
+            </div>
+            <div class="editor-field">
+                @Html.RadioButtonFor(model => model.RiskLvl, "1")I
+                @Html.RadioButtonFor(model => model.RiskLvl, "2")II
+                @Html.RadioButtonFor(model => model.RiskLvl, "3")III
+                @Html.RadioButtonFor(model => model.RiskLvl, "0")無
+                @Html.ValidationMessageFor(model => model.RiskLvl)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.IpAddr)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.IpAddr)
+                @Html.ValidationMessageFor(model => model.IpAddr)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.MacAddr)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MacAddr)
+                @Html.ValidationMessageFor(model => model.MacAddr)
+            </div>
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.OsName)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.OsName)
+                    @Html.ValidationMessageFor(model => model.OsName)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ApName)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.ApName)
+                    @Html.ValidationMessageFor(model => model.ApName)
+                </div>*@
+            <div class="editor-label">
+                @Html.LabelFor(model => model.MakeNo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MakeNo)
+                @Html.ValidationMessageFor(model => model.MakeNo)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Note)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Note)
+                @Html.ValidationMessageFor(model => model.Note)
+            </div>
+            @Html.HiddenFor(model => model.KeepYm)
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.KeepYm)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.KeepYm)
+                    @Html.ValidationMessageFor(model => model.KeepYm)
+                </div>*@
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Cycle)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Cycle)
+                @Html.ValidationMessageFor(model => model.Cycle)
+            </div>
+            @Html.HiddenFor(model => model.Docid)
+            @*<div class="editor-label">
+                    @Html.LabelFor(model => model.Docid)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Docid)
+                    @Html.ValidationMessageFor(model => model.Docid)
+                </div>*@
+            @*<div class="editor-label">
+                    @Html.Label("IsCopy", "沿用新增資料")
+                </div>
+                <div class="editor-label">
+                    @Html.CheckBox("IsCopy")
+                </div>*@
+            <p>
+                <input type="submit" value="確定送出" />
+            </p>
+        }
+    </section>
+</div>
+<div id="pnlASSETLIST"></div>
+
+<script src="~/Areas/MedEngMgt/Scripts/AssetNew.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+    //$(window).on('beforeunload', function () {
+    //var s = $("#Docid").val();
+    //var v = "<img src='../../Images/ajax-loader.gif' id='imgLOADING' />";
+    //window.opener.$("#gvASSETLIST").html(v)
+    //.load(encodeURI('../../Asset/BuyEvaluateListItem?id=' + s));
+    //opener.location.reload();
+    //});
+
+    function OnSuccess(data) {
+        if (data == "success") {
+            //var f = window.opener.document.getElementById("btnQTY");
+            //$(f).click();
+            opener.location.reload();
+            alert('新增成功');
+            //
+            $("#AssetNo").val('');
+            $("#MakeNo").val('');
+            //var isrepeated = $("#IsCopy").is(":checked");
+            //if (!isrepeated) {
+            //    close();
+            //}
+            //else {
+            //    $("#AssetNo").val('');
+            //    $("#MakeNo").val('');
+            //}
+        }
+        else
+            alert(data);
+
+    }
+
+    function OnFailure(xhr, status) {
+        alert('Error: ' + xhr.statusText);
+    }
+</script>

@@ -393,7 +393,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     break;
                 case "得標廠商":
-                    List<Vendor> vv = db.Vendors.Where(v => v.UniteNo == r.VendorId).ToList();
+                    int vendorId = Convert.ToInt32(r.VendorId);
+                    List<Vendor> vv = db.Vendors.Where(v => v.VendorId == vendorId).ToList();
                     foreach (Vendor v in vv)
                     {
                         uv = db.AppUsers.Where(u2 => u2.VendorId == v.VendorId).ToList();

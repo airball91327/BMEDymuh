@@ -1,4 +1,7 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.Delivery
+
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
 @{
@@ -158,7 +161,7 @@
             儀器列表
         </div>
         <div style="padding-left: 20px; color: gray">
-            @Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = "查看" })
+            @Html.Action("BuyEvaluateListItem", "Assets", new { id = Model.Docid, upload = "查看" })
         </div>
     </div>
     <div id="pnlVENDOR">
@@ -166,20 +169,20 @@
             廠商專區
         </h2>
         <div>
-            @Html.ActionLink("新增儀器", "New", "Asset", new { docid = Model.Docid, rdate = Model.DelivDateR },
+            @Html.ActionLink("新增儀器", "New", "Assets", new { docid = Model.Docid, rdate = Model.DelivDateR },
                   new { id = "btnAddAsset", target = "_blank" })
         </div>
         <div id="gvASSETLIST" style="padding-left: 20px; color: gray">
             @*@Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = "得標廠商" })*@
         </div>
-        <img src="~/Images/ajax-loader.gif" id="imgLOAD_VENDOR" />
+        <img src="~/Images/opc-ajax-loader.gif" id="imgLOAD_VENDOR" />
     </div>
     <div id="pnlMEDENG">
         <h2>
             設備工程師專區
         </h2>
         <div id="gvASSETLIST" style="padding-left: 20px; color: gray">
-            @Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = "設備工程師" })
+            @Html.Action("BuyEvaluateListItem", "Assets", new { id = Model.Docid, upload = "設備工程師" })
         </div>
     </div>
     <div id="pnlWartyData">
@@ -197,12 +200,12 @@
      $(function () {
         var page = window.location.hash
             ? window.location.hash.slice(1) : 1;
-        fetchPage(page);
+         fetchPage(page);
     });
 
     var fetchPage = function (page) {
-        var pagedPartialUrl = '@Url.Action("BuyEvaluateListItem", "Asset")';
-        var s = "id=" + $("#Docid").val() + "&upload=得標廠商";
+        var pagedPartialUrl = '@Url.Action("BuyEvaluateListItem", "Assets")';
+        var s = "id=" + $("#DocId").val() + "&upload=得標廠商";
         $.ajax({
             url: pagedPartialUrl,
             type: "POST",
@@ -242,7 +245,7 @@
         }
         var f = document.getElementById("upfstatus" + ano);
         var c = document.getElementById("cls_now");
-        $(f).html('').load(encodeURI("../../AssetFile/CheckFiles?id=" + ano + "&cls=" + $(c).text()), function () {
+        $(f).html('').load(encodeURI("../../AssetFiles/CheckFiles?id=" + ano + "&cls=" + $(c).text()), function () {
             $("tr[id='" + ano + seqno + fid + "']").hide();
             alert('刪除成功');
         });
@@ -250,6 +253,6 @@
 </script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/FileChoose2.js")
-    @Scripts.Render("~/Scripts/DelivNextFlow.js")
+    <script src="~/Areas/MedEngMgt/Scripts/FileChoose2.js"></script>
+    <script src="~/Areas/MedEngMgt/Scripts/DelivNextFlow.js"></script>
 }

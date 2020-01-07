@@ -12,6 +12,7 @@ using BMEDmgt.Filters;
 using System.IO;
 using WebMatrix.WebData;
 using OfficeOpenXml;
+using System.Data.SqlClient;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -629,5 +630,142 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return Json(af.Count());
 
         }
+
+        // GET: /AttainFiles/Create
+        public ActionResult Create(string id = null, string typ = null, string title = null, int? vendorId = null)
+        {
+            AttainFile a = new AttainFile();
+            a.DocType = typ;
+            a.DocId = id;
+            a.Title = title;
+            if (typ == "3" && vendorId != null)
+                a.Rtp = vendorId;
+            else
+                a.Rtp = WebSecurity.CurrentUserId;
+            a.Rtt = DateTime.Now;
+            return View(a);
+        }
+
+        // POST: /AttainFiles/Create
+        [HttpPost]
+        [MyErrorHandler]
+        public ActionResult Create(AttainFile attainFile, IEnumerable<HttpPostedFileBase> file)
+        {
+            string s = "~/Files";
+#if DEBUG
+            s = "~/App_Data";
+#endif
+            switch (attainFile.DocType)
+            {
+                case "0":
+                    s += "/Budget";
+                    break;
+                case "1":
+                    s += "/Repair";
+                    break;
+                case "2":
+                    s += "/Keep";
+                    break;
+                case "3":
+                    s += "/BuyEvaluate";
+                    break;
+                case "4":
+                    s += "/Delivery";
+                    break;
+                case "5":
+                    s += "/Asset";
+                    break;
+                case "6":
+                    s += "/DeptStok";
+                    break;
+                case "7":
+                    s += "/MContract";
+                    break;
+                case "8":
+                    s += "/PContract";
+                    break;
+            }
+
+            int? i = db.Database.SqlQuery<int?>("SELECT MAX(SEQNO) FROM AttainFile WHERE DOCTYPE = @typ AND DOCID = @id",
+                    new SqlParameter("typ", attainFile.DocType),
+                    new SqlParameter("id", attainFile.DocId)).FirstOrDefault();
+            if (i == null)
+                attainFile.SeqNo = 1;
+            else
+                attainFile.SeqNo = Convert.ToInt32(i + 1);
+            string path = Path.Combine(Server.MapPath(s), attainFile.DocId + "_"
+                + attainFile.SeqNo.ToString() + Path.GetExtension(Request.Files[0].FileName));
+            string filelink = attainFile.DocId + "_"
+                + attainFile.SeqNo.ToString() + Path.GetExtension(Request.Files[0].FileName);
+            try
+            {
+                Request.Files[0].SaveAs(path);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            switch (attainFile.DocType)
+            {
+                case "0":
+                    attainFile.FileLink = "Budget/" + filelink;
+                    break;
+                case "1":
+                    attainFile.FileLink = "Repair/" + filelink;
+                    break;
+                case "2":
+                    attainFile.FileLink = "Keep/" + filelink;
+                    break;
+                case "3":
+                    attainFile.FileLink = "BuyEvaluate/" + filelink;
+                    break;
+                case "4":
+                    attainFile.FileLink = "Delivery/" + filelink;
+                    break;
+                case "5":
+                    attainFile.FileLink = "Asset/" + filelink;
+                    break;
+                case "6":
+                    attainFile.FileLink = "DeptStok/" + filelink;
+                    break;
+                case "7":
+                    attainFile.FileLink = "MContract/" + filelink;
+                    break;
+                case "8":
+                    attainFile.FileLink = "PContract/" + filelink;
+                    break;
+            }
+            if (attainFile.IsPub)
+                attainFile.IsPublic = "Y";
+            attainFile.Rtt = DateTime.Now;
+            db.AttainFiles.Add(attainFile);
+            try
+            {
+                db.SaveChanges();
+                //
+                //if (attainFile.DocType == "0")
+                //{
+                //    string s1 = ReadBudgetExcel(attainFile);
+                //    if (!string.IsNullOrEmpty(s1))
+                //    {
+                //        throw new Exception(s1);
+                //    }
+                //}
+                //return new JsonResult
+                //{
+                //    Data = new { success = true, error = "" },
+                //    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                //};
+                return Content("檔案上載完成");
+            }
+            catch (Exception e)
+            {
+                //throw new Exception(e.Message);
+                ModelState.AddModelError("", e);
+                return Content(e.Message);
+            }
+
+        }
+
     }
 }

@@ -114,6 +114,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public DateTime? Rtt { get; set; }
         [NotMapped]
         public string upload { get; set; }
+
+        [NotMapped]
+        [Display(Name = "*保養週期(月)")]
+        public int? Cycle { get; set; }
+        [NotMapped]
+        [Display(Name = "*保養起始年月(民國年+月份=>10512)")]
+        public int? KeepYm { get; set; }
     }
 
     [Table("DeviceClassCode")]

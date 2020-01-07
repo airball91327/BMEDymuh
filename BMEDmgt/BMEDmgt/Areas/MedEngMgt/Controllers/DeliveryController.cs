@@ -567,7 +567,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Department c = db.Departments.Find(delivery.AccDpt);
             if (c != null)
                 delivery.AccDptNam = c.Name_C;
-            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
+            int vendorId = Convert.ToInt32(delivery.VendorId);
+            Vendor v = db.Vendors.Where(vv => vv.VendorId == vendorId).FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));

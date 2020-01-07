@@ -1,11 +1,11 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.Delivery
 
-<a class="button" href="@Url.Content("~/AttainFile/Create?id="+ Model.Docid + "&typ=4")" 
-    id="FileChooseLink">夾帶檔案</a>
+<a class="button" href="@Url.Content("~/MedEngMgt/AttainFiles/Create?id="+ Model.Docid + "&typ=4")"
+   id="FileChooseLink">夾帶檔案</a>
 <div id="FileList">
     @Html.Action("List", "AttainFiles", new { id = Model.Docid, typ = "4" })
 </div>
-<div id="AttainFileDialog" class="hidden">
+<div id="AttainFileDialog" hidden>
 
 </div>
 
