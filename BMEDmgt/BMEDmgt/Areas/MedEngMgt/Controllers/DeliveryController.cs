@@ -548,7 +548,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //mail.SendMail();
                 //----------------------------------------------------------------------------------
 
-                return RedirectToAction("Index", "Members");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(delivery);
