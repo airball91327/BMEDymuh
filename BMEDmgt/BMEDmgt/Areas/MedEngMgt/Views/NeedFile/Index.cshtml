@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.NeedFile>
+<html>
+<head>
+    <script src="~/Areas/MedEngMgt/Scripts/MutiFileUpload.js"></script>
+    <title></title>
+</head>
+@{
+    ViewBag.Title = "Index";
+}
+<body>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SeqNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileDes)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeqNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileDes)
+                </td>
+                <td>
+                    <a class="button" href="@Url.Content("~/AssetFile/Create?id=" + ViewData["ano"] +
+            "&sno=" + item.SeqNo + "&title=" + item.Title)"
+               id="AssetFileChooseLink">上傳檔案</a>
+                    <a class="button" href="@Url.Content("~/AssetFile/CopyTo?id=" + ViewData["ano"] +
+            "&sno=" + item.SeqNo)"
+                       id="AssetFileCopyLink">複製檔案</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div id="@Html.Raw("AssetFileList"+ViewData["ano"]+item.Title)">
+                        @*@Html.Action("List", "AssetFile", new { id = ViewData["ano"], sno = item.SeqNo, title = item.Title })*@
+                        @Html.Action("List", "AssetFile", new { id = ViewData["ano"], title = item.Title })
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>
+

@@ -173,7 +173,7 @@
                   new { id = "btnAddAsset", target = "_blank" })
         </div>
         <div id="gvASSETLIST" style="padding-left: 20px; color: gray">
-            @*@Html.Action("BuyEvaluateListItem", "Asset", new { id = Model.Docid, upload = "得標廠商" })*@
+            @Html.Action("BuyEvaluateListItem", "Assets", new { id = Model.Docid, upload = "得標廠商" })
         </div>
         <img src="~/Images/opc-ajax-loader.gif" id="imgLOAD_VENDOR" />
     </div>
@@ -205,7 +205,7 @@
 
     var fetchPage = function (page) {
         var pagedPartialUrl = '@Url.Action("BuyEvaluateListItem", "Assets")';
-        var s = "id=" + $("#DocId").val() + "&upload=得標廠商";
+        var s = "id=" + $("#Docid").val() + "&upload=得標廠商";
         $.ajax({
             url: pagedPartialUrl,
             type: "POST",
@@ -245,7 +245,7 @@
         }
         var f = document.getElementById("upfstatus" + ano);
         var c = document.getElementById("cls_now");
-        $(f).html('').load(encodeURI("../../AssetFiles/CheckFiles?id=" + ano + "&cls=" + $(c).text()), function () {
+        $(f).html('').load(encodeURI("../../AssetFile/CheckFiles?id=" + ano + "&cls=" + $(c).text()), function () {
             $("tr[id='" + ano + seqno + fid + "']").hide();
             alert('刪除成功');
         });

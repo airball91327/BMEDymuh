@@ -65,11 +65,11 @@
                         @Html.DisplayFor(modelItem => item.AccDpt)
                     </td>
                     <td>
-                        @Html.ActionLink("詳細", "Details", new { id = item.AssetNo }, new { target = "_blank" })
+                        @Html.ActionLink("詳細", "Details", new { ano = item.AssetNo }, new { target = "_blank" })
                         @if (item.upload == "得標廠商")
                         {
-                            @Html.ActionLink("編輯", "NewEdit", new { id = item.AssetNo }, new { target = "_blank" })
-                            @Html.ActionLink("刪除", "Delete", new { id = item.AssetNo }, new { target = "_blank" })
+                            <span> | </span>@Html.ActionLink("編輯", "NewEdit", new { id = item.AssetNo }, new { target = "_blank" })
+                            <span> | </span>@Html.ActionLink("刪除", "Delete", new { id = item.AssetNo }, new { target = "_blank" })
                         }
                     </td>
                 </tr>

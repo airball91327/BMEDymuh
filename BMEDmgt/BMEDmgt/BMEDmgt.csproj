@@ -169,6 +169,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\AccountController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AppRolesController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AppUsersController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AssetFileController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetKeepsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetMaintainContractsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetPurchaseContractsController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\KeepCostsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\LabelsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\ManualsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\NeedFileController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\NewsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\NoAssetNoListsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireController.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Areas\MedEngMgt\Models\AccountViewModels.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AppUser.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Asset.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetFile.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetKeep.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetsInMContracts.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetMaintainContract.cs" />
@@ -234,6 +237,7 @@
     <Compile Include="Areas\MedEngMgt\Models\KeepModels.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Label.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Manual.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\NeedFile.cs" />
     <Compile Include="Areas\MedEngMgt\Models\RepairDtlRecord.cs" />
     <Compile Include="Areas\MedEngMgt\Models\SelectUserVModels .cs" />
     <Compile Include="Areas\MedEngMgt\Models\Questionnaire.cs" />
@@ -275,6 +279,7 @@
     <Content Include="Areas\MedEngMgt\Scripts\HtmltoExcel.js" />
     <Content Include="Areas\MedEngMgt\Scripts\KeepCreate.js" />
     <Content Include="Areas\MedEngMgt\Scripts\KeepEdit.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\MutiFileUpload.js" />
     <Content Include="Areas\MedEngMgt\Scripts\QryDpt.js" />
     <Content Include="Areas\MedEngMgt\Scripts\FileUpload2.js" />
     <Content Include="Areas\MedEngMgt\Scripts\InStock.js" />
@@ -674,6 +679,16 @@
     <Content Include="Areas\MedEngMgt\Views\Assets\_BuyEvaluateListItem2.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Assets\New.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AttainFiles\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetFile\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetFile\AssetList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetFile\CopyTo.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetFile\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetFile\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NeedFile\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NeedFile\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NeedFile\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NeedFile\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\NeedFile\Index.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

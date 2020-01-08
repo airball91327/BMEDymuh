@@ -1,0 +1,74 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetFile
+
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/themes/base/css")
+@*@Styles.Render("~/Content/css", "~/Content/themes/base/jquery-ui.css")*@
+
+@{
+    Layout = "";
+}
+@using (Html.BeginForm("Create", "AssetFile", FormMethod.Post, new { id = "filepost", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>上傳檔案</legend>
+        <div id="body">
+            @Html.HiddenFor(model => model.SeqNo)
+            <div class="editor-label">
+                @Html.LabelFor(model => model.AssetNo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.AssetNo, new { id = "Docid" })
+                @Html.ValidationMessageFor(model => model.AssetNo)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Rtp)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Rtp)
+                @Html.ValidationMessageFor(model => model.Rtp)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Title)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FileLink)
+            </div>
+            @Html.TextBoxFor(model => model.FileLink, new { type = "file", width = "300px" })
+            @Html.ValidationMessageFor(model => model.FileLink)
+        </div>
+        <p>
+            <input id="btnUpload" type="submit" value="傳送" />
+        </p>
+    </fieldset>
+}
+
+<iframe id="result" name="result" style="display: none;"></iframe>
+<script>
+    var t = $("#Title");
+    if (t.val() != "其他")
+        t.prop("readonly", true);
+    else
+        t.removeProp("disabled");
+    $("#btnUpload").click(function () {
+        $('#result').load(function () {
+            $('#result').off('load');
+            var f = window.opener.document.getElementById("upfstatus" + $("#AssetNo").val());
+            var s = window.opener.document.getElementById("AssetFileList" + $("#AssetNo").val() + $("#Title").val());
+            var c = window.opener.document.getElementById("cls_now");
+            $(s).html('').load(encodeURI("../AssetFile/List?id=" + $("#AssetNo").val() + "&title=" + $("#Title").val()), function () {
+                $(f).html('').load(encodeURI("../AssetFile/CheckFiles?id=" + $("#AssetNo").val() + "&cls=" + $(c).text()), function () {
+                    window.close();
+                });
+            });
+
+        });
+        $('#filepost').attr('target', 'result');
+        $('#filepost').submit();
+    });
+</script>

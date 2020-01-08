@@ -68,5 +68,7 @@ namespace BMEDmgt.Models
         public DbSet<DelivFlow> DelivFlows { get; set; }
         public DbSet<AssetPContractPermit> AssetPContractPermits { get; set; }
         public DbSet<AssetsInMContracts> AssetsInMContracts { get; set; }
+        public DbSet<NeedFile> NeedFiles { get; set; }
+        public DbSet<AssetFile> AssetFiles { get; set; }
     }
 }

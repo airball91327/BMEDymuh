@@ -1,0 +1,71 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.Asset>
+
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/themes/base/css")
+@*@Styles.Render("~/Content/css", "~/Content/themes/base/jquery-ui.css")*@
+
+@{
+    Layout = "";
+}
+
+@using (Ajax.BeginForm("CopyTo", "AssetFile", new AjaxOptions { HttpMethod = "Post", OnSuccess = "ShowMsg" }))
+{
+    <input name="ano" type="hidden" value=@ViewData["ano"].ToString() />
+    <input name="sno" type="hidden" value=@ViewData["sno"].ToString() />
+    <div style="margin-left: 10px">
+        <div class="display-label">
+            財產名稱： @ViewData["cname"].ToString()
+        </div>
+        <div class="display-label">
+            檔案類別： @ViewData["title"].ToString()
+        </div>
+    </div>
+
+    <hr />
+    <table style="width:90%; margin-left: 10px">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cname)
+            </th>
+            <th style="text-align:center">
+                是否複製
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssetNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cname)
+                </td>
+                <td style="text-align:center">
+                    <input type="checkbox" name="IsCopy" value=@item.AssetNo />
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div style="margin-left: 10px">
+        <input type="submit" value="確定送出" />
+    </div>
+}
+<script type="text/javascript">
+    function ShowMsg(data) {
+        if (data != "") {
+            alert(data);
+        }
+        else {
+            window.opener.location.reload();
+            close();
+        }
+    }
+</script>

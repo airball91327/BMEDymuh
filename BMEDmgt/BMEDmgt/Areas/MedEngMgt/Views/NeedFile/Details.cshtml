@@ -1,0 +1,56 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.NeedFile
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>NeedFile</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FileDes)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FileDes)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Type)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Rtp)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rtp)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Rtt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rtt)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.SeqNo }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
