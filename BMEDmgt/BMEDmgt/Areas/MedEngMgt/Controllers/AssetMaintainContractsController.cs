@@ -147,7 +147,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", oldContract.ContractMgr);
 
             AssetMaintainContract newContract = oldContract;
-            newContract.PurchaseNo = null;
+            newContract.PurchaseNo = oldContract.PurchaseNo + 1;
 
             return View(newContract);
         }

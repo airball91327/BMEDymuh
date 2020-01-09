@@ -356,7 +356,8 @@
                     $("#StageCost").val(v2 / v3);
                 }
                 if (v4 !== "" && v5 !== "" && v2 !== 0) {
-                    $("#KeepCostRate").val(v2 / v4);
+                    var keepRate = v2 / v4;
+                    $("#KeepCostRate").val(formatFloat(keepRate, 2));
                 }
             });
             $("#StagePayment").change(function () {
@@ -371,7 +372,8 @@
                 var v2 = $("#Qty").val();
                 var v3 = $("#TotalCost").val();
                 if (v1 !== "" && v2 !== "" && v3 !== 0) {
-                    $("#KeepCostRate").val(v3 / v1);
+                    var keepRate = v3 / v1;
+                    $("#KeepCostRate").val(formatFloat(keepRate, 2));
                 }
             });
             $("#Qty").change(function () {
@@ -379,7 +381,8 @@
                 var v2 = $("#Qty").val();
                 var v3 = $("#TotalCost").val();
                 if (v1 !== "" && v2 !== "" && v3 !== 0) {
-                    $("#KeepCostRate").val(v3 / v1);
+                    var keepRate = v3 / v1;
+                    $("#KeepCostRate").val(formatFloat(keepRate, 2));
                 }
             });
 
@@ -590,6 +593,13 @@
                 $("#Qty").val(totalQty);
                 $("#Qty").trigger("change");
             });
+        }
+
+        // 取小數點計算四捨五入
+        // num:參數   pos:取到小數點第幾位
+        function formatFloat(num, pos) {
+            var size = Math.pow(10, pos);
+            return Math.round(num * size) / size;
         }
 
     </script>

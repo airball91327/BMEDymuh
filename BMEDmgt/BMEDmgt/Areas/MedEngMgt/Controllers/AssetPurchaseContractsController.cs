@@ -121,6 +121,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["SponsorUid"] = new SelectList(ListItem1, "Value", "Text", "");
             ViewData["CoOrganizerUid"] = new SelectList(ListItem1, "Value", "Text", "");
 
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
+            listItem2.Add(new SelectListItem { Text = "財務類", Value = "財務類" });
+            listItem2.Add(new SelectListItem { Text = "勞務類", Value = "勞務類" });
+            ViewData["ContractClass"] = new SelectList(listItem2, "Value", "Text", "");
+
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "蘭陽院區", Value = "蘭陽院區" });
+            listItem3.Add(new SelectListItem { Text = "新民院區", Value = "新民院區" });
+            ViewData["LeaveLoc"] = new SelectList(listItem3, "Value", "Text", "");
+
             return View();
         }
 
@@ -210,6 +221,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["PurchaseUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.PurchaseUid);
             ViewData["SponsorUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.SponsorUid);
             ViewData["CoOrganizerUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.CoOrganizerUid);
+
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
+            listItem2.Add(new SelectListItem { Text = "財務類", Value = "財務類" });
+            listItem2.Add(new SelectListItem { Text = "勞務類", Value = "勞務類" });
+            ViewData["ContractClass"] = new SelectList(listItem2, "Value", "Text", assetPContract.ContractClass);
+
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "蘭陽院區", Value = "蘭陽院區" });
+            listItem3.Add(new SelectListItem { Text = "新民院區", Value = "新民院區" });
+            ViewData["LeaveLoc"] = new SelectList(listItem3, "Value", "Text", assetPContract.LeaveLoc);
 
             return View(assetPContract);
         }
