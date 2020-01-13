@@ -28,15 +28,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Ename { get; set; }
         [Display(Name = "立帳日")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? AccDate { get; set; }
         [Display(Name = "購入日")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? BuyDate { get; set; }
         [Display(Name = "出廠日")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? RelDate { get; set; }
         [Display(Name = "廠牌")]
         public string Brand { get; set; }

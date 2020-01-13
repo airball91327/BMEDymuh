@@ -689,6 +689,7 @@
     <Content Include="Areas\MedEngMgt\Views\NeedFile\Details.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\NeedFile\Edit.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\NeedFile\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\NewEdit.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

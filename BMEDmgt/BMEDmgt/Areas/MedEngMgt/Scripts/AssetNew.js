@@ -1,7 +1,7 @@
 ﻿$(function () {
-    $("#DelivDpt").attr('disabled', 'disabled');
-    $("#DelivEmp").attr('disabled', 'disabled');
-    $("#DelivUid").attr('disabled', 'disabled');
+    //$("#DelivDpt").attr('disabled', 'disabled');
+    //$("#DelivEmp").attr('disabled', 'disabled');
+    //$("#DelivUid").attr('disabled', 'disabled');
 
     $("#DelivDpt").change(function () {
         var s = $(this).val();

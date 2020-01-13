@@ -115,7 +115,7 @@ $(function () {
                         dataType: "json",
                         data: "id=" + $('#Docid').val() + "&op=" + $('#Opinions').val(),
                         success: function (data) {
-                            location.replace('../../Members/Index');
+                            location.replace('../../Home/Index');
                         }
                     });
                 },

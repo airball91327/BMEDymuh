@@ -36,7 +36,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
-            assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
+            var keepEng = db.AppUsers.Find(assetKeep.KeepEngId);
+            assetKeep.KeepEngName = keepEng == null ? "" : keepEng.FullName;
             return PartialView(assetKeep);
         }
 

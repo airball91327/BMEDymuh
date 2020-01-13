@@ -619,6 +619,118 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
         }
 
+        public ActionResult NewEdit(string id)
+        {
+            Asset asset = db.Assets.Find(id);
+            AssetKeep ak = db.AssetKeeps.Find(id);
+            if (ak != null)
+            {
+                asset.KeepYm = ak.KeepYm;
+                asset.Cycle = ak.Cycle;
+            }
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            listItem.Add(new SelectListItem { Text = "正常", Value = "正常" });
+            listItem.Add(new SelectListItem { Text = "報廢", Value = "報廢" });
+            ViewData["DKIND"] = new SelectList(listItem, "Value", "Text");
+            //
+            //UserProfile u = db.UserProfiles.Find(asset.DelivUid);
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            List<SelectListItem> delivdpt = new List<SelectListItem>();
+            List<SelectListItem> accdpt = new List<SelectListItem>();
+            if (asset.DelivUid == null)
+            {
+                asset.DelivUid = null;
+                asset.DelivEmp = "";
+                asset.DelivDpt = "";
+            }
+            listItem2.Add(new SelectListItem { Text = asset.DelivEmp, Value = asset.DelivUid.Value.ToString() });
+            List<AppUser> ul;
+            string gid = "CCH";
+            db.Departments.ToList()
+                .ForEach(d => {
+                    delivdpt.Add(new SelectListItem
+                    {
+                        Text = d.Name_C,
+                        Value = d.DptId
+                    });
+                    accdpt.Add(new SelectListItem
+                    {
+                        Text = d.Name_C,
+                        Value = d.DptId
+                    });
+                });
+            ViewData["DelivUids"] = new SelectList(listItem2, "Value", "Text");
+            ViewData["DelivDpts"] = new SelectList(delivdpt, "Value", "Text", asset.DelivDpt);
+            ViewData["AccDpts"] = new SelectList(accdpt, "Value", "Text", asset.AccDpt);
+
+            return View(asset);
+        }
+
+        [HttpPost]
+        public ActionResult NewEdit(Asset asset)
+        {
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(asset.LeaveSite))
+                {
+                    return Content("[放置地點]不可空白!!");
+                }
+                if (string.IsNullOrEmpty(asset.RiskLvl))
+                {
+                    return Content("[風險等級]不可空白!!");
+                }
+                if (asset.KeepYm == null || asset.Cycle == null)
+                {
+                    return Content("[保養起始年月]或[保養週期]不可空白!!");
+                }
+                if (string.IsNullOrEmpty(asset.MakeNo))
+                {
+                    return Content("[製造號碼]不可空白!!");
+                }
+                if (asset.RelDate == null)
+                {
+                    return Content("[製造日期]不可空白!!");
+                }
+                asset.Rtp = WebSecurity.CurrentUserId;
+                asset.Rtt = DateTime.Now;
+                db.Entry(asset).State = EntityState.Modified;
+                //
+                AssetKeep ak = db.AssetKeeps.Find(asset.AssetNo);
+                if (ak == null)
+                {
+                    ak = new AssetKeep();
+                    ak.AssetNo = asset.AssetNo;
+                    ak.KeepYm = asset.KeepYm;
+                    ak.Cycle = asset.Cycle;
+                    db.AssetKeeps.Add(ak);
+                }
+                else
+                {
+                    ak.KeepYm = asset.KeepYm;
+                    ak.Cycle = asset.Cycle;
+                    db.Entry(ak).State = EntityState.Modified;
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return Content("success");
+                }
+                catch (Exception e)
+                {
+                    return Content(e.Message);
+                }
+            }
+            else
+            {
+                string msg = "";
+                foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors))
+                {
+                    msg += error.ErrorMessage + Environment.NewLine;
+                }
+                return Content(msg);
+            }
+        }
+
         [MyErrorHandler]
         public ActionResult Delete(string id)
         {

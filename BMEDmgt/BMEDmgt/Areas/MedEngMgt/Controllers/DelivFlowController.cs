@@ -406,6 +406,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             list.Add(li);
                         }
                     }
+                    /* for test */
+                    if (list.Count() <= 0)
+                    {
+                        li = new ListItem();
+                        li.Text = r.UserName;
+                        li.Value = r.UserId.ToString();
+                        list.Add(li);
+                    }
                     break;
                 case "使用單位":
                     DelivFlow df = db.DelivFlows.Where(d => d.Docid == r.Docid).Where(d => d.Cls == "使用單位").FirstOrDefault();
