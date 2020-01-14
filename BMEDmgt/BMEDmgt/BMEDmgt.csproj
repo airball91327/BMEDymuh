@@ -690,6 +690,7 @@
     <Content Include="Areas\MedEngMgt\Views\NeedFile\Edit.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\NeedFile\Index.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Assets\NewEdit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\Delete2.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -853,6 +854,7 @@
     <Content Include="manual_mailpwd.pdf" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Asset\" />
     <Folder Include="App_Data\Delivery\" />
     <Folder Include="App_Data\Keep\" />
     <Folder Include="App_Data\MContract\" />

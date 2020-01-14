@@ -43,12 +43,13 @@ $(function () {
 
     $("#btnQtyAsset").click(function () {
         var keynam = $("#AssetKeyName").val();
+        var accDptId = $('#AccDpt').val();
         if (keynam != "") {
             $.ajax({
                 contentType: "application/json; charset=utf-8",
-                url: '../Assets/GetAssetsByKeyname',
+                url: '../Assets/GetAssetsByKeynameAndAcc',
                 type: "GET",
-                data: { keyname: keynam },
+                data: { keyname: keynam, accDpt: accDptId },
                 dataType: "json",
                 success: function (data) {
                     //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';

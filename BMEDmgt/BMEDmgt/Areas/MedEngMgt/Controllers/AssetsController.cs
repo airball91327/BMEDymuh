@@ -765,6 +765,33 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: /Asset/Delete2/5
+
+        public ActionResult Delete2(string id = null)
+        {
+            Asset asset = db.Assets.Find(id);
+            if (asset == null)
+            {
+                return HttpNotFound();
+            }
+            return View(asset);
+        }
+
+        //
+        // POST: /Asset/Delete/5
+
+        [HttpPost]
+        public JavaScriptResult DeleteById(string id)
+        {
+            Asset asset = db.Assets.Find(id);
+            db.Assets.Remove(asset);
+            AssetKeep keep = db.AssetKeeps.Find(id);
+            db.AssetKeeps.Remove(keep);
+            db.SaveChanges();
+
+            return JavaScript("alert('刪除成功!');window.opener.location.reload();close();");
+        }
+
         public JsonResult GetAssetsByKeyname(string keyname)
         {
 
@@ -780,6 +807,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         AssetNo = a.AssetNo,
                         Cname = a.Cname + "(" + a.AssetNo + ")"
                     });
+
+                string s = JsonConvert.SerializeObject(result);
+                return Json(s, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetAssetsByKeynameAndAcc(string keyname, string accDpt = null)
+        {
+
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                var result = db.Assets
+                    .Where(a => a.DisposeKind != "報廢")
+                    .Where(a => a.Cname.Contains(keyname))
+                    .Union(db.Assets.Where(a => a.AssetNo == keyname)
+                    .Where(a => a.DisposeKind != "報廢"))
+                    .Select(a => new
+                    {
+                        AssetNo = a.AssetNo,
+                        Cname = a.Cname + "(" + a.AssetNo + ")",
+                        AccDpt = a.AccDpt
+                    });
+                if (!string.IsNullOrEmpty(accDpt))
+                {
+                    result = result.Where(r => r.AccDpt == accDpt);
+                }
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);

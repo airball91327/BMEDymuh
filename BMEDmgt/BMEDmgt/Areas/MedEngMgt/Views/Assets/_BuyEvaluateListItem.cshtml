@@ -71,7 +71,7 @@
                         @if (item.upload == "得標廠商" || item.upload == "設備工程師")
                         {
                             <span> | </span>@Html.ActionLink("編輯", "NewEdit", new { id = item.AssetNo }, new { target = "_blank" })
-                            <span> | </span>@Html.ActionLink("刪除", "Delete", new { id = item.AssetNo }, new { target = "_blank" })
+                            <span> | </span>@Html.ActionLink("刪除", "Delete2", new { id = item.AssetNo }, new { target = "_blank" })
                         }
                     </td>
                 </tr>

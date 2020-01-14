@@ -531,9 +531,10 @@
 
             // 取小數點計算四捨五入
             // num:參數   pos:取到小數點第幾位
+            // 回傳百分比
             function formatFloat(num, pos) {
                 var size = Math.pow(10, pos);
-                return Math.round(num * size) / size;
+                return (Math.round(num * size) / size * 100).toFixed(0);
             }
 
         });

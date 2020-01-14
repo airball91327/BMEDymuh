@@ -80,6 +80,11 @@
                 @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
                 @Html.Raw("|")
             }
+            else if (item.Flg == "?" && item.PlantClass.Contains("醫療儀器") == false)
+            {
+                @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
+                @Html.Raw("|")
+            }
             @Html.ActionLink("預覽", "Views", new { id = item.DocId }) |
             @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |
             @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人")

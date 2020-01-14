@@ -1,0 +1,143 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Asset
+
+<h2>刪除</h2>
+
+<h3>確定要刪除此資料?</h3>
+<fieldset>
+    <legend>儀器設備</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Cname)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Cname)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Ename)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Ename)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AccDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AccDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BuyDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BuyDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Brand)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Brand)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Standard)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Standard)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Type)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.VendorId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VendorId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DisposeKind)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DisposeKind)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DelivDpt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DelivDpt)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LeaveSite)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LeaveSite)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AccDpt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AccDpt)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Cost)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Cost)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Shares)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Shares)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MakeNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MakeNo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Note)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Note)
+    </div>
+
+    @*<div class="display-label">
+         @Html.DisplayNameFor(model => model.Rtp)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rtp)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Rtt)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Rtt)
+    </div>*@
+</fieldset>
+
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+@using (Ajax.BeginForm("DeleteById","Assets", new { id = Model.AssetNo }, null, null)) {
+    <p>
+        <input type="submit" value="確定刪除" />
+    </p>
+}

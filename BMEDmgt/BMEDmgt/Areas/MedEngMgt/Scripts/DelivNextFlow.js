@@ -1,5 +1,5 @@
 ﻿function showmsg(data) {
-    if (data.error !== null) {
+    if (data.error !== null && data.error !== "") {
         $("#btnSEND").attr("disabled", false);
         alert(data.error);
     }
@@ -8,12 +8,12 @@
         window.opener.jQuery("#btnDelivQry").trigger("click");
         window.close();
     }
-};
+}
 
 function presend() {
     //alert('test');
     document.getElementById('btnSEND').disabled = true;
-};
+}
 
 $.fn.addItems = function (data) {
 
@@ -108,16 +108,18 @@ $(function () {
                 async: true,
                 data: s,
                 success: function () {
-                    $.ajax({
-                        url: '../../DelivFlow/EndFlow',
-                        type: "POST",
-                        async: true,
-                        dataType: "json",
-                        data: "id=" + $('#Docid').val() + "&op=" + $('#Opinions').val(),
-                        success: function (data) {
-                            location.replace('../../Home/Index');
-                        }
-                    });
+                    $('#Userid').removeAttr("required", "required");
+                    $("#fmFLOW").submit();
+                    //$.ajax({
+                    //    url: '../../DelivFlow/EndFlow',
+                    //    type: "POST",
+                    //    async: true,
+                    //    dataType: "json",
+                    //    data: "id=" + $('#Docid').val() + "&op=" + $('#Opinions').val(),
+                    //    success: function (data) {
+                    //        location.replace('../../Home/Index');
+                    //    }
+                    //});
                 },
                 error: function () {
                     alert('驗收明細儲存錯誤!');

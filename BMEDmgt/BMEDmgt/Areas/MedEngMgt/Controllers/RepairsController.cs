@@ -571,6 +571,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string docid = fm["qtyDOCID"];
             string dptid = fm["qtyDPTID"];
             string dealstatus = fm["qtyDEALSTATUS"];
+            string otherDoc = fm["qtyOTHERDOC"];
+
             List<RepairListVModel> rv = new List<RepairListVModel>();
             AppUser usr = db.AppUsers.Find(WebSecurity.CurrentUserId);
             var vendors = db.Assets.Join(db.Vendors, a => a.VendorId, v => v.VendorId,
@@ -704,8 +706,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }));
                     break;
                 case "待處理":
-                    db.RepairFlows.Where(f => f.Status == "?" && f.UserId == WebSecurity.CurrentUserId)
-                .Select(f => new
+                    var repairFlows = db.RepairFlows.ToList();
+                    if (otherDoc.Contains("true"))
+                    {
+                        var ur = db.AppUsers.Where(a => a.UserName == "15255").FirstOrDefault();
+                        repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == ur.Id).ToList();
+                    }
+                    else
+                    {
+                        repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == WebSecurity.CurrentUserId).ToList();
+                    }
+                repairFlows.Select(f => new
                 {
                     f.DocId,
                     f.UserId,
@@ -752,7 +763,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Flg = j.x.j.flow.Status,
                         FlowUid = j.x.j.flow.UserId,
                         FlowCls = j.x.j.flow.Cls,
-                        Vendor = j.y == null ? "" : j.y.vname
+                        Vendor = j.y == null ? "" : j.y.vname,
+                        PlantClass = j.x.j.repair.PlantClass
                     }));
                     break;
             };
@@ -1026,6 +1038,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             at.EngId = subStaff.SubstituteId;
                         }
                     }
+                }
+
+                /* 非醫療儀器的設備全送給雅雲 */
+                if(repair.PlantClass != "醫療儀器")
+                {
+                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "15255").FirstOrDefault();
+                    at.EngId = tempEng.Id;
                 }
 
                 rf = new RepairFlow();

@@ -35,10 +35,10 @@
                     @Html.DisplayFor(modelItem => item.FileDes)
                 </td>
                 <td>
-                    <a class="button" href="@Url.Content("~/AssetFile/Create?id=" + ViewData["ano"] +
+                    <a class="button" href="@Url.Content("~/MedEngMgt/AssetFile/Create?id=" + ViewData["ano"] +
             "&sno=" + item.SeqNo + "&title=" + item.Title)"
                id="AssetFileChooseLink">上傳檔案</a>
-                    <a class="button" href="@Url.Content("~/AssetFile/CopyTo?id=" + ViewData["ano"] +
+                    <a class="button" href="@Url.Content("~/MedEngMgt/AssetFile/CopyTo?id=" + ViewData["ano"] +
             "&sno=" + item.SeqNo)"
                        id="AssetFileCopyLink">複製檔案</a>
                 </td>

@@ -47,6 +47,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string FlowCls { get; set; }
         [Display(Name = "廠商")]
         public string Vendor { get; set; }
+        [Display(Name = "設備類別")]
+        public string PlantClass { get; set; }
     }
 
     public class KeepListVModel

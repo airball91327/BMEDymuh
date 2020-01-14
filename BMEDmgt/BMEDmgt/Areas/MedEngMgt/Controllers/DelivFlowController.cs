@@ -189,7 +189,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //mail.SendMail();
                 return new JsonResult
                 {
-                    Data = new { success = true },
+                    Data = new { success = true, error = "" },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }
