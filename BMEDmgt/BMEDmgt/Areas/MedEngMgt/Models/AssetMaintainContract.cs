@@ -41,7 +41,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string SerialNo { get; set; }
         [Display(Name = "台數")]
         public string Qty { get; set; }
-        [Display(Name = "使用單位")]
+        [Display(Name = "單位")]
         public string Unite { get; set; }
         [Display(Name = "合約起始日")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]

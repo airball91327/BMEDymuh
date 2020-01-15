@@ -131,6 +131,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.VendorName)
+            <a id="btnVendorDetail" class="btn btn-default" href="@Url.Action("Details2", "Vendors", new { id = Model.VendorId })" target="_blank">廠商詳細資料</a>
         </dd>
 
         <dt>
@@ -266,4 +267,3 @@
 <div>
     @Html.Action("Details", "AssetKeeps", new { id = Model.AssetNo})
 </div>
-

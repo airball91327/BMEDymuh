@@ -12,7 +12,7 @@ $(function () {
     $(".datefield").datepicker({
         format: "yyyy/mm/dd"
     });
-    
+
     $('input:radio[name="AssetClass"][value="醫工"]')
         .prop("checked", true);
 
@@ -62,7 +62,7 @@ $(function () {
             }
         });
     });
-    
+
     $("#btnQtyDelivUid").click(function () {
         var keynam = $("#DelivUidKeyName").val();
         if (keynam == "") {
@@ -150,7 +150,7 @@ $(function () {
         $.ajax({
             url: '../AttainFiles/List2',
             type: "POST",
-            data: { id:ano, typ:"5"},
+            data: { id: ano, typ: "5" },
             success: function (data) {
                 $("#pnlFILES").html(data);
             }
@@ -167,6 +167,7 @@ $(function () {
         var vname = $("#Vno option:selected").text();
         $("#VendorId").val(vno);
         $("#VendorName").val(vname);
+        ChangeBtnUrl(vno);
     });
 
-})
+});

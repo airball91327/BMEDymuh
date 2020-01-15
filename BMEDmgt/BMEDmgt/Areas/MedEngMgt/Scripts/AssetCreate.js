@@ -12,7 +12,7 @@ $(function () {
     $(".datefield").datepicker({
         format: "yyyy/mm/dd"
     });
-    
+
     $('input:radio[name="AssetClass"][value="醫工"]')
         .prop("checked", true);
 
@@ -39,7 +39,7 @@ $(function () {
             }
         });
     });
-    
+
     $("#btnQtyDelivUid").click(function () {
         var keynam = $("#DelivUidKeyName").val();
         if (keynam == "") {
@@ -177,6 +177,7 @@ $(function () {
         var vname = $("#Vno option:selected").text();
         $("#VendorId").val(vno);
         $("#VendorName").val(vname);
+        ChangeBtnUrl(vno);
     });
 
-})
+});

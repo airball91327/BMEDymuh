@@ -57,6 +57,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return View(vendor);
         }
 
+        // GET: MedEngMgt/Vendors/Details2/5
+        public ActionResult Details2(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendors.Find(id);
+            if (vendor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vendor);
+        }
+
         // GET: MedEngMgt/Vendors/Create
         public ActionResult Create()
         {
