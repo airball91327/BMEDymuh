@@ -1,4 +1,5 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetMaintainContract
+@using BMEDmgt.Areas.MedEngMgt.Helpers
 
 @{
     ViewBag.Title = "新增合約/設備維護合約";
@@ -43,7 +44,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PurchaseNo, new { htmlAttributes = new { @class = "form-control" } })<span id="CheckPNoResult"></span>
                 @Html.ValidationMessageFor(model => model.PurchaseNo, "", new { @class = "text-danger" })
@@ -68,7 +69,7 @@
 
         @Html.HiddenFor(model => model.VendorId)
         <div id="CVendor" class="form-group">
-            @Html.LabelFor(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10 form-inline">
                 @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @class = "form-control" } })
                 <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
@@ -85,7 +86,7 @@
         </div>
 
         <div id="pnlASSET" class="form-group">
-            @Html.LabelFor(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10 text-left">
                 <div class="form-inline">
                     @Html.TextBox("AssetKeyName", "", new { @class = "form-control", placeholder = "財編或關鍵字" })
@@ -106,28 +107,28 @@
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SerialNo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.SerialNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -138,12 +139,12 @@
         </div>
 
         @*<div class="form-group">
-            @Html.LabelFor(model => model.Unite, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Unite, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Unite, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                @Html.LabelFor(model => model.Unite, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Unite, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Unite, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.UniteCost, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -154,7 +155,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Sdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.Sdate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Sdate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Sdate, "", new { @class = "text-danger" })
@@ -162,7 +163,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Edate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.Edate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Edate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Edate, "", new { @class = "text-danger" })
@@ -186,7 +187,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TotalCost, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.TotalCost, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TotalCost, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
@@ -339,7 +340,7 @@
             $("#UseLife").change(function () {
                 var v1 = $("#UseLife").val();
                 var v2 = $("#TotalCost").val();
-                if (v1 !== "" && v2 !== 0 ) {
+                if (v1 !== "" && v2 !== 0) {
                     $("#YearCost").val(v2 / v1);
                 }
             });
@@ -366,7 +367,7 @@
                 if (v1 !== "" && v2 !== 0) {
                     $("#StageCost").val(v2 / v1);
                 }
-            }); 
+            });
             $("#UniteCost").change(function () {
                 var v1 = $("#UniteCost").val();
                 var v2 = $("#Qty").val();
@@ -457,7 +458,7 @@
             });
 
             $("#AssetNo").change(function () {
-                
+
             });
 
             $('#modalFILES').on('hidden.bs.modal', function () {

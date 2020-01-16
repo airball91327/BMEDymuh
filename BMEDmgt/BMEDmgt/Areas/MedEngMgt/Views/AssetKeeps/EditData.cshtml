@@ -1,0 +1,119 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetKeep
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/themes/base/css")
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <section class="content-wrapper main-content clear-fix">
+        @using (Ajax.BeginForm("EditData",
+            new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess(data.msg)" }))
+        {
+            @Html.ValidationSummary(true)
+
+            <fieldset>
+                <legend>AssetKeep</legend>
+
+                @Html.HiddenFor(model => model.AssetNo)
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Cname)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Cname)
+                    @Html.ValidationMessageFor(model => model.Cname)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Cycle)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Cycle)
+                    @Html.ValidationMessageFor(model => model.Cycle)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.KeepYm)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.KeepYm)
+                    @Html.ValidationMessageFor(model => model.KeepYm)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.KeepEngId)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.KeepEngId, ViewData["Items"] as SelectList, "請選擇")
+                    @Html.ValidationMessageFor(model => model.KeepEngId)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Cost)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Cost)
+                    @Html.ValidationMessageFor(model => model.Cost)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Hours)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Hours)
+                    @Html.ValidationMessageFor(model => model.Hours)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.InOut)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.InOut, ViewData["INOUTITEMS"] as SelectList, "請選擇")
+                    @Html.ValidationMessageFor(model => model.InOut)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FormatId)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.FormatId, ViewData["FORMATITEMS"] as SelectList, "請選擇", new { @id = "SelectFormatId" })
+                    @Html.ValidationMessageFor(model => model.FormatId)
+                    <script>
+
+                        $('#SelectFormatId').change(function () {
+                            var txt = $(this).val();
+                            var url = "../../KeepFormat/GetPlants?id=" + txt;
+                            $("#pnlPLANTS").html('').load(encodeURI(url));
+                        });
+                    </script>
+                </div>
+                <div style="color:gray;margin-top:3px;" id="pnlPLANTS">
+
+                </div>
+                <p>
+                    <input type="submit" value="Save" />
+                </p>
+            </fieldset>
+        }
+    </section>
+</body>
+</html>
+<script>
+    function OnSuccess(msg) {
+
+        var f = window.opener.document.getElementById("pnlWartyData");
+        var d = window.opener.document.getElementById("Docid").value;
+        $(f).html('').load(encodeURI("../../Delivery/WartyData?id=" + d), function () {
+            alert(msg);
+        });
+    }
+</script>

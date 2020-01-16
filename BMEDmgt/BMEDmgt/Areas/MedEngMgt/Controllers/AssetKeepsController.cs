@@ -11,6 +11,7 @@ using BMEDmgt.Models;
 using BMEDmgt.Filters;
 using System.Web.Security;
 using WebMatrix.WebData;
+using System.Web.UI.WebControls;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -141,6 +142,108 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 throw new Exception(msg);
             }
+        }
+
+        public ActionResult EditData(string ano = null, string id = null)
+        {
+            Asset at = db.Assets.Find(ano);
+            Delivery d = db.Deliveries.Find(id);
+            int vid = d.VendorId != null ? Convert.ToInt32(d.VendorId) : 0;
+            Vendor v = db.Vendors.Where(vv => vv.VendorId == vid).FirstOrDefault();
+            List<string> s;
+            ListItem li;
+            s = Roles.GetUsersInRole("Engineer").ToList();
+            List<ListItem> list = new List<ListItem>();
+            AppUser u;
+            foreach (string l in s)
+            {
+                u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                if (u != null)
+                {
+                    if (u.VendorId != null)
+                    {
+                        if (u.VendorId == v.VendorId)
+                        {
+                            li = new ListItem();
+                            li.Text = u.FullName;
+                            li.Value = u.Id.ToString();
+                            list.Add(li);
+                        }
+                    }
+                }
+            }
+            Department dpt = db.Departments.Find(at.DelivDpt);
+            Department g;
+            if (dpt != null)
+            {
+                s = Roles.GetUsersInRole("MedEngineer").ToList();
+                foreach (string l in s)
+                {
+                    u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                    if (u != null)
+                    {
+                        if (u.DptId != null)
+                        {
+                            g = db.Departments.Find(u.DptId);
+                            if (g.DptId == dpt.DptId)
+                            {
+                                li = new ListItem();
+                                li.Text = u.FullName;
+                                li.Value = u.Id.ToString();
+                                list.Add(li);
+                            }
+                        }
+                    }
+                }
+            }
+            ViewData["Items"] = new SelectList(list, "Value", "Text", "");
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            listItem.Add(new SelectListItem { Text = "自行", Value = "自行" });
+            listItem.Add(new SelectListItem { Text = "委外", Value = "委外" });
+            listItem.Add(new SelectListItem { Text = "保固", Value = "保固" });
+            listItem.Add(new SelectListItem { Text = "租賃", Value = "租賃" });
+            ViewData["INOUTITEMS"] = new SelectList(listItem, "Value", "Text", "");
+            //
+            List<ListItem> list2 = new List<ListItem>();
+            List<KeepFormat> kf = db.KeepFormats.ToList();
+            foreach (KeepFormat k in kf)
+            {
+                li = new ListItem { Text = k.FormatId, Value = k.FormatId };
+                list2.Add(li);
+            }
+            ViewData["FORMATITEMS"] = new SelectList(list2, "Value", "Text", "");
+            //
+            AssetKeep assetkeep = db.AssetKeeps.Find(ano);
+            if (assetkeep == null)
+            {
+                return HttpNotFound();
+            }
+            assetkeep.Cname = db.Assets.Find(assetkeep.AssetNo).Cname;
+            if (assetkeep.KeepYm == null)
+            {
+                assetkeep.KeepYm = (d.DelivDateR.Year - 1911) * 100 + d.DelivDateR.Month;
+            }
+            return PartialView(assetkeep);
+        }
+
+        [HttpPost]
+        public JsonResult EditData(AssetKeep assetkeep)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(assetkeep).State = EntityState.Modified;
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new { success = true, msg = "儲存成功!" });
+                }
+                catch (Exception ex)
+                {
+                    string s = ex.Message;
+                    return Json(new { success = false, msg = s });
+                }
+            }
+            return Json(new { success = false, msg = "儲存失敗!" });
         }
 
         // GET: MedEngMgt/AssetKeeps/Delete/5

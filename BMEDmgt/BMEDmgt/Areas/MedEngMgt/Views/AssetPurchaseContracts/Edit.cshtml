@@ -1,4 +1,5 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetPurchaseContract
+@using BMEDmgt.Areas.MedEngMgt.Helpers
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
 @{
@@ -45,14 +46,14 @@
         @Html.HiddenFor(model => model.Status)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.PurchaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10" style="padding-top: 7px;">
                 @Html.DisplayFor(model => model.PurchaseNo)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PurchaseName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.PurchaseName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PurchaseName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PurchaseName, "", new { @class = "text-danger" })
@@ -101,7 +102,7 @@
 
         @Html.HiddenFor(model => model.VendorId)
         <div id="CVendor" class="form-group">
-            @Html.LabelFor(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10 form-inline">
                 @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @class = "form-control" } })
                 <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
@@ -126,15 +127,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Budget, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AcceptDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.AcceptDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AcceptDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AcceptDate, "", new { @class = "text-danger" })
@@ -142,7 +135,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Warranty, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.Warranty, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
@@ -150,7 +143,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WarrantySdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.WarrantySdate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.WarrantySdate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WarrantySdate, "", new { @class = "text-danger" })
@@ -158,7 +151,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WarrantyEdate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.WarrantyEdate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.WarrantyEdate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WarrantyEdate, "", new { @class = "text-danger" })
@@ -166,7 +159,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WarrantyMargin, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.WarrantyMargin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.WarrantyMargin, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WarrantyMargin, "", new { @class = "text-danger" })
@@ -174,7 +167,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PerformanceMargin, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.PerformanceMargin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PerformanceMargin, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PerformanceMargin, "", new { @class = "text-danger" })
@@ -182,7 +175,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BasicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.Budget, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.BasicPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BasicPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BasicPrice, "", new { @class = "text-danger" })
@@ -190,7 +191,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ContractTotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.ContractTotalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ContractTotalPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContractTotalPrice, "", new { @class = "text-danger" })
@@ -198,7 +199,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AwardDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.AwardDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AwardDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AwardDate, "", new { @class = "text-danger" })

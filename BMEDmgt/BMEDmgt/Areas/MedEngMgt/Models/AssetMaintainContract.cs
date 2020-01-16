@@ -56,6 +56,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "年限(年)")]
         public int? UseLife { get; set; }
         [Display(Name = "合約總費用")]
+        [Required]
         [DisplayFormat(DataFormatString = "{0:0}")]
         public decimal TotalCost { get; set; }
         [Display(Name = "費用/年")]

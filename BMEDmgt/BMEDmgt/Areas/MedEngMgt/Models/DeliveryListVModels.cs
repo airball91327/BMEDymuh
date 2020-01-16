@@ -216,7 +216,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                 i.PurchaseNo = r.PurchaseNo;
                 i.CrlItemNo = r.CrlItemNo;
                 i.AccDpt = r.AccDpt;
-                i.AccDptNam = db.CustOrgans.Find(r.AccDpt) == null ? "" : db.CustOrgans.Find(r.AccDpt).CustNam;
+                i.AccDptNam = db.Departments.Find(r.AccDpt) == null ? "" : db.Departments.Find(r.AccDpt).Name_C;
                 //if (b != null)
                 //    i.BudgetId = b.BudgetId;
                 //else

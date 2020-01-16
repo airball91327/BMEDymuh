@@ -58,6 +58,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Required]
         public DateTime? AcceptDate { get; set; }
         [Display(Name = "保固期間(年)")]
+        [Required]
         public int Warranty { get; set; }
         [Display(Name = "設備類別")]
         public string AssetClass { get; set; }

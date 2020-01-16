@@ -82,6 +82,11 @@ $(function () {
         if ($(this).val() === "維修工程師") {
             $('#SelectVendor').removeProp("disabled");
         }
+        if ($(this).val() === "結案" || $(this).val() === "廢除") {
+            var appenddata;
+            appenddata += "<option value = '0' selected=true></option>";
+            select.html(appenddata);
+        }
         else {
             $('#SelectVendor').val('');
             $('#SelectVendor').prop("disabled", true);
@@ -108,7 +113,6 @@ $(function () {
                 async: true,
                 data: s,
                 success: function () {
-                    $('#Userid').removeAttr("required", "required");
                     $("#fmFLOW").submit();
                     //$.ajax({
                     //    url: '../../DelivFlow/EndFlow',
