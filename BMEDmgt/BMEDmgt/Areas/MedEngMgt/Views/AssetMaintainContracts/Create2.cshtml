@@ -67,6 +67,14 @@
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.ContractClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ContractClass, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         @Html.HiddenFor(model => model.VendorId)
         <div id="CVendor" class="form-group">
             @Html.LabelForRequired(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })

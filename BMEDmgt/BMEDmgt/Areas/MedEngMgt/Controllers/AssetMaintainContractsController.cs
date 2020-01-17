@@ -96,6 +96,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem2.Add(new SelectListItem { Text = "請選擇", Value = "" });
             ViewData["ContractMgr"] = new SelectList(listItem2, "Value", "Text", "");
 
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
+            listItem3.Add(new SelectListItem { Text = "財務類", Value = "財務類" });
+            listItem3.Add(new SelectListItem { Text = "勞務類", Value = "勞務類" });
+            ViewData["ContractClass"] = new SelectList(listItem3, "Value", "Text", "");
+
             return View();
         }
 
@@ -146,6 +152,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", oldContract.ContractMgr);
 
+            List<SelectListItem> listItem4 = new List<SelectListItem>();
+            listItem4.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
+            listItem4.Add(new SelectListItem { Text = "財務類", Value = "財務類" });
+            listItem4.Add(new SelectListItem { Text = "勞務類", Value = "勞務類" });
+            ViewData["ContractClass"] = new SelectList(listItem4, "Value", "Text", oldContract.ContractClass);
+
             AssetMaintainContract newContract = oldContract;
             newContract.PurchaseNo = oldContract.PurchaseNo + 1;
 
@@ -157,7 +169,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
         {
             if (ModelState.IsValid)
             {
@@ -218,6 +230,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", assetMaintainContract.ContractMgr);
 
+            List<SelectListItem> listItem4 = new List<SelectListItem>();
+            listItem4.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
+            listItem4.Add(new SelectListItem { Text = "財務類", Value = "財務類" });
+            listItem4.Add(new SelectListItem { Text = "勞務類", Value = "勞務類" });
+            ViewData["ContractClass"] = new SelectList(listItem4, "Value", "Text", assetMaintainContract.ContractClass);
+
             return View(assetMaintainContract);
         }
 
@@ -226,7 +244,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
         {
             if (ModelState.IsValid)
             {

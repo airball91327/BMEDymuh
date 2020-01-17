@@ -20,6 +20,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string ContractNo { get; set; }
         [Display(Name = "合約名稱")]
         public string ContractName { get; set; }
+        [Display(Name = "合約類別")]
+        [Required]
+        public string ContractClass { get; set; }
         [Display(Name = "合約廠商")]
         [Required]
         public int VendorId { get; set; }

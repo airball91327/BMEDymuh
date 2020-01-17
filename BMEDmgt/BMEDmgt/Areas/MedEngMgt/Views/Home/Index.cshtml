@@ -5,7 +5,14 @@
 <link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-combobox.js"></script>
 <h4>最新消息</h4>
-
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">使用手冊</div>
+        <div class="panel-body">
+            @Html.Partial("~/Areas/MedEngMgt/Views/News/_ShowManual.cshtml")
+        </div>
+    </div>
+</div>
 <div>
     @Html.Action("ShowNews", "News")
 </div>

@@ -693,6 +693,7 @@
     <Content Include="Areas\MedEngMgt\Views\Assets\Delete2.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Vendors\Details2.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetKeeps\EditData.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\_ShowManual.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -1,0 +1,21 @@
+﻿
+<table class="table" style="margin:0px 0px 0px 0px;">
+    <tr>
+        @if (Roles.IsUserInRole("MedEngineer") || Roles.IsUserInRole("Engineer") || Roles.IsUserInRole("Admin"))
+        {
+            <td>工程師使用手冊</td>
+            <td><a href=@Url.Content("~/Files/Manual/Engineer.pptx" ) target="_blank">下載</a></td>
+        }
+    </tr>
+    <tr>
+        <td>一般使用者使用手冊</td>
+        <td><a href=@Url.Content("~/Files/Manual/User.pptx" ) target="_blank">下載</a></td>
+    </tr>
+    <tr>
+        @if (Roles.IsUserInRole("Admin"))
+        {
+            <td>管理者使用手冊</td>
+            <td><a href=@Url.Content("~/Files/Manual/Admin.pptx" ) target="_blank">下載</a></td>
+        }
+    </tr>
+</table>
