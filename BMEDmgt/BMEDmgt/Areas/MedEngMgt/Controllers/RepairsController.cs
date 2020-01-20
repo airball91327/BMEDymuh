@@ -315,6 +315,40 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
             }
             ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text");
+
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "醫療儀器", Value = "醫療儀器" });
+            listItem3.Add(new SelectListItem { Text = "雜項", Value = "雜項" });
+            listItem3.Add(new SelectListItem { Text = "水電", Value = "水電" });
+            listItem3.Add(new SelectListItem { Text = "空調", Value = "空調" });
+            listItem3.Add(new SelectListItem { Text = "消防", Value = "消防" });
+            listItem3.Add(new SelectListItem { Text = "護士呼叫", Value = "護士呼叫" });
+            listItem3.Add(new SelectListItem { Text = "病床", Value = "病床" });
+            listItem3.Add(new SelectListItem { Text = "氣體", Value = "氣體" });
+            listItem3.Add(new SelectListItem { Text = "氣送", Value = "氣送" });
+            ViewData["PLANTCLASS"] = new SelectList(listItem3, "Value", "Text");
+
+            List<SelectListItem> listItem4 = new List<SelectListItem>();
+            SelectListItem li2;
+            Roles.GetUsersInRole("Engineer").ToList()
+                        .ForEach(x =>
+                        {
+                            AppUser u = db.AppUsers.Find(WebSecurity.GetUserId(x));
+                            if (u != null)
+                            {
+                                li2 = new SelectListItem();
+                                li2.Text = "(" + u.UserName + ")" + u.FullName;
+                                li2.Value = u.Id.ToString();
+                                listItem4.Add(li2);
+                            }
+                        });
+            ViewData["ENGID"] = new SelectList(listItem4, "Value", "Text");
+
+            List<SelectListItem> listItem5 = new List<SelectListItem>();
+            listItem5.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
+            listItem5.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            ViewData["REPAIRAREA"] = new SelectList(listItem5, "Value", "Text");
+
             return View();
         }
 
@@ -332,6 +366,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string sd = fm["Sdate"];
             string ed = fm["Edate"];
             DateTime? sdate = null, edate = null;
+            string plantClass = fm["qtyPlantClass"];
+            string troubleDes = fm["qtyTroubleDes"];
+            string qtyEngId = fm["qtyEngId"];
+            string repairArea = fm["qtyRepairArea"];
             if (!string.IsNullOrEmpty(sd))
             {
                 sdate = DateTime.ParseExact(sd.Replace("-", "/"), "yyyy/MM/dd", null);
@@ -347,13 +385,24 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (string.IsNullOrEmpty(aname) && string.IsNullOrEmpty(ano) &&
                 string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(docid) &&
                 string.IsNullOrEmpty(dptid) && string.IsNullOrEmpty(typ) &&
+                string.IsNullOrEmpty(plantClass) && string.IsNullOrEmpty(troubleDes) &&
+                string.IsNullOrEmpty(qtyEngId) && string.IsNullOrEmpty(repairArea) &&
                 sdate == null && edate == null)
             {
                 throw new Exception("請輸入查詢條件!!");
             }
             else {
                 List<Repair> rps = db.Repairs.ToList();
-                if (Roles.IsUserInRole("Usual"))
+                foreach(var item in rps)
+                {
+                    var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
+                                                    .Where(rf => rf.Cls.Contains("工程師")).OrderByDescending(rf => rf.StepId).FirstOrDefault();
+                    if (lastEngFlow != null)
+                    {
+                        item.EngId = lastEngFlow.UserId;
+                    }
+                }
+                if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
                 {
                     AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
                     if (u != null)
@@ -363,6 +412,24 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     else
                         throw new Exception("無部門資料!!");
                 }
+                if (Roles.IsUserInRole("Usual"))  //一般使用者可查詢自己申請之案件
+                {
+                    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                    if (u != null)
+                        rps = rps.Where(r => r.UserId == u.Id).ToList();
+                    else
+                        throw new Exception("查無人員!!");
+                }
+                //if (Roles.IsUserInRole("Usual"))
+                //{
+                //    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                //    if (u != null)
+                //        rps = rps.Where(r => r.DptId == u.DptId)
+                //            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
+                //            .Distinct().ToList();
+                //    else
+                //        throw new Exception("無部門資料!!");
+                //}
                 if (!string.IsNullOrEmpty(aname))
                     rps = rps.Where(r => r.AssetName != null)
                         .Where(r => r.AssetName.Contains(aname))
@@ -375,6 +442,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rps = rps.Where(r => r.DocId == docid).ToList();
                 if (!string.IsNullOrEmpty(dptid))
                     rps = rps.Where(r => r.DptId == dptid).ToList();
+                if (!string.IsNullOrEmpty(plantClass))
+                    rps = rps.Where(r => r.PlantClass == plantClass).ToList();
+                if (!string.IsNullOrEmpty(troubleDes))
+                    rps = rps.Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
+                if (!string.IsNullOrEmpty(qtyEngId))
+                {
+                    int tempEngId = Convert.ToInt32(qtyEngId);
+                    rps = rps.Where(r => r.EngId == tempEngId).ToList();
+                }
+                if (!string.IsNullOrEmpty(repairArea))
+                    rps = rps.Where(r => r.RepairArea == repairArea).ToList();
                 if (!string.IsNullOrEmpty(typ))
                 {
                     if (!string.IsNullOrEmpty(aname))
@@ -907,6 +985,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 ulist = db.AppUsers.Where(ur => ur.DptId == u.DptId && ur.Status == "Y").ToList();
             else if (u.VendorId > 0)
                 ulist = db.AppUsers.Where(ur => ur.VendorId == u.VendorId && ur.Status == "Y").ToList();
+            ulist = ulist.OrderBy(ul => ul.UserName).ToList();
             for (int i = 0; i < ulist.Count; i++)
             {
                 if (ulist[i] != null)
@@ -915,7 +994,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         listItem.Add(new SelectListItem
                         {
-                            Text = ulist[i].FullName,
+                            Text = "(" + ulist[i].UserName + ")" + ulist[i].FullName,
                             Value = ulist[i].Id.ToString(),
                             Selected = true
                         });
@@ -924,7 +1003,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         listItem.Add(new SelectListItem
                         {
-                            Text = ulist[i].FullName,
+                            Text = "(" + ulist[i].UserName + ")" + ulist[i].FullName,
                             Value = ulist[i].Id.ToString()
                         });
                     }
@@ -956,6 +1035,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
             assetNameList.Add(new SelectListItem { Value = "000", Text = "其他類", Selected = false});
             ViewData["assetNameList"] = assetNameList;
+
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
+            listItem2.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            ViewData["RepairArea"] = new SelectList(listItem2, "Value", "Text");
 
             return View(r);
         }

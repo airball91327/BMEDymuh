@@ -207,6 +207,14 @@
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.RepairArea, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RepairArea", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RepairArea, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         @*<div class="form-group">
                 @Html.LabelFor(model => model.ApplyDate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">

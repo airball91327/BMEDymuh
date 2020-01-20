@@ -421,7 +421,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             foreach (string s2 in buyer)
             {
                 p = db.AppUsers.Find(WebSecurity.GetUserId(s2));
-                listItem2.Add(new SelectListItem { Text = p.FullName, Value = p.Id.ToString() });
+                listItem2.Add(new SelectListItem { Text = "(" + p.UserName + ")" + p.FullName, Value = p.Id.ToString() });
             }
             ViewData["PUR"] = new SelectList(listItem2, "Value", "Text");
             //
@@ -446,9 +446,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //    }).Where(co => co.gid == c.GroupId).ToList();
             List<AppUser> uv = db.AppUsers.ToList();
 
+            uv = uv.OrderBy(urs => urs.UserName).ToList();
             foreach (AppUser z in uv)
             {
-                listItem4.Add(new SelectListItem { Text = z.FullName, Value = z.Id.ToString() });
+                listItem4.Add(new SelectListItem { Text = "(" + z.UserName + ")" + z.FullName, Value = z.Id.ToString() });
             }
             ViewData["Users"] = new SelectList(listItem4, "Value", "Text");
             ViewData["Item2"] = new SelectList(listItem5, "Value", "Text");

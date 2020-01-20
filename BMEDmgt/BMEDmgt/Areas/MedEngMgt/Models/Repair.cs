@@ -51,6 +51,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Required]
         [Display(Name = "放置地點")]
         public string PlaceLoc { get; set; }
+        [Display(Name = "維修院區")]
+        public string RepairArea { get; set; }
         [Display(Name = "申請日期")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
@@ -73,6 +75,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [NotMapped]
         [Display(Name = "購入金額")]
         public decimal? Cost { get; set; }
+        [NotMapped]
+        [Display(Name = "負責工程師")]
+        public int EngId { get; set; }
     }
 
     [Table("NoAssetNoList")]
