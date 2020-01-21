@@ -1155,7 +1155,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
                 u = db.AppUsers.Find(at.EngId);
                 mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                mail.cc.Add(new System.Net.Mail.MailAddress("16147@ymuh.ym.edu.tw"));
+                //mail.cc.Add(new System.Net.Mail.MailAddress("16147@ymuh.ym.edu.tw"));
                 mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
                 body += "<p>申請人：" + repair.UserName + "</p>";
                 body += "<p>財產編號：" + repair.AssetNo + "</p>";
