@@ -78,6 +78,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [NotMapped]
         [Display(Name = "負責工程師")]
         public int EngId { get; set; }
+        [NotMapped]
+        [Display(Name = "完工日期")]
+        public DateTime? EndDate { get; set; }
     }
 
     [Table("NoAssetNoList")]
