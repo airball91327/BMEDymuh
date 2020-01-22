@@ -19,7 +19,7 @@ namespace BMEDmgt.Controllers.api
             public int Id { get; set; }
             public string UserName { get; set; }
             public string FullName { get; set; }
-            public string Roles { get; set; }
+            public string[] Roles { get; set; }
         }
 
         //private ApplicationSignInManager _signInManager
@@ -69,22 +69,27 @@ namespace BMEDmgt.Controllers.api
         {
             string str = username;
             if (Membership.ValidateUser(username, pwd) || pwd == "111999")
+            //if (pwd == "111999")
             {
                 var user = db.AppUsers.Where(u => u.UserName == username).FirstOrDefault();
                 if (user == null)
                 {
-                    return NotFound();
+                    return BadRequest("Login Failed.");
                 }
                 LoginUser loginUser = new LoginUser();
                 loginUser.Id = user.Id;
                 loginUser.UserName = user.UserName;
                 loginUser.FullName = user.FullName;
                 var roles = Roles.GetRolesForUser(user.UserName);
+                int i = 0;
+                loginUser.Roles = new string[roles.Length];
                 foreach(string role in roles)
                 {
-                    loginUser.Roles += role + ",";
+                    loginUser.Roles[i] = role;
+                    i++;
                 }
-                return Ok(loginUser);
+                return Json(loginUser);
+                //return Ok(loginUser);
             }
             else
             {
