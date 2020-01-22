@@ -363,6 +363,30 @@ namespace BMEDmgt.Controllers.api
 
             return Ok(msg);
         }
+
+        public IHttpActionResult GetDocId()
+        {
+            string s = db.Repairs.Select(r => r.DocId).Max();
+            string did = "";
+            int yymm = (System.DateTime.Now.Year - 1911) * 100 + System.DateTime.Now.Month;
+            if (!string.IsNullOrEmpty(s))
+            {
+                did = s;
+            }
+            if (did != "")
+            {
+                if (Convert.ToInt64(did) / 100000 == yymm)
+                    did = Convert.ToString(Convert.ToInt64(did) + 1);
+                else
+                    did = Convert.ToString(yymm * 100000 + 1);
+            }
+            else
+            {
+                did = Convert.ToString(yymm * 100000 + 1);
+            }
+            return Ok(did);
+        }
+
         private string MakeDocid()
         {
             string s = db.Repairs.Select(r => r.DocId).Max();
