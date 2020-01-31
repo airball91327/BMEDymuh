@@ -66,7 +66,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.QuestionnaireMs.Add(questionnaireM);
                 db.SaveChanges();
 
-                return RedirectToAction("List", new { id = questionnaireM.VerId });
+                return RedirectToAction("List", "Questionnaire", new { id = questionnaireM.VerId });
             }
 
             return View(questionnaireM);
