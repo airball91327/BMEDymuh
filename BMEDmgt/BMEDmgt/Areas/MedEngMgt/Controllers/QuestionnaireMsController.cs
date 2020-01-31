@@ -20,11 +20,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult Index()
         {
             var lst = db.QuestionnaireMs.ToList();
-            lst.ForEach(q =>
+            if (lst.Count() > 0)
             {
-                q.RtpName = db.AppUsers.Find(q.Rtp).FullName;
-            });
-               
+                lst.ForEach(q =>
+                {
+                    q.RtpName = db.AppUsers.Find(q.Rtp).FullName;
+                });
+            }
+
             return View(lst);
         }
 
