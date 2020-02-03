@@ -31,6 +31,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
 
                     NewsId = n.news.NewsId,
+                    NewsClass = n.news.NewsClass,
                     NewsTitle = n.news.NewsTitle,
                     NewsContent = n.news.NewsContent,
                     UserId = n.news.UserId,
@@ -50,6 +51,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<News> newslist = new List<News>();
             DateTime dt = DateTime.Now;
             db.News.Where(n => n.Status == "Y")
+                .Where(n => n.NewsClass == "最新消息")
                 .Where(n => n.Sdate <= dt && n.Edate >= dt)
                 .Join(db.AppUsers, n => n.UserId, u => u.Id,
             (n, u) => new
@@ -62,6 +64,40 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
 
                     NewsId = n.news.NewsId,
+                    NewsClass = n.news.NewsClass,
+                    NewsTitle = n.news.NewsTitle,
+                    NewsContent = n.news.NewsContent,
+                    UserId = n.news.UserId,
+                    UserName = n.user.FullName,
+                    Sdate = n.news.Sdate,
+                    Edate = n.news.Edate,
+                    Status = n.news.Status,
+                    RTT = n.news.RTT
+                })
+            );
+
+            return PartialView(newslist);
+        }
+
+        public ActionResult ShowWarnings()
+        {
+            List<News> newslist = new List<News>();
+            DateTime dt = DateTime.Now;
+            db.News.Where(n => n.Status == "Y")
+                .Where(n => n.NewsClass == "警報訊息")
+                .Where(n => n.Sdate <= dt && n.Edate >= dt)
+                .Join(db.AppUsers, n => n.UserId, u => u.Id,
+            (n, u) => new
+            {
+                news = n,
+                user = u
+            }).ToList()
+            .ForEach(n =>
+                newslist.Add(new News
+                {
+
+                    NewsId = n.news.NewsId,
+                    NewsClass = n.news.NewsClass,
                     NewsTitle = n.news.NewsTitle,
                     NewsContent = n.news.NewsContent,
                     UserId = n.news.UserId,
@@ -97,6 +133,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             News news = new News();
             news.Status = "Y";
             news.UserId = WebSecurity.CurrentUserId;
+            List<SelectListItem> listItem1 = new List<SelectListItem>();
+            listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
+            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", "");
             return View(news);
         }
 
@@ -114,7 +154,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            List<SelectListItem> listItem1 = new List<SelectListItem>();
+            listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
+            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", "");
             return View(news);
         }
 
@@ -131,6 +174,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             news.UserName = db.AppUsers.Find(news.UserId).FullName;
+            List<SelectListItem> listItem1 = new List<SelectListItem>();
+            listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
+            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", news.NewsClass);
             return View(news);
         }
 
@@ -139,14 +186,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NewsId,NewsTitle,NewsContent,Sdate,Edate,UserId,Status,RTT")] News news)
+        public ActionResult Edit([Bind(Include = "NewsClass,NewsId,NewsTitle,NewsContent,Sdate,Edate,UserId,Status,RTT")] News news)
         {
             if (ModelState.IsValid)
             {
+                news.RTT = DateTime.Now;
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            List<SelectListItem> listItem1 = new List<SelectListItem>();
+            listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
+            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", news.NewsClass);
             return View(news);
         }
 

@@ -16,6 +16,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "消息序號")]
         public int NewsId { get; set; }
+        [Display(Name = "消息類別")]
+        public string NewsClass { get; set; }
         [Display(Name = "消息主旨")]
         public string NewsTitle { get; set; }
         [Display(Name = "消息內容")]

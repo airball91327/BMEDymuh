@@ -20,11 +20,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult Index()
         {
             var lst = db.QuestionnaireMs.ToList();
-            lst.ForEach(q =>
+            if (lst.Count() > 0)
             {
-                q.RtpName = db.AppUsers.Find(q.Rtp).FullName;
-            });
-               
+                lst.ForEach(q =>
+                {
+                    q.RtpName = db.AppUsers.Find(q.Rtp).FullName;
+                });
+            }
+
             return View(lst);
         }
 
@@ -63,7 +66,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.QuestionnaireMs.Add(questionnaireM);
                 db.SaveChanges();
 
-                return RedirectToAction("List", new { id = questionnaireM.VerId });
+                return RedirectToAction("List", "Questionnaire", new { id = questionnaireM.VerId });
             }
 
             return View(questionnaireM);
