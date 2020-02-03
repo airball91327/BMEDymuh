@@ -115,6 +115,14 @@
             <div class="col-md-10">
                 @*@Html.RadioButton("PlantClass", "工務")工程設施*@
                 @Html.RadioButton("PlantClass", "醫療儀器", true)醫療儀器
+                @Html.RadioButton("PlantClass", "雜項")雜項
+                @Html.RadioButton("PlantClass", "水電")水電
+                @Html.RadioButton("PlantClass", "空調")空調
+                @Html.RadioButton("PlantClass", "消防")消防
+                @Html.RadioButton("PlantClass", "護士呼叫")護士呼叫
+                @Html.RadioButton("PlantClass", "病床")病床
+                @Html.RadioButton("PlantClass", "氣體")氣體
+                @Html.RadioButton("PlantClass", "氣送")氣送
                 @Html.ValidationMessageFor(model => model.PlantClass, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -152,6 +160,29 @@
             </div>
         </div>
 
+        <div class="form-group" id="pnlAssetName" hidden>
+            <label class="control-label col-md-2">設備名稱</label>
+            <div class="form-inline">
+                <div class="col-md-10">
+                    @Html.DropDownList("assetNameList", null, new { @class = "form-control", @id = "assetNameList" })
+                    @*<select class="form-control" id="assetNameList">
+                        <option value="聽診器" select>聽診器</option>
+                        <option value="氣體流量錶">氣體流量錶</option>
+                        <option value="負壓抽吸錶">負壓抽吸錶</option>
+                        <option value="器械">器械</option>
+                        <option value="耳/喉/眼底鏡">耳/喉/眼底鏡</option>
+                        <option value="ambu">ambu</option>
+                        <option value="耳溫槍">耳溫槍</option>
+                        <option value="潮濕加熱座">潮濕加熱座</option>
+                        <option value="管路加熱器">管路加熱器</option>
+                        <option value="租賃儀器">租賃儀器</option>
+                        <option value="000">其他類</option>
+                    </select>*@
+                    <input type="text" class="form-control" name="otherAssetName" id="otherAssetName" hidden />
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelForRequired(model => model.Amt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -176,6 +207,14 @@
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.RepairArea, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RepairArea", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RepairArea, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         @*<div class="form-group">
                 @Html.LabelFor(model => model.ApplyDate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -183,6 +222,25 @@
                     @Html.ValidationMessageFor(model => model.ApplyDate, "", new { @class = "text-danger" })
                 </div>
             </div>*@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">故障描述字彙</label>
+            <div class="col-md-10">
+                <select class="form-control" id="troubleDesList">
+                    <option value="" selected>請選擇</option>
+                    <option value="導線(SpO2、EKG、CUFF充氣線)故障">導線(SpO2、EKG、CUFF充氣線)故障</option>
+                    <option value="器械修磨、矯正">器械修磨、矯正</option>
+                    <option value="無法開機">無法開機</option>
+                    <option value="發出異音">發出異音</option>
+                    <option value="硬體(外殼破損、按鈕故障、缺零件)損壞">硬體(外殼破損、按鈕故障、缺零件)損壞</option>
+                    <option value="量測值不準確">量測值不準確</option>
+                    <option value="無蓄電能力">無蓄電能力</option>
+                    <option value="燈泡不亮">燈泡不亮</option>
+                    <option value="影像有雜訊">影像有雜訊</option>
+                    <option value="儀錶(氧氣流量錶、負壓錶、抽吸瓶)漏氣、故障">儀錶(氧氣流量錶、負壓錶、抽吸瓶)漏氣、故障</option>
+                </select>
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.TroubleDes, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -198,8 +256,7 @@
                 <div class="col-md-10">
                     @Html.TextBox("CheckerKeyName", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
                     <input id="btnQtyChecker" type="button" value="查詢" class="btn btn-default">
-                    @Html.DropDownListFor(model => model.CheckerName, null,
-               "請選擇", new { @class = "form-control" })
+                    @Html.DropDownList("CheckerName", null, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CheckerName, "", new { @class = "text-danger" })
                 </div>
             </div>

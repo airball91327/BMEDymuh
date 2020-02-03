@@ -33,6 +33,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Mobile { get; set; }
         [Display(Name = "所屬部門")]
         public string DptId { get; set; }
+        [NotMapped]
+        [Display(Name = "部門名稱")]
+        public string DptName { get; set; }
         [Display(Name = "所屬廠商")]
         public int? VendorId { get; set; }
         [NotMapped]

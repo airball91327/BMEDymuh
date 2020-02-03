@@ -1,48 +1,17 @@
-﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.Contract>
+﻿
 
 @{
-    ViewBag.Title = "列表/合約";
+    ViewBag.Title = "合約管理";
 }
 
-<h2>查詢條件</h2>
+<h2>合約管理</h2>
 
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-
-@using (Ajax.BeginForm("Index", "Contracts", null,
-                new AjaxOptions
-                {
-                    UpdateTargetId = "pnlCONTRACTLIST",
-                    HttpMethod = "POST",
-                    LoadingElementId = "imgLOADING"
-                },
-                new { @class = "form-horizontal" }))
-{
-    <div class="form-group">
-        <div class="form-inline">
-            @Html.Label("qtyCONTRACTNO", "合約案號", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.TextBox("qtyCONTRACTNO", "", new { @class = "form-control" })
-            </div>
-            @Html.Label("qtyCONTRACTNAME", "合約名稱", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.TextBox("qtyCONTRACTNAME", "", new { @class = "form-control" })
-            </div>
-            @Html.Label("qtySTATUS", "合約狀態", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.DropDownList("qtySTATUS", ViewData["STATUS"] as SelectList, "", new { @class = "form-control combobox" })
-            </div>
+<div class="container">
+    <div class="row">
+        <div>
+            <a class="btn btn-primary" href="@Url.Action("Index", "AssetPurchaseContracts")">設備新購合約管理</a>
+            <a class="btn btn-primary" href="@Url.Action("Index", "AssetMaintainContracts")">設備維護合約管理</a>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
-            <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
-        </div>
-    </div>
-}
-
-
-<div id="pnlCONTRACTLIST">
-    @Html.Action("List")
 </div>
 

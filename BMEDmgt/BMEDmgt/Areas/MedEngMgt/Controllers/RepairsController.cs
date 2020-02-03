@@ -785,7 +785,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     break;
                 case "待處理":
                     var repairFlows = db.RepairFlows.ToList();
-                    if (otherDoc.Contains("true"))
+                    if (otherDoc == null ? false : otherDoc.Contains("true"))
                     {
                         var ur = db.AppUsers.Where(a => a.UserName == "15255").FirstOrDefault();
                         repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == ur.Id).ToList();

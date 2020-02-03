@@ -8,7 +8,7 @@
         $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
     });
     $('#modalFILES').on('hidden.bs.modal', function () {
-        var docid = $("#DocId").val()
+        var docid = $("#DocId").val();
         $.ajax({
             url: '../AttainFiles/List2',
             type: "POST",

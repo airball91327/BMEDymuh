@@ -240,11 +240,12 @@ namespace BMEDmgt.Controllers.api
             if (at != null)
                 repair.AssetName = at.Cname;
             //repair.ApplyDate = DateTime.Now;
-            db.Repairs.Add(repair);
+            db.Entry(repair).State = EntityState.Modified;
+            //db.Repairs.Add(repair);
             //
-            RepairDtl dtl = new RepairDtl();
-            dtl.DocId = repair.DocId;
-            db.RepairDtls.Add(dtl);
+            //RepairDtl dtl = new RepairDtl();
+            //dtl.DocId = repair.DocId;
+            //db.RepairDtls.Add(dtl);
             //
             RepairFlow rf = new RepairFlow();
             rf.DocId = repair.DocId;

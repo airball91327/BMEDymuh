@@ -4,7 +4,17 @@
     }
     else {
         alert("儲存成功!");
-        location.reload();
+
+        $.ajax({
+            url: "../../RepairDtls/DealDesList",
+            type: "GET",
+            data: { 'id': $("#DocId").val() },
+            async: true,
+            success: function (data) {
+                //console.log(data);
+                $("#pnlREPDESLIST").html(data);
+            }
+        });
     }
 }
 
@@ -31,4 +41,5 @@ $(function () {
         var item = $(this).val();
         showREPCOST(item);
     });
+
 });

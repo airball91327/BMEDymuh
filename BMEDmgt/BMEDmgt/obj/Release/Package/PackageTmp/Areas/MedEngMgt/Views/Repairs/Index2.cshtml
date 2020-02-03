@@ -4,13 +4,13 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 <h4>請修案件查詢</h4>
 @using (Ajax.BeginForm("Index2", "Repairs", null,
-                                                                new AjaxOptions
-                                                                {
-                                                                    UpdateTargetId = "pnlREPAIRLIST",
-                                                                    HttpMethod = "POST",
-                                                                    LoadingElementId = "imgLOADING"
-                                                                },
-                                                                new { @class = "form-horizontal" }))
+    new AjaxOptions
+    {
+        UpdateTargetId = "pnlREPAIRLIST",
+        HttpMethod = "POST",
+        LoadingElementId = "imgLOADING"
+    },
+    new { @class = "form-horizontal" }))
 {
     <div class="form-group">
         <div class="form-inline">
@@ -30,9 +30,35 @@
     </div>
     <div class="form-group">
         @Html.Label("qtyTYPE", "型號", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10 text-left">
+        <div class="col-md-2 text-left">
             <div class="form-inline">
                 @Html.TextBox("qtyTYPE", "", new { @class = "form-control" })
+            </div>
+        </div>
+        @Html.Label("PlantClass", "設備類別", new { @class = "control-label col-md-2" })
+        <div class="col-md-2 text-left">
+            <div class="form-inline">
+                @Html.DropDownList("qtyPlantClass", ViewData["PLANTCLASS"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+        @Html.Label("qtyTroubleDes", "故障描述(關鍵字)", new { @class = "control-label col-md-2" })
+        <div class="col-md-2 text-left">
+            <div class="form-inline">
+                @Html.TextBox("qtyTroubleDes", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("qtyEngId", "負責工程師", new { @class = "control-label col-md-2" })
+        <div class="col-md-2 text-left">
+            <div class="form-inline">
+                @Html.DropDownList("qtyEngId", ViewData["ENGID"] as SelectList, "請選擇", new { @class = "form-control" })
+            </div>
+        </div>
+        @Html.Label("qtyRepairArea", "維修院區", new { @class = "control-label col-md-2" })
+        <div class="col-md-2 text-left">
+            <div class="form-inline">
+                @Html.DropDownList("qtyRepairArea", ViewData["REPAIRAREA"] as SelectList, "請選擇", new { @class = "form-control" })
             </div>
         </div>
     </div>
@@ -56,7 +82,7 @@
             </div>
         </div>
     </div>
-     <div class="form-group">
+    <div class="form-group">
         @Html.Label("Sdate", "申請日期", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10 text-left">
             <div class="form-inline">

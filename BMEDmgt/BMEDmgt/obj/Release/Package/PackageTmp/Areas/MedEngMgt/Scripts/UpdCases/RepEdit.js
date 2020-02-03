@@ -1,6 +1,8 @@
 ﻿$(function () {
     $('.combobox').combobox();
-
+    $(".datefield").datepicker({
+        format: "yyyy/mm/dd"
+    });
     $('.modal').on('shown.bs.modal', function () {
         //Make sure the modal and backdrop are siblings (changes the DOM)
         $(this).before($('.modal-backdrop'));

@@ -26,7 +26,16 @@ namespace BMEDmgt.Controllers.api
         {
             return db.Assets;
         }
-
+        public IQueryable<Asset> GetAssetsByKeyname(string keyname)
+        {
+            IQueryable<Asset> assets = null;
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                assets = db.Assets.Where(a => a.Cname.Contains(keyname))
+                    .Union(db.Assets.Where(a => a.AssetNo.Contains(keyname)));
+            }
+            return assets;
+        }
         // GET: api/Assets/5
         [ResponseType(typeof(Asset))]
         public async Task<IHttpActionResult> GetAsset(string id)

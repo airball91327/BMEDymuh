@@ -51,3 +51,10 @@ textarea {
 .jumbotron h1{
     font-size: 45px;
 }
+
+.main-content {
+    background: url("../Images/accent.png") no-repeat;
+    padding-left: 10px;
+    padding-top: 30px;
+    /*font-family: Microsoft JhengHei;*/
+}

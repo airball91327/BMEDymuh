@@ -5,7 +5,9 @@
 }
 
 $(function () {
-
+    $(".datefield").datepicker({
+        format: "yyyy/mm/dd"
+    });
     $("#btnQtyAccdpt").click(function () {
         var keynam = $("#AccdptKeyName").val();
         $.ajax({

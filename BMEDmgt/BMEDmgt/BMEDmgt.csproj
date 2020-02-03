@@ -266,6 +266,9 @@
     <Compile Include="Areas\MedEngMgt\Models\UsersInRoles.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Func.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Vendor.cs" />
+    <Compile Include="Controllers\api\AttainFilesController.cs" />
+    <Compile Include="Controllers\api\DepartmentsController.cs" />
+    <Compile Include="Controllers\api\DocIdFactoriesController.cs" />
     <Compile Include="Controllers\api\RepairsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\api\AssetsController.cs" />
@@ -720,6 +723,7 @@
     <None Include="Properties\PublishProfiles\SMH.pubxml" />
     <None Include="Properties\PublishProfiles\TAH.pubxml" />
     <None Include="Properties\PublishProfiles\TMUH.pubxml" />
+    <None Include="Properties\PublishProfiles\YmuhTest - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

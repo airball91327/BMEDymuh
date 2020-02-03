@@ -19,6 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Rtp)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>
             <th></th>
         </tr>
         @foreach (var item in Model)
@@ -28,6 +31,7 @@
                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                 <td><a href='@Url.Content("~/Files/")@item.FileLink' target="_blank">下載</a></td>
                 <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Rtt)</td>
                 <td>@Ajax.ActionLink("刪除", "Delete2", new { id = item.DocId, seq = item.SeqNo, typ = item.DocType }, new AjaxOptions { UpdateTargetId = "pnlFILES" })</td>
             </tr>
         }

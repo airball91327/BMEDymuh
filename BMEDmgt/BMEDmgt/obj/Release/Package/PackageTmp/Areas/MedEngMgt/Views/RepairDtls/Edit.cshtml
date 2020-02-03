@@ -115,3 +115,10 @@
         </div>
     </div>
 }
+
+<div id="pnlREPDESLIST">
+    @if (Model != null)
+    {
+        @Html.Action("DealDesList", "RepairDtls", new { id = Model.DocId })
+    }
+</div>

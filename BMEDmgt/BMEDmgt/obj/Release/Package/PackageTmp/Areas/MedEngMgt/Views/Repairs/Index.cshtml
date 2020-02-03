@@ -41,6 +41,15 @@
                 @Html.DropDownList("qtyDEALSTATUS", ViewData["DEALSTATUS"] as SelectList, "請選擇", new { @class = "form-control" })
             </div>
         </div>
+        @if (Roles.IsUserInRole("MedEngineer") || Roles.IsUserInRole("Admin"))
+        {
+            <div class="form-line">
+                @Html.Label("qtyOTHERDOC", "非醫療儀器案件", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2" style="padding-top: 7px;">
+                    @Html.CheckBox("qtyOTHERDOC")
+                </div>
+            </div>
+        }
     </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

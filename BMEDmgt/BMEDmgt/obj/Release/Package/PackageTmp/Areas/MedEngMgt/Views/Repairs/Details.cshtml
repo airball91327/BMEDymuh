@@ -4,7 +4,7 @@
     ViewBag.Title = "預覽請修";
 }
 <div style="margin: 10pt">
-    @Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "1" })
+    @*@Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "1" })*@
 </div>
 <div>
     @*<h3><span class="label label-default">請修資料</span></h3>*@
@@ -112,6 +112,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.PlaceLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepairArea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepairArea)
         </dd>
 
         <dt>

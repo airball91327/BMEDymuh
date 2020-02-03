@@ -7,6 +7,9 @@
 <h2>預覽</h2>
 <h4>請修</h4>
 <hr />
+<div id="pnlFILES" style="margin: 10pt">
+    @Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "1" })
+</div>
 <ul class="nav nav-pills">
     <li role="presentation" class="active"><a href="#repair" data-toggle="tab">申請資料</a></li>
     <li role="presentation"><a href="#repairdtl" data-toggle="tab">請修紀錄</a></li>

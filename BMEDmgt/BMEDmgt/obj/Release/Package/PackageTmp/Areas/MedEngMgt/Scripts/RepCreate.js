@@ -1,5 +1,5 @@
 ﻿function showmsg(data) {
-    if (data.success != null) {
+    if (data.success !== null) {
         if (!data.success)
             alert(data.error);
         else {
@@ -16,18 +16,48 @@ $(function () {
     $("#ChkAssetNo").click(function () {
         if ($(this).prop("checked")) {
             $("#pnlASSET").hide();
-            $("#TroubleDes").val("設備名稱: \n\n故障描述: ");
+            $("#pnlAssetName").show();
+            $("#assetNameList").trigger('change');
+
+            var keynam = '000';
+            var accDptId = $('#AccDpt').val();
+            if (keynam !== "") {
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../Assets/GetAssetsByKeynameAndAcc',
+                    type: "GET",
+                    data: { keyname: keynam, accDpt: accDptId },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.AssetNo + "'>" + value.Cname + " </option>";
+                        });
+                        $('#AssetNo').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+            $("#AssetNo").find('option[value="000"]').attr('selected', 'selected');
+            //$("#TroubleDes").val("設備名稱: \n\n故障描述: ");
         }
-        else
-        {
+        else {
             $("#pnlASSET").show();
-            $("#TroubleDes").val('');
+            $("#pnlAssetName").hide();
+            $("#AssetName").val("");
+            $("#AssetNo").find('option[value=""]').attr('selected', 'selected');
+            //$("#TroubleDes").val('');
         }
     });
 
     $("#btnQtyChecker").click(function () {
         var keynam = $("#CheckerKeyName").val();
-        if (keynam == "") {
+        if (keynam === "") {
             $("#AssetNo").trigger("change");
         }
         else {
@@ -56,18 +86,19 @@ $(function () {
 
     $("#btnQtyAsset").click(function () {
         var keynam = $("#AssetKeyName").val();
-        if (keynam != "") {
+        var accDptId = $('#AccDpt').val();
+        if (keynam !== "") {
             $.ajax({
                 contentType: "application/json; charset=utf-8",
-                url: '../Assets/GetAssetsByKeyname',
+                url: '../Assets/GetAssetsByKeynameAndAcc',
                 type: "GET",
-                data: { keyname: keynam },
+                data: { keyname: keynam, accDpt: accDptId },
                 dataType: "json",
                 success: function (data) {
                     //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
                     var jsdata = JSON.parse(data);
                     var appenddata;
-                    appenddata += "<option value = '000'>請選擇</option>";
+                    appenddata += "<option value = ''>請選擇</option>";
                     $.each(jsdata, function (key, value) {
                         appenddata += "<option value = '" + value.AssetNo + "'>" + value.Cname + " </option>";
                     });
@@ -115,13 +146,13 @@ $(function () {
             contentType: "application/json; charset=utf-8",
             url: '../Assets/GetAssetsByAccDpt',
             type: "GET",
-            data: { dpt: dp},
+            data: { dpt: dp },
             dataType: "json",
             success: function (data) {
                 //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
                 var jsdata = JSON.parse(data);
                 var appenddata;
-                appenddata += "<option value = '000'>請選擇</option>";
+                appenddata += "<option value = ''>請選擇</option>";
                 $.each(jsdata, function (key, value) {
                     appenddata += "<option value = '" + value.AssetNo + "'>" + value.Cname + " </option>";
                 });
@@ -172,7 +203,7 @@ $(function () {
                 $.each(jsdata, function (key, value) {
                     appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
                 });
-                $('#CheckerName').html(appenddata);
+                //$('#CheckerName').html(appenddata);
                 //
                 $.ajax({
                     contentType: "application/json; charset=utf-8",
@@ -221,4 +252,27 @@ $(function () {
     });
 
     $("#AccDpt").trigger('change');
-})
+
+    $("#troubleDesList").change(function () {
+        var originText = $("#TroubleDes").val();
+        $("#TroubleDes").val($(this).val() + originText);
+    });
+
+    $("#assetNameList").change(function () {
+        var selectedValue = $(this).val();
+        if (selectedValue === '000') {
+            $("#otherAssetName").show();
+            $("#otherAssetName").attr("required", "required");
+        }
+        else {
+            $("#otherAssetName").hide();
+            $("#otherAssetName").val("");
+            $("#otherAssetName").removeAttr("required");
+            $("#AssetName").val(selectedValue);
+        }
+    });
+
+    $("#otherAssetName").change(function () {
+        $("#AssetName").val($(this).val());
+    });
+});

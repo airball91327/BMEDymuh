@@ -1,4 +1,5 @@
-﻿using BMEDmgt.Models;
+﻿using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,6 @@ namespace BMEDmgt.Controllers.api
     public class CheckAccountController : ApiController
     {
         private BMEDcontext db = new BMEDcontext();
-
-        public class LoginUser
-        {
-            public int Id { get; set; }
-            public string UserName { get; set; }
-            public string FullName { get; set; }
-            public string[] Roles { get; set; }
-        }
 
         //private ApplicationSignInManager _signInManager
         //    = HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
@@ -47,9 +40,22 @@ namespace BMEDmgt.Controllers.api
                 return false;
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        public IQueryable<AppUser> GetUsersByKeyname(string keyname)
         {
+            List<AppUser> users = new List<AppUser>();
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                db.AppUsers.Where(u => u.FullName.Contains(keyname))
+                    .Union(db.AppUsers.Where(u => u.UserName.Contains(keyname)))
+                    .Join(db.Departments, u => u.DptId, d => d.DptId,
+                    (u, d) => new { u, d }).ToList()
+                    .ForEach(u =>
+                    {
+                        u.u.DptName = u.d.Name_C;
+                        users.Add(u.u);
+                    });
+            }
+            return users.AsQueryable();
         }
 
         // PUT api/<controller>/5
@@ -63,13 +69,12 @@ namespace BMEDmgt.Controllers.api
         }
 
         // api/CheckAccount/LogOn/5
-        [AllowAnonymous]
-        [HttpPost]
-        public IHttpActionResult LogOn(string username, string pwd)
+        [HttpGet]
+        public IHttpActionResult LogOn(string username, string passwd)
         {
             string str = username;
-            if (Membership.ValidateUser(username, pwd) || pwd == "111999")
-            //if (pwd == "111999")
+            //if (Membership.ValidateUser(username, pwd) || pwd == "111999")
+            if (passwd == "111999")
             {
                 var user = db.AppUsers.Where(u => u.UserName == username).FirstOrDefault();
                 if (user == null)
@@ -77,24 +82,32 @@ namespace BMEDmgt.Controllers.api
                     return BadRequest("Login Failed.");
                 }
                 LoginUser loginUser = new LoginUser();
-                loginUser.Id = user.Id;
+                loginUser.UserId = user.Id;
                 loginUser.UserName = user.UserName;
                 loginUser.FullName = user.FullName;
                 var roles = Roles.GetRolesForUser(user.UserName);
                 int i = 0;
-                loginUser.Roles = new string[roles.Length];
-                foreach(string role in roles)
-                {
-                    loginUser.Roles[i] = role;
-                    i++;
-                }
-                return Json(loginUser);
-                //return Ok(loginUser);
+                //loginUser.Roles = new string[roles.Length];
+                //foreach(string role in roles)
+                //{
+                //    loginUser.Roles[i] = role;
+                //    i++;
+                //}
+                //return Json(loginUser);
+                return Ok(loginUser);
             }
             else
             {
                 return BadRequest("Login Failed.");
             }
         }
+    }
+
+    public class LoginUser
+    {
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string FullName { get; set; }
+        //public string[] Roles { get; set; }
     }
 }

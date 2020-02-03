@@ -114,3 +114,10 @@
 
     </dl>
 </div>
+
+<div>
+    @if (Model != null)
+    {
+        @Html.Action("DealDesDetails", "RepairDtls", new { id = Model.DocId })
+    }
+</div>
