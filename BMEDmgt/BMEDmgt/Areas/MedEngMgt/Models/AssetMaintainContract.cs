@@ -88,6 +88,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public decimal? KeepCostRate { get; set; }
         [Display(Name = "設備總價")]
         public decimal? UniteCost { get; set; }
+        [Display(Name = "第二通知者")]
+        public int? SecondMgr { get; set; }
+        [NotMapped]
+        public string SecondMgrName { get; set; }
+        [Display(Name = "合約結束提醒")]
+        public int? EndNoticeMonth { get; set; }
 
         [Display(Name = "狀態")]
         public string Status { get; set; }

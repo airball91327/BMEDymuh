@@ -506,18 +506,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rf.Cls = "得標廠商";
                 db.DelivFlows.Add(rf);
                 //
-                List<Asset> ar = db.Assets.Where(a => a.Docid == delivery.PurchaseNo).ToList();
-                Vendor v;
-                u = db.AppUsers.Find(Convert.ToInt32(delivery.UserDpt));
-                foreach (Asset a in ar)
-                {
-                    v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
-                    if (v != null)
-                        a.VendorId = v.VendorId;
-                    a.DelivUid = u.Id;
-                    a.DelivDpt = u.DptId;
-                    db.Entry(a).State = EntityState.Modified;
-                }
+                //List<Asset> ar = db.Assets.Where(a => a.Docid == delivery.PurchaseNo).ToList();
+                //Vendor v;
+                //u = db.AppUsers.Find(Convert.ToInt32(delivery.UserDpt));
+                //foreach (Asset a in ar)
+                //{
+                //    v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
+                //    if (v != null)
+                //        a.VendorId = v.VendorId;
+                //    a.DelivUid = u.Id;
+                //    a.DelivDpt = u.DptId;
+                //    db.Entry(a).State = EntityState.Modified;
+                //}
                 //
                 db.SaveChanges();
                 //----------------------------------------------------------------------------------
