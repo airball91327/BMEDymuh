@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.NewsClass)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.NewsTitle)
         </th>
         <th>
@@ -38,6 +41,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.NewsClass)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.NewsTitle)
         </td>
         <td>
@@ -59,9 +65,9 @@
             @Html.DisplayFor(modelItem => item.RTT)
         </td>
         <td>
-            @Html.ActionLink("編輯", "Edit", new { id=item.NewsId }) |
-            @Html.ActionLink("預覽", "Details", new { id=item.NewsId }) |
-            @Html.ActionLink("刪除", "Delete", new { id=item.NewsId })
+            @Html.ActionLink("編輯", "Edit", new { id = item.NewsId }) |
+            @Html.ActionLink("預覽", "Details", new { id = item.NewsId }) |
+            @Html.ActionLink("刪除", "Delete", new { id = item.NewsId })
         </td>
     </tr>
 }

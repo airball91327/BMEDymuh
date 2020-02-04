@@ -81,10 +81,14 @@ namespace BMEDmgt.Controllers.api
                 {
                     return BadRequest("Login Failed.");
                 }
+                Department dpt = db.Departments.Find(user.DptId);
                 LoginUser loginUser = new LoginUser();
                 loginUser.UserId = user.Id;
                 loginUser.UserName = user.UserName;
                 loginUser.FullName = user.FullName;
+                loginUser.DptId = user.DptId;
+                if(dpt != null)
+                    loginUser.DptName = dpt.Name_C;
                 var roles = Roles.GetRolesForUser(user.UserName);
                 int i = 0;
                 //loginUser.Roles = new string[roles.Length];
@@ -94,6 +98,20 @@ namespace BMEDmgt.Controllers.api
                 //    i++;
                 //}
                 //return Json(loginUser);
+                return Ok(loginUser);
+            }
+            if (Membership.ValidateUser(username, passwd))
+            {
+                var user = db.AppUsers.Where(u => u.UserName == username).FirstOrDefault();
+                if (user == null)
+                {
+                    return BadRequest("Login Failed.");
+                }
+                LoginUser loginUser = new LoginUser();
+                loginUser.UserId = user.Id;
+                loginUser.UserName = user.UserName;
+                loginUser.FullName = user.FullName;
+
                 return Ok(loginUser);
             }
             else
@@ -108,6 +126,8 @@ namespace BMEDmgt.Controllers.api
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string FullName { get; set; }
+        public string DptId { get; set; }
+        public string DptName { get; set; }
         //public string[] Roles { get; set; }
     }
 }

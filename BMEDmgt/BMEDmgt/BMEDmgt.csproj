@@ -269,6 +269,7 @@
     <Compile Include="Controllers\api\AttainFilesController.cs" />
     <Compile Include="Controllers\api\DepartmentsController.cs" />
     <Compile Include="Controllers\api\DocIdFactoriesController.cs" />
+    <Compile Include="Controllers\api\KeepsController.cs" />
     <Compile Include="Controllers\api\RepairsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\api\AssetsController.cs" />

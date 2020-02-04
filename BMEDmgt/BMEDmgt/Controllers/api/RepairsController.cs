@@ -231,15 +231,16 @@ namespace BMEDmgt.Controllers.api
         [ResponseType(typeof(Repair))]
         public async Task<IHttpActionResult> PostRepair(Repair repair)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
             //repair.DocId = MakeDocid();
             Asset at = db.Assets.Find(repair.AssetNo);
             if (at != null)
                 repair.AssetName = at.Cname;
-            //repair.ApplyDate = DateTime.Now;
+            repair.ApplyDate = DateTime.Now;
+            repair.Email = "99242@gmail.com";
             db.Entry(repair).State = EntityState.Modified;
             //db.Repairs.Add(repair);
             //

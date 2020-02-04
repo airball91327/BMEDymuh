@@ -9,7 +9,7 @@ namespace BMEDmgt.Models
     public class BMEDcontext: DbContext
     {
         public BMEDcontext()
-        :base("AzureConnection") { }
+        :base("BMEDconnection") { }
 
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<CustOrgan> CustOrgans { get; set; }
