@@ -152,6 +152,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Cls { get; set; }
     }
 
+    [Table("DelivCode")]
+    public class DelivCode
+    {
+        [Key]
+        [Display(Name = "序列號")]
+        public int SeqNo { get; set; }
+        [Display(Name = "申報設備代碼")]
+        [Required]
+        public string Code { get; set; }
+    }
+
     public class DelivDataVModel
     {
         public string Docid { get; set; }

@@ -296,12 +296,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 ViewData["FMINOUT"] = new SelectList(listItem, "Value", "Text");
                 //
                 List<SelectListItem> code = new List<SelectListItem>();
-                //WsResource.WsVendorSoapClient wsv = new WsResource.WsVendorSoapClient();
-                //DataTable dt = JsonConvert.DeserializeObject<DataTable>(wsv.GetNhiPlantKind());
-                //foreach (DataRow r in dt.Rows)
-                //{
-                //    code.Add(new SelectListItem { Text = r["dsc"].ToString(), Value = r["code"].ToString() });
-                //}
+                
+                foreach (var item in db.DelivCodes)
+                {
+                    code.Add(new SelectListItem { Text = item.Code, Value = item.Code.ToString() });
+                }
                 ViewData["Code"] = new SelectList(code, "Value", "Text", dv.Code);
                 //
                 List<SelectListItem> stype2 = new List<SelectListItem>();
