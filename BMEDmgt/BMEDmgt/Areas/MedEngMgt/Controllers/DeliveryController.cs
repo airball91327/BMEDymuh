@@ -299,7 +299,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 
                 foreach (var item in db.DelivCodes)
                 {
-                    code.Add(new SelectListItem { Text = item.Code, Value = item.Code.ToString() });
+                    code.Add(new SelectListItem { Text = item.DSC, Value = item.Code.ToString() });
                 }
                 ViewData["Code"] = new SelectList(code, "Value", "Text", dv.Code);
                 //
