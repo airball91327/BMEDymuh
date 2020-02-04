@@ -234,7 +234,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
                 }
             }
+            if (assetMaintainContract.SecondMgr != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.SecondMgr).FirstOrDefault();
+                if (ur != null)
+                {
+                    listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
             ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", assetMaintainContract.ContractMgr);
+            ViewData["SecondMgr"] = new SelectList(listItem3, "Value", "Text", assetMaintainContract.SecondMgr);
 
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             listItem4.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
@@ -254,8 +263,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
-                var asset = db.Assets.Find(assetMaintainContract.AssetNo);
-                assetMaintainContract.AssetName = asset.Cname;
+                //var asset = db.Assets.Find(assetMaintainContract.AssetNo);
+                //assetMaintainContract.AssetName = asset.Cname;
                 assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
                 assetMaintainContract.Rtt = DateTime.Now;
 
