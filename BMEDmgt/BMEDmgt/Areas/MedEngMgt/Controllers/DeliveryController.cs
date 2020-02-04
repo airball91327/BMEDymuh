@@ -296,12 +296,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 ViewData["FMINOUT"] = new SelectList(listItem, "Value", "Text");
                 //
                 List<SelectListItem> code = new List<SelectListItem>();
-                //WsResource.WsVendorSoapClient wsv = new WsResource.WsVendorSoapClient();
-                //DataTable dt = JsonConvert.DeserializeObject<DataTable>(wsv.GetNhiPlantKind());
-                //foreach (DataRow r in dt.Rows)
-                //{
-                //    code.Add(new SelectListItem { Text = r["dsc"].ToString(), Value = r["code"].ToString() });
-                //}
+                
+                foreach (var item in db.DelivCodes)
+                {
+                    code.Add(new SelectListItem { Text = item.DSC, Value = item.Code.ToString() });
+                }
                 ViewData["Code"] = new SelectList(code, "Value", "Text", dv.Code);
                 //
                 List<SelectListItem> stype2 = new List<SelectListItem>();
@@ -506,18 +505,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rf.Cls = "得標廠商";
                 db.DelivFlows.Add(rf);
                 //
-                List<Asset> ar = db.Assets.Where(a => a.Docid == delivery.PurchaseNo).ToList();
-                Vendor v;
-                u = db.AppUsers.Find(Convert.ToInt32(delivery.UserDpt));
-                foreach (Asset a in ar)
-                {
-                    v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
-                    if (v != null)
-                        a.VendorId = v.VendorId;
-                    a.DelivUid = u.Id;
-                    a.DelivDpt = u.DptId;
-                    db.Entry(a).State = EntityState.Modified;
-                }
+                //List<Asset> ar = db.Assets.Where(a => a.Docid == delivery.PurchaseNo).ToList();
+                //Vendor v;
+                //u = db.AppUsers.Find(Convert.ToInt32(delivery.UserDpt));
+                //foreach (Asset a in ar)
+                //{
+                //    v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
+                //    if (v != null)
+                //        a.VendorId = v.VendorId;
+                //    a.DelivUid = u.Id;
+                //    a.DelivDpt = u.DptId;
+                //    db.Entry(a).State = EntityState.Modified;
+                //}
                 //
                 db.SaveChanges();
                 //----------------------------------------------------------------------------------

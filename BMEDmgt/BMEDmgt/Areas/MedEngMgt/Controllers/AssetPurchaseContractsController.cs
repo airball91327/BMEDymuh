@@ -86,12 +86,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).FirstOrDefault();
             var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
             var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
+            var user3 = db.AppUsers.Where(u => u.Id == assetPContract.ContractMgr).FirstOrDefault();
+            var user4 = db.AppUsers.Where(u => u.Id == assetPContract.SecondMgr).FirstOrDefault();
             assetPContract.UseDptName = dptU == null ? "" : dptU.Name_C;
             assetPContract.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
             assetPContract.SponsorDptName = dptS == null ? "" : dptS.Name_C;
             assetPContract.CoOrganizerDptName = dptC == null ? "" : dptC.Name_C;
             assetPContract.SponsorName = userS == null ? "" : userS.FullName;
             assetPContract.CoOrganizerName = userC == null ? "" : userC.FullName;
+            assetPContract.ContractMgrName = user3 == null ? "" : user3.FullName;
+            assetPContract.SecondMgrName = user4 == null ? "" : user4.FullName;
 
             return View(assetPContract);
         }
@@ -120,6 +124,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["PurchaseUid"] = new SelectList(ListItem1, "Value", "Text", "");
             ViewData["SponsorUid"] = new SelectList(ListItem1, "Value", "Text", "");
             ViewData["CoOrganizerUid"] = new SelectList(ListItem1, "Value", "Text", "");
+            ViewData["ContractMgr"] = new SelectList(ListItem1, "Value", "Text");
+            ViewData["SecondMgr"] = new SelectList(ListItem1, "Value", "Text");
 
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             listItem2.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
@@ -140,7 +146,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,EndNotice,EndNoticeMonth,ContractMgr,SecondMgr,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {
@@ -209,7 +215,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
                 }
             }
-
             if (assetPContract.CoOrganizerUid != null)
             {
                 ur = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
@@ -218,9 +223,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
                 }
             }
+            if (assetPContract.ContractMgr != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.ContractMgr).FirstOrDefault();
+                if (ur != null)
+                {
+                    ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+            if (assetPContract.SecondMgr != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.SecondMgr).FirstOrDefault();
+                if (ur != null)
+                {
+                    ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
             ViewData["PurchaseUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.PurchaseUid);
             ViewData["SponsorUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.SponsorUid);
             ViewData["CoOrganizerUid"] = new SelectList(ListItem1, "Value", "Text", assetPContract.CoOrganizerUid);
+            ViewData["ContractMgr"] = new SelectList(ListItem1, "Value", "Text", assetPContract.ContractMgr);
+            ViewData["SecondMgr"] = new SelectList(ListItem1, "Value", "Text", assetPContract.SecondMgr);
 
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             listItem2.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
@@ -241,7 +264,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
+        public ActionResult Edit([Bind(Include = "ContractNo,PurchaseNo,PurchaseName,LeaveLoc,VendorId,VendorName,VendorUniteNo,VendorPhone,Budget,BasicPrice,ContractClass,ContractTotalPrice,AwardDate,AcceptDate,Warranty,AssetClass,WarrantySdate,WarrantyEdate,WarrantyMargin,PerformanceMargin,UseDpt,PurchaseDpt,PurchaseUid,HasPermitNo,PermitNo,PermitValid,Sponsor,SponsorUid,CoOrganizer,CoOrganizerUid,PAssetClass,EndNotice,EndNoticeMonth,ContractMgr,SecondMgr,Note,Status,Rtp,Rtt")] AssetPurchaseContract assetPurchaseContract)
         {
             if (ModelState.IsValid)
             {

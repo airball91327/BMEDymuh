@@ -118,6 +118,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string PAssetClass { get; set; }
         [Display(Name = "備註")]
         public string Note { get; set; }
+        [Display(Name = "合約負責人")]
+        public int? ContractMgr { get; set; }
+        [NotMapped]
+        public string ContractMgrName { get; set; }
+        [Display(Name = "第二通知者")]
+        public int? SecondMgr { get; set; }
+        [NotMapped]
+        public string SecondMgrName { get; set; }
+        [Display(Name = "保固結束通知")]
+        public string EndNotice { get; set; }
+        [Display(Name = "保固結束提醒")]
+        public int? EndNoticeMonth { get; set; }
 
         [Display(Name = "狀態")]
         public string Status { get; set; }

@@ -244,6 +244,15 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.EndNoticeMonth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButton("EndNoticeMonth", "3") 三個月前
+                @Html.RadioButton("EndNoticeMonth", "6") 六個月前
+                @Html.ValidationMessageFor(model => model.EndNoticeMonth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.IsTraining, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.RadioButton("IsTraining", "Y", true) 是
@@ -269,6 +278,18 @@
                     <input id="btnQtyContractMgr" type="button" value="查詢" class="btn btn-default">
                     @Html.DropDownListFor(model => model.ContractMgr, null, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ContractMgr, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SecondMgr, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.TextBox("SecondMgrKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtySecondMgr" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.SecondMgr, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SecondMgr, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -495,6 +516,29 @@
                             appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
                         });
                         $('#ContractMgr').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+
+            $("#btnQtySecondMgr").click(function () {
+                var keynam = $("#SecondMgrKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#SecondMgr').html(appenddata);
                     },
                     error: function (msg) {
                         alert(msg);

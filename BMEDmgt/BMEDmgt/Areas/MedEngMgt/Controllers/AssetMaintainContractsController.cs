@@ -81,6 +81,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 assetMaintainContract.ContractMgrName = db.AppUsers.Find(assetMaintainContract.ContractMgr).FullName;
             }
+            if (assetMaintainContract.SecondMgr != null)
+            {
+                assetMaintainContract.SecondMgrName = db.AppUsers.Find(assetMaintainContract.SecondMgr).FullName;
+            }
             return View(assetMaintainContract);
         }
 
@@ -95,6 +99,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             listItem2.Add(new SelectListItem { Text = "請選擇", Value = "" });
             ViewData["ContractMgr"] = new SelectList(listItem2, "Value", "Text", "");
+            ViewData["SecondMgr"] = new SelectList(listItem2, "Value", "Text", "");
 
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             listItem3.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
@@ -151,6 +156,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
             }
             ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", oldContract.ContractMgr);
+            ViewData["SecondMgr"] = new SelectList(listItem3, "Value", "Text", oldContract.SecondMgr);
 
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             listItem4.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
@@ -169,7 +175,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Create([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,EndNoticeMonth,Note,IsTraining,IsYearKeepReport,ContractMgr,SecondMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
         {
             if (ModelState.IsValid)
             {
@@ -228,7 +234,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
                 }
             }
+            if (assetMaintainContract.SecondMgr != null)
+            {
+                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.SecondMgr).FirstOrDefault();
+                if (ur != null)
+                {
+                    listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
             ViewData["ContractMgr"] = new SelectList(listItem3, "Value", "Text", assetMaintainContract.ContractMgr);
+            ViewData["SecondMgr"] = new SelectList(listItem3, "Value", "Text", assetMaintainContract.SecondMgr);
 
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             listItem4.Add(new SelectListItem { Text = "工程類", Value = "工程類" });
@@ -244,12 +259,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,Note,IsTraining,IsYearKeepReport,ContractMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,EndNoticeMonth,Note,IsTraining,IsYearKeepReport,ContractMgr,SecondMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
         {
             if (ModelState.IsValid)
             {
-                var asset = db.Assets.Find(assetMaintainContract.AssetNo);
-                assetMaintainContract.AssetName = asset.Cname;
+                //var asset = db.Assets.Find(assetMaintainContract.AssetNo);
+                //assetMaintainContract.AssetName = asset.Cname;
                 assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
                 assetMaintainContract.Rtt = DateTime.Now;
 
