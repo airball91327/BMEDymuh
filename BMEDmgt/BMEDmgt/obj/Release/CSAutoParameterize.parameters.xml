@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="BMEDconnection-Web.config Connection String" description="BMEDconnection 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="Server=172.17.3.114;Database=BMEDDB;User ID=ymuhUSR; Password=ymuhPWD" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\user\\OneDrive\\YMUH\\BMEDymuh\\BMEDmgt\\BMEDmgt\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='BMEDconnection']/@connectionString" />
+  </parameter>
+  <parameter name="PSONconnection-Web.config Connection String" description="PSONconnection 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="Server=hisdb.ymuh.ym.edu.tw;Database=DB_GEN;User ID=XXXX; Password=XXXX" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\user\\OneDrive\\YMUH\\BMEDymuh\\BMEDmgt\\BMEDmgt\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='PSONconnection']/@connectionString" />
+  </parameter>
+  <parameter name="AzureConnection-Web.config Connection String" description="AzureConnection 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="Server=tcp:bmedmgtdbserver.database.windows.net,1433;Initial Catalog=ymuhBMEDDB;Persist Security Info=False;User ID=medADMIN;Password=Bmed3025;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\user\\OneDrive\\YMUH\\BMEDymuh\\BMEDmgt\\BMEDmgt\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AzureConnection']/@connectionString" />
+  </parameter>
+</parameters>

@@ -26,6 +26,7 @@ namespace BMEDmgt.Controllers.api
             AssetKeep kp = db.AssetKeeps.Find(keep.AssetNo);
             Asset at = db.Assets.Find(keep.AssetNo);
             //
+            keep.Email = "99242@gmail.com";
             keep.AssetName = db.Assets.Find(keep.AssetNo).Cname;
             keep.AccDpt = at.AccDpt;
             keep.SentDate = DateTime.Now;
