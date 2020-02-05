@@ -876,7 +876,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     f.UserId,
                     f.Status,
                     f.Cls
-                })
+                }).Distinct()
                 .Join(db.Keeps, f => f.DocId, k => k.DocId,
                 (f, k) => new
                 {

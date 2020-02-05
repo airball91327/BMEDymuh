@@ -835,7 +835,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     });
                 if (!string.IsNullOrEmpty(accDpt))
                 {
-                    result = result.Where(r => r.AccDpt == accDpt);
+                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000");
                 }
 
                 string s = JsonConvert.SerializeObject(result);
