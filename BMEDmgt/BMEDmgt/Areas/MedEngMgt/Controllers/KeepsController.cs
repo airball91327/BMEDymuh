@@ -100,7 +100,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 keep.AssetName = db.Assets.Find(keep.AssetNo).Cname;
                 keep.AccDpt = at.AccDpt;
                 keep.SentDate = DateTime.Now;
-                keep.Cycle = kp == null ? 0 : kp.Cycle.Value;
+                if (kp == null)
+                {
+                    keep.Cycle = 0;
+                }
+                else
+                {
+                    keep.Cycle = kp.Cycle.HasValue == false ? 0 : kp.Cycle.Value;
+                }
                 keep.Src = "M";
                 db.Entry(keep).State = EntityState.Modified;
 

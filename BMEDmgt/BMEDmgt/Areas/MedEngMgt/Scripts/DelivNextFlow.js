@@ -64,7 +64,7 @@ $(function () {
     }
     else if (c === "設備經辦") {
         $('#pnlASSETVIEW').html('');
-        $('#pnlVENDOR').html('');
+        //$('#pnlVENDOR').html('');
         $('#pnlMEDMGR').html('');
         $('#pnlMEDENG').html('');
     }

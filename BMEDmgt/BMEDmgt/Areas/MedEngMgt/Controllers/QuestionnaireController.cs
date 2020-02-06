@@ -252,6 +252,145 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
         }
 
+        public ActionResult New2(int id, string docId)
+        {
+            DateTime dd = DateTime.Now;
+            string yyyymm = Convert.ToString(dd.Year * 100 + dd.Month);
+
+            var evalVM = new Evaluation();
+            QuestMain main = new QuestMain();
+            //main.Docid = main.GetID(ref db);
+            main.Docid = docId;
+            main.YYYYmm = yyyymm;
+            //Department c = db.Departments.Find(dpt);
+            //main.CustId = c.DptId;
+            //main.CustNam = c.Name_C;
+            main.Rtt = DateTime.Now;
+            var questMain = db.QuestMains.Where(qm => qm.Docid == docId).FirstOrDefault();
+            if (questMain == null)
+            {
+                db.QuestMains.Add(main);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    //ModelState.AddModelError("", e.Message);
+                    return Content(e.Message);
+                }
+            }
+            //
+            evalVM.Qname = db.QuestionnaireMs.Find(id).Qname;
+            evalVM.Docid = main.Docid;
+            evalVM.YYYYmm = yyyymm;
+            evalVM.CustId = main.CustId;
+            evalVM.CustNam = main.CustNam;
+
+            List<Questionnaire> ql =
+                db.Questionnaires.Where(qt => qt.VerId == id).ToList();
+            Question q;
+            int i = 1;
+            foreach (Questionnaire a in ql)
+            {
+                q = new Question();
+                q.ID = id;
+                q.QID = a.Qid;
+                q.QuestionText = "(" + Convert.ToString(i) + ") " + a.Qtitle;
+                q.Typ = a.Typ;
+                evalVM.Questions.Add(q);
+                i++;
+            }
+            //
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            SelectListItem li;
+            db.Departments.ToList()
+                .ForEach(d =>
+                {
+                    li = new SelectListItem();
+                    li.Text = d.Name_C;
+                    li.Value = d.DptId;
+                    listItem.Add(li);
+
+                });
+            ViewData["Dept"] = new SelectList(listItem, "Value", "Text");
+            //db.Contracts.Where(ct => ct.Status == "Y")
+            //    .Join(db.AssetKeeps, ct => ct.ContractNo, k => k.ContractNo,
+            //    (ct, k) => new { ct, k})
+            //    .Join(db.Assets.Where(a => a.DelivDpt == dpt), ct => ct.k.AssetNo, a => a.AssetNo,
+            //    (ct, a) => ct).ToList()
+            //    .ForEach(ct =>
+            //    {
+            //        li = new SelectListItem();
+            //        li.Text = ct.ct.ContractName;
+            //        li.Value = ct.ct.ContractNo;
+            //        listItem2.Add(li);
+            //    });
+            //ViewData["Contract"] = new SelectList(listItem2, "Value", "Text");
+
+            return View(evalVM);
+        }
+
+        [HttpPost]
+        [MyErrorHandler]
+        public ActionResult New2(Evaluation model)
+        {
+            if (model.Questions.Where(q => q.SelectedAnswer == null && q.Typ == "select").Count() > 0)
+            {
+                throw new Exception("尚有項目未圈選!!");
+            }
+            if (ModelState.IsValid)
+            {
+                QuestMain main = db.QuestMains.Find(model.Docid);
+                //main.CustId = model.CustId;
+                ///main.CustNam = db.Departments.Find(model.CustId).Name_C;
+                //main.ContractNo = model.ContractNo;
+                db.Entry(main).State = EntityState.Modified;
+                //
+                List<QuestAnswer> at = db.QuestAnswers.Where(a => a.Docid == model.Docid).ToList();
+                QuestAnswer ar;
+                foreach (QuestAnswer w in at)
+                {
+                    if (w != null)
+                        db.QuestAnswers.Remove(w);
+                }
+                foreach (var q in model.Questions)
+                {
+                    // Save the data 
+                    ar = new QuestAnswer();
+                    ar.Docid = model.Docid;
+                    ar.VerId = q.ID;
+                    ar.Qid = q.QID;
+                    ar.Answer = q.SelectedAnswer;
+                    db.QuestAnswers.Add(ar);
+                }
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "" },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            else
+            {
+                string msg = "";
+                foreach (var error in ViewData.ModelState.Values.SelectMany(modelState => modelState.Errors))
+                {
+                    msg += error.ErrorMessage + Environment.NewLine;
+                }
+                throw new Exception(msg);
+            }
+        }
+
         public ActionResult Titles()
         {
             var titles = db.QuestionnaireMs.Where(m => m.Flg == "Y")

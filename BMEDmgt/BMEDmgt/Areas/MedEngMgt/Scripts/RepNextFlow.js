@@ -7,12 +7,12 @@
         alert("送出成功!");
         location.replace("../../Home");
     }
-};
+}
 
 function presend() {
     //alert('test');
     document.getElementById('btnGO').disabled = true;
-};
+}
 
 $.fn.addItems = function (data) {
 

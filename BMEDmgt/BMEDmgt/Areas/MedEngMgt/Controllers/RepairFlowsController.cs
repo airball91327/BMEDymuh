@@ -466,6 +466,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 if (assign.FlowCls == "結案")
                 {
+                    var isQuestExist = db.QuestAnswers.Where(q => q.Docid == assign.DocId).FirstOrDefault();
+                    if (isQuestExist == null)
+                    {
+                        throw new Exception("請填寫滿意度問卷。");
+                    }
+                    //
                     RepairDtl rd = db.RepairDtls.Find(assign.DocId);
                     rd.CloseDate = DateTime.Now;
                     rf.Opinions = "[" + assign.AssignCls + "]" + Environment.NewLine + assign.AssignOpn;

@@ -44,6 +44,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "設備類別")]
         public string AssetClass { get; set; }
         public string InOut { get; set; }
+        public string AccDpt { get; set; }
     }
 
     public class Cust
