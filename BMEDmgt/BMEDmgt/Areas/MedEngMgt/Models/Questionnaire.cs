@@ -179,11 +179,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Docid { get; set; }
         public string YYYYmm { get; set; }
         [Display(Name = "單位名稱")]
-        [Required]
+        //[Required]
         public string CustId { get; set; }
         public string CustNam { get; set; }
         [Display(Name = "合約名稱")]
-        [Required]
+        //[Required]
         public string ContractNo { get; set; }
         public List<Question> Questions { set; get; }
         public Evaluation()

@@ -1,19 +1,31 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.Evaluation
 @{
-    Layout = "~/Areas/MedEngMgt/Views/Shared/_LayoutNtitle.cshtml";
+    Layout = null;
 }
 
-<link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
-<script src="~/Scripts/bootstrap-combobox.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="~/Areas/MedEngMgt/Scripts/QuestNew.js"></script>
+<script>
+    function showmsg2(data) {
+        if (!data.success) {
+            alert(data.error);
+        }
+        else {
+            alert("感謝您的建議與評分!!");
+        }
+    }
+</script>
 
 <div class="form-horizontal">
 
-    <h2>國立陽明大學附設醫院 @Model.Qname</h2>
-    <hr />
+    @*<h2>國立陽明大學附設醫院 @Model.Qname</h2>
+    <hr />*@
 
-    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING", OnSuccess = "showmsg" }))
+    @using (Ajax.BeginForm("New2", "Questionnaire",
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    LoadingElementId = "imgLOADING",
+                                    OnSuccess = "showmsg2"
+                                }, new { id = "questForm" }))
     {
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Docid)
@@ -34,9 +46,16 @@
                 </div>             
             </div>
         </div>*@
-        @Html.EditorFor(model => model.Questions)
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Questions)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="btnQuestSEND" type="button" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
     }
-</div>
-<div>
-    @Html.ActionLink("回到列表", "Index", "QuestionnaireMs")
 </div>

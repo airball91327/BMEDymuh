@@ -389,7 +389,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             r.Contact = u.Mobile;
             r.ApplyDate = DateTime.Now;
-            r.PurchaseNo = id;
+            //r.PurchaseNo = id;
             r.WartyMon = 0;
             r.DelivDateR = DateTime.Now;
             db.Deliveries.Add(r);
@@ -399,6 +399,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             List<SelectListItem> listItem5 = new List<SelectListItem>();
+            List<SelectListItem> listItem6 = new List<SelectListItem>();
             string[] eng = Roles.GetUsersInRole("MedEngineer");
             string[] buyer = Roles.GetUsersInRole("Buyer");
             AppUser p;
@@ -452,6 +453,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             ViewData["Users"] = new SelectList(listItem4, "Value", "Text");
             ViewData["Item2"] = new SelectList(listItem5, "Value", "Text");
+            //
+            foreach(var item in db.AssetPurchaseContracts)
+            {
+                listItem6.Add(new SelectListItem { Text = item.PurchaseName + "(" + item.PurchaseNo + ")", Value = item.PurchaseNo });
+            }
+            ViewData["PurchaseNo"] = new SelectList(listItem6, "Value", "Text", "");
+
             return View(r);
         }
 
@@ -496,13 +504,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //        db.DelivFlows.Add(rf);
                 //    }
                 //}
-                u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));
-                rf.Userid = u.Id;
-                rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
+                //u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));
+                //rf.Userid = u.Id;
+                rf.Userid = WebSecurity.CurrentUserId;
+                //rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
+                rf.Role = Roles.GetRolesForUser().GetValue(0).ToString();
                 rf.Rtp = null;
                 rf.Rdt = null;
                 rf.Rtt = DateTime.Now;
-                rf.Cls = "得標廠商";
+                //rf.Cls = "得標廠商";
+                rf.Cls = "設備經辦";
                 db.DelivFlows.Add(rf);
                 //
                 //List<Asset> ar = db.Assets.Where(a => a.Docid == delivery.PurchaseNo).ToList();

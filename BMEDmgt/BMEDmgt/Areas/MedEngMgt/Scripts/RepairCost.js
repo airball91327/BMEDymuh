@@ -38,7 +38,7 @@ $(function () {
             $("#VendorId").val('000');
             $("#VendorName").val($obj.get(4).innerText.trim());
         }
-    })
+    });
 
     $('input:radio[name="StockType"]').click(function () {
         $('#PartName').attr("readonly", false);

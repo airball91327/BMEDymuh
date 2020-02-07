@@ -24,6 +24,20 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ReportQryVModel pv = new ReportQryVModel();
             pv.ReportClass = rpname;
 
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            SelectListItem li;
+            listItem.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            db.Departments.ToList()
+                .ForEach(d =>
+                {
+                    li = new SelectListItem();
+                    li.Text = d.Name_C;
+                    li.Value = d.DptId;
+                    listItem.Add(li);
+
+                });
+            ViewData["ACCDPT"] = new SelectList(listItem, "Value", "Text");
+
             return View(pv);
         }
 
@@ -796,6 +810,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             sv.AddRange(sv2);
             sv = sv.Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
+            //
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                sv = sv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            }
+            //
             return sv;
         }
 
@@ -885,7 +905,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 k.EndDate,
                 k.InOut,
                 k.ApplyDate,
-                k.AssetClass
+                k.AssetClass,
+                k.AccDpt
             }).Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
                 (rd, re) => new UserHour
                 {
@@ -894,9 +915,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     InOut = rd.InOut,
                     AssetClass = rd.AssetClass,
                     ApplyDate = rd.ApplyDate.Value,
-                    EndDate = rd.EndDate.Value
+                    EndDate = rd.EndDate.Value,
+                    AccDpt = rd.AccDpt
                 }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
-
+            //
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                query = query.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            }
+            //
             IEnumerable<IGrouping<int, UserHour>> rt = query.GroupBy(j => j.Uid);
             int case1 = 0;
             int case5 = 0;
@@ -988,7 +1015,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 mv.Add(dv);
             }
             //
-
             return mv;
         }
         public List<MonthFailRateVModel> MonthFailRate(ReportQryVModel v)
@@ -1031,7 +1057,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     m.FailRate = 0m;
                 mv.Add(m);
             }
-
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+            }
             return mv;
         }
 
@@ -1193,6 +1222,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                AssetClass = k.k.AssetClass
            }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
 
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            }
             return mv;
         }
 
@@ -1353,7 +1386,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 m.InOut = s;
                 mv.Add(m);
             });
-
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            }
             return mv;
         }
         public ActionResult MonthFailRateExcel()
@@ -1434,7 +1470,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 m.KeepCost = tolcost;
                 mv.Add(m);
             }
-
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+            }
             return mv;
         }
 
@@ -1537,6 +1576,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         mv.Add(l);
                     }
                 }
+            }
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
             }
             return mv;
         }
@@ -1662,6 +1705,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 m.TotalCost = m.RepairCost + m.KeepCost;
                 mv.Add(m);
             }
+            //
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+            }
+            //
             return mv;
         }
 
@@ -1801,6 +1850,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 //sv.Add(rb);
             }
+            //
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                sv = sv.Where(vv => vv.CustId == v.AccDpt).ToList();
+            }
+            //
             return sv;
         }
 
@@ -2177,7 +2232,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     AssetClass = k.s.AssetClass,
                     Brand = u == null ? "" : u.Brand
                 }).ToList();
-
+            //
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                sv = sv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            }
+            //
             return sv;
         }
 

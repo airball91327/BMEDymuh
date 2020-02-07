@@ -436,6 +436,28 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return View("PermitList2");
         }
 
+        // GET: MedEngMgt/AssetPurchaseContracts/GetContractById/5
+        public ActionResult GetContractById(string purchaseNo)
+        {
+            if (!string.IsNullOrEmpty(purchaseNo))
+            {
+                var purContract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == purchaseNo).FirstOrDefault();
+                if (purContract != null)
+                {
+                    return new JsonResult
+                    {
+                        Data = new { success = true, error = "", data = purContract },
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
+            }
+            return new JsonResult
+            {
+                Data = new { success = false, error = "", data = "查無資料!" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         public ActionResult ExportToExcel(string contracts)
         {
             string[] PNOList = contracts.Split(new char[] { ';' });
