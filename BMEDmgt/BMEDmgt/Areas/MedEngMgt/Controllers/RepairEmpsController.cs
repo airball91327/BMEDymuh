@@ -141,6 +141,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Text = u.FullName,
                         Value = u.Id.ToString()
                     });
+                    // Set default value for dropdownlist.
+                    if (u.Id == WebSecurity.CurrentUserId)
+                    {
+                        repairEmp.UserId = u.Id;
+                    }
                 }
             }
             ViewData["UserId"] = uids;

@@ -66,6 +66,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             qryAsset.Type = fm["Type"];
             qryAsset.RiskLvl = fm["RiskLvl"];
             qryAsset.VendorId = fm["VendorId"];
+            qryAsset.AssetCName2 = fm["AssetCName2"];
 
             string buyDate1 = fm["BuyDate1"];
             string buyDate2 = fm["BuyDate2"];
@@ -147,6 +148,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(qryAsset.AssetName))
             {
                 at2 = at2.Where(a => a.Cname.Contains(qryAsset.AssetName)).ToList();
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetCName2))
+            {
+                at2 = at2.Where(a => a.Cname2 != null).Where(a => a.Cname2.Contains(qryAsset.AssetCName2)).ToList();
             }
             if (!string.IsNullOrEmpty(qryAsset.AccDpt))
             {

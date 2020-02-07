@@ -130,6 +130,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
 
     public class QuestReport
     {
+        [Display(Name = "表單編號(請修案號)")]
+        public string Docid { get; set; }
         [Display(Name = "時間戳記")]
         public string TimeStamp { set; get; }
         [Display(Name = "合約案號")]

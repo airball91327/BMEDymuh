@@ -420,6 +420,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public decimal Cost { get; set; }
         [Display(Name = "工程師")]
         public string EngNam { get; set; }
+        [Display(Name = "總工時")]
+        public decimal Hour { get; set; }
 
         public List<MonthRepairVModel> GetList(string gid, DateTime sdate, DateTime edate, string cls)
         {

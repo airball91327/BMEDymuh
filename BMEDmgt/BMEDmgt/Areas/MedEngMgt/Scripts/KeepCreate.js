@@ -44,7 +44,7 @@ $(function () {
     $("#btnQtyAsset").click(function () {
         var keynam = $("#AssetKeyName").val();
         var accDptId = $('#AccDpt').val();
-        if (keynam != "") {
+        if (keynam !== "") {
             $.ajax({
                 contentType: "application/json; charset=utf-8",
                 url: '../Assets/GetAssetsByKeynameAndAcc',
@@ -98,6 +98,27 @@ $(function () {
 
     $("#AccDpt").change(function () {
         $("#AccDptName").val($("#AccDpt option:selected").text());
+        var dp = $("#AccDpt option:selected").val();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '../Assets/GetAssetsByAccDpt',
+            type: "GET",
+            data: { dpt: dp },
+            dataType: "json",
+            success: function (data) {
+                //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                var jsdata = JSON.parse(data);
+                var appenddata;
+                appenddata += "<option value = ''>請選擇</option>";
+                $.each(jsdata, function (key, value) {
+                    appenddata += "<option value = '" + value.AssetNo + "'>" + value.Cname + " </option>";
+                });
+                $('#AssetNo').html(appenddata);
+            },
+            error: function (msg) {
+                alert(msg);
+            }
+        });
         /*
         $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -145,6 +166,8 @@ $(function () {
             }
         });
     });
+    $("#AccDpt").trigger('change');
+
     $('.modal').on('shown.bs.modal', function () {
         //Make sure the modal and backdrop are siblings (changes the DOM)
         $(this).before($('.modal-backdrop'));

@@ -24,6 +24,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Required]
         [Display(Name = "中文名稱")]
         public string Cname { get; set; }
+        [Display(Name = "別名")]
+        public string Cname2 { get; set; }
         [Display(Name = "英文名稱")]
         public string Ename { get; set; }
         [Display(Name = "立帳日")]
@@ -179,6 +181,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? AccDate1 { get; set; }
         public DateTime? AccDate2 { get; set; }
+        [Display(Name = "設備別名")]
+        public string AssetCName2 { get; set; }
 
     }
 }

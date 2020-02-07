@@ -54,6 +54,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
+            if (vendor.MgrId != null)
+            {
+                int mgrid = Convert.ToInt32(vendor.MgrId);
+                var ur = db.AppUsers.Where(u => u.Id == mgrid).FirstOrDefault();
+                if (ur != null)
+                {
+                    vendor.MgrName = ur.FullName;
+                }
+            }
             return View(vendor);
         }
 
@@ -82,6 +91,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 listItem.Add(new SelectListItem { Text = t.TypName, Value = t.TypName });
             }
             ViewData["TypeItem"] = new SelectList(listItem, "Value", "Text", "");
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            ViewData["MgrId"] = new SelectList(listItem2, "Value", "Text", "");
             return View();
         }
 
@@ -90,7 +102,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "VendorId,VendorName,Address,Tel,Fax,Email,UniteNo,TaxAddress,TaxZipCode,Contact,ContactTel,ContactEmail,StartDate,EndDate,Status,Kind")] Vendor vendor)
+        public ActionResult Create([Bind(Include = "VendorId,VendorName,Address,Tel,Fax,Email,UniteNo,TaxAddress,TaxZipCode,Contact,ContactTel,ContactEmail,StartDate,EndDate,Status,Kind,MgrId")] Vendor vendor)
         {
             if (ModelState.IsValid)
             {
@@ -127,6 +139,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 listItem.Add(new SelectListItem { Text = t.TypName, Value = t.TypName });
             }
             ViewData["TypeItem"] = new SelectList(listItem, "Value", "Text", "");
+            //
+            List<SelectListItem> ListItem2 = new List<SelectListItem>();
+            AppUser ur;
+            ListItem2.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            if (vendor.MgrId != null)
+            {
+                int mgrid = Convert.ToInt32(vendor.MgrId);
+                ur = db.AppUsers.Where(u => u.Id == mgrid).FirstOrDefault();
+                if (ur != null)
+                {
+                    ListItem2.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
+                }
+            }
+            ViewData["MgrId"] = new SelectList(ListItem2, "Value", "Text", vendor.MgrId);
+
             return View(vendor);
         }
 
@@ -135,7 +162,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VendorId,VendorName,Address,Tel,Fax,Email,UniteNo,TaxAddress,TaxZipCode,Contact,ContactTel,ContactEmail,StartDate,EndDate,Status,Kind")] Vendor vendor)
+        public ActionResult Edit([Bind(Include = "VendorId,VendorName,Address,Tel,Fax,Email,UniteNo,TaxAddress,TaxZipCode,Contact,ContactTel,ContactEmail,StartDate,EndDate,Status,Kind,MgrId")] Vendor vendor)
         {
             if (ModelState.IsValid)
             {
