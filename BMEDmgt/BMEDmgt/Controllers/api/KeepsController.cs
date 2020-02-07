@@ -117,8 +117,81 @@ namespace BMEDmgt.Controllers.api
 
             return CreatedAtRoute("DefaultApi", new { id = keep.DocId }, keep);
         }
-
-        private bool KeepExists(string id)
+        [HttpPost]
+        public string PostKeepRecords(IEnumerable<KeepRecord> keepRecords)
+        {
+            string result = "";
+            List<KeepRecord> newkprd = new List<KeepRecord>();
+            //
+            string docid = keepRecords.Select(k => k.DocId).FirstOrDefault();
+            if (!string.IsNullOrEmpty(docid))
+            {
+                try
+                {
+                    string ano = db.Keeps.Find(docid).AssetNo;
+                    db.AssetKeeps.Where( k => k.AssetNo == ano)
+                        .Join(db.KeepFormatDtls, k => k.FormatId, f => f.FormatId,
+                        (k, f) => f).ToList()
+                        .ForEach(f => {
+                            if (keepRecords.Count(r => r.FormatId == f.FormatId && r.Sno == f.Sno) <= 0)
+                            {
+                                newkprd.Add(new KeepRecord
+                                {
+                                    DocId = docid,
+                                    FormatId = f.FormatId,
+                                    Sno = f.Sno,
+                                    Descript = f.Descript,
+                                    KeepDes = ""
+                                });
+                            }
+                        });
+                    newkprd.AddRange(keepRecords.ToList());
+                    db.KeepRecords.RemoveRange(db.KeepRecords.Where(k => k.DocId == docid));
+                    db.KeepRecords.AddRange(newkprd);
+                    db.SaveChanges();
+                    result = "儲存成功!";
+                }
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                }
+            }
+            return result;
+        }
+        public IQueryable<KeepRecord> GetKeepRecordList(string ano)
+        {
+            List<KeepRecord> keepRecords = new List<KeepRecord>();
+            var data = db.Keeps.Where(k => k.AssetNo == ano)
+                .Join(db.KeepFlows.Where(f => f.Status == "?"),
+                k => k.DocId, f => f.DocId,
+                (k, f) => new { k, f }).FirstOrDefault();
+            string docid = "";
+            if (data != null)
+            {
+                docid = data.k.DocId;
+                keepRecords = db.KeepRecords.Where(r => r.DocId == docid).ToList();
+                if (keepRecords.Count() <= 0)
+                {
+                    db.AssetKeeps.Where(a => a.AssetNo == ano).
+                    Join(db.KeepFormatDtls, a => a.FormatId, d => d.FormatId,
+                    (a, d) => d).ToList()
+                    .ForEach(d =>
+                    {
+                        keepRecords.Add(new KeepRecord
+                        {
+                            DocId = docid,
+                            FormatId = d.FormatId,
+                            Sno = d.Sno,
+                            Descript = d.Descript,
+                            KeepDes = ""
+                        });
+                    });
+                }
+            }
+            
+            return keepRecords.AsQueryable();
+        }
+            private bool KeepExists(string id)
         {
             return db.Keeps.Count(e => e.DocId == id) > 0;
         }
