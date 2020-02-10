@@ -53,6 +53,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Status { get; set; }
         [Display(Name = "類別")]
         public string Kind { get; set; }
+        [Display(Name = "負責人")]
+        public string MgrId { get; set; }
+        [NotMapped]
+        public string MgrName { get; set; }
 
         public static IEnumerable<SelectListItem> GetList()
         {

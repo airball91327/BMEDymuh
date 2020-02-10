@@ -10,6 +10,10 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Docid)<br />
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.ContractNo)<br/>
                 @Html.DisplayFor(modelItem => item.Contract)<br />
                 @Html.DisplayFor(modelItem => item.TimeStamp)
@@ -19,7 +23,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DptName)
-            </td>
+            </td>*@
             @foreach (var answer in item.Answers)
             {
                 <td>

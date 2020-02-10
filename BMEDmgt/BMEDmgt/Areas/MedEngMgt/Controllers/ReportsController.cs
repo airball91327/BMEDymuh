@@ -208,10 +208,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<QuestReport> qrlist = QuestAnaly(v);
             DataTable dt = new DataTable();
             DataRow dw;
-            dt.Columns.Add("合約");
+            //dt.Columns.Add("合約");
+            dt.Columns.Add("表單編號(請修案號)");
             dt.Columns.Add("時間戳記");
-            dt.Columns.Add("部門代號");
-            dt.Columns.Add("部門名稱");
+            //dt.Columns.Add("部門代號");
+            //dt.Columns.Add("部門名稱");
             //
             int cols = 0;
             db.QuestionnaireMs.Where(m => m.Flg == "Y")
@@ -227,11 +228,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     .ForEach(j =>
                     {
                         dw = dt.NewRow();
-                        dw[0] = j.ContractNo + j.Contract;
+                        dw[0] = j.Docid;
+                        //dw[0] = j.ContractNo + j.Contract;
                         dw[1] = j.TimeStamp;
-                        dw[2] = j.DptId;
-                        dw[3] = j.DptName;
-                        cols = 4;
+                        //dw[2] = j.DptId;
+                        //dw[3] = j.DptName;
+                        cols = 2;
                         foreach (QuestAnswer s in j.Answers)
                         {
                             dw[cols] = s.Answer;
@@ -476,6 +478,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             qm.ForEach(m =>
             {
                 qr = new QuestReport();
+                qr.Docid = m.Docid;
                 qr.TimeStamp = m.Rtt.ToString("yyyy/MM/dd");
                 qr.ContractNo = m.ContractNo;
                 qr.Contract = "";
@@ -1080,6 +1083,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             dt.Columns.Add("維修方式");
             dt.Columns.Add("維修費用");
             dt.Columns.Add("工程師");
+            dt.Columns.Add("總工時");
             List<MonthRepairVModel> mv = MonthRepair(v);
             mv.ForEach(m =>
             {
@@ -1096,6 +1100,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 dw[9] = m.InOut;
                 dw[10] = m.Cost;
                 dw[11] = m.EngNam;
+                dw[12] = m.Hour;
                 dt.Rows.Add(dw);
             });
             //
@@ -1135,7 +1140,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                rd.DealState,
                k.TroubleDes,
                rd.InOut,
-               k.AssetName
+               k.AssetName,
+               rd.Hour
            })
            .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
            (k, at) => new
@@ -1154,7 +1160,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.InOut,
                at.Type,
                at.AssetClass,
-               k.AssetName
+               k.AssetName,
+               k.Hour
            })
            .Join(db.Departments, k => k.AccDpt, c => c.DptId,
            (k, c) => new
@@ -1174,7 +1181,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.InOut,
                k.Type,
                k.AssetClass,
-               k.AssetName
+               k.AssetName,
+               k.Hour
            })
            .GroupJoin(db.RepairEmps, k => k.DocId, ke => ke.DocId,
             (k, ke) => new { k, ke })
@@ -1197,7 +1205,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.k.Type,
                k.k.AssetClass,
                ke.UserId,
-               k.k.AssetName
+               k.k.AssetName,
+               k.k.Hour
            })
             .GroupJoin(db.AppUsers, k => k.UserId, u => u.Id,
             (k, u) => new { k, u })
@@ -1219,7 +1228,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                TroubleDes = k.k.TroubleDes,
                Type = k.k.Type,
                EngNam = u.FullName,
-               AssetClass = k.k.AssetClass
+               AssetClass = k.k.AssetClass,
+               Hour = k.k.Hour
            }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
 
             if (!string.IsNullOrEmpty(v.AccDpt))
