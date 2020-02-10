@@ -1285,7 +1285,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         JsonRequestBehavior = JsonRequestBehavior.AllowGet
                     };
                 }
-                throw new Exception("錯誤: 資料未上傳成功，請確認上傳的資料是否正確。");
+                throw new Exception("錯誤: 資料未上傳成功，請確認上傳的資料格式是否正確。");
             }
             else
             {
