@@ -11,12 +11,23 @@
             </button>*@
     <div class="form-horizontal" style="padding-bottom: 20px;">
         <div class="form-group">
-            <div class="col-md-4">
-                @Html.ActionLink("新增設備", "Create", null, new { @class = "btn btn-default" })
-                <a class="btn btn-default" href="@Url.Action("AssetExcel", TempData["qry"])">匯出Excel</a>
-                <a class="btn btn-default" href="@Url.Content("~/Files/Samples/匯入設備Excel範本.xlsx")" value="">下載匯入設備Excel範本</a>
+            <div class="col-md-8">
+                @Html.ActionLink("新增設備", "Create", null, new { @class = "btn btn-default col-md-2" })
+                <a class="btn btn-default col-md-2" href="@Url.Action("AssetExcel", TempData["qry"])">匯出Excel</a>
+                <a class="btn btn-default col-md-4" href="@Url.Content("~/Files/Samples/匯入設備Excel範本.xlsx")" value="">下載匯入設備Excel範本</a>
+
+                <form action="ImportAssetsByExcel" method="post" enctype="multipart/form-data">
+                    <div class="form-inline">
+                        <label class="btn btn-default">
+                            <input type="file" id="uploadFile" name="uploadFile" class="btn btn-default" style="display:none;">
+                            <span>匯入設備Excel檔案</span>
+                            <input type="submit" hidden />
+                        </label>
+                    </div>
+                </form>
+
             </div>
-            <div class="col-md-8 text-left">
+            <div class="col-md-4 text-left">
                 <div class="form-inline">
                    
                 </div>
@@ -298,5 +309,40 @@
                 }
             });
         }
+    });
+
+    $('#uploadFile').on('change', function (e) {
+        //取得檔案
+        var files = e.target.files;
+        if (files.length > 0) {
+            if (window.FormData !== undefined) {
+                var data = new FormData();
+
+                //可上傳多檔案
+                for (var x = 0; x < files.length; x++) {
+                    data.append(files[x].name, files[x]);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ImportAssetsByExcel", "Assets")',
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.success === true) {
+                            alert("儲存成功!");
+                        }
+                        else {
+                            if (data.success === false) {
+                                alert(data.error);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        document.getElementById("uploadFile").value = "";
     });
 </script>

@@ -1122,6 +1122,177 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
         }
 
+        [MyErrorHandler]
+        [HttpPost]
+        public ActionResult ImportAssetsByExcel()
+        {
+            HttpPostedFileBase uploadFile = Request.Files[0];
+            if (uploadFile != null && uploadFile.ContentLength > 0)
+            {
+                var extension = Path.GetExtension(uploadFile.FileName);
+                var excelFile = Path.Combine(Server.MapPath("~/Files/"), "匯入設備Excel" + extension);
+                if (System.IO.File.Exists(excelFile))
+                {
+                    System.IO.File.Delete(excelFile);
+                }
+                if (uploadFile.ContentType == "application/vnd.ms-excel" || uploadFile.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                {
+                    uploadFile.SaveAs(excelFile);//WORKS FINE
+                                           //BEGINING OF IMPORT
+                    FileInfo eFile = new FileInfo(excelFile);
+                    using (var excelPackage = new ExcelPackage(eFile))
+                    {
+                        if (!eFile.Name.EndsWith("xlsx"))//Return ModelState.AddModelError()
+                        {
+                            throw new Exception("不相容的Excel格式，請使用2007或更新的版本。");
+                        }
+                        else
+                        {
+                            var worksheet = excelPackage.Workbook.Worksheets[1];
+                            if (worksheet == null)
+                            {
+                                throw new Exception("錯誤的Excel格式!");
+                            }
+                            else
+                            {
+                                var lastRow = worksheet.Dimension.End.Row;
+                                for (var row = 2; row <= lastRow; row++)
+                                {                        
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【財產編號】未填寫!");
+                                    }
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【設備類別】未填寫!");
+                                    }
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【中文名稱】未填寫!");
+                                    }
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 17].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【處分性質】未填寫!");
+                                    }
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 18].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【保管部門】未填寫!");
+                                    }
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 19].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【保管人代號】未填寫!");
+                                    }
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 21].Value.ToString()))
+                                    {
+                                        throw new Exception("匯入失敗於第" + row + "行資料，【工程師代號】未填寫!");
+                                    }
+
+                                    var delivUname = worksheet.Cells[row, 19].Value.ToString();
+                                    var engUname = worksheet.Cells[row, 21].Value.ToString();
+                                    try
+                                    {
+                                        var lastColumn = worksheet.Dimension.End.Column;
+                                        var asset = new Asset
+                                        {
+                                            AssetNo = worksheet.Cells[row, 1].Value.ToString(),
+                                            BmedNo = worksheet.Cells[row, 2].Value.ToString(),
+                                            AssetClass = worksheet.Cells[row, 3].Value.ToString(),
+                                            Cname = worksheet.Cells[row, 4].Value.ToString(),
+                                            Cname2 = worksheet.Cells[row, 5].Value.ToString(),
+                                            Ename = worksheet.Cells[row, 6].Value.ToString(),
+                                            AccDate = DateTime.Parse(worksheet.Cells[row, 7].Value.ToString()),
+                                            BuyDate = DateTime.Parse(worksheet.Cells[row, 8].Value.ToString()),
+                                            //RelDate = DateTime.Parse(worksheet.Cells[row, 9].Value.ToString()),
+                                            Brand = worksheet.Cells[row, 10].Value.ToString(),
+                                            Standard = worksheet.Cells[row, 11].Value.ToString(),
+                                            Type = worksheet.Cells[row, 12].Value.ToString(),
+                                            Origin = worksheet.Cells[row, 13].Value.ToString(),
+                                            Voltage = worksheet.Cells[row, 14].Value.ToString(),
+                                            Current = worksheet.Cells[row, 15].Value.ToString(),
+                                            DisposeKind = worksheet.Cells[row, 17].Value.ToString(),
+                                            DelivDpt = worksheet.Cells[row, 18].Value.ToString(),
+                                            DelivUid = db.AppUsers.Where(u => u.UserName == delivUname).First().Id,
+                                            DelivEmp = worksheet.Cells[row, 20].Value.ToString(),
+                                            EngId = db.AppUsers.Where(u => u.UserName == engUname).First().Id,
+                                            LeaveSite = worksheet.Cells[row, 22].Value.ToString(),
+                                            AccDpt = worksheet.Cells[row, 23].Value.ToString(),
+                                            Cost = Convert.ToDecimal(worksheet.Cells[row, 24].Value),
+                                            RiskLvl = worksheet.Cells[row, 25].Value.ToString(),
+                                            MakeNo = worksheet.Cells[row, 27].Value.ToString(),
+                                            Note = worksheet.Cells[row, 28].Value.ToString(),
+                                            WartySt = DateTime.Parse(worksheet.Cells[row, 29].Value.ToString()),
+                                            WartyEd = DateTime.Parse(worksheet.Cells[row, 30].Value.ToString()),
+                                            Docid = worksheet.Cells[row, 31].Value.ToString(),
+                                            ResponsDpt = worksheet.Cells[row, 32].Value.ToString(),
+                                            Rtt = DateTime.Now,
+                                            Rtp = WebSecurity.CurrentUserId
+                                        };
+                                        for (var column = 1; column <= lastColumn; column++)
+                                        {
+                                            if (worksheet.Cells[row, column].Value == null ||
+                                                worksheet.Cells[row, column].Value == DBNull.Value ||
+                                                String.IsNullOrWhiteSpace(worksheet.Cells[row, column].Value.ToString()))
+                                            {
+                                                worksheet.Cells[row, column].Value = null;
+                                            }
+                                            else if (worksheet.Cells[row, column].Value.ToString() == "NULL")
+                                            {
+                                                worksheet.Cells[row, column].Value = null;
+                                            }
+                                        }
+                                        if (worksheet.Cells[row, 16].Value == null ||
+                                            worksheet.Cells[row, 16].Value == DBNull.Value ||
+                                            String.IsNullOrWhiteSpace(worksheet.Cells[row, 16].Value.ToString()))
+                                        {
+                                            asset.VendorId = null;
+                                        }
+                                        else if (worksheet.Cells[row, 16].Value.ToString() == "NULL")
+                                        {
+                                            asset.VendorId = null;
+                                        }
+                                        if (worksheet.Cells[row, 26].Value == null ||
+                                            worksheet.Cells[row, 26].Value == DBNull.Value ||
+                                            String.IsNullOrWhiteSpace(worksheet.Cells[row, 26].Value.ToString()))
+                                        {
+                                            asset.UseLife = null;
+                                        }
+                                        else if (worksheet.Cells[row, 26].Value.ToString() == "NULL")
+                                        {
+                                            asset.UseLife = null;
+                                        }
+
+                                        db.Assets.Add(asset);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        throw new Exception(e.Message);
+                                    }
+                                    
+                                    try
+                                    {
+                                        db.SaveChanges();
+                                    }
+                                    catch (Exception) { throw new Exception("第" + row + "行資料匯入失敗!"); }
+                                }
+                            }
+
+                        }
+
+                    }//END OF IMPORT
+                    return new JsonResult
+                    {
+                        Data = new { success = true, error = "" },
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+                }
+                throw new Exception("錯誤: 資料未上傳成功，請確認上傳的資料是否正確。");
+            }
+            else
+            {
+                throw new Exception("錯誤: 資料未上傳成功，請確認上傳的資料是否正確。");
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
