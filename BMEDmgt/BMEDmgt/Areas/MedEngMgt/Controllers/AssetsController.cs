@@ -371,10 +371,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ano = ano.Trim();
             Asset asset = db.Assets.Find(ano);
             if (asset == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.RequestTimeout);
             }
             if(asset.DelivUid != null)
             {
