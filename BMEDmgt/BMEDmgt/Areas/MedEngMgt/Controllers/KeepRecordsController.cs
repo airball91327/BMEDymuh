@@ -71,6 +71,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 KeepRecord r;
                 KeepRecord r2;
+                if (vmodel.GetValues("item.Sno") == null)
+                {
+                    throw new Exception("需先登錄保養項目!");
+                }
                 int i = vmodel.GetValues("item.Sno").Count();
                 for (int j = 0; j < i; j++)
                 {
