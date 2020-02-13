@@ -475,8 +475,10 @@
                             if (data.success !== null) {
                                 if (!data.success)
                                     alert(data.error);
-                                else
+                                else {
                                     alert("新增成功!");
+                                    $("#AssetNo").val(aNo);
+                                }
                             }
                         },
                         error: function (msg) {

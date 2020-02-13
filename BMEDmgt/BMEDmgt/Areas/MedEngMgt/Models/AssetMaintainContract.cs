@@ -31,7 +31,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string VendorName { get; set; }
         [Display(Name = "廠商統一編號")]
         public string VendorUniteNo { get; set; }
-        //[Required]
+        [Required]
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Display(Name = "財產名稱")]
