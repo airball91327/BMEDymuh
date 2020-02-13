@@ -57,7 +57,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.AssetNo)<br />
             @Html.DisplayFor(modelItem => item.AssetName)<br />
-            <span style="color:orangered; font-weight:bold;">@Html.DisplayFor(modelItem => item.Vendor)</span>
+            <span style="color:orangered; font-weight:bold;">
+                @if (!string.IsNullOrEmpty(item.Vendor))
+                {
+                    @Html.DisplayFor(modelItem => item.Vendor)
+                }
+            </span>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TroubleDes)
@@ -80,10 +85,13 @@
                 @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
                 @Html.Raw("|")
             }
-            else if (item.Flg == "?" && item.PlantClass.Contains("醫療儀器") == false)
+            else if (item.Flg == "?" && item.PlantClass != null)
             {
-                @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
-                @Html.Raw("|")
+                if (item.PlantClass.Contains("醫療儀器") == false)
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
+                    @Html.Raw("|")
+                }
             }
             @Html.ActionLink("預覽", "Views", new { id = item.DocId }) |
             @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |

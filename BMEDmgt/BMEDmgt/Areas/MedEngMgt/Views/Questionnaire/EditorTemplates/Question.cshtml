@@ -1,6 +1,8 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.Question
 <div>
     @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.QID)
+    @Html.HiddenFor(model => model.Typ)
     <h3>@Model.QuestionText </h3>
     @if (Model.Typ == "select")
     {
@@ -19,7 +21,7 @@
         </table>
     }
     else if (Model.Typ == "text")
-    { 
+    {
         <div class="editor-field">
             @Html.TextAreaFor(model => model.SelectedAnswer, new { style = "width: 475px; height: 100px;" })
         </div>

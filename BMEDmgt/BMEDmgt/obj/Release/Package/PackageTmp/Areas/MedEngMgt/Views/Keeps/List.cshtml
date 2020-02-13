@@ -58,7 +58,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.AssetNo)<br />
             @Html.DisplayFor(modelItem => item.AssetName)<br />
-            <span style="color:orangered; font-weight:bold;">@Html.DisplayFor(modelItem => item.Vendor)</span>
+            <span style="color:orangered; font-weight:bold;">
+                @Html.DisplayFor(modelItem => item.Vendor)
+            </span>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InOut)

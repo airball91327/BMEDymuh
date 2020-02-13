@@ -141,11 +141,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Text = u.FullName,
                         Value = u.Id.ToString()
                     });
-                    // Set default value for dropdownlist.
-                    if (u.Id == WebSecurity.CurrentUserId)
-                    {
-                        repairEmp.UserId = u.Id;
-                    }
                 }
             }
             ViewData["UserId"] = uids;
@@ -161,6 +156,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
 
                 return PartialView("Details", emps);
+            }
+            // Set default value for dropdownlist.
+            if (User.IsInRole("MedEngineer") == true)
+            {
+                repairEmp.UserId = WebSecurity.CurrentUserId;
             }
             return PartialView(repairEmp);
         }

@@ -10,7 +10,7 @@
 
 <div class="form-horizontal">
 
-    <h2>國立成功大學醫學院附設醫院 @Model.Qname</h2>
+    <h2>國立陽明大學附設醫院 @Model.Qname</h2>
     <hr />
 
     @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING", OnSuccess = "showmsg" }))
@@ -18,7 +18,7 @@
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Docid)
         @Html.HiddenFor(model => model.YYYYmm)
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="form-inline">
                 <div class="col-md-12 text-left">
                     @Html.Label("CustId", "單位名稱", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -26,14 +26,14 @@
                         @Html.DropDownList("CustId", ViewData["Dept"] as SelectList, "請選擇", new { @class = "form-control combobox" })
                         @Html.ValidationMessageFor(model => model.CustId, "", new { @class = "text-danger" })
                     </div>
-                    @*@Html.Label("ContractNo", "合約名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("ContractNo", "合約名稱", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-4">
                         @Html.DropDownList("ContractNo", ViewData["Contract"] as SelectList, "請選擇", new { @class = "form-control combobox" })
                         @Html.ValidationMessageFor(model => model.CustId, "", new { @class = "text-danger" })
-                    </div>*@
+                    </div>
                 </div>             
             </div>
-        </div>
+        </div>*@
         @Html.EditorFor(model => model.Questions)
     }
 </div>
