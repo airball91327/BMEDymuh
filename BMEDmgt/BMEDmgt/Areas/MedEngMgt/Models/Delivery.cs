@@ -30,7 +30,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string AccDptNam { get; set; }
         [Display(Name = "合約號碼")]
         public string ContractNo { get; set; }
-        [Display(Name = "評估案號")]
+        [Display(Name = "合約案號")]
         public string PurchaseNo { get; set; }
         [Display(Name = "列管編號")]
         public string CrlItemNo { get; set; }
