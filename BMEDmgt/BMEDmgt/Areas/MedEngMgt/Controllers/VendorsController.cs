@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -18,6 +19,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/Vendors
         public ActionResult Index()
         {
+
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "廠商管理";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
             return View();
         }
         [HttpPost]

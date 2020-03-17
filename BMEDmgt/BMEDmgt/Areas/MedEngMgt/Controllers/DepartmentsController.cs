@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
 using Newtonsoft.Json;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -20,6 +21,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/Departments
         public ActionResult Index()
         {
+
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "部門維護";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
             return View(db.Departments.ToList());
         }
 

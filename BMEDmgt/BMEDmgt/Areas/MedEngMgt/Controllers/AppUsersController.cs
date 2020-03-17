@@ -36,6 +36,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
             ViewData["DEPT"] = new SelectList(listItem, "Value", "Text");
 
+
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "使用者維護";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
+
             return View();
         }
 

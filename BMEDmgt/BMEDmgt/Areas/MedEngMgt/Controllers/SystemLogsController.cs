@@ -12,11 +12,11 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    public class DealStatusController : Controller
+    public class SystemLogsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
 
-        // GET: MedEngMgt/DealStatus
+        // GET: MedEngMgt/SystemLogs
         public ActionResult Index()
         {
             if (User.IsInRole("Admin") == true)
@@ -26,104 +26,117 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.LogClass = "系統管理者紀錄";
                 log.LogTime = DateTime.UtcNow.AddHours(8);
                 log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "處理狀況選單";
+                log.Action = "系統訊息紀錄";
                 db.SystemLogs.Add(log);
                 db.SaveChanges();
             }
-            return View(db.DealStatus.ToList());
+
+            var systemLogs = db.SystemLogs.ToList();
+            foreach(var item in systemLogs)
+            {
+                if (item.UserId != null)
+                {
+                    var user = db.AppUsers.Where(u => u.Id == item.UserId.Value).FirstOrDefault();
+                    item.UserName = user.UserName;
+                    item.FullName = user.FullName;
+                }
+            }
+
+            systemLogs = systemLogs.OrderByDescending(s => s.LogTime).ToList();
+            return View(systemLogs);
         }
 
-        // GET: MedEngMgt/DealStatus/Details/5
+        // GET: MedEngMgt/SystemLogs/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DealStatus dealStatus = db.DealStatus.Find(id);
-            if (dealStatus == null)
+            SystemLog systemLog = db.SystemLogs.Find(id);
+            if (systemLog == null)
             {
                 return HttpNotFound();
             }
-            return View(dealStatus);
+            return View(systemLog);
         }
 
-        // GET: MedEngMgt/DealStatus/Create
+        // GET: MedEngMgt/SystemLogs/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: MedEngMgt/DealStatus/Create
+        // POST: MedEngMgt/SystemLogs/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Flg")] DealStatus dealStatus)
+        public ActionResult Create([Bind(Include = "Id,LogClass,LogTime,UserId,Action")] SystemLog systemLog)
         {
             if (ModelState.IsValid)
             {
-                db.DealStatus.Add(dealStatus);
+                db.SystemLogs.Add(systemLog);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(dealStatus);
+            return View(systemLog);
         }
 
-        // GET: MedEngMgt/DealStatus/Edit/5
+        // GET: MedEngMgt/SystemLogs/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DealStatus dealStatus = db.DealStatus.Find(id);
-            if (dealStatus == null)
+            SystemLog systemLog = db.SystemLogs.Find(id);
+            if (systemLog == null)
             {
                 return HttpNotFound();
             }
-            return View(dealStatus);
+            return View(systemLog);
         }
 
-        // POST: MedEngMgt/DealStatus/Edit/5
+        // POST: MedEngMgt/SystemLogs/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Flg")] DealStatus dealStatus)
+        public ActionResult Edit([Bind(Include = "Id,LogClass,LogTime,UserId,Action")] SystemLog systemLog)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(dealStatus).State = EntityState.Modified;
+                db.Entry(systemLog).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(dealStatus);
+            return View(systemLog);
         }
 
-        // GET: MedEngMgt/DealStatus/Delete/5
+        // GET: MedEngMgt/SystemLogs/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DealStatus dealStatus = db.DealStatus.Find(id);
-            if (dealStatus == null)
+            SystemLog systemLog = db.SystemLogs.Find(id);
+            if (systemLog == null)
             {
                 return HttpNotFound();
             }
-            return View(dealStatus);
+            return View(systemLog);
         }
 
-        // POST: MedEngMgt/DealStatus/Delete/5
+        // POST: MedEngMgt/SystemLogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            DealStatus dealStatus = db.DealStatus.Find(id);
-            db.DealStatus.Remove(dealStatus);
+            SystemLog systemLog = db.SystemLogs.Find(id);
+            db.SystemLogs.Remove(systemLog);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

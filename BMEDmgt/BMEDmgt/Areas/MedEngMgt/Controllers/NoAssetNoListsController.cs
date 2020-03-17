@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -19,6 +20,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/NoAssetNoLists
         public ActionResult Index()
         {
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "無財產設備名稱選單";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
             return View(db.NoAssetNoLists.ToList());
         }
 

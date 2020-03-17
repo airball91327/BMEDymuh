@@ -163,6 +163,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: /Account/LogOff
         public ActionResult Manage()
         {
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "帳號維護";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
             return View();
         }
         [HttpPost]
