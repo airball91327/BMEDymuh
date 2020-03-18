@@ -303,12 +303,15 @@ namespace BMEDmgt.Providers
             //if (username == "admin" && password == "nckupwd")
             //    return true;
             //-----------------------------------------------------------------------------------------
-            //string sha1Pswd = GetMD5Hash(password);
+            string sha1Pswd = GetMD5Hash(password);
 
             var userObj = pcontext.DB_GEN_STAFF_PWs.Where(x => x.STAFFNO == username && x.PASSWORD == password)
                 .FirstOrDefault();
-
+            var uObj = context.AppUsers.Where(p => p.UserName == username && p.Password == sha1Pswd)
+                .FirstOrDefault();
             if (userObj != null)
+                return true;
+            if (uObj != null)
                 return true;
 
             return false;
