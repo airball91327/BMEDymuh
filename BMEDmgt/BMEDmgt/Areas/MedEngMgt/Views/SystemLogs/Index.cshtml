@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.SystemLog>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>系統訊息紀錄</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LogClass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LogTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Action)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LogClass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LogTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Action)
+        </td>
+    </tr>
+}
+
+</table>

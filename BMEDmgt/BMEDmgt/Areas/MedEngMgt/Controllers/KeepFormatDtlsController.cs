@@ -76,7 +76,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.KeepFormatDtls.Add(keepformat_dtl);
                 db.SaveChanges();
-                return RedirectToAction("Edit", "KeepFormat", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno});
+                return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno});
             }
 
             return View(keepformat_dtl);
@@ -105,7 +105,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.Entry(keepformat_dtl).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Edit", "KeepFormat", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
+                return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
             }
             return View(keepformat_dtl);
         }
@@ -134,7 +134,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.KeepFormatDtls.Remove(kdtl);
                 db.SaveChanges();
-                return RedirectToAction("Edit", "KeepFormat", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
+                return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
             }
             return View(keepformat_dtl);
         }

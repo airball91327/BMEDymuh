@@ -71,5 +71,6 @@ namespace BMEDmgt.Models
         public DbSet<NeedFile> NeedFiles { get; set; }
         public DbSet<AssetFile> AssetFiles { get; set; }
         public DbSet<DelivCode> DelivCodes { get; set; }
+        public DbSet<SystemLog> SystemLogs { get; set; }
     }
 }

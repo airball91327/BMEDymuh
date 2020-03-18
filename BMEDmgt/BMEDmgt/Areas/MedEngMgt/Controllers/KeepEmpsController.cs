@@ -225,11 +225,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Text = u.FullName,
                         Value = u.Id.ToString()
                     });
-                    // Set default value for dropdownlist.
-                    if (u.Id == WebSecurity.CurrentUserId)
-                    {
-                        keepEmp.UserId = u.Id;
-                    }
                 }
             }
             ViewData["UserId"] = uids;
@@ -244,6 +239,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rp.FullName = (u = db.AppUsers.Find(rp.UserId)) == null ? "" : u.FullName;
                 });
                 return PartialView("Details", emps);
+            }
+            // Set default value for dropdownlist.
+            if (User.IsInRole("Engineer") == true)
+            {
+                keepEmp.UserId = WebSecurity.CurrentUserId;
             }
             return PartialView(keepEmp);
         }

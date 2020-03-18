@@ -395,7 +395,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             var titles = db.QuestionnaireMs.Where(m => m.Flg == "Y")
             .Join(db.Questionnaires, m => m.VerId, q => q.VerId,
-            (m, q) => q).OrderBy(q => q.Qid).Select(q => q.Qtitle);
+            (m, q) => q).OrderBy(q => q.VerId).ThenBy(q => q.Qid).Select(q => q.Qtitle);
 
             return PartialView(titles);
         }

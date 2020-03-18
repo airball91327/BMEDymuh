@@ -43,6 +43,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 })
             );
 
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "最新消息維護";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
+
             return View(newslist);
         }
 

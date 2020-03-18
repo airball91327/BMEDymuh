@@ -371,10 +371,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ano = ano.Trim();
             Asset asset = db.Assets.Find(ano);
             if (asset == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.RequestTimeout);
             }
             if(asset.DelivUid != null)
             {
@@ -1126,7 +1127,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [HttpPost]
         public ActionResult ImportAssetsByExcel()
         {
-            HttpPostedFileBase uploadFile = Request.Files[0];
+            HttpPostedFileBase uploadFile = Request.Files[0] as HttpPostedFileBase;
             if (uploadFile != null && uploadFile.ContentLength > 0)
             {
                 var extension = Path.GetExtension(uploadFile.FileName);
@@ -1135,6 +1136,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     System.IO.File.Delete(excelFile);
                 }
+                // User上傳未知檔案格式時，瀏覽器傳入的ContentType一律會為application/octet-stream
                 if (uploadFile.ContentType == "application/vnd.ms-excel" || uploadFile.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
                     uploadFile.SaveAs(excelFile);//WORKS FINE

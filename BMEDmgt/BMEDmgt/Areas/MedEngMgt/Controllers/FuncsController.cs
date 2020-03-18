@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -38,6 +39,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         //
         public ActionResult RoleWithFuncs(string roleid = "", string module = "")
         {
+            if (User.IsInRole("Admin") == true)
+            {
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "功能權限設定";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+            }
             List<SelectListItem> listItem = new List<SelectListItem>();
             db.AppRoles.ToList().ForEach(d =>
             {

@@ -219,6 +219,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\RepairFlowsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\RepairsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\SystemLogsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\TicketDtlsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\TicketsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\Tmail.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Areas\MedEngMgt\Models\ReportVModels.cs" />
     <Compile Include="Areas\MedEngMgt\Models\SignModels.cs" />
     <Compile Include="Areas\MedEngMgt\Models\News.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\SystemLog.cs" />
     <Compile Include="Areas\MedEngMgt\Models\TicketDtl.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Ticket.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Ticket_seq_tmp.cs" />
@@ -714,7 +716,11 @@
     <Content Include="Areas\MedEngMgt\Views\News\_ShowManual.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\News\ShowWarnings.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Questionnaire\New2.cshtml" />
-    <Content Include="Areas\MedEngMgt\Views\Reports\AssetProperRate.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\SystemLogs\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\SystemLogs\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\SystemLogs\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\SystemLogs\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\SystemLogs\Index.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

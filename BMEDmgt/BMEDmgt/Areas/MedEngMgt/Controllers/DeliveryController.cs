@@ -454,9 +454,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["Users"] = new SelectList(listItem4, "Value", "Text");
             ViewData["Item2"] = new SelectList(listItem5, "Value", "Text");
             //
-            foreach(var item in db.AssetPurchaseContracts)
+            var assetPurchaseContracts = db.AssetPurchaseContracts.ToList();
+            foreach (var item in assetPurchaseContracts)
             {
-                listItem6.Add(new SelectListItem { Text = item.PurchaseName + "(" + item.PurchaseNo + ")", Value = item.PurchaseNo });
+                var isDocExist = db.Deliveries.Where(d => d.PurchaseNo == item.PurchaseNo).FirstOrDefault();
+                if (isDocExist == null)
+                {
+                    listItem6.Add(new SelectListItem { Text = item.PurchaseName + "(" + item.PurchaseNo + ")", Value = item.PurchaseNo });
+                }
             }
             ViewData["PurchaseNo"] = new SelectList(listItem6, "Value", "Text", "");
 
