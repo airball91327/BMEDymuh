@@ -341,6 +341,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     //decimal.Round(Convert.ToDecimal(faildays / v.Edate.Value.Subtract(v.Sdate.Value).TotalDays)*100m, 2);
                     ViewData["Analysis"] = ay;
                     return PartialView("RpKpHistory", rk);
+                case "設備妥善率統計表":
+                    if (v.Edate == null)
+                    {
+                        if (v.Sdate == null)
+                        {
+                            v.Sdate = DateTime.Now.AddYears(-1);
+                        }
+                        v.Edate = DateTime.Now.AddHours(23)
+                        .AddMinutes(59)
+                        .AddSeconds(59);
+                    }
+                    return PartialView("AssetProperRate", AssetProperRate(v));
                 case "重複故障清單":
                     return PartialView("RepeatFail", RepeatFail(v));
                 case "維修保養零件統計表":
@@ -358,6 +370,70 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             return View();
         }
+
+        private List<ProperRate> AssetProperRate(ReportQryVModel v)
+        {
+            var days = v.Edate.Value.Subtract(v.Sdate.Value).TotalDays;
+            double faildays = 0;
+            double dd = 0;
+            int cnt = 0;
+            List<ProperRate> sv = new List<ProperRate>();
+            ProperRate pr;
+            List<Asset> assets = db.Assets.Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+                    .Where(a => a.DisposeKind == "正常").ToList();
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                assets = assets.Where(a => a.AccDpt == v.AccDpt).ToList();
+            }
+            if (!string.IsNullOrEmpty(v.AssetNo))
+            {
+                assets = assets.Where(a => a.AssetNo == v.AssetNo).ToList();
+            }
+            foreach (Asset asset in assets)
+            {
+                pr = new ProperRate();
+                pr.AssetNo = asset.AssetNo;
+                pr.AssetName = asset.Cname;
+                pr.Brand = asset.Brand;
+                pr.Type = asset.Type;
+                pr.AccDpt = asset.AccDpt;
+                pr.AccDptNam = asset.AccDptName;
+                faildays = 0;
+                dd = 0;
+                cnt = 0;
+                db.Repairs.Where(r => r.AssetNo == asset.AssetNo)
+                    .Where(r => r.ApplyDate >= v.Sdate && r.ApplyDate <= v.Edate)
+                    .Join(db.RepairDtls.Where(d => d.EndDate != null), r => r.DocId, d => d.DocId,
+                    (r, d) => new { repair = r, d.EndDate })
+                    .ToList()
+                    .ForEach(r =>
+                    {
+                        if (r.EndDate.Value.CompareTo(v.Edate.Value) > 0)
+                        {
+                            faildays += v.Edate.Value.Subtract(r.repair.ApplyDate.Value).TotalDays;
+                        }
+                        else
+                        {
+                            dd = r.EndDate.Value.Subtract(r.repair.ApplyDate.Value).TotalDays;
+                            if (dd > 0)
+                            {
+                                if (dd <= 1d)
+                                    faildays += 1d;
+                                else
+                                    faildays += dd;
+                            }
+                        }
+                        cnt++;
+                    });
+                pr.RepairCnts = cnt;
+                pr.RepairDays = faildays;
+                pr.ProperRate = decimal.Round(100m -
+                        Convert.ToDecimal(faildays / days) * 100m, 2);
+                sv.Add(pr);
+            }
+            return sv;
+        }
+
         public void ExcelAssetKeepList()
         {
             DataTable dt = new DataTable();

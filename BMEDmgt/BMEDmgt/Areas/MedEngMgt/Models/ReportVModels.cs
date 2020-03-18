@@ -95,6 +95,28 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "維修比")]
         public decimal RepRatio { get; set; }
     }
+    //妥善率報表
+    public class ProperRate
+    {
+        [Display(Name = "財產編號")]
+        public string AssetNo { get; set; }
+        [Display(Name = "設備名稱")]
+        public string AssetName { get; set; }
+        [Display(Name = "廠牌")]
+        public string Brand { get; set; }
+        [Display(Name = "型號")]
+        public string Type { get; set; }
+        [Display(Name = "成本中心")]
+        public string AccDpt { get; set; }
+        [Display(Name = "成本中心名稱")]
+        public string AccDptNam { get; set; }
+        [Display(Name = "維修日數")]
+        public double RepairDays { get; set; }
+        [Display(Name = "維修次數")]
+        public int RepairCnts { get; set; }
+        [Display(Name = "妥善率")]
+        public decimal ProperRate { get; set; }
+    }
     //
     public class UserAsset
     {

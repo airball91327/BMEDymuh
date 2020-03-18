@@ -328,10 +328,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Assign assign = new Assign();
             assign.DocId = id;
             RepairDtl dtl = db.RepairDtls.Find(assign.DocId);
-            if (dtl != null)
-            {
-                assign.CanClose = dtl.CanClose == "Y" ? true : false;
-            }
+            //if (dtl != null)
+            //{
+            //    assign.CanClose = dtl.CanClose == "Y" ? true : false;
+            //}
+            assign.CanClose = true;
             List<SelectListItem> listItem = new List<SelectListItem>();
             listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
             listItem.Add(new SelectListItem { Text = "申請人", Value = "申請人" });
