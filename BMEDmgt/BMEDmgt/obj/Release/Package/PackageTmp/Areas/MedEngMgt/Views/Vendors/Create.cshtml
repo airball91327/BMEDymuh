@@ -137,6 +137,18 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.MgrId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.TextBox("MgrKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyMgr" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.MgrId, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MgrId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="確定送出" class="btn btn-default" />
             </div>
@@ -150,4 +162,31 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            $("#btnQtyMgr").click(function () {
+                var keynam = $("#MgrKeyName").val();
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: '../AppUsers/GetUsersByKeyname',
+                    type: "GET",
+                    data: { keyname: keynam },
+                    dataType: "json",
+                    success: function (data) {
+                        var jsdata = JSON.parse(data);
+                        var appenddata;
+                        appenddata += "<option value = ''>請選擇</option>";
+                        $.each(jsdata, function (key, value) {
+                            appenddata += "<option value = '" + value.uid + "'>" + value.uname + " </option>";
+                        });
+                        $('#MgrId').html(appenddata);
+                    },
+                    error: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+        });
+    </script>
 }

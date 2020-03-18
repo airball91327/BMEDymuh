@@ -6,6 +6,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.VendorId)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.VendorName)
         </th>
         <th>
@@ -56,6 +59,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.VendorId)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.VendorName)
         </td>
         <td>
@@ -101,8 +107,8 @@
             @Html.DisplayFor(modelItem => item.Kind)
         </td>
         <td>
-            @Html.ActionLink("修改", "Edit", new { id=item.VendorId }) |
-            @Html.ActionLink("預覽", "Details", new { id=item.VendorId })
+            @Html.ActionLink("修改", "Edit", new { id = item.VendorId }) |
+            @Html.ActionLink("預覽", "Details", new { id = item.VendorId })
         </td>
     </tr>
 }

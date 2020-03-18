@@ -54,6 +54,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Cname2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cname2)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.AccDate)
         </dt>
 
@@ -131,7 +139,10 @@
 
         <dd>
             @Html.DisplayFor(model => model.VendorName)
-            <a id="btnVendorDetail" class="btn btn-default" href="@Url.Action("Details2", "Vendors", new { id = Model.VendorId })" target="_blank">廠商詳細資料</a>
+            @if (Model.VendorId != null)
+            {
+                <a id="btnVendorDetail" class="btn btn-default" href="@Url.Action("Details2", "Vendors", new { id = Model.VendorId })" target="_blank">廠商詳細資料</a>
+            }
         </dd>
 
         <dt>

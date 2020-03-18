@@ -277,6 +277,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     return PartialView("MonthKeep", MonthKeep(v));
                 case "維修保養統計表":
                     return PartialView("RepairKeep", RepairKeep(v));
+                case "維修金額統計表":
+                    return PartialView("RepairCost", RepairCost(v));
+                case "保養金額統計表":
+                    return PartialView("KeepCost", KeepCost(v));
                 case "工作時數統計表":
                     return PartialView("DoHrSumMon", DoHrSumMon(v));
                 case "未結案清單":
@@ -370,7 +374,48 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             return View();
         }
+        public void ExcelAssetProperRate(ReportQryVModel v)
+        {
+            DataTable dt = new DataTable();
+            DataRow dw;
+            dt.Columns.Add("財產編號");
+            dt.Columns.Add("設備名稱");
+            dt.Columns.Add("廠牌");
+            dt.Columns.Add("型號");
+            dt.Columns.Add("成本中心");
+            dt.Columns.Add("維修日數");
+            dt.Columns.Add("維修次數");
+            dt.Columns.Add("妥善率");
+            List<ProperRate> mv = AssetProperRate(v);
+            mv.ForEach(m =>
+            {
+                dw = dt.NewRow();
+                dw[0] = m.AssetNo;
+                dw[1] = m.AssetName;
+                dw[2] = m.Brand;
+                dw[3] = m.Type;
+                dw[4] = m.AccDpt + m.AccDptNam;
+                dw[5] = m.RepairDays;
+                dw[6] = m.RepairCnts;
+                dw[7] = m.AssetProperRate;
 
+                dt.Rows.Add(dw);
+            });
+            //
+            ExcelPackage excel = new ExcelPackage();
+            var workSheet = excel.Workbook.Worksheets.Add("設備妥善率統計");
+            workSheet.Cells[1, 1].LoadFromDataTable(dt, true);
+            using (var memoryStream = new MemoryStream())
+            {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=MonthKeep.xlsx");
+                excel.SaveAs(memoryStream);
+                memoryStream.WriteTo(Response.OutputStream);
+                Response.Flush();
+                Response.End();
+            }
+
+        }
         private List<ProperRate> AssetProperRate(ReportQryVModel v)
         {
             var days = v.Edate.Value.Subtract(v.Sdate.Value).TotalDays;
@@ -387,8 +432,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (!string.IsNullOrEmpty(v.AssetNo))
             {
-                assets = assets.Where(a => a.AssetNo == v.AssetNo).ToList();
+                assets = assets.Where(a => a.AssetNo == v.AssetNo)
+                    .ToList();
             }
+
             foreach (Asset asset in assets)
             {
                 pr = new ProperRate();
@@ -397,7 +444,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 pr.Brand = asset.Brand;
                 pr.Type = asset.Type;
                 pr.AccDpt = asset.AccDpt;
-                pr.AccDptNam = asset.AccDptName;
+                pr.AccDptNam = db.Departments.Find(asset.AccDpt).Name_C;
                 faildays = 0;
                 dd = 0;
                 cnt = 0;
@@ -427,7 +474,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     });
                 pr.RepairCnts = cnt;
                 pr.RepairDays = faildays;
-                pr.ProperRate = decimal.Round(100m -
+                pr.AssetProperRate = decimal.Round(100m -
                         Convert.ToDecimal(faildays / days) * 100m, 2);
                 sv.Add(pr);
             }
@@ -1484,6 +1531,164 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         }
 
         public List<RepairKeepVModel> RepairKeep(ReportQryVModel v)
+        {
+
+            List<RepairKeepVModel> mv = new List<RepairKeepVModel>();
+            RepairKeepVModel m;
+            int rcnt = 0;
+            int kcnt = 0;
+            decimal tolcost = 0m;
+
+            foreach (Department p in db.Departments.ToList())
+            {
+                m = new RepairKeepVModel();
+                m.CustId = p.DptId;
+                m.CustNam = p.Name_C;
+                rcnt = 0;
+                kcnt = 0;
+                tolcost = 0m;
+                var ss = new[] { "?", "2" };
+                List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate)
+                    .Where(r => r.ApplyDate <= v.Edate)
+                    .Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
+                    (r, f) => r).Join(db.Assets
+                          .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+                          .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
+                          (rd, r) => rd).ToList();
+                //
+                rcnt = rs.Join(db.RepairDtls.Where(d => d.EndDate != null),
+                          rd => rd.DocId, r => r.DocId,
+                          (rd, r) => rd).ToList().Count();
+                m.RpEndAmt = rcnt;
+                m.RepairAmt = rs.Count();
+                if (rcnt > 0)
+                {
+                    m.RepFinishedRate =
+                        decimal.Round(Convert.ToDecimal(rcnt) / Convert.ToDecimal(m.RepairAmt) * 100m, 2);
+                }
+                else
+                    m.RepFinishedRate = 0m;
+                //目前沒有維護費用所以先省略
+                tolcost = 0m;
+                tolcost = rs.Join(db.RepairCosts.Where(c => c.TotalCost > 0), rd => rd.DocId, c => c.DocId,
+                         (rd, c) => c).Select(c => c.TotalCost).DefaultIfEmpty(0).Sum();
+
+                m.RepCost = tolcost;
+                //
+                List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate)
+                   .Where(r => r.SentDate <= v.Edate)
+                   .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
+                   (r, f) => r).Join(db.Assets
+                          .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+                          .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
+                          (rd, r) => rd).ToList();
+
+                kcnt = ks.Join(db.KeepDtls.Where(d => d.EndDate != null),
+                          rd => rd.DocId, r => r.DocId,
+                          (rd, r) => rd).ToList()
+                          .Count();
+                m.KpEndAmt = kcnt;
+                m.KeepAmt = ks.Count();
+                if (kcnt > 0)
+                {
+                    m.KeepFinishedRate =
+                        decimal.Round(Convert.ToDecimal(kcnt) / Convert.ToDecimal(m.KeepAmt) * 100m, 2);
+                }
+                else
+                    m.KeepFinishedRate = 0m;
+                tolcost = 0m;
+                tolcost = ks.Join(db.KeepCosts.Where(c => c.TotalCost > 0), rd => rd.DocId, c => c.DocId,
+                          (rd, c) => c).Select(c => c.TotalCost).DefaultIfEmpty(0).Sum();
+
+                m.KeepCost = tolcost;
+                mv.Add(m);
+            }
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+            }
+            return mv;
+        }
+        public List<RepairKeepVModel> RepairCost(ReportQryVModel v)
+        {
+
+            List<RepairKeepVModel> mv = new List<RepairKeepVModel>();
+            RepairKeepVModel m;
+            int rcnt = 0;
+            int kcnt = 0;
+            decimal tolcost = 0m;
+
+            foreach (Department p in db.Departments.ToList())
+            {
+                m = new RepairKeepVModel();
+                m.CustId = p.DptId;
+                m.CustNam = p.Name_C;
+                rcnt = 0;
+                kcnt = 0;
+                tolcost = 0m;
+                var ss = new[] { "?", "2" };
+                List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate)
+                    .Where(r => r.ApplyDate <= v.Edate)
+                    .Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
+                    (r, f) => r).Join(db.Assets
+                          .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+                          .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
+                          (rd, r) => rd).ToList();
+                //
+                rcnt = rs.Join(db.RepairDtls.Where(d => d.EndDate != null),
+                          rd => rd.DocId, r => r.DocId,
+                          (rd, r) => rd).ToList().Count();
+                m.RpEndAmt = rcnt;
+                m.RepairAmt = rs.Count();
+                if (rcnt > 0)
+                {
+                    m.RepFinishedRate =
+                        decimal.Round(Convert.ToDecimal(rcnt) / Convert.ToDecimal(m.RepairAmt) * 100m, 2);
+                }
+                else
+                    m.RepFinishedRate = 0m;
+                //目前沒有維護費用所以先省略
+                tolcost = 0m;
+                tolcost = rs.Join(db.RepairCosts.Where(c => c.TotalCost > 0), rd => rd.DocId, c => c.DocId,
+                         (rd, c) => c).Select(c => c.TotalCost).DefaultIfEmpty(0).Sum();
+
+                m.RepCost = tolcost;
+                //
+                List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate)
+                   .Where(r => r.SentDate <= v.Edate)
+                   .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
+                   (r, f) => r).Join(db.Assets
+                          .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+                          .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
+                          (rd, r) => rd).ToList();
+
+                kcnt = ks.Join(db.KeepDtls.Where(d => d.EndDate != null),
+                          rd => rd.DocId, r => r.DocId,
+                          (rd, r) => rd).ToList()
+                          .Count();
+                m.KpEndAmt = kcnt;
+                m.KeepAmt = ks.Count();
+                if (kcnt > 0)
+                {
+                    m.KeepFinishedRate =
+                        decimal.Round(Convert.ToDecimal(kcnt) / Convert.ToDecimal(m.KeepAmt) * 100m, 2);
+                }
+                else
+                    m.KeepFinishedRate = 0m;
+                tolcost = 0m;
+                tolcost = ks.Join(db.KeepCosts.Where(c => c.TotalCost > 0), rd => rd.DocId, c => c.DocId,
+                          (rd, c) => c).Select(c => c.TotalCost).DefaultIfEmpty(0).Sum();
+
+                m.KeepCost = tolcost;
+                mv.Add(m);
+            }
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+            }
+            return mv;
+        }
+        public List<RepairKeepVModel> KeepCost(ReportQryVModel v)
         {
 
             List<RepairKeepVModel> mv = new List<RepairKeepVModel>();

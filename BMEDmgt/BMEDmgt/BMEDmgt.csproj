@@ -721,6 +721,9 @@
     <Content Include="Areas\MedEngMgt\Views\SystemLogs\Details.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\SystemLogs\Edit.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\SystemLogs\Index.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\AssetProperRate.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RepairCost.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\KeepCost.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

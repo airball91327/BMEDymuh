@@ -6,7 +6,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\user\Documents\ymuh</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\mac\publish</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/MedEngMgt/Scripts/AssetCreate.js">
@@ -58,7 +58,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Scripts/KeepCreate.js">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Scripts/KeepDtl.js">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -223,7 +223,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/AssetMaintainContracts/Create.cshtml">
-      <publishTime>02/04/2020 23:39:52</publishTime>
+      <publishTime>03/18/2020 12:07:13</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/AssetMaintainContracts/Create2.cshtml">
       <publishTime>02/04/2020 23:39:52</publishTime>
@@ -277,22 +277,22 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/Create.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/Delete2.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/Details.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/Edit.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/Index.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/List.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>03/18/2020 12:07:13</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Assets/New.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -499,7 +499,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Home/Index.cshtml">
-      <publishTime>02/03/2020 20:40:58</publishTime>
+      <publishTime>03/18/2020 12:07:13</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/KeepCosts/Edit.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -712,7 +712,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Questionnaire/EditorTemplates/Question.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>03/18/2020 12:07:13</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Questionnaire/List.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -727,7 +727,7 @@
       <publishTime>02/07/2020 12:00:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Questionnaire/Titles.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/QuestionnaireMs/Create.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -805,7 +805,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/RepairFlows/NextFlow.cshtml">
-      <publishTime>02/07/2020 12:00:58</publishTime>
+      <publishTime>03/18/2020 12:07:13</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/RepairFlows/UpdCases.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -852,6 +852,9 @@
     <File Include="Areas/MedEngMgt/Views/Reports/AssetKpSche.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
+    <File Include="Areas/MedEngMgt/Views/Reports/AssetProperRate.cshtml">
+      <publishTime>03/18/2020 12:40:29</publishTime>
+    </File>
     <File Include="Areas/MedEngMgt/Views/Reports/DoHrSumMon.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
@@ -867,6 +870,9 @@
     <File Include="Areas/MedEngMgt/Views/Reports/Index3.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
+    <File Include="Areas/MedEngMgt/Views/Reports/KeepCost.cshtml">
+      <publishTime>03/18/2020 15:20:18</publishTime>
+    </File>
     <File Include="Areas/MedEngMgt/Views/Reports/MonthFailRate.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
@@ -874,10 +880,13 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Reports/MonthRepair.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Reports/QuestionAnalysis.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
+    </File>
+    <File Include="Areas/MedEngMgt/Views/Reports/RepairCost.cshtml">
+      <publishTime>03/18/2020 15:12:29</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Reports/RepairKeep.cshtml">
       <publishTime>02/07/2020 12:00:58</publishTime>
@@ -904,13 +913,28 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Shared/_Layout.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>03/18/2020 12:07:50</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Shared/_LayoutNtitle.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Shared/_LoginPartial.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
+    </File>
+    <File Include="Areas/MedEngMgt/Views/SystemLogs/Create.cshtml">
+      <publishTime>03/18/2020 12:07:13</publishTime>
+    </File>
+    <File Include="Areas/MedEngMgt/Views/SystemLogs/Delete.cshtml">
+      <publishTime>03/18/2020 12:07:13</publishTime>
+    </File>
+    <File Include="Areas/MedEngMgt/Views/SystemLogs/Details.cshtml">
+      <publishTime>03/18/2020 12:07:13</publishTime>
+    </File>
+    <File Include="Areas/MedEngMgt/Views/SystemLogs/Edit.cshtml">
+      <publishTime>03/18/2020 12:07:13</publishTime>
+    </File>
+    <File Include="Areas/MedEngMgt/Views/SystemLogs/Index.cshtml">
+      <publishTime>03/18/2020 12:07:13</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/TicketDtls/Create.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -946,25 +970,25 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/Create.cshtml">
-      <publishTime>02/07/2020 12:00:58</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/Delete.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/Details.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/Details2.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/Edit.cshtml">
-      <publishTime>02/07/2020 12:00:58</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/Index.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/List.cshtml">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>02/10/2020 21:36:58</publishTime>
     </File>
     <File Include="Areas/MedEngMgt/Views/Vendors/QryVendor.cshtml">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -985,10 +1009,10 @@
       <publishTime>01/20/2020 17:54:24</publishTime>
     </File>
     <File Include="bin/BMEDmgt.dll">
-      <publishTime>02/07/2020 13:30:01</publishTime>
+      <publishTime>03/18/2020 15:33:52</publishTime>
     </File>
     <File Include="bin/BMEDmgt.pdb">
-      <publishTime>02/07/2020 13:30:01</publishTime>
+      <publishTime>03/18/2020 15:33:52</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/20/2020 17:54:25</publishTime>
@@ -1225,7 +1249,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/20/2020 17:54:19</publishTime>
+      <publishTime>03/17/2020 15:21:53</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
       <publishTime>01/20/2020 17:54:19</publishTime>
@@ -1882,7 +1906,7 @@
       <publishTime>01/20/2020 17:54:19</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/07/2020 12:03:17</publishTime>
+      <publishTime>03/18/2020 13:09:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

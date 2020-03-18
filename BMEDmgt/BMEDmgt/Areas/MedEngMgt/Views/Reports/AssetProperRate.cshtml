@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.ProperRate>
 
-
 <h4>設備妥善率統計表</h4>
 <p>
-    <a class="btn btn-default" href="@Url.Action("ExcelAssetKeepList")">匯出Excel</a>
+    <a class="btn btn-default" href="@Url.Action("ExcelAssetProperRate", TempData["qry"])">匯出Excel</a>
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -29,7 +29,7 @@
             @Html.DisplayNameFor(model => model.RepairCnts)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProperRate)
+            @Html.DisplayNameFor(model => model.AssetProperRate)
         </th>
     </tr>
     @foreach (var item in Model)
@@ -57,7 +57,7 @@
             @Html.DisplayFor(modelItem => item.RepairCnts)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProperRate)
+            @Html.DisplayFor(modelItem => item.AssetProperRate)
         </td>
     </tr>
     }

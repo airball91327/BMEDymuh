@@ -4,7 +4,11 @@
 
 <script>
     $(function () {
+        $("#btnQuestSEND").attr("hidden", true);
         $("#btnGO").click(function () {
+            if ($('#FlowCls').val() == '結案') {
+                $("#questForm").submit();
+            }
             $("#nextFlowForm").submit();
         });
         $("#btnQuestSEND").click(function () {

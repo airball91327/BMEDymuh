@@ -115,7 +115,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "維修次數")]
         public int RepairCnts { get; set; }
         [Display(Name = "妥善率")]
-        public decimal ProperRate { get; set; }
+        public decimal AssetProperRate { get; set; }
     }
     //
     public class UserAsset
