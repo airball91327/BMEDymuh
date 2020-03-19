@@ -29,7 +29,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "故障原因選單";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             return View(db.FailFactors.ToList());
         }
@@ -125,7 +128,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             FailFactor failFactor = db.FailFactors.Find(id);
             db.FailFactors.Remove(failFactor);
-            db.SaveChanges();
+            if (TryUpdateModel(failFactor))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

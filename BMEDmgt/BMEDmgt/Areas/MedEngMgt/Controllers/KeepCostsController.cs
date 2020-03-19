@@ -66,7 +66,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (keepCost.StockType != "0")
                     keepCost.PartNo = "";
                 db.KeepCosts.Add(keepCost);
-                db.SaveChanges();
+                if (TryUpdateModel(keepCost))
+                {
+                    db.SaveChanges();
+                }
                 //
                 KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId)
                     .FirstOrDefault();
@@ -76,7 +79,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
                     db.Entry(dtl).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(dtl))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 return RedirectToAction("Index");
             }
@@ -165,7 +171,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (keepCost.StockType != "0")
                         keepCost.PartNo = "";
                     db.KeepCosts.Add(keepCost);
-                    db.SaveChanges();
+                    if (TryUpdateModel(keepCost))
+                    {
+                        db.SaveChanges();
+                    }
                     //
                     KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId)
                         .FirstOrDefault();
@@ -175,7 +184,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
                         db.Entry(dtl).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (TryUpdateModel(dtl))
+                        {
+                            db.SaveChanges();
+                        }
                     }
                     List<KeepCost> kc = db.KeepCosts.Where(c => c.DocId == keepCost.DocId).ToList();
                     kc.ForEach(k =>
@@ -217,7 +229,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 KeepCost keepCost = db.KeepCosts.Find(docid, Convert.ToInt32(seqno));
                 db.KeepCosts.Remove(keepCost);
-                db.SaveChanges();
+                if (TryUpdateModel(keepCost))
+                {
+                    db.SaveChanges();
+                }
                 //
                 KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId)
                     .FirstOrDefault();
@@ -227,7 +242,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
                     db.Entry(dtl).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(dtl))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 return new JsonResult
                 {

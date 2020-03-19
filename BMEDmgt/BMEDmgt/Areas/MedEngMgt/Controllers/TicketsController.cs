@@ -169,7 +169,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Remove(ticket);
-            db.SaveChanges();
+            if (TryUpdateModel(ticket))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -197,7 +200,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 result = Convert.ToString(seq);
                 db.Ticket_seq_tmps.Add(tmp);
             }
-            db.SaveChanges();
+            if (TryUpdateModel(tmp))
+            {
+                db.SaveChanges();
+            }
 
             return result;
         }

@@ -78,7 +78,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.AssetFiles.Add(assetfile);
                 try
                 {
-                    db.SaveChanges();
+                    if (TryUpdateModel(assetfile))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -180,7 +183,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     FileInfo ff = new FileInfo(Path.Combine(Server.MapPath("~/Files"), assetfile.FileLink));
                     ff.Delete();
                     db.AssetFiles.Remove(assetfile);
-                    db.SaveChanges();
+                    if (TryUpdateModel(assetfile))
+                    {
+                        db.SaveChanges();
+                    }
                     //return Json(new { msg = "儲存成功!" }, JsonRequestBehavior.AllowGet);
                     return Content("");
                 }
@@ -204,7 +210,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetFile assetfile = db.AssetFiles.Find(id);
             db.AssetFiles.Remove(assetfile);
-            db.SaveChanges();
+            if (TryUpdateModel(assetfile))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

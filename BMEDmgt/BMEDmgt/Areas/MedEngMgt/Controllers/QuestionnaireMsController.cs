@@ -128,7 +128,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             QuestionnaireM questionnaireM = db.QuestionnaireMs.Find(id);
             db.QuestionnaireMs.Remove(questionnaireM);
-            db.SaveChanges();
+            if (TryUpdateModel(questionnaireM))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

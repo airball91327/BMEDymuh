@@ -83,7 +83,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 deptStok.Rtp = WebSecurity.CurrentUserId;
                 deptStok.Rtt = DateTime.Now;
                 db.DeptStoks.Add(deptStok);
-                db.SaveChanges();
+                if (TryUpdateModel(deptStok))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -114,7 +117,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.StokRecords.Add(stokRecord);
                 try
                 {
-                    db.SaveChanges();
+                    if (TryUpdateModel(stokRecord))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -154,7 +160,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 deptStok.Rtp = WebSecurity.CurrentUserId;
                 deptStok.Rtt = DateTime.Now;
                 db.Entry(deptStok).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(deptStok))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(deptStok);
@@ -182,7 +191,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DeptStok deptStok = db.DeptStoks.Find(id);
             db.DeptStoks.Remove(deptStok);
-            db.SaveChanges();
+            if (TryUpdateModel(deptStok))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

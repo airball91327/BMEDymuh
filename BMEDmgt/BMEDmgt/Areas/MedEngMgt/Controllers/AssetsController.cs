@@ -481,7 +481,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         ak.AssetNo = asset.AssetNo;
                         db.AssetKeeps.Add(ak);
                     }
-                    db.SaveChanges();
+                    if (TryUpdateModel(asset))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -601,7 +604,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.Entry(asset).State = EntityState.Modified;
                 try
                 {
-                    db.SaveChanges();
+                    if (TryUpdateModel(asset))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -718,7 +724,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 try
                 {
-                    db.SaveChanges();
+                    if (TryUpdateModel(ak))
+                    {
+                        db.SaveChanges();
+                    }
                     return Content("success");
                 }
                 catch (Exception e)
@@ -767,7 +776,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Asset asset = db.Assets.Find(id);
             db.Assets.Remove(asset);
-            db.SaveChanges();
+            if (TryUpdateModel(asset))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -793,7 +805,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.Assets.Remove(asset);
             AssetKeep keep = db.AssetKeeps.Find(id);
             db.AssetKeeps.Remove(keep);
-            db.SaveChanges();
+            if (TryUpdateModel(keep))
+            {
+                db.SaveChanges();
+            }
 
             return JavaScript("alert('刪除成功!');window.opener.location.reload();close();");
         }
@@ -936,7 +951,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (ModelState.IsValid)
                         {
                             db.Entry(at).State = EntityState.Modified;
-                            db.SaveChanges();
+                            if (TryUpdateModel(at))
+                            {
+                                db.SaveChanges();
+                            }
                         }
                     }
                 }
@@ -1104,7 +1122,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 try
                 {
-                    db.SaveChanges();
+                    if (TryUpdateModel(ak))
+                    {
+                        db.SaveChanges();
+                    }
                     return Content("success");
                 }
                 catch (Exception e)

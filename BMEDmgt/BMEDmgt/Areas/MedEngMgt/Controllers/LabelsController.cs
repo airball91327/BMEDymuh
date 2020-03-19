@@ -120,7 +120,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Label label = db.Labels.Find(id);
             db.Labels.Remove(label);
-            db.SaveChanges();
+            if (TryUpdateModel(label))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

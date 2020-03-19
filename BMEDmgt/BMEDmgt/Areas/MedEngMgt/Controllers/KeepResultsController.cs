@@ -29,7 +29,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "保養結果選單";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             return View(db.KeepResults.ToList());
         }
@@ -65,7 +68,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.KeepResults.Add(keepResult);
-                db.SaveChanges();
+                if (TryUpdateModel(keepResult))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -97,7 +103,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(keepResult).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(keepResult))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(keepResult);
@@ -125,7 +134,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             KeepResult keepResult = db.KeepResults.Find(id);
             db.KeepResults.Remove(keepResult);
-            db.SaveChanges();
+            if (TryUpdateModel(keepResult))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

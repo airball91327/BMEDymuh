@@ -30,7 +30,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "廠商管理";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             return View();
         }
@@ -216,7 +219,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Vendor vendor = db.Vendors.Find(id);
             db.Vendors.Remove(vendor);
-            db.SaveChanges();
+            if (TryUpdateModel(vendor))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

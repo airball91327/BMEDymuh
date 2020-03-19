@@ -29,7 +29,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "處理狀況選單";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             return View(db.DealStatus.ToList());
         }
@@ -125,7 +128,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DealStatus dealStatus = db.DealStatus.Find(id);
             db.DealStatus.Remove(dealStatus);
-            db.SaveChanges();
+            if (TryUpdateModel(dealStatus))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

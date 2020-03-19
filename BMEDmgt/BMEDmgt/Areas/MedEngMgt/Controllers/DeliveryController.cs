@@ -236,7 +236,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     d.Stype2 = dv.Stype2;
                     d.OpenDate = dv.OpenDate;
                     d.OrderDate = dv.OrderDate;
-                    db.SaveChanges();
+                    if (TryUpdateModel(d))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 return Json(new { success = true, msg = "儲存成功!" });
             }
@@ -394,7 +397,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.WartyMon = 0;
             r.DelivDateR = DateTime.Now;
             db.Deliveries.Add(r);
-            db.SaveChanges();
+            if (TryUpdateModel(r))
+            {
+                db.SaveChanges();
+            }
             List<SelectListItem> listItem = new List<SelectListItem>();
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             List<SelectListItem> listItem3 = new List<SelectListItem>();
@@ -535,7 +541,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //    db.Entry(a).State = EntityState.Modified;
                 //}
                 //
-                db.SaveChanges();
+                if (TryUpdateModel(rf))
+                {
+                    db.SaveChanges();
+                }
                 //----------------------------------------------------------------------------------
                 // Mail
                 //----------------------------------------------------------------------------------
@@ -606,7 +615,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(delivery).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(delivery))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(delivery);
@@ -633,7 +645,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Delivery delivery = db.Deliveries.Find(id);
             db.Deliveries.Remove(delivery);
-            db.SaveChanges();
+            if (TryUpdateModel(delivery))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

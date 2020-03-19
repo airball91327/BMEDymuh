@@ -115,7 +115,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             TicketDtl ticketDtl = db.TicketDtls.Find(id);
             db.TicketDtls.Remove(ticketDtl);
-            db.SaveChanges();
+            if (TryUpdateModel(ticketDtl))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

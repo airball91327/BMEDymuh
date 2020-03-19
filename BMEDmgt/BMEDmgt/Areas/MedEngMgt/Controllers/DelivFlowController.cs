@@ -121,7 +121,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rf.Rtt = DateTime.Now;
                     rf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(rf).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(rf))
+                    {
+                        db.SaveChanges();
+                    }
                     //
                     // Send Mail
                     //mail = new Tmail();
@@ -167,7 +170,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 DelivFlow.Opinions = null;
                 db.Entry(rf).State = EntityState.Modified;
                 db.DelivFlows.Add(DelivFlow);
-                db.SaveChanges();
+                if (TryUpdateModel(DelivFlow))
+                {
+                    db.SaveChanges();
+                }
                 //
                 //Send Mail
                 //mail = new Tmail();
@@ -223,7 +229,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.DelivFlows.Add(delivflow);
-                db.SaveChanges();
+                if (TryUpdateModel(delivflow))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -252,7 +261,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(delivflow).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(delivflow))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(delivflow);
@@ -279,7 +291,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DelivFlow delivflow = db.DelivFlows.Find(id);
             db.DelivFlows.Remove(delivflow);
-            db.SaveChanges();
+            if (TryUpdateModel(delivflow))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

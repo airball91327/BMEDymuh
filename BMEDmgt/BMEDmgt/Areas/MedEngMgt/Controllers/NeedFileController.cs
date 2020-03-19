@@ -83,7 +83,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.NeedFiles.Add(needfile);
-                db.SaveChanges();
+                if (TryUpdateModel(needfile))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -112,7 +115,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(needfile).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(needfile))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(needfile);
@@ -139,7 +145,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             NeedFile needfile = db.NeedFiles.Find(id);
             db.NeedFiles.Remove(needfile);
-            db.SaveChanges();
+            if (TryUpdateModel(needfile))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

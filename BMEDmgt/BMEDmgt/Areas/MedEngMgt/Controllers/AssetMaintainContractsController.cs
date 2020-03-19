@@ -186,7 +186,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assetMaintainContract.Rtt = DateTime.Now;
 
                 db.AssetMaintainContracts.Add(assetMaintainContract);
-                db.SaveChanges();
+                if (TryUpdateModel(assetMaintainContract))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -269,7 +272,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assetMaintainContract.Rtt = DateTime.Now;
 
                 db.Entry(assetMaintainContract).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(assetMaintainContract))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(assetMaintainContract);
@@ -301,7 +307,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
             db.AssetMaintainContracts.Remove(assetMaintainContract);
-            db.SaveChanges();
+            if (TryUpdateModel(assetMaintainContract))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -361,7 +370,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 ac.Rtt = DateTime.Now;
 
                 db.AssetsInMContracts.Add(ac);
-                db.SaveChanges();
+                if (TryUpdateModel(ac))
+                {
+                    db.SaveChanges();
+                }
             }
             return new JsonResult
             {
@@ -386,7 +398,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 AssetsInMContracts asset = db.AssetsInMContracts.Find(purchaseNo, assetNo);
                 db.AssetsInMContracts.Remove(asset);
-                db.SaveChanges();
+                if (TryUpdateModel(asset))
+                {
+                    db.SaveChanges();
+                }
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },

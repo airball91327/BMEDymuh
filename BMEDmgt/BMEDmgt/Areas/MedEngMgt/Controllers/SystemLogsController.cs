@@ -29,7 +29,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "系統訊息紀錄";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
 
             var systemLogs = db.SystemLogs.ToList();
@@ -78,7 +81,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.SystemLogs.Add(systemLog);
-                db.SaveChanges();
+                if (TryUpdateModel(systemLog))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -110,7 +116,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(systemLog).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(systemLog))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(systemLog);
@@ -138,7 +147,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             SystemLog systemLog = db.SystemLogs.Find(id);
             db.SystemLogs.Remove(systemLog);
-            db.SaveChanges();
+            if (TryUpdateModel(systemLog))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

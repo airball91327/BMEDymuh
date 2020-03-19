@@ -46,7 +46,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "使用者維護";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
 
             return View();
@@ -198,9 +201,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 newUser.Mobile = appUser.Mobile;
                 newUser.VendorId = appUser.VendorId;
                 db.Entry(newUser).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(newUser))
+                {
+                    db.SaveChanges();
+                }
                 //
-                
+
                 List<UserInRolesVModel> uv = appUser.InRoles.Where(v => v.IsSelected == true).ToList();
                 foreach (UserInRolesVModel u in uv)
                 {
@@ -267,7 +273,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     //
                     appUser.LastActivityDate = DateTime.Now;
                     db.Entry(appUser).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(appUser))
+                    {
+                        db.SaveChanges();
+                    }
                     //
                     if (!string.IsNullOrEmpty(appUser.newPassword))
                     {
@@ -304,7 +313,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AppUser appUser = db.AppUsers.Find(id);
             db.AppUsers.Remove(appUser);
-            db.SaveChanges();
+            if (TryUpdateModel(appUser))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

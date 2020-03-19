@@ -31,7 +31,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "部門維護";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             return View(db.Departments.ToList());
         }
@@ -69,7 +72,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 department.DateCreated = DateTime.Now;
                 department.LastActivityDate = DateTime.Now;
                 db.Departments.Add(department);
-                db.SaveChanges();
+                if (TryUpdateModel(department))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -102,7 +108,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 department.LastActivityDate = DateTime.Now;
                 db.Entry(department).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(department))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(department);
@@ -130,7 +139,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Department department = db.Departments.Find(id);
             db.Departments.Remove(department);
-            db.SaveChanges();
+            if (TryUpdateModel(department))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

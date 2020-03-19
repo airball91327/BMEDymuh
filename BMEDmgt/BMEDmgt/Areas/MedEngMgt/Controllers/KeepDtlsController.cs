@@ -150,7 +150,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 dtl = new KeepDtl();
                                 dtl.DocId = ss;
                                 db.KeepDtls.Add(dtl);
-                                db.SaveChanges();
+                                if (TryUpdateModel(dtl))
+                                {
+                                    db.SaveChanges();
+                                }
                             }
                             if (keepDtl.IsCharged == "N")
                             {
@@ -173,7 +176,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             dtl.Cost = keepDtl.Cost;
                             dtl.CloseDate = keepDtl.CloseDate;
                             db.Entry(dtl).State = EntityState.Modified;
-                            db.SaveChanges();
+                            if (TryUpdateModel(dtl))
+                            {
+                                db.SaveChanges();
+                            }
                         }
                     }
                       
@@ -303,7 +309,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     }
                     db.Entry(keepDtl).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(keepDtl))
+                    {
+                        db.SaveChanges();
+                    }
                     return new JsonResult
                     {
                         Data = new { success = true, error = "" },
@@ -348,7 +357,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             KeepDtl keepDtl = db.KeepDtls.Find(id);
             db.KeepDtls.Remove(keepDtl);
-            db.SaveChanges();
+            if (TryUpdateModel(keepDtl))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

@@ -44,7 +44,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.Contact = u.Ext == null ? "" : u.Ext;
             //
             db.Keeps.Add(r);
-            db.SaveChanges();
+            if (TryUpdateModel(r))
+            {
+                db.SaveChanges();
+            }
             List<SelectListItem> listItem = new List<SelectListItem>();
             List<SelectListItem> AccDpt = new List<SelectListItem>();
             db.Departments.ToList()
@@ -92,7 +95,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 AppUser a = db.AppUsers.Find(keep.UserId);
                 a.Email = keep.Email;
                 db.Entry(a).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(a))
+                {
+                    db.SaveChanges();
+                }
                 //
                 AssetKeep kp = db.AssetKeeps.Find(keep.AssetNo);
                 Asset at = db.Assets.Find(keep.AssetNo);
@@ -139,7 +145,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         break;
                 }
                 db.KeepDtls.Add(dl);
-                db.SaveChanges();
+                if (TryUpdateModel(dl))
+                {
+                    db.SaveChanges();
+                }
                 //
                 KeepFlow rf = new KeepFlow();
                 rf.DocId = keep.DocId;
@@ -176,7 +185,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if(dl.InOut != "0")         //2018-5-16修改
                     rf.Cls = "維修工程師"; 
                 db.KeepFlows.Add(rf);
-                db.SaveChanges();
+                if (TryUpdateModel(rf))
+                {
+                    db.SaveChanges();
+                }
                 if (dl.InOut != "0")
                 {
                     //send mail
@@ -1153,7 +1165,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rf.Rtp = WebSecurity.CurrentUserId;
                     rf.Rtt = DateTime.Now;
                     db.Entry(rf).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(rf))
+                    {
+                        db.SaveChanges();
+                    }
                     return new JsonResult
                     {
                         Data = new { success = true, error = "" },

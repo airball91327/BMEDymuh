@@ -145,7 +145,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             RepairFlow repairFlow = db.RepairFlows.Find(id);
             db.RepairFlows.Remove(repairFlow);
-            db.SaveChanges();
+            if (TryUpdateModel(repairFlow))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -216,7 +219,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             rf.Rtp = WebSecurity.CurrentUserId;
                             db.Entry(rf).State = EntityState.Modified;
                             db.Entry(rd).State = EntityState.Modified;
-                            db.SaveChanges();
+                            if (TryUpdateModel(rd))
+                            {
+                                db.SaveChanges();
+                            }
                             //Send Mail
                             Tmail mail = new Tmail();
                             string body = "";
@@ -257,7 +263,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             rf.Rtt = DateTime.Now;
                             rf.Rtp = WebSecurity.CurrentUserId;
                             db.Entry(rf).State = EntityState.Modified;
-                            db.SaveChanges();
+                            if (TryUpdateModel(rf))
+                            {
+                                db.SaveChanges();
+                            }
                         }
                         else
                         {
@@ -277,7 +286,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                             db.Entry(rf).State = EntityState.Modified;
                             db.RepairFlows.Add(flow);
-                            db.SaveChanges();
+                            if (TryUpdateModel(flow))
+                            {
+                                db.SaveChanges();
+                            }
                             if (assign.FlowCls != "設備工程師")
                             {
                                 //Send Mail
@@ -421,7 +433,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     repair.AccDpt = asset.AccDpt;
                     repair.Email = db.AppUsers.Find(repair.UserId).Email;
                     db.Entry(repair).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(repair))
+                    {
+                        db.SaveChanges();
+                    }
                 }
             }
             RepairDtl dtl = db.RepairDtls.Find(assign.DocId);
@@ -437,7 +452,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     dtl.CanClose = "N";
                     db.Entry(dtl).State = EntityState.Modified;
                 }
-                db.SaveChanges();
+                if (TryUpdateModel(dtl))
+                {
+                    db.SaveChanges();
+                }
             }
 
             if (ModelState.IsValid)
@@ -482,7 +500,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(rf).State = EntityState.Modified;
                     db.Entry(rd).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(rd))
+                    {
+                        db.SaveChanges();
+                    }
                     //Send Mail
                     Tmail mail = new Tmail();
                     string body = "";
@@ -523,7 +544,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rf.Rtt = DateTime.Now;
                     rf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(rf).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(rf))
+                    {
+                        db.SaveChanges();
+                    }
                 }
                 else
                 {
@@ -533,7 +557,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rf.Rtt = DateTime.Now;
                     rf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(rf).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(rf))
+                    {
+                        db.SaveChanges();
+                    }
                     //
                     RepairFlow flow = new RepairFlow();
                     flow.DocId = assign.DocId;
@@ -544,7 +571,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     flow.Cls = assign.FlowCls;
                     flow.Rtt = DateTime.Now;
                     db.RepairFlows.Add(flow);
-                    db.SaveChanges();
+                    if (TryUpdateModel(flow))
+                    {
+                        db.SaveChanges();
+                    }
                     if (!assign.FlowCls.Contains("工程師"))
                     {
                         //Send Mail

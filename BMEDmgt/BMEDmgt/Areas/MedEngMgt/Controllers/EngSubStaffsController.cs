@@ -30,7 +30,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "設定代理人";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             var user = db.AppUsers.Find(WebSecurity.CurrentUserId);
 
@@ -210,7 +213,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             EngSubStaff engSubStaff = db.EngSubStaffs.Find(id);
             db.EngSubStaffs.Remove(engSubStaff);
-            db.SaveChanges();
+            if (TryUpdateModel(engSubStaff))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

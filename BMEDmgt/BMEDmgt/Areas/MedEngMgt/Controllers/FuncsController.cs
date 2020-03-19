@@ -49,7 +49,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "功能權限設定";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             List<SelectListItem> listItem = new List<SelectListItem>();
             db.AppRoles.ToList().ForEach(d =>

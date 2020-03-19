@@ -53,7 +53,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.KeepFormats.Add(keepformat);
-                db.SaveChanges();
+                if (TryUpdateModel(keepformat))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -82,7 +85,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(keepformat).State = EntityState.Modified;
-                db.SaveChanges();
+                if (TryUpdateModel(keepformat))
+                {
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(keepformat);
@@ -115,7 +121,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             KeepFormat keepformat = db.KeepFormats.Find(id);
             db.KeepFormats.Remove(keepformat);
-            db.SaveChanges();
+            if (TryUpdateModel(keepformat))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

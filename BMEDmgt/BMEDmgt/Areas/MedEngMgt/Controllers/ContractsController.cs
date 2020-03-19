@@ -128,7 +128,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     contract.Rtp = WebSecurity.CurrentUserId;
                     contract.Rtt = DateTime.Now;
                     db.Contracts.Add(contract);
-                    db.SaveChanges();
+                    if (TryUpdateModel(contract))
+                    {
+                        db.SaveChanges();
+                    }
 
                     return new JsonResult
                     {
@@ -204,7 +207,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     contract.Rtp = WebSecurity.CurrentUserId;
                     contract.Rtt = DateTime.Now;
                     db.Entry(contract).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (TryUpdateModel(contract))
+                    {
+                        db.SaveChanges();
+                    }
 
                     return new JsonResult
                     {
@@ -250,7 +256,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Contract contract = db.Contracts.Find(id);
             db.Contracts.Remove(contract);
-            db.SaveChanges();
+            if (TryUpdateModel(contract))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         [AllowAnonymous]

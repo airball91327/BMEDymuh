@@ -29,7 +29,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "無財產設備名稱選單";
                 db.SystemLogs.Add(log);
-                db.SaveChanges();
+                if (TryUpdateModel(log))
+                {
+                    db.SaveChanges();
+                }
             }
             return View(db.NoAssetNoLists.ToList());
         }
@@ -125,7 +128,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             NoAssetNoList noAssetNoList = db.NoAssetNoLists.Find(id);
             db.NoAssetNoLists.Remove(noAssetNoList);
-            db.SaveChanges();
+            if (TryUpdateModel(noAssetNoList))
+            {
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
