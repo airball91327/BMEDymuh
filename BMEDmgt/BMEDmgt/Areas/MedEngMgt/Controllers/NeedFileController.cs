@@ -10,6 +10,7 @@ using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class NeedFileController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

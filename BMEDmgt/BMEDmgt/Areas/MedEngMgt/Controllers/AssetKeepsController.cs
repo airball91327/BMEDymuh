@@ -15,6 +15,7 @@ using System.Web.UI.WebControls;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class AssetKeepsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

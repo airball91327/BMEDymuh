@@ -14,6 +14,7 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class DeptStoksController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

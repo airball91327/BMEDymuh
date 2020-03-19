@@ -15,6 +15,7 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class KeepFlowsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

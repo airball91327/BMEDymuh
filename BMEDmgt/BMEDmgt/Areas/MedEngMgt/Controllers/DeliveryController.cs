@@ -19,6 +19,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public string uname;
         public string gid;
     }
+    [Authorize]
     public class DeliveryController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

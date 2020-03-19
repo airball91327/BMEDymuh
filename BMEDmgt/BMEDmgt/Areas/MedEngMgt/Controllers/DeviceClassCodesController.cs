@@ -13,6 +13,7 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class DeviceClassCodesController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

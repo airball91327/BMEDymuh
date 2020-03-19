@@ -15,6 +15,7 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class RepairEmpsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

@@ -15,6 +15,7 @@ using BMEDmgt.Areas.MedEngMgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class DelivFlowController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
