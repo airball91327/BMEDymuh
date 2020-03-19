@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class FailFactorsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -29,10 +28,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "故障原因選單";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             return View(db.FailFactors.ToList());
         }
@@ -128,10 +124,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             FailFactor failFactor = db.FailFactors.Find(id);
             db.FailFactors.Remove(failFactor);
-            if (TryUpdateModel(failFactor))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

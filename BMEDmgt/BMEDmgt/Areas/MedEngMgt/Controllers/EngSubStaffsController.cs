@@ -13,7 +13,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class EngSubStaffsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -30,10 +29,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "設定代理人";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             var user = db.AppUsers.Find(WebSecurity.CurrentUserId);
 
@@ -213,10 +209,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             EngSubStaff engSubStaff = db.EngSubStaffs.Find(id);
             db.EngSubStaffs.Remove(engSubStaff);
-            if (TryUpdateModel(engSubStaff))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

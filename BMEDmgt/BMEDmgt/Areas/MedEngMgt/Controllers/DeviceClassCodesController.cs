@@ -13,7 +13,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class DeviceClassCodesController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -30,10 +29,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "設備分類選單";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             return View(db.DeviceClassCodes.ToList());
         }
@@ -129,10 +125,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DeviceClassCode deviceClassCode = db.DeviceClassCodes.Find(id);
             db.DeviceClassCodes.Remove(deviceClassCode);
-            if (TryUpdateModel(deviceClassCode))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
         public JsonResult GetDataByKeyname(string keyname)

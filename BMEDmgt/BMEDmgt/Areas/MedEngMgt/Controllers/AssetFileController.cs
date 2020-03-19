@@ -13,7 +13,6 @@ using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class AssetFileController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -78,10 +77,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.AssetFiles.Add(assetfile);
                 try
                 {
-                    if (TryUpdateModel(assetfile))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 catch (Exception e)
                 {
@@ -183,10 +179,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     FileInfo ff = new FileInfo(Path.Combine(Server.MapPath("~/Files"), assetfile.FileLink));
                     ff.Delete();
                     db.AssetFiles.Remove(assetfile);
-                    if (TryUpdateModel(assetfile))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     //return Json(new { msg = "儲存成功!" }, JsonRequestBehavior.AllowGet);
                     return Content("");
                 }
@@ -210,10 +203,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetFile assetfile = db.AssetFiles.Find(id);
             db.AssetFiles.Remove(assetfile);
-            if (TryUpdateModel(assetfile))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -10,7 +10,6 @@ using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class KeepFormatDtlsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -76,10 +75,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.KeepFormatDtls.Add(keepformat_dtl);
-                if (TryUpdateModel(keepformat_dtl))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno});
             }
 
@@ -108,10 +104,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(keepformat_dtl).State = EntityState.Modified;
-                if (TryUpdateModel(keepformat_dtl))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
             }
             return View(keepformat_dtl);
@@ -140,10 +133,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (kdtl != null)
             {
                 db.KeepFormatDtls.Remove(kdtl);
-                if (TryUpdateModel(kdtl))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
             }
             return View(keepformat_dtl);

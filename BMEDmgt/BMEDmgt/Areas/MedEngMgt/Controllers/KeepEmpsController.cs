@@ -15,7 +15,6 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class KeepEmpsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -90,10 +89,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.KeepEmps.Add(keepEmp);
-                if (TryUpdateModel(keepEmp))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 //
                 KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepEmp.DocId)
@@ -108,10 +104,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     dtl.Hours = hr + Decimal.Round(min / 60m, 2);
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 //
                 return RedirectToAction("Index");
@@ -168,10 +161,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         emp.Hour = keepEmp.Hour;
                         emp.Minute = keepEmp.Minute;
                         db.KeepEmps.Add(emp);
-                        if (TryUpdateModel(emp))
-                        {
-                            db.SaveChanges();
-                        }
+                        db.SaveChanges();
                         //
                         dtl = db.KeepDtls.Where(d => d.DocId == ss)
                               .FirstOrDefault();
@@ -185,10 +175,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 .DefaultIfEmpty(0).Sum();
                             dtl.Hours = hr + Decimal.Round(min / 60m, 2);
                             db.Entry(dtl).State = EntityState.Modified;
-                            if (TryUpdateModel(dtl))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                         }
                     }
                 }
@@ -271,10 +258,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.KeepEmps.Add(keepEmp);
-                if (TryUpdateModel(keepEmp))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepEmp.DocId)
                     .FirstOrDefault();
@@ -288,10 +272,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     dtl.Hours = hr + Decimal.Round(min / 60m, 2);
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 return new JsonResult
                 {
@@ -320,10 +301,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 KeepEmp keepEmp = db.KeepEmps.Find(docid, uid);
                 db.KeepEmps.Remove(keepEmp);
-                if (TryUpdateModel(keepEmp))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == docid)
                     .FirstOrDefault();
@@ -337,10 +315,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     dtl.Hours = hr + Decimal.Round(min / 60m, 2);
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 return new JsonResult
                 {
@@ -362,10 +337,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 KeepEmp keepEmp = db.KeepEmps.Find(docid, uid);
                 db.KeepEmps.Remove(keepEmp);
-                if (TryUpdateModel(keepEmp))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == docid)
                     .FirstOrDefault();
@@ -379,10 +351,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     dtl.Hours = hr + Decimal.Round(min / 60m, 2);
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 return new JsonResult
                 {

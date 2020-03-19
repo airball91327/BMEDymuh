@@ -15,7 +15,6 @@ using System.Web.UI.WebControls;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class AssetKeepsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -59,10 +58,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.AssetKeeps.Add(assetKeep);
-                if (TryUpdateModel(assetKeep))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -130,10 +126,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
                 db.Entry(assetKeep).State = EntityState.Modified;
-                if (TryUpdateModel(assetKeep))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },
@@ -241,10 +234,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.Entry(assetkeep).State = EntityState.Modified;
                 try
                 {
-                    if (TryUpdateModel(assetkeep))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     return Json(new { success = true, msg = "儲存成功!" });
                 }
                 catch (Exception ex)
@@ -278,10 +268,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetKeep assetKeep = db.AssetKeeps.Find(id);
             db.AssetKeeps.Remove(assetKeep);
-            if (TryUpdateModel(assetKeep))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -302,10 +289,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         ak.KeepEngId = u.Id;
                         ak.KeepEngName = u.FullName;
                         db.Entry(ak).State = EntityState.Modified;
-                        if (TryUpdateModel(ak))
-                        {
-                            db.SaveChanges();
-                        }
+                        db.SaveChanges();
                     }               
                 }
             }

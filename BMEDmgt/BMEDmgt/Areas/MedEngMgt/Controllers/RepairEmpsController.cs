@@ -15,7 +15,6 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class RepairEmpsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -214,10 +213,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 RepairEmp repairEmp = db.RepairEmps.Find(id, uid);
                 db.RepairEmps.Remove(repairEmp);
-                if (TryUpdateModel(repairEmp))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairEmp.DocId)
                    .FirstOrDefault();
@@ -231,10 +227,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     dtl.Hour = hr + Decimal.Round(min / 60m, 2);
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 return new JsonResult
                 {
@@ -296,10 +289,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         emp.Hour = repairEmp.Hour;
                         emp.Minute = repairEmp.Minute;
                         db.RepairEmps.Add(emp);
-                        if (TryUpdateModel(emp))
-                        {
-                            db.SaveChanges();
-                        }
+                        db.SaveChanges();
                         //
                         dtl = db.RepairDtls.Where(d => d.DocId == ss)
                               .FirstOrDefault();
@@ -313,10 +303,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 .DefaultIfEmpty(0).Sum();
                             dtl.Hour = hr + Decimal.Round(min / 60m, 2);
                             db.Entry(dtl).State = EntityState.Modified;
-                            if (TryUpdateModel(dtl))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                         }
                     }
                 }

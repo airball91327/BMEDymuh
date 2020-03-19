@@ -12,7 +12,6 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class KeepDtlsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -150,10 +149,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 dtl = new KeepDtl();
                                 dtl.DocId = ss;
                                 db.KeepDtls.Add(dtl);
-                                if (TryUpdateModel(dtl))
-                                {
-                                    db.SaveChanges();
-                                }
+                                db.SaveChanges();
                             }
                             if (keepDtl.IsCharged == "N")
                             {
@@ -176,10 +172,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             dtl.Cost = keepDtl.Cost;
                             dtl.CloseDate = keepDtl.CloseDate;
                             db.Entry(dtl).State = EntityState.Modified;
-                            if (TryUpdateModel(dtl))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                         }
                     }
                       
@@ -309,10 +302,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .DefaultIfEmpty(0).Sum();
                     }
                     db.Entry(keepDtl).State = EntityState.Modified;
-                    if (TryUpdateModel(keepDtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     return new JsonResult
                     {
                         Data = new { success = true, error = "" },
@@ -357,10 +347,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             KeepDtl keepDtl = db.KeepDtls.Find(id);
             db.KeepDtls.Remove(keepDtl);
-            if (TryUpdateModel(keepDtl))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

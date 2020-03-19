@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class NewsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -53,10 +52,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "最新消息維護";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
 
             return View(newslist);
@@ -167,10 +163,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 news.RTT = DateTime.Now;
                 db.News.Add(news);
-                if (TryUpdateModel(news))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             List<SelectListItem> listItem1 = new List<SelectListItem>();
@@ -243,10 +236,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             News news = db.News.Find(id);
             db.News.Remove(news);
-            if (TryUpdateModel(news))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

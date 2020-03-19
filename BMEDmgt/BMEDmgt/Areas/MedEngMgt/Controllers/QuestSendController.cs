@@ -79,10 +79,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         questsend.GrpName = "";//db.Groups.Find(questsend.GroupId).GrpName;
                         questsend.SendAmt = ulist.Count();
                         db.QuestSends.Add(questsend);
-                        if (TryUpdateModel(questsend))
-                        {
-                            db.SaveChanges();
-                        }
+                        db.SaveChanges();
                     }
                     else
                     {
@@ -137,10 +134,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.QuestSends.Add(questsend);
-                if (TryUpdateModel(questsend))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -169,10 +163,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(questsend).State = EntityState.Modified;
-                if (TryUpdateModel(questsend))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(questsend);
@@ -199,10 +190,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             QuestSend questsend = db.QuestSends.Find(id);
             db.QuestSends.Remove(questsend);
-            if (TryUpdateModel(questsend))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

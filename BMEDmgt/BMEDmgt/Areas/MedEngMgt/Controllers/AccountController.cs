@@ -65,7 +65,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "帳號或密碼錯誤. ");
+                    this.ModelState.AddModelError(string.Empty, "Error authenticating user. ");
                     return this.View(model);
                 }
             }
@@ -147,7 +147,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     body += "<br />";
                     body += "<br />This is a inform letter from system manager. Do not reply for it.";
                     mail.message.Body = body;
-                    mail.SendMail();
+                    //mail.SendMail();
 
                     return RedirectToAction("LogOn");
                 }
@@ -172,10 +172,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "帳號維護";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             return View();
         }

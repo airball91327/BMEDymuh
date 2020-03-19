@@ -966,10 +966,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             RepairDtl dl = new RepairDtl();
             dl.DocId = r.DocId;
             db.RepairDtls.Add(dl);
-            if (TryUpdateModel(dl))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             List<SelectListItem> listItem = new List<SelectListItem>();
             List<SelectListItem> AccDpt = new List<SelectListItem>();
             db.Departments.ToList()
@@ -1065,10 +1062,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 AppUser a = db.AppUsers.Find(repair.UserId);
                 a.Email = repair.Email;
                 db.Entry(a).State = EntityState.Modified;
-                if (TryUpdateModel(a))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 AppUser u;
                 u = db.AppUsers.Find(Convert.ToInt32(repair.CheckerName));
@@ -1153,10 +1147,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rf.Rtt = DateTime.Now;
                 rf.Cls = "設備工程師";
                 db.RepairFlows.Add(rf);
-                if (TryUpdateModel(rf))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //send mail
                 Tmail mail = new Tmail();
                 string body = "";
@@ -1276,10 +1267,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             repflow.Rtp = WebSecurity.CurrentUserId;
             repflow.Rtt = DateTime.Now;
 
-            if (TryUpdateModel(repflow))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }

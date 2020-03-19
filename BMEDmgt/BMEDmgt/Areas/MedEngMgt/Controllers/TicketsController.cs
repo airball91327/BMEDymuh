@@ -12,7 +12,6 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class TicketsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -169,10 +168,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Remove(ticket);
-            if (TryUpdateModel(ticket))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -200,10 +196,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 result = Convert.ToString(seq);
                 db.Ticket_seq_tmps.Add(tmp);
             }
-            if (TryUpdateModel(tmp))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
 
             return result;
         }

@@ -186,10 +186,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assetMaintainContract.Rtt = DateTime.Now;
 
                 db.AssetMaintainContracts.Add(assetMaintainContract);
-                if (TryUpdateModel(assetMaintainContract))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -272,10 +269,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assetMaintainContract.Rtt = DateTime.Now;
 
                 db.Entry(assetMaintainContract).State = EntityState.Modified;
-                if (TryUpdateModel(assetMaintainContract))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(assetMaintainContract);
@@ -307,10 +301,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
             db.AssetMaintainContracts.Remove(assetMaintainContract);
-            if (TryUpdateModel(assetMaintainContract))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -370,10 +361,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 ac.Rtt = DateTime.Now;
 
                 db.AssetsInMContracts.Add(ac);
-                if (TryUpdateModel(ac))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             return new JsonResult
             {
@@ -398,10 +386,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 AssetsInMContracts asset = db.AssetsInMContracts.Find(purchaseNo, assetNo);
                 db.AssetsInMContracts.Remove(asset);
-                if (TryUpdateModel(asset))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },

@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class VendorsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -30,10 +29,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "廠商管理";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             return View();
         }
@@ -219,10 +215,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Vendor vendor = db.Vendors.Find(id);
             db.Vendors.Remove(vendor);
-            if (TryUpdateModel(vendor))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

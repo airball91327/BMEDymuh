@@ -10,7 +10,6 @@ using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class NeedFileController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -83,10 +82,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.NeedFiles.Add(needfile);
-                if (TryUpdateModel(needfile))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -115,10 +111,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(needfile).State = EntityState.Modified;
-                if (TryUpdateModel(needfile))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(needfile);
@@ -145,10 +138,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             NeedFile needfile = db.NeedFiles.Find(id);
             db.NeedFiles.Remove(needfile);
-            if (TryUpdateModel(needfile))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

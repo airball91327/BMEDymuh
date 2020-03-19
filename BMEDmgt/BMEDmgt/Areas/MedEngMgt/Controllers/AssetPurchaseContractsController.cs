@@ -160,10 +160,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
 
                 db.AssetPurchaseContracts.Add(assetPurchaseContract);
-                if (TryUpdateModel(assetPurchaseContract))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -276,10 +273,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assetPurchaseContract.Rtt = DateTime.Now;
 
                 db.Entry(assetPurchaseContract).State = EntityState.Modified;
-                if (TryUpdateModel(assetPurchaseContract))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(assetPurchaseContract);
@@ -320,10 +314,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetPurchaseContract assetPurchaseContract = db.AssetPurchaseContracts.Find(id);
             db.AssetPurchaseContracts.Remove(assetPurchaseContract);
-            if (TryUpdateModel(assetPurchaseContract))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -411,10 +402,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 permit.Rtp = WebSecurity.CurrentUserId;
                 permit.Rtt = DateTime.Now;
                 db.AssetPContractPermits.Add(permit);
-                if (TryUpdateModel(permit))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
 
                 return new JsonResult
                 {
@@ -604,10 +592,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 AssetPContractPermit permit = db.AssetPContractPermits.Find(purchaseNo, permitNo);
                 db.AssetPContractPermits.Remove(permit);
-                if (TryUpdateModel(permit))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
 
                 return new JsonResult
                 {

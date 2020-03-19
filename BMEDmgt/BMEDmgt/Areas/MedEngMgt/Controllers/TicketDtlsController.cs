@@ -11,7 +11,6 @@ using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class TicketDtlsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -115,10 +114,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             TicketDtl ticketDtl = db.TicketDtls.Find(id);
             db.TicketDtls.Remove(ticketDtl);
-            if (TryUpdateModel(ticketDtl))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

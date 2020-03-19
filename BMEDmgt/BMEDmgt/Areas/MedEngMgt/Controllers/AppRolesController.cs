@@ -53,10 +53,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.AppRoles.Add(appRoles);
-                if (TryUpdateModel(appRoles))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -88,10 +85,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(appRoles).State = EntityState.Modified;
-                if (TryUpdateModel(appRoles))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(appRoles);
@@ -119,10 +113,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AppRoles appRoles = db.AppRoles.Find(id);
             db.AppRoles.Remove(appRoles);
-            if (TryUpdateModel(appRoles))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -128,10 +128,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     attainFile.Rtt = DateTime.Now;
                     attainFile.Rtp = WebSecurity.CurrentUserId;
                     db.AttainFiles.Add(attainFile);
-                    if (TryUpdateModel(attainFile))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
 
                 }
                 catch (Exception e)
@@ -270,10 +267,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             af.Rtt = DateTime.Now;
                             af.Rtp = WebSecurity.CurrentUserId;
                             db.AttainFiles.Add(af);
-                            if (TryUpdateModel(af))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                         }
                     }
                 }
@@ -400,10 +394,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     attainFile.Rtt = DateTime.Now;
                     attainFile.Rtp = WebSecurity.CurrentUserId;
                     db.AttainFiles.Add(attainFile);
-                    if (TryUpdateModel(attainFile))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
 
                 }
                 catch (Exception e)
@@ -517,10 +508,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     return Content(e.Message);
                 }
                 db.AttainFiles.Remove(attainfiles);
-                if (TryUpdateModel(attainfiles))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             List<AttainFile> af = db.AttainFiles.Where(f => f.DocId == id)
                     .Where(f => f.DocType == typ).ToList();
@@ -565,10 +553,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     return Content(e.Message);
                 }
                 db.AttainFiles.Remove(attainfiles);
-                if (TryUpdateModel(attainfiles))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             List<AttainFile> af = db.AttainFiles.Where(f => f.DocId == id)
                     .Where(f => f.DocType == typ).ToList();
@@ -611,10 +596,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     return Content(e.Message);
                 }
                 db.AttainFiles.Remove(attainfiles);
-                if (TryUpdateModel(attainfiles))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             //
             List<AttainFile> af = new List<AttainFile>();
@@ -759,10 +741,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.AttainFiles.Add(attainFile);
             try
             {
-                if (TryUpdateModel(attainFile))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 //if (attainFile.DocType == "0")
                 //{

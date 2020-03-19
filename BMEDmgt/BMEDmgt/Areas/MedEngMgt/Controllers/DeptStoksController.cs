@@ -14,7 +14,6 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class DeptStoksController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -83,10 +82,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 deptStok.Rtp = WebSecurity.CurrentUserId;
                 deptStok.Rtt = DateTime.Now;
                 db.DeptStoks.Add(deptStok);
-                if (TryUpdateModel(deptStok))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -117,10 +113,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.StokRecords.Add(stokRecord);
                 try
                 {
-                    if (TryUpdateModel(stokRecord))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -160,10 +153,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 deptStok.Rtp = WebSecurity.CurrentUserId;
                 deptStok.Rtt = DateTime.Now;
                 db.Entry(deptStok).State = EntityState.Modified;
-                if (TryUpdateModel(deptStok))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(deptStok);
@@ -191,10 +181,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DeptStok deptStok = db.DeptStoks.Find(id);
             db.DeptStoks.Remove(deptStok);
-            if (TryUpdateModel(deptStok))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

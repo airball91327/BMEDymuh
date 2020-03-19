@@ -13,7 +13,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class RepairCostsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -64,10 +63,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (repairCost.StockType != "0")
                     repairCost.PartNo = "";
                 db.RepairCosts.Add(repairCost);
-                if (TryUpdateModel(repairCost))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId)
                     .FirstOrDefault();
@@ -77,10 +73,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 return RedirectToAction("Index");
             }
@@ -169,10 +162,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (repairCost.StockType != "0")
                         repairCost.PartNo = "";
                     db.RepairCosts.Add(repairCost);
-                    if (TryUpdateModel(repairCost))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     //
                     RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId)
                         .FirstOrDefault();
@@ -182,10 +172,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             .Select(k => k.TotalCost)
                             .DefaultIfEmpty(0).Sum();
                         db.Entry(dtl).State = EntityState.Modified;
-                        if (TryUpdateModel(dtl))
-                        {
-                            db.SaveChanges();
-                        }
+                        db.SaveChanges();
                     }
                     List<RepairCost> rc = db.RepairCosts.Where(c => c.DocId == repairCost.DocId).ToList();
                     rc.ForEach(r => {
@@ -219,10 +206,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 RepairCost repairCost = db.RepairCosts.Find(docid, Convert.ToInt32(seqno));
                 db.RepairCosts.Remove(repairCost);
-                if (TryUpdateModel(repairCost))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId)
                     .FirstOrDefault();
@@ -232,10 +216,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
                     db.Entry(dtl).State = EntityState.Modified;
-                    if (TryUpdateModel(dtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 return new JsonResult
                 {

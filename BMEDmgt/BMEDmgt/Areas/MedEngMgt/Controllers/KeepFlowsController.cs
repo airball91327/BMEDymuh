@@ -15,7 +15,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class KeepFlowsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -146,10 +145,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             KeepFlow keepFlow = db.KeepFlows.Find(id);
             db.KeepFlows.Remove(keepFlow);
-            if (TryUpdateModel(keepFlow))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -220,10 +216,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             kf.Rtp = WebSecurity.CurrentUserId;
                             db.Entry(kf).State = EntityState.Modified;
                             db.Entry(kd).State = EntityState.Modified;
-                            if (TryUpdateModel(kd))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                             //Send Mail
                             Tmail mail = new Tmail();
                             string body = "";
@@ -264,10 +257,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             kf.Rtt = DateTime.Now;
                             kf.Rtp = WebSecurity.CurrentUserId;
                             db.Entry(kf).State = EntityState.Modified;
-                            if (TryUpdateModel(kf))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                         }
                         else
                         {
@@ -287,10 +277,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                             db.Entry(kf).State = EntityState.Modified;
                             db.KeepFlows.Add(flow);
-                            if (TryUpdateModel(flow))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                             if (assign.FlowCls != "設備工程師")
                             {
                                 //Send Mail
@@ -448,10 +435,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     kf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(kf).State = EntityState.Modified;
                     db.Entry(kd).State = EntityState.Modified;
-                    if (TryUpdateModel(kd))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     //Send Mail
                     Tmail mail = new Tmail();
                     string body = "";
@@ -492,10 +476,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     kf.Rtt = DateTime.Now;
                     kf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(kf).State = EntityState.Modified;
-                    if (TryUpdateModel(kf))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 else
                 {
@@ -515,10 +496,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                     db.Entry(kf).State = EntityState.Modified;
                     db.KeepFlows.Add(flow);
-                    if (TryUpdateModel(flow))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     if (assign.FlowCls != "設備工程師")
                     {
                         //Send Mail

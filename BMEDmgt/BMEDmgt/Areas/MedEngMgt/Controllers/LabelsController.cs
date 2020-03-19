@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class LabelsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -120,10 +119,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Label label = db.Labels.Find(id);
             db.Labels.Remove(label);
-            if (TryUpdateModel(label))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

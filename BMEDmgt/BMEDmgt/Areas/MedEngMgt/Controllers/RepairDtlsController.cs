@@ -13,7 +13,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class RepairDtlsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -174,10 +173,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         }
                     }
                     db.Entry(repairDtl).State = EntityState.Modified;
-                    if (TryUpdateModel(repairDtl))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
 
                     // 多筆儲存處理描述
                     RepairDtlRecord rdtlRecord = new RepairDtlRecord();
@@ -186,10 +182,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rdtlRecord.DealDes = repairDtl.DealDes;
                     rdtlRecord.Rtt = DateTime.Now;
                     db.RepairDtlRecords.Add(rdtlRecord);
-                    if (TryUpdateModel(rdtlRecord))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
 
                     return new JsonResult
                     {
@@ -235,10 +228,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             RepairDtl repairDtl = db.RepairDtls.Find(id);
             db.RepairDtls.Remove(repairDtl);
-            if (TryUpdateModel(repairDtl))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -293,10 +283,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 dtl = new RepairDtl();
                                 dtl.DocId = ss;
                                 db.RepairDtls.Add(dtl);
-                                if (TryUpdateModel(dtl))
-                                {
-                                    db.SaveChanges();
-                                }
+                                db.SaveChanges();
                             }
                             if (repairDtl.IsCharged == "N")
                             {
@@ -366,10 +353,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             dtl.CloseDate = repairDtl.CloseDate;
                             dtl.PurchaseNo = repairDtl.PurchaseNo;
                             db.Entry(dtl).State = EntityState.Modified;
-                            if (TryUpdateModel(dtl))
-                            {
-                                db.SaveChanges();
-                            }
+                            db.SaveChanges();
                         }
                     }
 
@@ -428,10 +412,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 RepairDtlRecord repairDtlRecord = db.RepairDtlRecords.Find(id, seqNo);
                 db.RepairDtlRecords.Remove(repairDtlRecord);
-                if (TryUpdateModel(repairDtlRecord))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 return new JsonResult
                 {

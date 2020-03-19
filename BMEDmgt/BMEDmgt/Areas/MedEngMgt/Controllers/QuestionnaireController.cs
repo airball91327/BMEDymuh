@@ -133,10 +133,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.QuestMains.Add(main);
             try
             {
-                if (TryUpdateModel(main))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -275,10 +272,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.QuestMains.Add(main);
                 try
                 {
-                    if (TryUpdateModel(main))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                 }
                 catch (Exception e)
                 {
@@ -430,10 +424,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.QuestMains.Add(main);
             try
             {
-                if (TryUpdateModel(main))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -510,10 +501,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Questionnaires.Add(questionnaire);
-                if (TryUpdateModel(questionnaire))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
 
                 return RedirectToAction("List", new { id = questionnaire.VerId });
             }
@@ -539,10 +527,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(questionnaire).State = EntityState.Modified;
-                if (TryUpdateModel(questionnaire))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(questionnaire);
@@ -564,10 +549,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             db.Questionnaires.Remove(questionnaire);
-            if (TryUpdateModel(questionnaire))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
 
             return RedirectToAction("List", new { id = id });
         }

@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class SystemLogsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -29,10 +28,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "系統訊息紀錄";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
 
             var systemLogs = db.SystemLogs.ToList();
@@ -81,10 +77,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.SystemLogs.Add(systemLog);
-                if (TryUpdateModel(systemLog))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -116,10 +109,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(systemLog).State = EntityState.Modified;
-                if (TryUpdateModel(systemLog))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(systemLog);
@@ -147,10 +137,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             SystemLog systemLog = db.SystemLogs.Find(id);
             db.SystemLogs.Remove(systemLog);
-            if (TryUpdateModel(systemLog))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

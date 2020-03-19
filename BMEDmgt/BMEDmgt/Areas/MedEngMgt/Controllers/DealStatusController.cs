@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class DealStatusController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -29,10 +28,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "處理狀況選單";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             return View(db.DealStatus.ToList());
         }
@@ -128,10 +124,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DealStatus dealStatus = db.DealStatus.Find(id);
             db.DealStatus.Remove(dealStatus);
-            if (TryUpdateModel(dealStatus))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

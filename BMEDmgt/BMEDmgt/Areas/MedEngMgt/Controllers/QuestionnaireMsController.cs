@@ -12,7 +12,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class QuestionnaireMsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -128,10 +127,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             QuestionnaireM questionnaireM = db.QuestionnaireMs.Find(id);
             db.QuestionnaireMs.Remove(questionnaireM);
-            if (TryUpdateModel(questionnaireM))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

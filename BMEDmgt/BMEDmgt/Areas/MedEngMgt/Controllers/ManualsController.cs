@@ -125,10 +125,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 manual.Rtp = WebSecurity.CurrentUserId;
                 manual.Rtt = DateTime.Now;
                 db.Manuals.Add(manual);
-                if (TryUpdateModel(manual))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },
@@ -183,10 +180,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     manaul.Rtp = WebSecurity.CurrentUserId;
                     manaul.Rtt = DateTime.Now;
                     db.Manuals.Add(manaul);
-                    if (TryUpdateModel(manaul))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
 
                 }
                 catch (Exception e)
@@ -257,10 +251,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 manual.Rtp = WebSecurity.CurrentUserId;
                 manual.Rtt = DateTime.Now;
                 db.Entry(manual).State = EntityState.Modified;
-                if (TryUpdateModel(manual))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },
@@ -310,10 +301,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 ff.Delete();
             }
             db.Manuals.Remove(manual);
-            if (TryUpdateModel(manual))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

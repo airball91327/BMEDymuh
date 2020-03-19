@@ -11,7 +11,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class FuncsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -49,10 +48,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "功能權限設定";
                 db.SystemLogs.Add(log);
-                if (TryUpdateModel(log))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
             }
             List<SelectListItem> listItem = new List<SelectListItem>();
             db.AppRoles.ToList().ForEach(d =>

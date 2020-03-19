@@ -15,7 +15,6 @@ using BMEDmgt.Areas.MedEngMgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class DelivFlowController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -121,10 +120,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rf.Rtt = DateTime.Now;
                     rf.Rtp = WebSecurity.CurrentUserId;
                     db.Entry(rf).State = EntityState.Modified;
-                    if (TryUpdateModel(rf))
-                    {
-                        db.SaveChanges();
-                    }
+                    db.SaveChanges();
                     //
                     // Send Mail
                     //mail = new Tmail();
@@ -170,10 +166,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 DelivFlow.Opinions = null;
                 db.Entry(rf).State = EntityState.Modified;
                 db.DelivFlows.Add(DelivFlow);
-                if (TryUpdateModel(DelivFlow))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 //
                 //Send Mail
                 //mail = new Tmail();
@@ -229,10 +222,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.DelivFlows.Add(delivflow);
-                if (TryUpdateModel(delivflow))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -261,10 +251,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(delivflow).State = EntityState.Modified;
-                if (TryUpdateModel(delivflow))
-                {
-                    db.SaveChanges();
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(delivflow);
@@ -291,10 +278,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DelivFlow delivflow = db.DelivFlows.Find(id);
             db.DelivFlows.Remove(delivflow);
-            if (TryUpdateModel(delivflow))
-            {
-                db.SaveChanges();
-            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
