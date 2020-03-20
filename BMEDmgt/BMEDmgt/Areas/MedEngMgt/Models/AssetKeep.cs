@@ -31,7 +31,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int KeepEngId { get; set; }
         [Display(Name = "工程師姓名")]
         public string KeepEngName { get; set; }
-        [Display(Name = "預定費用")]
+        [Display(Name = "保養金額")]
         public Nullable<int> Cost { get; set; }
         [Display(Name = "預定工時")]
         public decimal? Hours { get; set; }
