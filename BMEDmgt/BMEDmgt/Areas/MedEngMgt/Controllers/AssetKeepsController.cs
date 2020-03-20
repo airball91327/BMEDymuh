@@ -132,8 +132,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
-                assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
-                db.Entry(assetKeep).State = EntityState.Modified;
+                var kp = db.AssetKeeps.Find(assetKeep.AssetNo);
+                if (kp == null)
+                {
+                    assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
+                    db.AssetKeeps.Add(assetKeep);
+                }
+                else
+                {
+                    assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
+                    db.Entry(kp).State = EntityState.Detached;
+                    db.Entry(assetKeep).State = EntityState.Modified;
+                }
                 db.SaveChanges();
                 return new JsonResult
                 {
