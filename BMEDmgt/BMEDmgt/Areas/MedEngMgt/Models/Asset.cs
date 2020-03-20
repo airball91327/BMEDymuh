@@ -19,7 +19,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "醫工碼")]
         public string BmedNo { get; set; }
         [Required]
-        [Display(Name = "設備類別")]
+        [Display(Name = "財產種類")]
         public string AssetClass { get; set; }
         [Required]
         [Display(Name = "中文名稱")]
@@ -58,7 +58,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "廠商名稱")]
         public string VendorName { get; set; }
         [Required]
-        [Display(Name = "處分性質")]
+        [Display(Name = "財產狀況")]
         public string DisposeKind { get; set; }
         [Required]
         [Display(Name = "保管部門")]
@@ -74,6 +74,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Required]
         [Display(Name = "設備工程師")]
         public int EngId { get; set; }
+        [NotMapped]
+        public string EngName { get; set; }
+        [NotMapped]
+        [Display(Name = "工程師Email")]
+        public string EngEmail { get; set; }
+        [NotMapped]
+        [Display(Name = "工程師電話")]
+        public string EngTel { get; set; }
         [Display(Name = "存放地點")]
         public string LeaveSite { get; set; }
         [Required]

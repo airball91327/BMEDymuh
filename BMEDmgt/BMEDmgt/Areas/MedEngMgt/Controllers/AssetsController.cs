@@ -186,7 +186,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             AppUser u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             ViewData["KeepEngId"] = new SelectList(listItem, "Value", "Text", "");
@@ -390,6 +390,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 asset.AccDptName = db.Departments.Find(asset.AccDpt).Name_C;
             }
+            if (asset.EngId != 0)
+            {
+                var ur = db.AppUsers.Find(asset.EngId);
+                asset.EngName = "(" + ur.UserName + ") " + ur.FullName;
+                asset.EngEmail = ur.Email;
+                asset.EngTel = ur.Mobile;
+            }
             asset.VendorName = asset.VendorId == null ? "" : db.Vendors.Find(asset.VendorId).VendorName;
 
             return View(asset);
@@ -449,10 +456,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem5.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem5.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             ViewData["EngId"] = new SelectList(listItem5, "Value", "Text", "");
+
+            List<SelectListItem> listItem6 = new List<SelectListItem>();
+            listItem6.Add(new SelectListItem { Text = "醫工", Value = "醫工" });
+            listItem6.Add(new SelectListItem { Text = "工務", Value = "工務" });
+            ViewData["ResponsDpt"] = new SelectList(listItem6, "Value", "Text", "");
 
             return View();
         }
@@ -546,7 +558,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             db.AppUsers.Where(a => a.DptId == asset.DelivDpt).ToList().ForEach(a =>
             {
-                listItem2.Add(new SelectListItem { Text = a.FullName, Value = a.Id.ToString() });
+                listItem2.Add(new SelectListItem { Text = "(" + a.UserName + ")" + a.FullName, Value = a.Id.ToString() });
             });
             if (listItem2.Where(item => item.Value == asset.DelivUid.ToString()).Count() == 0)
                 listItem2.Add(new SelectListItem { Text = asset.DelivEmp, Value = asset.DelivUid.ToString() });
@@ -581,10 +593,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem5.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem5.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             ViewData["EngId"] = new SelectList(listItem5, "Value", "Text", "");
+
+            List<SelectListItem> listItem6 = new List<SelectListItem>();
+            listItem6.Add(new SelectListItem { Text = "醫工", Value = "醫工" });
+            listItem6.Add(new SelectListItem { Text = "工務", Value = "工務" });
+            ViewData["ResponsDpt"] = new SelectList(listItem6, "Value", "Text", "");
+
             return View(asset);
         }
 
