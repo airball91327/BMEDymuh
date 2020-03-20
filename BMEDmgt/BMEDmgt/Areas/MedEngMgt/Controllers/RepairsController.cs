@@ -1139,7 +1139,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
-                    throw new Exception("無工程師資料!!");
+                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
+                    //throw new Exception("無工程師資料!!");
                 }
                 rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
                 rf.Rtp = null;

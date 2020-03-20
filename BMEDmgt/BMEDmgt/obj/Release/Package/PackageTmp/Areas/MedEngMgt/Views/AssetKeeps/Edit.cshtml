@@ -82,7 +82,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FormatId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FormatId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.FormatId, null, "請選擇", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FormatId, "", new { @class = "text-danger" })
             </div>
         </div>

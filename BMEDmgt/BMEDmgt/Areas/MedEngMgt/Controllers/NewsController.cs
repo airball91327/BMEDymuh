@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -237,6 +238,30 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             News news = db.News.Find(id);
             db.News.Remove(news);
             db.SaveChanges();
+            //Delete files
+            var fileList = db.AttainFiles.Where(af => af.DocId == id.ToString() && af.DocType == "9").ToList(); ;
+            foreach(var item in fileList)
+            {
+                AttainFile attainfiles = db.AttainFiles.Find("9", id.ToString(), item.SeqNo);
+            if (attainfiles != null)
+                {
+                    FileInfo ff;
+                    try
+                    {
+                        ff = new FileInfo(Path.Combine(Server.MapPath("~/Files/"), attainfiles.FileLink));
+#if DEBUG
+                        ff = new FileInfo(Path.Combine(Server.MapPath("~/App_Data/"), attainfiles.FileLink));
+#endif
+                        ff.Delete();
+                    }
+                    catch (Exception e)
+                    {
+                        return Content(e.Message);
+                    }
+                    db.AttainFiles.Remove(attainfiles);
+                    db.SaveChanges();
+                }
+            }
             return RedirectToAction("Index");
         }
 
