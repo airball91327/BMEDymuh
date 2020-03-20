@@ -337,6 +337,8 @@
                         $("#WartyEd").val(new Date(parseInt(data.data.WarrantyEdate.replace("/Date(", "").replace(")/", ""), 10)).toLocaleDateString());
                         $("#WartyMon").val(data.data.Warranty * 12);
                         $("#WartyNt").val(data.data.WarrantyMargin);
+                        $("#AccDpt").val(data.data.UseDpt);
+                        $("#AccDptNam").val(data.data.UseDptName);
                     },
                     error: function (msg) {
                         alert(msg);

@@ -444,6 +444,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 var purContract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == purchaseNo).FirstOrDefault();
                 if (purContract != null)
                 {
+                    if (purContract.UseDpt != null)
+                    {
+                        var dpt = db.Departments.Where(d => d.DptId == purContract.UseDpt).FirstOrDefault();
+                        if (dpt != null)
+                        {
+                            purContract.UseDptName = dpt.Name_C;
+                        }
+                    }
+
                     return new JsonResult
                     {
                         Data = new { success = true, error = "", data = purContract },
