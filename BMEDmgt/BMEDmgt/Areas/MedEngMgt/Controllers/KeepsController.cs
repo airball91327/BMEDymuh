@@ -166,6 +166,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 AppUser u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
+                    u = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault();
                     rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
                     //throw new Exception("無工程師資料!!");
                 }
@@ -185,7 +186,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     string body = "";
                     u = db.AppUsers.Find(WebSecurity.CurrentUserId);
                     mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                    u = db.AppUsers.Find(kp.KeepEngId);
+                    u = db.AppUsers.Find(rf.UserId);
                     mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
                                                                         //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
                     mail.message.Subject = "醫療儀器管理資訊系統[保養案]：儀器名稱： " + keep.AssetName;
@@ -558,9 +559,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     li.Text = db.Departments.Find(u.DptId).Name_C;
                     li.Value = u.DptId;
                     listItem2.Add(li);
+                    ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text", u.DptId);
                 }
             }
-            ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text");
+            else
+            {
+                ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text");
+            }
+
             //
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             listItem3.Add(new SelectListItem { Text = "自行", Value = "自行" });

@@ -304,17 +304,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["ACCDPT"] = new SelectList(listItem2, "Value", "Text");
             if (Roles.IsUserInRole("Usual"))
             {
-                listItem2.Clear();
                 AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                listItem2.Clear();
                 if (u != null)
                 {
                     li = new SelectListItem();
                     li.Text = db.Departments.Find(u.DptId).Name_C;
                     li.Value = u.DptId;
                     listItem2.Add(li);
+                    ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text", u.DptId);
                 }
             }
-            ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text");
+            else
+            {
+                ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text");
+            }
 
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             listItem3.Add(new SelectListItem { Text = "醫療儀器", Value = "醫療儀器" });
@@ -1139,6 +1143,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
+                    u = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault();
                     rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
                     //throw new Exception("無工程師資料!!");
                 }
@@ -1154,7 +1159,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 string body = "";
                 u = db.AppUsers.Find(WebSecurity.CurrentUserId);
                 mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                u = db.AppUsers.Find(at.EngId);
+                u = db.AppUsers.Find(rf.UserId);
                 mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
                 //mail.cc.Add(new System.Net.Mail.MailAddress("16147@ymuh.ym.edu.tw"));
                 mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
