@@ -1264,7 +1264,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.TroubleDes,
                rd.InOut,
                k.AssetName,
-               rd.Hour
+               rd.Hour,
+               k.PlantClass
            })
            .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
            (k, at) => new
@@ -1284,7 +1285,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                at.Type,
                at.AssetClass,
                k.AssetName,
-               k.Hour
+               k.Hour,
+               k.PlantClass
            })
            .Join(db.Departments, k => k.AccDpt, c => c.DptId,
            (k, c) => new
@@ -1305,7 +1307,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.Type,
                k.AssetClass,
                k.AssetName,
-               k.Hour
+               k.Hour,
+               k.PlantClass
            })
            .GroupJoin(db.RepairEmps, k => k.DocId, ke => ke.DocId,
             (k, ke) => new { k, ke })
@@ -1329,7 +1332,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.k.AssetClass,
                ke.UserId,
                k.k.AssetName,
-               k.k.Hour
+               k.k.Hour,
+               k.k.PlantClass
            })
             .GroupJoin(db.AppUsers, k => k.UserId, u => u.Id,
             (k, u) => new { k, u })
@@ -1352,7 +1356,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                Type = k.k.Type,
                EngNam = u.FullName,
                AssetClass = k.k.AssetClass,
-               Hour = k.k.Hour
+               Hour = k.k.Hour,
+               PlantClass = k.k.PlantClass
            }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
 
             if (!string.IsNullOrEmpty(v.AccDpt))
