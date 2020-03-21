@@ -83,6 +83,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         case "8":
                             s += "/PContract";
                             break;
+                        case "9":
+                            s += "/News";
+                            break;
                     }
                     var i = db.AttainFiles
                         .Where(a => a.DocType == attainFile.DocType)
@@ -123,6 +126,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             break;
                         case "8":
                             attainFile.FileLink = "PContract/" + filelink;
+                            break;
+                        case "9":
+                            attainFile.FileLink = "News/" + filelink;
                             break;
                     }
                     attainFile.Rtt = DateTime.Now;
@@ -209,6 +215,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         case "8":
                             s += "/PContract";
                             break;
+                        case "9":
+                            s += "/News";
+                            break;
                     }
                     //
                     string[] f = attainFile.DocId.Split(new char[] { ';' });
@@ -260,6 +269,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     break;
                                 case "8":
                                     attainFile.FileLink = "PContract/" + filelink;
+                                    break;
+                                case "9":
+                                    attainFile.FileLink = "News/" + filelink;
                                     break;
                             }
                             af.Title = attainFile.Title;
@@ -349,6 +361,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         case "8":
                             s += "/PContract";
                             break;
+                        case "9":
+                            s += "/News";
+                            break;
                     }
                     var i = db.AttainFiles
                         .Where(a => a.DocType == attainFile.DocType)
@@ -389,6 +404,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             break;
                         case "8":
                             attainFile.FileLink = "PContract/" + filelink;
+                            break;
+                        case "9":
+                            attainFile.FileLink = "News/" + filelink;
                             break;
                     }
                     attainFile.Rtt = DateTime.Now;
@@ -436,7 +454,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (u != null)
                     a.UserName = u.FullName;
             }
-
+            if (typ == "9")
+            {
+                return PartialView("NewsList", af);
+            }
             return PartialView(af);
         }
         public ActionResult List2(string id = null, string typ = null)
@@ -684,6 +705,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "8":
                     s += "/PContract";
                     break;
+                case "9":
+                    s += "/News";
+                    break;
             }
 
             int? i = db.Database.SqlQuery<int?>("SELECT MAX(SEQNO) FROM AttainFile WHERE DOCTYPE = @typ AND DOCID = @id",
@@ -733,6 +757,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     break;
                 case "8":
                     attainFile.FileLink = "PContract/" + filelink;
+                    break;
+                case "9":
+                    attainFile.FileLink = "News/" + filelink;
                     break;
             }
             if (attainFile.IsPub)

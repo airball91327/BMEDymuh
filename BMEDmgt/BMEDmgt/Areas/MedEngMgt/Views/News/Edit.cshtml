@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "編輯/最新消息";
 }
-
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 <script src="~/Areas/MedEngMgt/Scripts/NewsCreate.js"></script>
 
 <h2>編輯</h2>
@@ -11,10 +11,18 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>最新消息</h4>
         <hr />
+        <div id="pnlFILES" style="margin: 10pt">
+            @Html.Action("List2", "AttainFiles", new { id = Model.NewsId, typ = "9" })
+        </div>
+        <div class="form-group">
+            <div>
+                <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+            </div>
+        </div>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.NewsId)
 
@@ -37,7 +45,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NewsContent, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.NewsContent, 5,50, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.NewsContent, 5, 50, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.NewsContent, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -95,3 +103,44 @@
 <div>
     @Html.ActionLink("回到最新消息列表", "Index")
 </div>
+
+
+<!-- 夾帶檔案 Modal -->
+<div id="modalFILES" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇上傳檔案</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Action("Upload2", "AttainFiles", new { doctype = "9", docid = Model.NewsId })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('.modal').on('shown.bs.modal', function () {
+            //Make sure the modal and backdrop are siblings (changes the DOM)
+            $(this).before($('.modal-backdrop'));
+            //Make sure the z-index is higher than the backdrop
+            $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+        });
+        $('#modalFILES').on('hidden.bs.modal', function () {
+            var docid = $("#NewsId").val();
+            $.ajax({
+                url: '../../AttainFiles/List2',
+                type: "POST",
+                data: { id: docid, typ: "9" },
+                success: function (data) {
+                    $("#pnlFILES").html(data);
+                }
+            });
+        });
+    </script>
+}

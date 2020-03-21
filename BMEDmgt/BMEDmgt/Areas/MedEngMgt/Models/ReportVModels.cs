@@ -444,6 +444,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string EngNam { get; set; }
         [Display(Name = "總工時")]
         public decimal Hour { get; set; }
+        [Display(Name = "設備類別")]
+        public string PlantClass { get; set; }
 
         public List<MonthRepairVModel> GetList(string gid, DateTime sdate, DateTime edate, string cls)
         {

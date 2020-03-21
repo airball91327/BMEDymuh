@@ -9,6 +9,10 @@
 <div>
     <h4>最新消息</h4>
     <hr />
+    <div id="pnlFILES">
+        @Html.Action("List", "AttainFiles", new { id = Model.NewsId, typ = "9" })
+    </div>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.NewsClass)

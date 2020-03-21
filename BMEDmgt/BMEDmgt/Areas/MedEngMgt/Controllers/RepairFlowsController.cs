@@ -15,7 +15,6 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class RepairFlowsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

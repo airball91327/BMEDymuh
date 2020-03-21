@@ -402,6 +402,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return Json(s, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetUserById(int id)
+        {
+            var user = db.AppUsers.Where(p => p.Id == id).FirstOrDefault();
+            if (user != null)
+            {
+                return Json(user, JsonRequestBehavior.AllowGet);
+            }
+            return Json("查無資料", JsonRequestBehavior.AllowGet);
+        }
+
         public string GetFullName()
         {
             return db.AppUsers.Find(WebSecurity.CurrentUserId).FullName;

@@ -5,6 +5,13 @@
 {
     <div class="panel panel-danger">
         <div class="panel-heading">[警報訊息]@Html.DisplayFor(modelItem => item.NewsTitle)</div>
-        <div class="panel-body">@Html.DisplayFor(modelItem => item.NewsContent)</div>
+        <div class="panel-body">
+            <div>
+                @Html.DisplayFor(modelItem => item.NewsContent)
+            </div>
+            <div id="pnlFILES">
+                @Html.Action("List", "AttainFiles", new { id = item.NewsId, typ = "9" })
+            </div>
+        </div>
     </div>
 }

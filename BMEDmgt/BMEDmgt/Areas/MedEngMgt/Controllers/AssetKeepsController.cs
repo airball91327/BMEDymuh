@@ -15,7 +15,6 @@ using System.Web.UI.WebControls;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class AssetKeepsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -103,6 +102,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem2.Add(new SelectListItem { Text = "租賃", Value = "租賃" });
             listItem2.Add(new SelectListItem { Text = "借用", Value = "借用" });
             ViewData["InOut"] = new SelectList(listItem2, "Value", "Text", "");
+
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            var keepFormats = db.KeepFormats.ToList();
+            foreach(var item in keepFormats)
+            {
+                listItem3.Add(new SelectListItem { Text = item.FormatId, Value = item.FormatId });
+            }
+            ViewData["FormatId"] = new SelectList(listItem3, "Value", "Text", "");
             if (id == null)
             {
                 return PartialView();
@@ -125,8 +132,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
-                assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
-                db.Entry(assetKeep).State = EntityState.Modified;
+                var kp = db.AssetKeeps.Find(assetKeep.AssetNo);
+                if (kp == null)
+                {
+                    assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
+                    db.AssetKeeps.Add(assetKeep);
+                }
+                else
+                {
+                    assetKeep.KeepEngName = db.AppUsers.Find(assetKeep.KeepEngId).FullName;
+                    db.Entry(kp).State = EntityState.Detached;
+                    db.Entry(assetKeep).State = EntityState.Modified;
+                }
                 db.SaveChanges();
                 return new JsonResult
                 {

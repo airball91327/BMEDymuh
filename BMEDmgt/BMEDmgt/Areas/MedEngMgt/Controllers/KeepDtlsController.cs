@@ -12,7 +12,6 @@ using BMEDmgt.Filters;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class KeepDtlsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();

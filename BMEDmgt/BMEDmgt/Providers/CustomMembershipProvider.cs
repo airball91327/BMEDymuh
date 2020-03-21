@@ -218,6 +218,7 @@ namespace BMEDmgt.Providers
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
+
             var user = context.AppUsers.Where(x => x.UserName == username && x.Status == "Y").FirstOrDefault();
             context.Entry(user).Reload();
 

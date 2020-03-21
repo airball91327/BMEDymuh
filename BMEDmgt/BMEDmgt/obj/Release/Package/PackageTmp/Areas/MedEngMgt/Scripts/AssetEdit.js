@@ -170,4 +170,24 @@ $(function () {
         ChangeBtnUrl(vno);
     });
 
+    $("#EngId").change(function () {
+        var s = $(this).val();
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '../AppUsers/GetUserById',
+            type: "GET",
+            data: "id=" + s,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $('#EngEmail').html(data.Email);
+                $('#EngTel').html(data.Mobile);
+            },
+            error: function (msg) {
+                alert(msg);
+            }
+        });
+    });
+    $("#EngId").trigger("change");
+
 });

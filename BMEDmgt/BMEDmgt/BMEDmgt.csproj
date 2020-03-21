@@ -724,6 +724,7 @@
     <Content Include="Areas\MedEngMgt\Views\Reports\AssetProperRate.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Reports\RepairCost.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Reports\KeepCost.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\NewsList.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -732,6 +733,7 @@
     <Content Include="Scripts\fileinput.js" />
     <Content Include="Scripts\fileinput.min.js" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\NCKU.pubxml" />
     <None Include="Properties\PublishProfiles\SMH.pubxml" />
     <None Include="Properties\PublishProfiles\TAH.pubxml" />
@@ -893,6 +895,7 @@
     <Folder Include="App_Data\Delivery\" />
     <Folder Include="App_Data\Keep\" />
     <Folder Include="App_Data\MContract\" />
+    <Folder Include="App_Data\News\" />
     <Folder Include="App_Data\PContract\" />
     <Folder Include="App_Data\Repair\" />
   </ItemGroup>

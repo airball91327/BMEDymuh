@@ -10,7 +10,6 @@ using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
     public class KeepFormatsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
