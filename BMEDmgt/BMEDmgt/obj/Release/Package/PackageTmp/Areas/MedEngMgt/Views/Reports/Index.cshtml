@@ -8,6 +8,21 @@
 <script>
     $(function () {
         $('.combobox').combobox();
+
+        $("#AssetClass1").click(function () {
+            if ($("#AssetClass1").prop("checked")) {
+                $("#AssetClass2").prop("checked", false);
+            } else {
+                $("#AssetClass2").prop("checked", true);
+            }
+        })
+        $("#AssetClass2").click(function () {
+            if ($("#AssetClass2").prop("checked")) {
+                $("#AssetClass1").prop("checked", false);
+            } else {
+                $("#AssetClass1").prop("checked", true);
+            }
+        })
     });
 </script>
 
@@ -38,8 +53,8 @@
         <div class="form-group">
             @Html.Label("", "設備類別",htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input name = "AssetClass1" type="checkbox" value="醫療儀器" checked="checked" />醫療儀器
-                @*<input name = "AssetClass2" type="checkbox" value="工程設施" />工程設施*@
+                <input name = "AssetClass1" id="AssetClass1" type="checkbox" value="醫療儀器" checked="checked" />醫療儀器
+                <input name = "AssetClass2" id="AssetClass2" type="checkbox" value="工程設施" />工程設施
             </div>
         </div>
 

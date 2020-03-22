@@ -19,7 +19,11 @@ $(function () {
             $("#pnlAssetName").show();
             $("#assetNameList").trigger('change');
 
+            var plantClass = $("#PlantClass:checked").val();
             var keynam = '000';
+            if (plantClass !== "醫療儀器") {
+                keynam = '001';
+            }
             var accDptId = $('#AccDpt').val();
             if (keynam !== "") {
                 $.ajax({
@@ -43,7 +47,12 @@ $(function () {
                     }
                 });
             }
-            $("#AssetNo").find('option[value="000"]').attr('selected', 'selected');
+            if (keynam == '000') {
+                $("#AssetNo").find('option[value="000"]').attr('selected', 'selected');
+            }
+            else {
+                $("#AssetNo").find('option[value="001"]').attr('selected', 'selected');
+            }
             //$("#TroubleDes").val("設備名稱: \n\n故障描述: ");
         }
         else {

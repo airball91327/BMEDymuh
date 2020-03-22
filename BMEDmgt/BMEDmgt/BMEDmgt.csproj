@@ -725,6 +725,7 @@
     <Content Include="Areas\MedEngMgt\Views\Reports\RepairCost.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Reports\KeepCost.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AttainFiles\NewsList.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\News\ShowAllNews.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

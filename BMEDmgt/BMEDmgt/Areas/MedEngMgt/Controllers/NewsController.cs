@@ -13,6 +13,7 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
+    [Authorize]
     public class NewsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
@@ -58,7 +59,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             return View(newslist);
         }
-
+        [AllowAnonymous]
+        public ActionResult ShowAllNews()
+        {
+            return View();
+        }
         public ActionResult ShowNews()
         {
             List<News> newslist = new List<News>();
