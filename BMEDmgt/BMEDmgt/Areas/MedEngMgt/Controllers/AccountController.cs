@@ -22,8 +22,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
         // GET: Account
         [AllowAnonymous]
-        public ActionResult LogOn()
+        public ActionResult LogOn(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
