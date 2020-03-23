@@ -1040,9 +1040,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             assetNameList.Add(new SelectListItem { Value = "000", Text = "其他類", Selected = false});
             ViewData["assetNameList"] = assetNameList;
 
+            var repairAreas = db.RepairAreas.ToList();
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             listItem2.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
             listItem2.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            if (repairAreas.Count() > 0)
+            {
+                listItem2.Clear();
+                foreach(var item in repairAreas)
+                {
+                    listItem2.Add(new SelectListItem { Text = item.AreaName, Value = item.AreaName });
+                }
+            }
             ViewData["RepairArea"] = new SelectList(listItem2, "Value", "Text");
 
             return View(r);

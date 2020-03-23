@@ -210,6 +210,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\QuestionnaireMsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\QuestSendController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\RepairAreasController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\RepairCostsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\KeepDtlsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\RepairDtlsController.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Areas\MedEngMgt\Models\Manual.cs" />
     <Compile Include="Areas\MedEngMgt\Models\NeedFile.cs" />
     <Compile Include="Areas\MedEngMgt\Models\RepairDtlRecord.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\RepairArea.cs" />
     <Compile Include="Areas\MedEngMgt\Models\SelectUserVModels .cs" />
     <Compile Include="Areas\MedEngMgt\Models\Questionnaire.cs" />
     <Compile Include="Areas\MedEngMgt\Models\RepairCost.cs" />
@@ -726,6 +728,11 @@
     <Content Include="Areas\MedEngMgt\Views\Reports\KeepCost.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AttainFiles\NewsList.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\News\ShowAllNews.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairAreas\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairAreas\Delete.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairAreas\Details.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairAreas\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\RepairAreas\Index.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
