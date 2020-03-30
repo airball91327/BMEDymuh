@@ -200,7 +200,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.Entry(newUser).State = EntityState.Modified;
                 db.SaveChanges();
                 //
-                
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "使用者維護 > 新增使用者 > " + newUser.FullName + "(" + newUser.UserName + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+                //
                 List<UserInRolesVModel> uv = appUser.InRoles.Where(v => v.IsSelected == true).ToList();
                 foreach (UserInRolesVModel u in uv)
                 {
@@ -274,6 +282,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         user.ChangePassword(appUser.Password, appUser.newPassword);
                     }
                 }
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "使用者維護 > 編輯使用者 > " + appUser.FullName + "(" + appUser.UserName + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(appUser);
@@ -304,6 +320,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AppUser appUser = db.AppUsers.Find(id);
             db.AppUsers.Remove(appUser);
+            db.SaveChanges();
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "系統管理者紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "使用者維護 > 刪除使用者 > " + appUser.FullName + "(" + appUser.UserName + ")";
+            db.SystemLogs.Add(log);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
+using OfficeOpenXml;
+using PagedList;
 using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
@@ -15,9 +19,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
     public class SystemLogsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
+        private int pageSize = 100;
 
         // GET: MedEngMgt/SystemLogs
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             if (User.IsInRole("Admin") == true)
             {
@@ -43,7 +48,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
 
             systemLogs = systemLogs.OrderByDescending(s => s.LogTime).ToList();
-            return View(systemLogs);
+            return View(systemLogs.ToPagedList(page, pageSize));
         }
 
         // GET: MedEngMgt/SystemLogs/Details/5
@@ -139,6 +144,65 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.SystemLogs.Remove(systemLog);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: MedEngMgt/SystemLogs/ExportToExcel
+        public ActionResult ExportToExcel()
+        {
+            string fileName = "";
+
+            MemoryStream stream = new MemoryStream();
+            ExcelPackage package = new ExcelPackage(stream);
+
+            package.Workbook.Worksheets.Add("系統訊息紀錄");
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            #region write header
+            sheet.Cells[1, 1].Value = "訊息類別";
+            sheet.Cells[1, 2].Value = "紀錄時間";
+            sheet.Cells[1, 3].Value = "人員代號";
+            sheet.Cells[1, 4].Value = "執行動作";
+
+
+            using (ExcelRange range = sheet.Cells[1, 1, 1, 30])
+            {
+
+            }
+            #endregion
+
+            #region write content
+            var SystemLogList = db.SystemLogs.OrderByDescending(s => s.LogTime).ToList();
+
+            int pos = 2;
+            foreach (var item in SystemLogList)
+            {
+                sheet.Cells[pos, 1].Value = item.LogClass;
+                sheet.Cells[pos, 2].Value = item.LogTime.ToString("yyyy/MM/dd");
+                var ur = db.AppUsers.Where(u => u.Id == item.UserId).FirstOrDefault();
+                sheet.Cells[pos, 3].Value = ur == null ? "" : ur.UserName;
+                sheet.Cells[pos, 4].Value = item.Action;
+
+                using (ExcelRange range = sheet.Cells[pos, 1, pos, 30])
+                {
+                    range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                }
+                pos++;
+            }
+            #endregion
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = "系統訊息紀錄列表_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+            }
+            //因為是用Query的方式,這個地方要用串流的方式來存檔
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                package.SaveAs(memoryStream);
+                //請注意 一定要加入這行,不然Excel會是空檔
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                //注意Excel的ContentType,是要用這個"application/vnd.ms-excel"
+                return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", fileName);
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -374,6 +374,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult GetContractAssetList(string purchaseNo)
         {
             var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo).ToList();
+            foreach(var item in assets)
+            {
+                var accDpt = db.Assets.Where(a => a.AssetNo == item.AssetNo).FirstOrDefault().AccDpt;
+                var dpt = db.Departments.Where(d => d.DptId == accDpt).FirstOrDefault();
+                if (dpt != null)
+                {
+                    item.AccDptName = dpt.Name_C;
+                }
+            }
             return PartialView(assets);
         }
 

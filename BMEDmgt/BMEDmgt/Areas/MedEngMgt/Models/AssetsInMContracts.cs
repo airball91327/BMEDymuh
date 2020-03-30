@@ -32,6 +32,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Qty { get; set; }
         [Display(Name = "設備單價")]
         public decimal? UniteCost { get; set; }
+        [NotMapped]
+        [Display(Name = "使用單位")]
+        public string AccDptName { get; set; }
 
         [Display(Name = "異動人員")]
         public int Rtp { set; get; }

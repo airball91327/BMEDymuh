@@ -102,7 +102,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<News> newslist = new List<News>();
             DateTime dt = DateTime.Now;
             db.News.Where(n => n.Status == "Y")
-                .Where(n => n.NewsClass == "警報訊息")
+                .Where(n => n.NewsClass == "異常通報")
                 .Where(n => n.Sdate <= dt && n.Edate >= dt)
                 .Join(db.AppUsers, n => n.UserId, u => u.Id,
             (n, u) => new
@@ -153,7 +153,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             news.UserId = WebSecurity.CurrentUserId;
             List<SelectListItem> listItem1 = new List<SelectListItem>();
             listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
-            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            listItem1.Add(new SelectListItem { Value = "異常通報", Text = "異常通報" });
             ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", "");
             return View(news);
         }
@@ -174,7 +174,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             List<SelectListItem> listItem1 = new List<SelectListItem>();
             listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
-            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            listItem1.Add(new SelectListItem { Value = "異常通報", Text = "異常通報" });
             ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", "");
             return View(news);
         }
@@ -194,7 +194,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             news.UserName = db.AppUsers.Find(news.UserId).FullName;
             List<SelectListItem> listItem1 = new List<SelectListItem>();
             listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
-            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            listItem1.Add(new SelectListItem { Value = "異常通報", Text = "異常通報" });
             ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", news.NewsClass);
             return View(news);
         }
@@ -215,7 +215,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             List<SelectListItem> listItem1 = new List<SelectListItem>();
             listItem1.Add(new SelectListItem { Value = "最新消息", Text = "最新消息" });
-            listItem1.Add(new SelectListItem { Value = "警報訊息", Text = "警報訊息" });
+            listItem1.Add(new SelectListItem { Value = "異常通報", Text = "異常通報" });
             ViewData["NewsClass"] = new SelectList(listItem1, "Value", "Text", news.NewsClass);
             return View(news);
         }
