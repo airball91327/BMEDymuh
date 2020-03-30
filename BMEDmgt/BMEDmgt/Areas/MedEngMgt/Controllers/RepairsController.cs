@@ -1064,6 +1064,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult Create(Repair repair)
         {
+            //if (repair.RepType == "送修")
+            //{
+            //    ModelState.Remove("PlaceLoc");
+            //}
+
             if (ModelState.IsValid)
             {
 
