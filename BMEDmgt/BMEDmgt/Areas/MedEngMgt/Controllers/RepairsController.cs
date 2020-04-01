@@ -923,6 +923,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult Create()
         {
             Repair r = new Repair();
+            AppUser usr = null;
             AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).FirstOrDefault();
             //CustOrgan c = db.CustOrgans.Find(u.DptId);
             //Vendor v = db.Vendors.Find(u.VendorId);
@@ -944,6 +945,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.CheckerId = u.Id;
             r.CheckerName = u.FullName;
             r.Amt = 0;
+            //
+            Roles.GetUsersInRole("Manager").ToList()
+                 .ForEach(x =>
+                 {
+                     usr = db.AppUsers.Find(WebSecurity.GetUserId(x));
+                     if (u.DptId == usr.DptId)
+                     {
+                         r.CheckerId = usr.Id;
+                         r.CheckerName = usr.FullName;
+                     }
+                 });
             //
             string str = "insert into repair(DocId,UserId,UserName,ApplyDate,DptId,Contact,AccDpt,Amt,CheckerId";
             str += ") values(@1,@2,@3,@4,@5,@6,@7,@8,@9)";
@@ -1013,7 +1025,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                 }
             }
-            ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", u.Id);
+            if (usr != null)
+            {
+                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", usr.Id);
+            }
+            else
+            {
+                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", u.Id);
+            }       
             //
             List<Asset> alist = null;
             if (u.DptId != null)
@@ -1064,10 +1083,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult Create(Repair repair)
         {
-            //if (repair.RepType == "送修")
-            //{
-            //    ModelState.Remove("PlaceLoc");
-            //}
+            if (repair.RepType == "送修")
+            {
+                ModelState.Remove("PlaceLoc");
+                if (string.IsNullOrEmpty(repair.PlaceLoc))
+                {
+                    repair.PlaceLoc = "送修無須填寫";
+                }
+            }
 
             if (ModelState.IsValid)
             {

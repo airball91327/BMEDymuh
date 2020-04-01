@@ -37,6 +37,9 @@ $(function () {
         $('#pnlCANCLOSE').show();
         $('#pnlASSET').show();
     }
+    if ($('#ClsNow').val() === "申請人") {
+        $('#pnlASSET').show();
+    }
 
     $('#FlowCls').change(function () {
         $('#btnSelUsr').hide();

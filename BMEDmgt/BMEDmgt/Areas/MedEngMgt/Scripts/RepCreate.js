@@ -287,7 +287,6 @@ $(function () {
 
     $('input:radio[name="RepType"]').click(function () {
         var repType = $(this).val();
-        alert(repType);
         if (repType === "送修") {
             $('#PlaceLoc').removeAttr('data-val-required');
         } else {

@@ -346,7 +346,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 QuestMain main = db.QuestMains.Find(model.Docid);
                 main.CustId = ur == null ? "" : ur.DptId;
                 var dpt = db.Departments.Where(d => d.DptId == ur.DptId).FirstOrDefault();
-                main.CustNam = dpt == null ? "" : dpt.Name_C.TrimEnd(' ');
+                main.CustNam = dpt == null ? "" : dpt.Name_C;
                 //main.ContractNo = model.ContractNo;
                 db.Entry(main).State = EntityState.Modified;
                 //
