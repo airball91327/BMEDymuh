@@ -791,7 +791,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     var repairFlows = db.RepairFlows.ToList();
                     if (otherDoc == null ? false : otherDoc.Contains("true"))
                     {
-                        var ur = db.AppUsers.Where(a => a.UserName == "15255").FirstOrDefault();
+                        var ur = db.AppUsers.Where(a => a.UserName == "eao").FirstOrDefault();
                         repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == ur.Id).ToList();
                     }
                     else
@@ -1145,7 +1145,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 /* 非醫療儀器的設備全送給雅雲 */
                 if(repair.PlantClass != "醫療儀器")
                 {
-                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "15255").FirstOrDefault();
+                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "eao").FirstOrDefault();
                     at.EngId = tempEng.Id;
                 }
 
