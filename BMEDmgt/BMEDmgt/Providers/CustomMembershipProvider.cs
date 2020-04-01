@@ -220,7 +220,10 @@ namespace BMEDmgt.Providers
         {
 
             var user = context.AppUsers.Where(x => x.UserName == username && x.Status == "Y").FirstOrDefault();
-            context.Entry(user).Reload();
+            if (user != null)
+            {
+                context.Entry(user).Reload();
+            }
 
             if (user != null)
             {
