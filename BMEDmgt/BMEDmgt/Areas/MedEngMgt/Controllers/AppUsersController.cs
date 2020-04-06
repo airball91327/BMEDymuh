@@ -274,47 +274,45 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         }
                     }
                     //Checking the modified columns.
-                    //AppUser oriUser = db.AppUsers.Where(u => u.Id == appUser.Id).FirstOrDefault();
-                    //if (oriUser.UserName != appUser.UserName)
-                    //{
-                    //    checkResult += "使用者名稱；";
-                    //}
-                    //if (oriUser.FullName != appUser.FullName)
-                    //{
-                    //    checkResult += "使用者全名；";
-                    //}
-                    //if (oriUser.Password != appUser.Password)
-                    //{
-                    //    checkResult += "密碼；";
-                    //}
-                    //if (oriUser.Email != appUser.Email)
-                    //{
-                    //    checkResult += "電子信箱；";
-                    //}
-                    //if (oriUser.Ext != appUser.Ext)
-                    //{
-                    //    checkResult += "分機；";
-                    //}
-                    //if (oriUser.Mobile != appUser.Mobile)
-                    //{
-                    //    checkResult += "行動電話；";
-                    //}
-                    //if (oriUser.DptId != appUser.DptId)
-                    //{
-                    //    checkResult += "所屬部門；";
-                    //}
-                    //if (oriUser.Status != appUser.Status)
-                    //{
-                    //    checkResult += "狀態；";
-                    //}
+                    var oriUser = db.AppUsers.Where(u => u.Id == appUser.Id).ToList().FirstOrDefault();
+                    if (oriUser.UserName != appUser.UserName)
+                    {
+                        checkResult += "使用者名稱；";
+                    }
+                    if (oriUser.FullName != appUser.FullName)
+                    {
+                        checkResult += "使用者全名；";
+                    }
+                    if (oriUser.Email != appUser.Email)
+                    {
+                        checkResult += "電子信箱；";
+                    }
+                    if (oriUser.Ext != appUser.Ext)
+                    {
+                        checkResult += "分機；";
+                    }
+                    if (oriUser.Mobile != appUser.Mobile)
+                    {
+                        checkResult += "行動電話；";
+                    }
+                    if (oriUser.DptId != appUser.DptId)
+                    {
+                        checkResult += "所屬部門；";
+                    }
+                    if (oriUser.Status != appUser.Status)
+                    {
+                        checkResult += "狀態；";
+                    }
                     //
                     appUser.LastActivityDate = DateTime.Now;
+                    db.Entry(oriUser).State = EntityState.Detached;
                     db.Entry(appUser).State = EntityState.Modified;
                     db.SaveChanges();
                     //
                     if (!string.IsNullOrEmpty(appUser.newPassword))
                     {
                         user.ChangePassword(appUser.Password, appUser.newPassword);
+                        checkResult += "密碼；";
                     }
                 }
                 // Save log. 
