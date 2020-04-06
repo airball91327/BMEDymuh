@@ -286,9 +286,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<SelectListItem> listItem = new List<SelectListItem>();
             //listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
+            listItem.Add(new SelectListItem { Text = "所有", Value = "所有" });
             listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
             listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
-            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "已處理");
+            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "所有");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             SelectListItem li;
@@ -519,7 +520,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rv = rv.Where(r => r.Flg == "?").ToList();
             else if (flw == "已結案")
                 rv = rv.Where(r => r.Flg == "2").ToList();
-
+            else if (flw == "所有")
+                rv = rv.ToList();
             return PartialView("List2", rv.OrderByDescending(r => r.DocId));
         }
 

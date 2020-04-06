@@ -189,6 +189,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                         }
                     }
                     break;
+                case "所有":
+                    rf2 = db.Database.SqlQuery<DelivFlow>("SELECT * FROM DELIVFLOW WHERE STATUS ='2' OR STATUS ='?'").ToList();
+                    if (!Roles.IsUserInRole("Usual"))
+                    {
+                        rf.AddRange(rf2);
+                    }
+                    else
+                    {
+                        foreach (DelivFlow f in rf2)
+                        {
+                            if (db.DelivFlows.Where(m => m.Docid == f.Docid).Where(m => m.Userid == WebSecurity.CurrentUserId).Count() > 0)
+                            {
+                                rf.Add(f);
+                            }
+                        }
+                    }
+                    break;
                 default:
                     rf = db.Database.SqlQuery<DelivFlow>("SELECT * FROM DELIVFLOW WHERE STATUS ='?'")
                         .Where(m => m.Userid == WebSecurity.CurrentUserId).ToList();
