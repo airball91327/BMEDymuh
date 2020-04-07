@@ -29,6 +29,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Days)
         </th>
+        <th>
+            流程狀態
+        </th>
         <th></th>
     </tr>
     @{int i = 0;
@@ -73,14 +76,24 @@
             @Html.DisplayFor(modelItem => item.Days)
         </td>
         <td>
+            @if (item.Flg == "2")
+            {
+                <span>已結案</span>
+            }
+            else
+            {
+                <span>流程中</span>
+            }
+        </td>
+        <td>
             @if (item.Flg == "?" && WebSecurity.CurrentUserId == item.FlowUid)
-        {
-            @Html.ActionLink("編輯", "Edit", "Delivery", new { id = item.Docid }, new { target = "_blank" })
-    }
-    else
-    {
-        @Html.ActionLink("查看", "Details", "Delivery", new { id = item.Docid }, new { target = "_blank" })
-}
+            {
+                @Html.ActionLink("編輯", "Edit", "Delivery", new { id = item.Docid }, new { target = "_blank" })
+            }
+            else
+            {
+                @Html.ActionLink("查看", "Details", "Delivery", new { id = item.Docid }, new { target = "_blank" })
+            }
         </td>
     </tr>
         @*<tr>

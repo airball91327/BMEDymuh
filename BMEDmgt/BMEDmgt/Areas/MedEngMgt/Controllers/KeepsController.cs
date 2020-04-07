@@ -534,9 +534,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<SelectListItem> listItem = new List<SelectListItem>();
             //listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
+            listItem.Add(new SelectListItem { Text = "所有", Value = "所有" });
             listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
             listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
-            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "已處理");
+            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "所有");
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             SelectListItem li;
             db.Departments.ToList()
@@ -720,6 +721,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 kv = kv.Where(r => r.Flg == "?").ToList();
             else if (flw == "已結案")
                 kv = kv.Where(r => r.Flg == "2").ToList();
+            else if (flw == "所有")
+                kv = kv.ToList();
 
             if (!string.IsNullOrEmpty(inout))
                 kv = kv.Where(r => r.InOut == inout).ToList();
