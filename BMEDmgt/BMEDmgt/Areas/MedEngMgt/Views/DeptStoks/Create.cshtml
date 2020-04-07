@@ -20,6 +20,18 @@
             @Html.LabelFor(model => model.StokCls, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.RadioButton("StokCls", "醫療儀器", true)醫療儀器
+                @Html.RadioButton("StokCls", "電材料", true)電材料
+                @Html.RadioButton("StokCls", "水材料")水材料
+                @Html.RadioButton("StokCls", "空調材料")空調材料
+                @Html.RadioButton("StokCls", "儀器材料")儀器材料
+                @Html.RadioButton("StokCls", "木工材料")木工材料
+                @Html.RadioButton("StokCls", "消防材料")消防材料
+                @Html.RadioButton("StokCls", "電話材料")電話材料
+                @Html.RadioButton("StokCls", "弱電材料")弱電材料
+                @Html.RadioButton("StokCls", "特殊材料")特殊材料
+                @Html.RadioButton("StokCls", "其它")其它
+                @Html.RadioButton("StokCls", "護士呼叫")護士呼叫
+                @Html.RadioButton("StokCls", "病床")病床
                 @*@Html.RadioButtonFor(model => model.StokCls, "工程設施")工程設施*@
                 @Html.ValidationMessageFor(model => model.StokCls, "", new { @class = "text-danger" })
             </div>
