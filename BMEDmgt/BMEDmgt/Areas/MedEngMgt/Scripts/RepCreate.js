@@ -13,6 +13,12 @@
 
 $(function () {
 
+    $("input[name='PlantClass']").click(function () {
+        if ($("#ChkAssetNo").prop("checked") == true) {
+            $("#ChkAssetNo").trigger('click');
+        }
+    });
+
     $("#ChkAssetNo").click(function () {
         if ($(this).prop("checked")) {
             $("#pnlASSET").hide();
@@ -166,6 +172,9 @@ $(function () {
                     appenddata += "<option value = '" + value.AssetNo + "'>" + value.Cname + " </option>";
                 });
                 $('#AssetNo').html(appenddata);
+                if ($("#ChkAssetNo").prop("checked") == true) {
+                    $("#ChkAssetNo").trigger('click');
+                }
             },
             error: function (msg) {
                 alert(msg);

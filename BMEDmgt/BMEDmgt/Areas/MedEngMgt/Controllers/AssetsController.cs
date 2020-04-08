@@ -859,7 +859,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     });
                 if (!string.IsNullOrEmpty(accDpt))
                 {
-                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000");
+                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000" || r.AssetNo == "001");
                 }
 
                 string s = JsonConvert.SerializeObject(result);
