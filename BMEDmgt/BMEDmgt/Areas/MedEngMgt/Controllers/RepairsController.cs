@@ -946,7 +946,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.ApplyDate = DateTime.Now;
             r.CheckerId = u.Id;
             r.CheckerName = u.FullName;
-            r.Amt = 0;
+            r.Amt = 1;
             //
             Roles.GetUsersInRole("Manager").ToList()
                  .ForEach(x =>
@@ -1124,7 +1124,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //repair.AccDpt = at.AccDpt;
                 if (at != null)
                 {
-                    if (repair.AssetNo != "000")    //AssetNo 000 為無財編對應的Asset
+                    if (repair.AssetNo != "000" && repair.AssetNo != "001")    //AssetNo 000、001 為無財編對應的Asset
                     {
                         repair.AssetName = at.Cname;
                     }
