@@ -187,23 +187,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (!string.IsNullOrEmpty(ss))
                     {
                         KeepFlow kf = db.KeepFlows.Where(f => f.DocId == ss && f.Status == "?").FirstOrDefault();
-                        if (assign.FlowCls == "驗收人")
+                        if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                         {
                             if (db.KeepEmps.Where(emp => emp.DocId == ss).Count() <= 0)
                             {
-                                throw new Exception("沒有維修工程師紀錄!!");
+                                throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                             }
                             else if (db.KeepDtls.Find(ss).EndDate == null)
                             {
-                                throw new Exception("沒有完工日!!");
+                                throw new Exception("【保養紀錄】> 沒有【完工日】!!");
                             }
                             if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).Result))
                             {
-                                throw new Exception("保養結果不可空白!!");
+                                throw new Exception("【保養紀錄】> 【保養結果】不可空白!!");
                             }
                             if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).InOut))
                             {
-                                throw new Exception("保養方式不可空白!!");
+                                throw new Exception("【保養紀錄】> 【保養方式】不可空白!!");
                             }
                         }
                         if (assign.FlowCls == "結案")
@@ -410,19 +410,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     if (db.KeepEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     else if (db.KeepDtls.Find(assign.DocId).EndDate == null)
                     {
-                        throw new Exception("沒有完工日!!");
+                        throw new Exception("【保養紀錄】> 沒有【完工日】!!");
                     }
                     if (string.IsNullOrEmpty(db.KeepDtls.Find(assign.DocId).Result))
                     {
-                        throw new Exception("保養結果不可空白!!");
+                        throw new Exception("【保養紀錄】> 【保養結果】不可空白!!");
                     }
                     if (string.IsNullOrEmpty(db.KeepDtls.Find(assign.DocId).InOut))
                     {
-                        throw new Exception("保養方式不可空白!!");
+                        throw new Exception("【保養紀錄】> 【保養方式】不可空白!!");
                     }
                 }
                 if (assign.FlowCls == "結案")
@@ -646,16 +646,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "驗收人":
                     if (db.KeepEmps.Where(emp => emp.DocId == docid).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     else if (db.KeepDtls.Find(docid).EndDate == null)
                     {
-                        throw new Exception("沒有完工日!!");
+                        throw new Exception("【保養紀錄】> 沒有【完工日】!!");
                     }
                     else if (db.KeepDtls.Find(docid).Result == null ||
                         db.KeepDtls.Find(docid).Result == "")
                     {
-                        throw new Exception("沒有保養結果!!");
+                        throw new Exception("【保養紀錄】 > 沒有【保養結果】!!");
                     }
                     if (r != null)
                     {

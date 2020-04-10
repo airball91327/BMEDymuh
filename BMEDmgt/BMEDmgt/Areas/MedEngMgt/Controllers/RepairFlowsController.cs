@@ -442,27 +442,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 RepairFlow rf = db.RepairFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
-                if (assign.FlowCls == "驗收人")
+                if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                 {
                     if (db.RepairEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     else if (db.RepairDtls.Find(assign.DocId).EndDate == null)
                     {
-                        throw new Exception("沒有完工日!!");
+                        throw new Exception("【請修紀錄】> 沒有【完工日】!!");
                     }
                     else if (string.IsNullOrEmpty(db.RepairDtls.Find(assign.DocId).DealState))
                     {
-                        throw new Exception("處理狀態不可空值!!");
+                        throw new Exception("【請修紀錄】> 【處理狀態】不可空值!!");
                     }
                     if (string.IsNullOrEmpty(db.RepairDtls.Find(assign.DocId).FailFactor))
                     {
-                        throw new Exception("故障原因不可空白!!");
+                        throw new Exception("【請修紀錄】> 【故障原因】不可空白!!");
                     }
                     if (string.IsNullOrEmpty(db.RepairDtls.Find(assign.DocId).InOut))
                     {
-                        throw new Exception("維修方式不可空白!!");
+                        throw new Exception("【請修紀錄】> 【維修方式】不可空白!!");
                     }
                 }
                 if (assign.FlowCls == "結案")
@@ -700,7 +700,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "驗收人":
                     if (db.RepairEmps.Where(emp => emp.DocId == docid).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     if (r != null)
                     {
