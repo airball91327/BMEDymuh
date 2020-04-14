@@ -1,9 +1,9 @@
 ﻿function smgREPORT(data)
 {
-    //if (!data.success)
-    //{
-    //    alert(data.error);
-    //}
+    if (data.error)
+    {
+        alert(data.error);
+    }
 }
 
 $(function () {
