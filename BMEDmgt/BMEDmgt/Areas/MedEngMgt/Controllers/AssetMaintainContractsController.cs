@@ -386,6 +386,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return PartialView(assets);
         }
 
+        // GET: MedEngMgt/AssetMaintainContracts/GetContractAssetList2/5
+        public ActionResult GetContractAssetList2(string purchaseNo)
+        {
+            var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo).ToList();
+            foreach (var item in assets)
+            {
+                var accDpt = db.Assets.Where(a => a.AssetNo == item.AssetNo).FirstOrDefault().AccDpt;
+                var dpt = db.Departments.Where(d => d.DptId == accDpt).FirstOrDefault();
+                if (dpt != null)
+                {
+                    item.AccDptName = dpt.Name_C;
+                }
+            }
+            return PartialView(assets);
+        }
+
         // POST: MedEngMgt/AssetMaintainContracts/DeleteAsset/5
         [HttpPost]
         [MyErrorHandler]
