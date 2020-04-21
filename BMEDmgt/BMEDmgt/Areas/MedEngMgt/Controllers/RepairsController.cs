@@ -952,10 +952,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                  .ForEach(x =>
                  {
                      usr = db.AppUsers.Find(WebSecurity.GetUserId(x));
-                     if (u.DptId == usr.DptId)
+                     if (usr != null)
                      {
-                         r.CheckerId = usr.Id;
-                         r.CheckerName = usr.FullName;
+                         if (u.DptId == usr.DptId)
+                         {
+                             r.CheckerId = usr.Id;
+                             r.CheckerName = usr.FullName;
+                         }
                      }
                  });
             //
