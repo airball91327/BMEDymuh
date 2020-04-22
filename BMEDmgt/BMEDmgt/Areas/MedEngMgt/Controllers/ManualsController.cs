@@ -47,6 +47,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string brand = fm["qtyBRAND"];
             string type = fm["qtyTYPE"];
             string ftype = fm["qtyFTYPE"];
+            string keyname = fm["qtyKEYNAME"];
             List<Manual> mlist;
             mlist = db.Manuals.ToList();
             if (!string.IsNullOrEmpty(brand))
@@ -60,6 +61,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(ftype))
             {
                 mlist = mlist.Where(m => m.FileType == ftype).ToList();
+            }
+            if (!string.IsNullOrEmpty(keyname))
+            {
+                mlist = mlist.Where(m => m.ManualName.Contains(keyname)).ToList();
             }
 
             if (mlist.ToPagedList(page, pageSize).Count <= 0)
