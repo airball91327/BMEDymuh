@@ -44,7 +44,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (attainFile.FileLink == null)
             {
-                throw new Exception("檔案重複上傳!");
+                throw new Exception("請重新選取檔案!");
             }
             if (ModelState.IsValid)
             {
@@ -326,7 +326,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (attainFile.FileLink == null)
             {
-                throw new Exception("檔案重複上傳!");
+                throw new Exception("請重新選取檔案!");
             }
             if (ModelState.IsValid)
             {
