@@ -94,12 +94,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
                 .Where(f => f.Status == "?").FirstOrDefault();
-            if (repairDtl.EndDate == null)
+            if (rf.Cls.Contains("工程師"))
             {
-                repairDtl.EndDate = DateTime.Now;
-            }
-            if (rf.Cls.Contains("工程師") || rf.Cls == "醫工經辦")
+                if (repairDtl.EndDate == null)
+                {
+                    repairDtl.EndDate = DateTime.Now;
+                }
                 return PartialView(repairDtl);
+            }
+            else if (rf.Cls == "醫工經辦")
+            {
+                return PartialView(repairDtl);
+            }
             else
                 return PartialView("Details", repairDtl);
         }
