@@ -136,6 +136,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         repairDtl.Cost = db.RepairCosts.Where(k => k.DocId == repairDtl.DocId)
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
+                        if (repairDtl.IsCharged == "Y" && repairDtl.EndDate == null)
+                        {
+                            throw new Exception("有費用時，需先填寫完工日!");
+                        }
                         if (repairDtl.EndDate != null && repairDtl.Cost <= 0)
                         {
                             throw new Exception("請先維護費用明細資料，才可以儲存完工日期!!");
