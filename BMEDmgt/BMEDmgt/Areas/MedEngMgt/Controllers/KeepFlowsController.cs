@@ -406,7 +406,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 KeepFlow kf = db.KeepFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
-                if (assign.FlowCls == "驗收人" || assign.FlowCls == "結案")
+                if (assign.FlowCls == "驗收人" || assign.FlowCls == "結案" || assign.FlowCls == "設備主管")
                 {
                     if (db.KeepEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
                     {
