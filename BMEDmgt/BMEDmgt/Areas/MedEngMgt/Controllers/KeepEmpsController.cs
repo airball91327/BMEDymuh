@@ -122,7 +122,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             KeepEmp emp = new KeepEmp();
             emp.DocId = docid;
             //
-            var s = Roles.GetUsersInRole("Engineer").ToList();
+            var s = Roles.GetUsersInRole("MedEngineer").ToList();
             List<SelectListItem> uids = new List<SelectListItem>();
             AppUser u;
             foreach (string l in s)
@@ -212,7 +212,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 keepEmp = new KeepEmp();
                 keepEmp.DocId = id;
             }
-            var s = Roles.GetUsersInRole("Engineer").ToList();
+            var s = Roles.GetUsersInRole("MedEngineer").ToList();
             List<SelectListItem> uids = new List<SelectListItem>();
             AppUser u;
             foreach (string l in s)
@@ -241,7 +241,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return PartialView("Details", emps);
             }
             // Set default value for dropdownlist.
-            if (User.IsInRole("Engineer") == true)
+            if (User.IsInRole("MedEngineer") == true)
             {
                 keepEmp.UserId = WebSecurity.CurrentUserId;
             }
