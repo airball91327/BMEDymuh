@@ -1,8 +1,33 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.KeepListVModel>
 <script src="~/Areas/MedEngMgt/Scripts/HtmltoExcel.js"></script>
 
+<script>
+    $(function () {
+        $('#exportExcel').click(function () {
+            var s = $('#frmKEEP').serialize();
+            console.log(s);
+            $.ajax({
+                url: '../Keeps/ExcelKeepList',
+                data: s ,
+                type: "GET",
+                beforeSend: function () {
+                    $("#imgLOADING2").show();
+                },
+                success: function (data) {
+                    window.location.href = '@Url.Action("ExcelKeepList", "Keeps")' + '?' + s;
+                    $("#imgLOADING2").hide();
+                },
+                error: function (msg) {
+                    alert(msg);
+                    $("#imgLOADING2").hide()
+                }
+            });
+        });
+    });
+</script>
+
 <input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
-       onclick="javascript:exportExcel('tbKEEP')" />
+       @*onclick="javascript:exportExcel('tbKEEP')"*@ />
 <table class="table" id="tbKEEP">
     <tr>
         <th>
@@ -43,60 +68,64 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccDptName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssetNo)<br />
-            @Html.DisplayFor(modelItem => item.AssetName)<br />
-            保養周期:@Html.DisplayFor(modelItem => item.Cycle)<br />
-            保固起始:@Html.DisplayFor(modelItem => item.WartySt)<br />
-            保固終止:@Html.DisplayFor(modelItem => item.WartyEd)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InOut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Result)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Memo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FlowUname)
-        </td>
-        <td>
-            @if (item.Flg == "2")
-            {
-                <span>已結案</span>
-            }
-            else
-            {
-                <span>流程中</span>
-            }
-        </td>
-        <td>
-            @if (item.Flg == "?" && Roles.IsUserInRole("Admin"))
-            {
-                @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "blank" })
-                @Html.Raw("|")
-            }
-            @Html.ActionLink("預覽", "Views", new { id = item.DocId })
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccDptName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetNo)
+                <br />
+                @Html.DisplayFor(modelItem => item.AssetName)
+                <br />
+                保養周期:@Html.DisplayFor(modelItem => item.Cycle)
+                <br />
+                保固起始:@Html.DisplayFor(modelItem => item.WartySt)
+                <br />
+                保固終止:@Html.DisplayFor(modelItem => item.WartyEd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Memo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowUname)
+            </td>
+            <td>
+                @if (item.Flg == "2")
+                {
+                    <span>已結案</span>
+                }
+                else
+                {
+                    <span>流程中</span>
+                }
+            </td>
+            <td>
+                @if (item.Flg == "?" && Roles.IsUserInRole("Admin"))
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "blank" })
+                    @Html.Raw("|")
+                }
+                @Html.ActionLink("預覽", "Views", new { id = item.DocId })
+            </td>
+        </tr>
     }
 
 </table>
