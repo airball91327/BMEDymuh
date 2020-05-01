@@ -144,17 +144,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MyErrorHandler]
         public ActionResult UpdCases(KeepEmp keepEmp)
         {
             if (ModelState.IsValid)
             {
                 string[] s = keepEmp.DocId.Split(new char[] { ';' });
-                KeepEmp emp;
+                KeepEmp emp, empTemp;
                 KeepDtl dtl;
                 foreach (string ss in s)
                 {
                     if (!string.IsNullOrEmpty(ss))
                     {
+                        empTemp = db.KeepEmps.Where(e => e.DocId == ss && e.UserId == keepEmp.UserId).FirstOrDefault();
+                        if (empTemp != null)
+                        {
+                            throw new Exception("已有該工程師工時!");
+                        }
                         emp = new KeepEmp();
                         emp.DocId = ss;
                         emp.UserId = keepEmp.UserId;

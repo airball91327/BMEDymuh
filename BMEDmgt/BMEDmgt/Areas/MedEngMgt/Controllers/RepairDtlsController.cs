@@ -186,6 +186,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             }
                         }
                     }
+                    //設定完工的"時間"
+                    if (repairDtl.EndDate.HasValue)
+                    {
+                        DateTime setDate = repairDtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                        repairDtl.EndDate = setDate;
+                    }
                     db.Entry(repairDtl).State = EntityState.Modified;
                     db.SaveChanges();
 
