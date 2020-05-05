@@ -119,5 +119,43 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 throw new Exception(msg);
             }
         }
+
+        public ActionResult Details(string id = null)
+        {
+            Keep kp = db.Keeps.Find(id);
+            List<KeepFormatListVModel> kf = new List<KeepFormatListVModel>();
+            KeepFormat f;
+            KeepRecord r;
+            if (kp != null)
+            {
+                AssetKeep ak = db.AssetKeeps.Find(kp.AssetNo);
+                if (ak != null)
+                {
+                    if (!string.IsNullOrEmpty(ak.FormatId))
+                    {
+                        db.KeepFormatDtls.Where(d => d.FormatId == ak.FormatId)
+                            .ToList()
+                            .ForEach(d =>
+                            {
+                                kf.Add(new KeepFormatListVModel
+                                {
+                                    Docid = id,
+                                    FormatId = d.FormatId,
+                                    Plants = (f = db.KeepFormats.Find(d.FormatId)) == null ? "" :
+                                    f.Plants,
+                                    Sno = d.Sno,
+                                    Descript = d.Descript,
+                                    KeepDes = (r = db.KeepRecords.Find(id, d.FormatId, d.Sno)) == null ? "" :
+                                    r.KeepDes
+                                });
+                            });
+                    }
+
+                }
+                return PartialView("Details", kf);
+            }
+            return HttpNotFound();
+        }
+
     }
 }
