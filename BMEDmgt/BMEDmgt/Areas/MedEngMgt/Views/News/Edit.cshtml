@@ -37,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NewsTitle, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NewsTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NewsTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入100字內之消息主旨"} })
                 @Html.ValidationMessageFor(model => model.NewsTitle, "", new { @class = "text-danger" })
             </div>
         </div>

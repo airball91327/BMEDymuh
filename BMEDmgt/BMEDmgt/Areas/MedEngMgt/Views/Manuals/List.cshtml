@@ -63,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.Remark)
             </td>
             <td>
-                <a href="~/@(item.FilePath+item.FileName)">下載</a>
+                <a href="@Url.Content("~/" + item.FilePath + item.FileName)">下載</a>
             </td>
             <td>
                 @if (Roles.IsUserInRole("Admin"))

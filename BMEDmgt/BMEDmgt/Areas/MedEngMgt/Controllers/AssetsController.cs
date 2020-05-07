@@ -711,10 +711,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     return Content("[製造號碼]不可空白!!");
                 }
-                if (asset.RelDate == null)
-                {
-                    return Content("[製造日期]不可空白!!");
-                }
+                //if (asset.RelDate == null)
+                //{
+                //    return Content("[製造日期]不可空白!!");
+                //}
                 asset.Rtp = WebSecurity.CurrentUserId;
                 asset.Rtt = DateTime.Now;
                 db.Entry(asset).State = EntityState.Modified;

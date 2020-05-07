@@ -162,7 +162,7 @@
             <div class="form-inline">
                 @Html.TextBox("DelivPsonKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
                 <input id="btnQtyDelivPson" type="button" value="查詢" class="btn btn-default">
-                @Html.DropDownListFor(model => model.DelivPson, ViewData["Item2"] as SelectList, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.DelivPson, ViewData["Item2"] as SelectList, new { @class = "form-control", @required = "required" })
                 @Html.ValidationMessageFor(model => model.DelivPson, "", new { @class = "text-danger" })
             </div>
         </div>
