@@ -213,7 +213,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             dt.Columns.Add("表單編號(請修案號)");
             dt.Columns.Add("時間戳記");
             //dt.Columns.Add("部門代號");
-            //dt.Columns.Add("部門名稱");
+            dt.Columns.Add("申請部門");
             //
             int cols = 0;
             db.QuestionnaireMs.Where(m => m.Flg == "Y")
@@ -233,8 +233,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         //dw[0] = j.ContractNo + j.Contract;
                         dw[1] = j.TimeStamp;
                         //dw[2] = j.DptId;
-                        //dw[3] = j.DptName;
-                        cols = 2;
+                        dw[2] = j.DptName;
+                        cols = 3;
                         foreach (QuestAnswer s in j.Answers)
                         {
                             dw[cols] = s.Answer;
