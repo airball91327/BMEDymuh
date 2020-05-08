@@ -483,36 +483,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(rd).State = EntityState.Modified;
                     db.SaveChanges();
                     //Send Mail
-                    Tmail mail = new Tmail();
-                    string body = "";
-                    string sto = "";
-                    AppUser u;
-                    u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                    mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                    db.RepairFlows.Where(f => f.DocId == assign.DocId)
-                        .ToList()
-                        .ForEach(f =>
-                        {
-                            if (!f.Cls.Contains("工程師"))
-                            {
-                                u = db.AppUsers.Find(f.UserId);
-                                sto += u.Email + ",";
-                            }
-                        });
-                    mail.sto = sto.TrimEnd(new char[] { ',' });
+                    //Tmail mail = new Tmail();
+                    //string body = "";
+                    //string sto = "";
+                    //AppUser u;
+                    //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                    //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                    //db.RepairFlows.Where(f => f.DocId == assign.DocId)
+                    //    .ToList()
+                    //    .ForEach(f =>
+                    //    {
+                    //        if (!f.Cls.Contains("工程師"))
+                    //        {
+                    //            u = db.AppUsers.Find(f.UserId);
+                    //            sto += u.Email + ",";
+                    //        }
+                    //    });
+                    //mail.sto = sto.TrimEnd(new char[] { ',' });
 
-                    mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + repair.AssetName;
-                    body += "<p>申請人：" + repair.UserName + "</p>";
-                    body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                    body += "<p>儀器名稱：" + repair.AssetName + "</p>";
-                    body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                    body += "<p>故障描述：" + repair.TroubleDes + "</p>";
-                    body += "<p>處理描述：" + rd.DealDes + "</p>";
-                    body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>檢視案件</a></p>";
-                    body += "<br/>";
-                    body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                    mail.message.Body = body;
-                    mail.message.IsBodyHtml = true;
+                    //mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + repair.AssetName;
+                    //body += "<p>申請人：" + repair.UserName + "</p>";
+                    //body += "<p>財產編號：" + repair.AssetNo + "</p>";
+                    //body += "<p>儀器名稱：" + repair.AssetName + "</p>";
+                    //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                    //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                    //body += "<p>處理描述：" + rd.DealDes + "</p>";
+                    //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>檢視案件</a></p>";
+                    //body += "<br/>";
+                    //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                    //mail.message.Body = body;
+                    //mail.message.IsBodyHtml = true;
                     //mail.SendMail();
                 }
                 else if (assign.FlowCls == "廢除")

@@ -1090,10 +1090,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     return Content("[製造號碼]不可空白!!");
                 }
-                if (asset.RelDate == null)
-                {
-                    return Content("[製造日期]不可空白!!");
-                }
+                //if (asset.RelDate == null)
+                //{
+                //    return Content("[製造日期]不可空白!!");
+                //}
                 if (string.IsNullOrEmpty(asset.DelivDpt))
                 {
                     return Content("[保管部門]不可空白!!");
