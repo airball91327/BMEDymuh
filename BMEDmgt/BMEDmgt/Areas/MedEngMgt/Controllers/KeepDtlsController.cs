@@ -171,6 +171,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             dtl.EndDate = keepDtl.EndDate;
                             dtl.Cost = keepDtl.Cost;
                             dtl.CloseDate = keepDtl.CloseDate;
+                            //設定完工的"時間"
+                            if (dtl.EndDate.HasValue)
+                            {
+                                DateTime setDate = dtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                                dtl.EndDate = setDate;
+                            }
                             db.Entry(dtl).State = EntityState.Modified;
                             db.SaveChanges();
                         }
@@ -300,6 +306,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         keepDtl.Cost = db.KeepCosts.Where(k => k.DocId == keepDtl.DocId)
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
+                    }
+                    //設定完工的"時間"
+                    if (keepDtl.EndDate.HasValue)
+                    {
+                        DateTime setDate = keepDtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                        keepDtl.EndDate = setDate;
                     }
                     db.Entry(keepDtl).State = EntityState.Modified;
                     db.SaveChanges();

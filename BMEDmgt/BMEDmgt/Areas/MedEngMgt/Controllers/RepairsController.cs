@@ -286,9 +286,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<SelectListItem> listItem = new List<SelectListItem>();
             //listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
+            listItem.Add(new SelectListItem { Text = "所有", Value = "所有" });
             listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
             listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
-            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "已處理");
+            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "所有");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             SelectListItem li;
@@ -519,7 +520,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rv = rv.Where(r => r.Flg == "?").ToList();
             else if (flw == "已結案")
                 rv = rv.Where(r => r.Flg == "2").ToList();
-
+            else if (flw == "所有")
+                rv = rv.ToList();
             return PartialView("List2", rv.OrderByDescending(r => r.DocId));
         }
 
@@ -791,7 +793,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     var repairFlows = db.RepairFlows.ToList();
                     if (otherDoc == null ? false : otherDoc.Contains("true"))
                     {
-                        var ur = db.AppUsers.Where(a => a.UserName == "15255").FirstOrDefault();
+                        var ur = db.AppUsers.Where(a => a.UserName == "eao").FirstOrDefault();
                         repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == ur.Id).ToList();
                     }
                     else
@@ -923,6 +925,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult Create()
         {
             Repair r = new Repair();
+            AppUser usr = null;
             AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).FirstOrDefault();
             //CustOrgan c = db.CustOrgans.Find(u.DptId);
             //Vendor v = db.Vendors.Find(u.VendorId);
@@ -943,7 +946,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             r.ApplyDate = DateTime.Now;
             r.CheckerId = u.Id;
             r.CheckerName = u.FullName;
-            r.Amt = 0;
+            r.Amt = 1;
+            //
+            Roles.GetUsersInRole("Manager").ToList()
+                 .ForEach(x =>
+                 {
+                     usr = db.AppUsers.Find(WebSecurity.GetUserId(x));
+                     if (usr != null)
+                     {
+                         if (u.DptId == usr.DptId)
+                         {
+                             r.CheckerId = usr.Id;
+                             r.CheckerName = usr.FullName;
+                         }
+                     }
+                 });
             //
             string str = "insert into repair(DocId,UserId,UserName,ApplyDate,DptId,Contact,AccDpt,Amt,CheckerId";
             str += ") values(@1,@2,@3,@4,@5,@6,@7,@8,@9)";
@@ -1013,7 +1030,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                 }
             }
-            ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", u.Id);
+            if (usr != null)
+            {
+                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", usr.Id);
+            }
+            else
+            {
+                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", u.Id);
+            }       
             //
             List<Asset> alist = null;
             if (u.DptId != null)
@@ -1040,9 +1064,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             assetNameList.Add(new SelectListItem { Value = "000", Text = "其他類", Selected = false});
             ViewData["assetNameList"] = assetNameList;
 
+            var repairAreas = db.RepairAreas.ToList();
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             listItem2.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
             listItem2.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            if (repairAreas.Count() > 0)
+            {
+                listItem2.Clear();
+                foreach(var item in repairAreas)
+                {
+                    listItem2.Add(new SelectListItem { Text = item.AreaName, Value = item.AreaName });
+                }
+            }
             ViewData["RepairArea"] = new SelectList(listItem2, "Value", "Text");
 
             return View(r);
@@ -1055,6 +1088,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult Create(Repair repair)
         {
+            if (repair.RepType == "送修")
+            {
+                ModelState.Remove("PlaceLoc");
+                if (string.IsNullOrEmpty(repair.PlaceLoc))
+                {
+                    repair.PlaceLoc = "送修無須填寫";
+                }
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -1085,7 +1127,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //repair.AccDpt = at.AccDpt;
                 if (at != null)
                 {
-                    if (repair.AssetNo != "000")    //AssetNo 000 為無財編對應的Asset
+                    if (repair.AssetNo != "000" && repair.AssetNo != "001")    //AssetNo 000、001 為無財編對應的Asset
                     {
                         repair.AssetName = at.Cname;
                     }
@@ -1131,7 +1173,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 /* 非醫療儀器的設備全送給雅雲 */
                 if(repair.PlantClass != "醫療儀器")
                 {
-                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "15255").FirstOrDefault();
+                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "eao").FirstOrDefault();
                     at.EngId = tempEng.Id;
                 }
 

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetsInMContracts>
+
+<h5><b>設備列表</b></h5>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssetName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccDptName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SerialNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UniteCost)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssetNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssetName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccDptName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNo)
+        </td>
+        <td name="pnlQTY">
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+        <td name="pnlUCOST">
+            @Html.DisplayFor(modelItem => item.UniteCost)
+        </td>
+    </tr>
+}
+
+</table>

@@ -72,5 +72,6 @@ namespace BMEDmgt.Models
         public DbSet<AssetFile> AssetFiles { get; set; }
         public DbSet<DelivCode> DelivCodes { get; set; }
         public DbSet<SystemLog> SystemLogs { get; set; }
+        public DbSet<RepairArea> RepairAreas { get; set; }
     }
 }

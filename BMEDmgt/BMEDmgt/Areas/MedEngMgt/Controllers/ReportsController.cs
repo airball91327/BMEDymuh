@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using OfficeOpenXml;
 using System.IO;
 using System.Data;
+using System.Web.Security;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -270,6 +271,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             switch (v.ReportClass)
             {
                 case "月故障率統計表":
+                    if (v.Edate == null && v.Sdate == null)
+                    {
+                        return new JsonResult
+                        {
+                            Data = new { success = false, error = "需選擇一個時間!" },
+                            JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                        };
+                    }
                     return PartialView("MonthFailRate", MonthFailRate(v));
                 case "月維修清單":
                     return PartialView("MonthRepair", MonthRepair(v));
@@ -1145,50 +1154,136 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         }
         public List<MonthFailRateVModel> MonthFailRate(ReportQryVModel v)
         {
-
             List<MonthFailRateVModel> mv = new List<MonthFailRateVModel>();
-            MonthFailRateVModel m;
 
-            foreach (Department p in db.Departments.ToList())
+            // Admin & 設備主管才可查詢全單位，其餘Role只可查詢自己單位
+            if (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("MedMgr"))
             {
-                m = new MonthFailRateVModel();
-                m.CustId = p.DptId;
-                m.CustNam = p.Name_C;
-                m.RepairAmt =
-                    db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
-                    .Where(d => d.EndDate <= v.Edate)
-                    .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
-                    (rd, r) => new
-                    {
-                        rd.DocId,
-                        r.AccDpt,
-                        r.AssetNo
-                    }).Join(db.Assets.Where(r => r.AccDpt == p.DptId)
-                    .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
-                    .Where(a => a.DisposeKind == "正常"), rd => rd.AssetNo, r => r.AssetNo,
-                    (rd, r) => new
-                    {
-                        rd.DocId,
-                        r.AccDpt,
-                        r.AssetClass
-                    }).Count();
-                //
-                m.PlantAmt = db.Assets.Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
-                    .Where(r => r.AccDpt == p.DptId)
-                    .Where(a => a.DisposeKind == "正常")
-                    .Count();
-                if (m.PlantAmt > 0)
-                    m.FailRate = decimal.Round(Convert.ToDecimal(m.RepairAmt) / Convert.ToDecimal(m.PlantAmt) * 100m, 2);
-                else
-                    m.FailRate = 0m;
-                mv.Add(m);
+                // Do nothing.
             }
+            else
+            {
+                var ur = db.AppUsers.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                v.AccDpt = ur.DptId;
+            }
+            //計算時間區間
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = DateTime.Now;
+            if (v.Sdate == null && v.Edate != null)
+            {
+                endDate = v.Edate.Value;
+                startDate = endDate.AddYears(-1).AddDays(6);
+            }
+            else if (v.Sdate != null && v.Edate == null)
+            {
+                endDate = v.Sdate.Value;
+                startDate = endDate.AddYears(-1).AddDays(6);
+            }
+            else
+            {
+                endDate = v.Edate.Value;
+                startDate = v.Sdate.Value;
+            }
+            int totalMins = 0;
+            TimeSpan ts;
+            ts = endDate - startDate;
+            totalMins = Convert.ToInt32(ts.TotalMinutes);
+            // Get AccDpt assets.
+            List<Asset> assets;
             if (!string.IsNullOrEmpty(v.AccDpt))
             {
-                mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+                assets = db.Assets.Where(a => a.AccDpt == v.AccDpt).ToList();
             }
+            else
+            {
+                assets = db.Assets.ToList();
+            }
+            if (!string.IsNullOrEmpty(v.AssetClass1))
+            {
+                assets = assets.Where(a => a.AssetClass == v.AssetClass1).ToList();
+            }
+            if (!string.IsNullOrEmpty(v.AssetClass2))
+            {
+                assets = assets.Where(a => a.AssetClass == v.AssetClass2).ToList();
+            }
+            foreach (var item in assets)
+            {
+                int repairMins = 0;
+                MonthFailRateVModel m = new MonthFailRateVModel();
+                var repairDocs = db.Repairs.Where(r => r.AssetNo == item.AssetNo)
+                                           .Join(db.RepairDtls, r => r.DocId, rd => rd.DocId,
+                                           (r, rd) => new {
+                                               repair = r,
+                                               repairDtl = rd
+                                           }).Where(r => r.repairDtl.EndDate != null);
+                if (repairDocs.Count() > 0)
+                {
+                    foreach(var r in repairDocs)
+                    {
+                        TimeSpan ts2 = r.repairDtl.EndDate.Value.AddDays(1) - r.repair.ApplyDate.Value;
+                        repairMins += Convert.ToInt32(ts2.TotalMinutes);
+                    }
+                }
+                //
+                m.AssetNo = item.AssetNo;
+                m.Cname = item.Cname;
+                m.CustId = item.AccDpt;
+                m.CustNam = db.Departments.Find(m.CustId).Name_C;
+                m.RepairMins = repairMins;
+                m.TotalMins = totalMins;
+                m.FailRate = decimal.Round(m.RepairMins / m.TotalMins, 4).ToString("P");
+                mv.Add(m);
+            }
+
             return mv;
         }
+
+        //public List<MonthFailRateVModel> MonthFailRate(ReportQryVModel v)
+        //{
+
+        //    List<MonthFailRateVModel> mv = new List<MonthFailRateVModel>();
+        //    MonthFailRateVModel m;
+
+        //    foreach (Department p in db.Departments.ToList())
+        //    {
+        //        m = new MonthFailRateVModel();
+        //        m.CustId = p.DptId;
+        //        m.CustNam = p.Name_C;
+        //        m.RepairAmt =
+        //            db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
+        //            .Where(d => d.EndDate <= v.Edate)
+        //            .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
+        //            (rd, r) => new
+        //            {
+        //                rd.DocId,
+        //                r.AccDpt,
+        //                r.AssetNo
+        //            }).Join(db.Assets.Where(r => r.AccDpt == p.DptId)
+        //            .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+        //            .Where(a => a.DisposeKind == "正常"), rd => rd.AssetNo, r => r.AssetNo,
+        //            (rd, r) => new
+        //            {
+        //                rd.DocId,
+        //                r.AccDpt,
+        //                r.AssetClass
+        //            }).Count();
+        //        //
+        //        m.PlantAmt = db.Assets.Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+        //            .Where(r => r.AccDpt == p.DptId)
+        //            .Where(a => a.DisposeKind == "正常")
+        //            .Count();
+        //        if (m.PlantAmt > 0)
+        //            m.FailRate = decimal.Round(Convert.ToDecimal(m.RepairAmt) / Convert.ToDecimal(m.PlantAmt) * 100m, 2);
+        //        else
+        //            m.FailRate = 0m;
+        //        mv.Add(m);
+        //    }
+        //    if (!string.IsNullOrEmpty(v.AccDpt))
+        //    {
+        //        mv = mv.Where(vv => vv.CustId == v.AccDpt).ToList();
+        //    }
+        //    return mv;
+        //}
 
         public void ExcelMR(ReportQryVModel v)
         {

@@ -442,27 +442,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 RepairFlow rf = db.RepairFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
-                if (assign.FlowCls == "驗收人")
+                if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                 {
                     if (db.RepairEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     else if (db.RepairDtls.Find(assign.DocId).EndDate == null)
                     {
-                        throw new Exception("沒有完工日!!");
+                        throw new Exception("【請修紀錄】> 沒有【完工日】!!");
                     }
                     else if (string.IsNullOrEmpty(db.RepairDtls.Find(assign.DocId).DealState))
                     {
-                        throw new Exception("處理狀態不可空值!!");
+                        throw new Exception("【請修紀錄】> 【處理狀態】不可空值!!");
                     }
                     if (string.IsNullOrEmpty(db.RepairDtls.Find(assign.DocId).FailFactor))
                     {
-                        throw new Exception("故障原因不可空白!!");
+                        throw new Exception("【請修紀錄】> 【故障原因】不可空白!!");
                     }
                     if (string.IsNullOrEmpty(db.RepairDtls.Find(assign.DocId).InOut))
                     {
-                        throw new Exception("維修方式不可空白!!");
+                        throw new Exception("【請修紀錄】> 【維修方式】不可空白!!");
                     }
                 }
                 if (assign.FlowCls == "結案")
@@ -483,36 +483,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(rd).State = EntityState.Modified;
                     db.SaveChanges();
                     //Send Mail
-                    Tmail mail = new Tmail();
-                    string body = "";
-                    string sto = "";
-                    AppUser u;
-                    u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                    mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                    db.RepairFlows.Where(f => f.DocId == assign.DocId)
-                        .ToList()
-                        .ForEach(f =>
-                        {
-                            if (!f.Cls.Contains("工程師"))
-                            {
-                                u = db.AppUsers.Find(f.UserId);
-                                sto += u.Email + ",";
-                            }
-                        });
-                    mail.sto = sto.TrimEnd(new char[] { ',' });
+                    //Tmail mail = new Tmail();
+                    //string body = "";
+                    //string sto = "";
+                    //AppUser u;
+                    //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                    //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                    //db.RepairFlows.Where(f => f.DocId == assign.DocId)
+                    //    .ToList()
+                    //    .ForEach(f =>
+                    //    {
+                    //        if (!f.Cls.Contains("工程師"))
+                    //        {
+                    //            u = db.AppUsers.Find(f.UserId);
+                    //            sto += u.Email + ",";
+                    //        }
+                    //    });
+                    //mail.sto = sto.TrimEnd(new char[] { ',' });
 
-                    mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + repair.AssetName;
-                    body += "<p>申請人：" + repair.UserName + "</p>";
-                    body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                    body += "<p>儀器名稱：" + repair.AssetName + "</p>";
-                    body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                    body += "<p>故障描述：" + repair.TroubleDes + "</p>";
-                    body += "<p>處理描述：" + rd.DealDes + "</p>";
-                    body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>檢視案件</a></p>";
-                    body += "<br/>";
-                    body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                    mail.message.Body = body;
-                    mail.message.IsBodyHtml = true;
+                    //mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + repair.AssetName;
+                    //body += "<p>申請人：" + repair.UserName + "</p>";
+                    //body += "<p>財產編號：" + repair.AssetNo + "</p>";
+                    //body += "<p>儀器名稱：" + repair.AssetName + "</p>";
+                    //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                    //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                    //body += "<p>處理描述：" + rd.DealDes + "</p>";
+                    //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>檢視案件</a></p>";
+                    //body += "<br/>";
+                    //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                    //mail.message.Body = body;
+                    //mail.message.IsBodyHtml = true;
                     //mail.SendMail();
                 }
                 else if (assign.FlowCls == "廢除")
@@ -700,7 +700,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "驗收人":
                     if (db.RepairEmps.Where(emp => emp.DocId == docid).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     if (r != null)
                     {

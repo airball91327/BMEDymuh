@@ -239,7 +239,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Docid { get; set; }
         [Display(Name = "格式代號")]
         public string FormatId { get; set; }
-        [Display(Name = "儀器名稱")]
+        [Display(Name = "適用儀器")]
         public string Plants { get; set; }
         [Display(Name = "序號")]
         public int Sno { get; set; }

@@ -72,7 +72,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "Error authenticating user. ");
+                    this.ModelState.AddModelError(string.Empty, "帳號或密碼錯誤!");
                     return this.View(model);
                 }
             }

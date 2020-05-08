@@ -187,23 +187,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (!string.IsNullOrEmpty(ss))
                     {
                         KeepFlow kf = db.KeepFlows.Where(f => f.DocId == ss && f.Status == "?").FirstOrDefault();
-                        if (assign.FlowCls == "驗收人")
+                        if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                         {
                             if (db.KeepEmps.Where(emp => emp.DocId == ss).Count() <= 0)
                             {
-                                throw new Exception("沒有維修工程師紀錄!!");
+                                throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                             }
                             else if (db.KeepDtls.Find(ss).EndDate == null)
                             {
-                                throw new Exception("沒有完工日!!");
+                                throw new Exception("【保養紀錄】> 沒有【完工日】!!");
                             }
                             if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).Result))
                             {
-                                throw new Exception("保養結果不可空白!!");
+                                throw new Exception("【保養紀錄】> 【保養結果】不可空白!!");
                             }
                             if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).InOut))
                             {
-                                throw new Exception("保養方式不可空白!!");
+                                throw new Exception("【保養紀錄】> 【保養方式】不可空白!!");
                             }
                         }
                         if (assign.FlowCls == "結案")
@@ -406,23 +406,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 KeepFlow kf = db.KeepFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
-                if (assign.FlowCls == "驗收人" || assign.FlowCls == "結案")
+                if (assign.FlowCls == "驗收人" || assign.FlowCls == "結案" || assign.FlowCls == "設備主管")
                 {
                     if (db.KeepEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     else if (db.KeepDtls.Find(assign.DocId).EndDate == null)
                     {
-                        throw new Exception("沒有完工日!!");
+                        throw new Exception("【保養紀錄】> 沒有【完工日】!!");
                     }
                     if (string.IsNullOrEmpty(db.KeepDtls.Find(assign.DocId).Result))
                     {
-                        throw new Exception("保養結果不可空白!!");
+                        throw new Exception("【保養紀錄】> 【保養結果】不可空白!!");
                     }
                     if (string.IsNullOrEmpty(db.KeepDtls.Find(assign.DocId).InOut))
                     {
-                        throw new Exception("保養方式不可空白!!");
+                        throw new Exception("【保養紀錄】> 【保養方式】不可空白!!");
                     }
                 }
                 if (assign.FlowCls == "結案")
@@ -437,36 +437,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(kd).State = EntityState.Modified;
                     db.SaveChanges();
                     //Send Mail
-                    Tmail mail = new Tmail();
-                    string body = "";
-                    AppUser u;
-                    Keep kp = db.Keeps.Find(assign.DocId);
-                    KeepDtl dtl = db.KeepDtls.Find(assign.DocId);
-                    u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                    mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                    u = db.AppUsers.Find(kf.UserId);
-                    mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                    db.KeepFlows.Where(f => f.DocId == assign.DocId).Select(f => f.UserId).Distinct()
-                        .Join(db.AppUsers, f => f, a => a.Id,
-                        (f, a) => a).ToList()
-                        .ForEach(a =>
-                        {
-                            mail.cc.Add(new System.Net.Mail.MailAddress(a.Email));
-                        });
+                    //Tmail mail = new Tmail();
+                    //string body = "";
+                    //AppUser u;
+                    //Keep kp = db.Keeps.Find(assign.DocId);
+                    //KeepDtl dtl = db.KeepDtls.Find(assign.DocId);
+                    //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                    //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                    //u = db.AppUsers.Find(kf.UserId);
+                    //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                    //db.KeepFlows.Where(f => f.DocId == assign.DocId).Select(f => f.UserId).Distinct()
+                    //    .Join(db.AppUsers, f => f, a => a.Id,
+                    //    (f, a) => a).ToList()
+                    //    .ForEach(a =>
+                    //    {
+                    //        mail.cc.Add(new System.Net.Mail.MailAddress(a.Email));
+                    //    });
 
-                    mail.message.Subject = "醫療儀器管理資訊系統[保養案-結案通知]：儀器名稱： " + kp.AssetName;
-                    body += "<p>表單編號：" + assign.DocId + "</p>";
-                    body += "<p>申請人：" + kp.UserName + "</p>";
-                    body += "<p>儀器名稱：" + kp.AssetName + "</p>";
-                    body += "<p>處理結果：" + dtl.Result + "</p>";
-                    body += "<p>備註：" + dtl.Memo + "</p>";
-                    body += "<br/>";
-                    //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                    body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                    body += "<br/>";
-                    body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                    mail.message.Body = body;
-                    mail.message.IsBodyHtml = true;
+                    //mail.message.Subject = "醫療儀器管理資訊系統[保養案-結案通知]：儀器名稱： " + kp.AssetName;
+                    //body += "<p>表單編號：" + assign.DocId + "</p>";
+                    //body += "<p>申請人：" + kp.UserName + "</p>";
+                    //body += "<p>儀器名稱：" + kp.AssetName + "</p>";
+                    //body += "<p>處理結果：" + dtl.Result + "</p>";
+                    //body += "<p>備註：" + dtl.Memo + "</p>";
+                    //body += "<br/>";
+                    ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                    //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                    //body += "<br/>";
+                    //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                    //mail.message.Body = body;
+                    //mail.message.IsBodyHtml = true;
                     //mail.SendMail();
                 }
                 else if (assign.FlowCls == "廢除")
@@ -646,16 +646,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "驗收人":
                     if (db.KeepEmps.Where(emp => emp.DocId == docid).Count() <= 0)
                     {
-                        throw new Exception("沒有維修工程師紀錄!!");
+                        throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                     }
                     else if (db.KeepDtls.Find(docid).EndDate == null)
                     {
-                        throw new Exception("沒有完工日!!");
+                        throw new Exception("【保養紀錄】> 沒有【完工日】!!");
                     }
                     else if (db.KeepDtls.Find(docid).Result == null ||
                         db.KeepDtls.Find(docid).Result == "")
                     {
-                        throw new Exception("沒有保養結果!!");
+                        throw new Exception("【保養紀錄】 > 沒有【保養結果】!!");
                     }
                     if (r != null)
                     {

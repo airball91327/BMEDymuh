@@ -42,6 +42,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult Upload(AttainFile attainFile)
         {
+            if (attainFile.FileLink == null)
+            {
+                throw new Exception("請重新選取檔案!");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -320,6 +324,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult Upload2(AttainFile attainFile)
         {
+            if (attainFile.FileLink == null)
+            {
+                throw new Exception("請重新選取檔案!");
+            }
             if (ModelState.IsValid)
             {
                 try

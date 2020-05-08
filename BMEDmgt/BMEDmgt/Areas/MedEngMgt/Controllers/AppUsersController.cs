@@ -200,7 +200,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.Entry(newUser).State = EntityState.Modified;
                 db.SaveChanges();
                 //
-                
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "使用者維護 > 新增使用者 > " + newUser.FullName + "(" + newUser.UserName + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+                //
                 List<UserInRolesVModel> uv = appUser.InRoles.Where(v => v.IsSelected == true).ToList();
                 foreach (UserInRolesVModel u in uv)
                 {
@@ -249,6 +257,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 MembershipUser user = Membership.GetUser(appUser.UserName);
+                string checkResult = "";
                 if (user != null)
                 {
                     //user.Email = appUser.Email;
@@ -264,16 +273,56 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             Roles.AddUserToRole(appUser.UserName, u.RoleName);
                         }
                     }
+                    //Checking the modified columns.
+                    var oriUser = db.AppUsers.Where(u => u.Id == appUser.Id).ToList().FirstOrDefault();
+                    if (oriUser.UserName != appUser.UserName)
+                    {
+                        checkResult += "使用者名稱；";
+                    }
+                    if (oriUser.FullName != appUser.FullName)
+                    {
+                        checkResult += "使用者全名；";
+                    }
+                    if (oriUser.Email != appUser.Email)
+                    {
+                        checkResult += "電子信箱；";
+                    }
+                    if (oriUser.Ext != appUser.Ext)
+                    {
+                        checkResult += "分機；";
+                    }
+                    if (oriUser.Mobile != appUser.Mobile)
+                    {
+                        checkResult += "行動電話；";
+                    }
+                    if (oriUser.DptId != appUser.DptId)
+                    {
+                        checkResult += "所屬部門；";
+                    }
+                    if (oriUser.Status != appUser.Status)
+                    {
+                        checkResult += "狀態；";
+                    }
                     //
                     appUser.LastActivityDate = DateTime.Now;
+                    db.Entry(oriUser).State = EntityState.Detached;
                     db.Entry(appUser).State = EntityState.Modified;
                     db.SaveChanges();
                     //
                     if (!string.IsNullOrEmpty(appUser.newPassword))
                     {
                         user.ChangePassword(appUser.Password, appUser.newPassword);
+                        checkResult += "密碼；";
                     }
                 }
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "系統管理者紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "使用者維護 > 編輯使用者 > " + appUser.FullName + "(" + appUser.UserName + ") > " + checkResult;
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(appUser);
@@ -304,6 +353,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AppUser appUser = db.AppUsers.Find(id);
             db.AppUsers.Remove(appUser);
+            db.SaveChanges();
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "系統管理者紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "使用者維護 > 刪除使用者 > " + appUser.FullName + "(" + appUser.UserName + ")";
+            db.SystemLogs.Add(log);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -51,7 +51,7 @@ $(function () {
                     $.ajax({
                         url: '../KeepEmps/UpdCasesList',
                         type: "POST",
-                        data: { id: docid },
+                        data: { docid: docid },
                         success: function (data) {
                             $('#pnlKEEPEMPLIST').html(data);
                         }

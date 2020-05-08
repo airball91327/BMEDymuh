@@ -104,8 +104,8 @@
         <div class="form-group">
             @Html.LabelForRequired(model => model.RepType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButton("RepType", "請修", true)請修
-                @Html.RadioButton("RepType", "送修")送修(需送至維修間)
+                @Html.RadioButton("RepType", "請修", true)請修(無法移動之設備)
+                @Html.RadioButton("RepType", "送修")送修(需送至工務室維修)
                 @Html.ValidationMessageFor(model => model.RepType, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -4,7 +4,7 @@
 @foreach (var item in Model)
 {
     <div class="panel panel-danger">
-        <div class="panel-heading">[警報訊息]@Html.DisplayFor(modelItem => item.NewsTitle)</div>
+        <div class="panel-heading">[異常通報]@Html.DisplayFor(modelItem => item.NewsTitle)</div>
         <div class="panel-body">
             <div>
                 @Html.DisplayFor(modelItem => item.NewsContent)

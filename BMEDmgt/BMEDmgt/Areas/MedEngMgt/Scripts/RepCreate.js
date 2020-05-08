@@ -13,6 +13,12 @@
 
 $(function () {
 
+    $("input[name='PlantClass']").click(function () {
+        if ($("#ChkAssetNo").prop("checked") == true) {
+            $("#ChkAssetNo").trigger('click');
+        }
+    });
+
     $("#ChkAssetNo").click(function () {
         if ($(this).prop("checked")) {
             $("#pnlASSET").hide();
@@ -166,6 +172,9 @@ $(function () {
                     appenddata += "<option value = '" + value.AssetNo + "'>" + value.Cname + " </option>";
                 });
                 $('#AssetNo').html(appenddata);
+                if ($("#ChkAssetNo").prop("checked") == true) {
+                    $("#ChkAssetNo").trigger('click');
+                }
             },
             error: function (msg) {
                 alert(msg);
@@ -284,4 +293,18 @@ $(function () {
     $("#otherAssetName").change(function () {
         $("#AssetName").val($(this).val());
     });
+
+    $('input:radio[name="RepType"]').click(function () {
+        var repType = $(this).val();
+        if (repType === "送修") {
+            $('#PlaceLoc').removeAttr('data-val-required');
+        } else {
+            $('#PlaceLoc').attr('data-val-required', '放置地點 欄位是必要項。');
+        }
+        // 讓validator重新parse需要的欄位
+        $('form').removeData('validator');
+        $('form').removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
+    });
+
 });

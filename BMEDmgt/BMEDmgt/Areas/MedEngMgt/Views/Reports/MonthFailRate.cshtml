@@ -6,16 +6,22 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cname)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.CustId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CustNam)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlantAmt)
+            @Html.DisplayNameFor(model => model.RepairMins)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RepairAmt)
+            @Html.DisplayNameFor(model => model.TotalMins)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FailRate)
@@ -25,16 +31,22 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.AssetNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cname)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.CustId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CustNam)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PlantAmt)
+            @Html.DisplayFor(modelItem => item.RepairMins)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RepairAmt)
+            @Html.DisplayFor(modelItem => item.TotalMins)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FailRate)

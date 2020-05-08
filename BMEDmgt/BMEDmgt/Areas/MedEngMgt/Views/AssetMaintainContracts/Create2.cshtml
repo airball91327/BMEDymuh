@@ -630,7 +630,7 @@
 
         function CountCost() {
             var totalCost = 0;
-            $("#pnlASSETLIST table tbody td:nth-child(7)").each(function () {
+            $("#pnlASSETLIST table tbody td:nth-child(8)").each(function () {
                 var cost = $.trim($(this).text());
                 totalCost += (cost * 1);
                 $("#UniteCost").val(totalCost);
@@ -640,7 +640,7 @@
 
         function CountQty() {
             var totalQty = 0;
-            $("#pnlASSETLIST table tbody td:nth-child(6)").each(function () {
+            $("#pnlASSETLIST table tbody td:nth-child(7)").each(function () {
                 var qty = $.trim($(this).text());
                 totalQty += (qty * 1);
                 $("#Qty").val(totalQty);

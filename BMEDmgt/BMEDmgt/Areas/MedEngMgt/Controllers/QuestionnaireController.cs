@@ -342,9 +342,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (ModelState.IsValid)
             {
+                var ur = db.AppUsers.Where(u => u.Id == WebSecurity.CurrentUserId).FirstOrDefault();
                 QuestMain main = db.QuestMains.Find(model.Docid);
-                //main.CustId = model.CustId;
-                ///main.CustNam = db.Departments.Find(model.CustId).Name_C;
+                main.CustId = ur == null ? "" : ur.DptId;
+                var dpt = db.Departments.Where(d => d.DptId == ur.DptId).FirstOrDefault();
+                main.CustNam = dpt == null ? "" : dpt.Name_C;
                 //main.ContractNo = model.ContractNo;
                 db.Entry(main).State = EntityState.Modified;
                 //

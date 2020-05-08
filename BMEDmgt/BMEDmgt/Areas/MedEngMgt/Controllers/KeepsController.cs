@@ -534,9 +534,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<SelectListItem> listItem = new List<SelectListItem>();
             //listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
+            listItem.Add(new SelectListItem { Text = "所有", Value = "所有" });
             listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
             listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
-            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "已處理");
+            ViewData["FLOWTYP"] = new SelectList(listItem, "Value", "Text", "所有");
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             SelectListItem li;
             db.Departments.ToList()
@@ -720,6 +721,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 kv = kv.Where(r => r.Flg == "?").ToList();
             else if (flw == "已結案")
                 kv = kv.Where(r => r.Flg == "2").ToList();
+            else if (flw == "所有")
+                kv = kv.ToList();
 
             if (!string.IsNullOrEmpty(inout))
                 kv = kv.Where(r => r.InOut == inout).ToList();
@@ -857,6 +860,225 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 memoryStream.WriteTo(Response.OutputStream);
                 Response.Flush();
                 Response.End();
+            }
+        }
+
+        public ActionResult ExcelKeepList(string qtyASSETNAME, string qtyASSETNO, string qtyACCDPT, string qtyDOCID,
+                                          string qtyDPTID, string qtyFLOWTYP, string qtyINOUT, string qtyTYPE,
+                                          string qtyFLOW, string Sdate, string Edate) 
+        {
+            string aname = qtyASSETNAME;
+            string ano = qtyASSETNO;
+            string acc = qtyACCDPT;
+            string docid = qtyDOCID;
+            string dptid = qtyDPTID;
+            string flw = qtyFLOWTYP;
+            string inout = qtyINOUT;
+            string typ = qtyTYPE;
+            string flowuid = qtyFLOW;
+            string sd = Sdate;
+            string ed = Edate;
+            DateTime? sdate = null, edate = null;
+            if (!string.IsNullOrEmpty(sd))
+            {
+                sdate = DateTime.ParseExact(sd.Replace("-", "/"), "yyyy/MM/dd", null);
+            }
+            if (!string.IsNullOrEmpty(ed))
+            {
+                edate = DateTime.ParseExact(ed.Replace("-", "/"), "yyyy/MM/dd", null)
+                    .AddHours(23)
+                    .AddMinutes(59)
+                    .AddSeconds(59);
+            }
+
+            List<KeepListVModel> kv = new List<KeepListVModel>();
+
+            List<Keep> rps = db.Keeps.ToList();
+            if (Roles.IsUserInRole("Usual"))
+            {
+                AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                if (u != null)
+                    rps = rps.Where(r => dptid == u.DptId).ToList();
+                else
+                    throw new Exception("無部門資料!!");
+            }
+            if (!string.IsNullOrEmpty(aname))
+                rps = rps.Where(r => r.AssetName != null)
+                    .Where(r => r.AssetName.Contains(aname))
+                    .ToList();
+            if (!string.IsNullOrEmpty(ano))
+                rps = rps.Where(r => r.AssetNo == ano).ToList();
+            if (!string.IsNullOrEmpty(acc))
+                rps = rps.Where(r => r.AccDpt == acc).ToList();
+            if (!string.IsNullOrEmpty(docid))
+                rps = rps.Where(r => r.DocId == docid).ToList();
+            if (!string.IsNullOrEmpty(dptid))
+                rps = rps.Where(r => r.DptId == dptid).ToList();
+            if (!string.IsNullOrEmpty(typ))
+            {
+                if (!string.IsNullOrEmpty(aname))
+                {
+                    rps = rps.Union(db.Keeps.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
+                    (r, a) => r).ToList()).ToList();
+                }
+                else
+                {
+                    rps = rps.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
+                        (r, a) => r).ToList();
+                }
+            }
+            if (sdate.HasValue)
+            {
+                rps = rps.Where(r => r.SentDate >= sdate.Value).ToList();
+            }
+            if (edate.HasValue)
+            {
+                rps = rps.Where(r => r.SentDate <= edate.Value).ToList();
+            }
+            var ss = new[] { "?", "2" };
+            rps.Join(db.KeepDtls, r => r.DocId, d => d.DocId,
+                (r, d) => new {
+                    keep = r,
+                    dtl = d
+                }).Join(db.KeepFlows.Where(f => ss.Contains(f.Status)).Join(db.AppUsers, f => f.UserId, u => u.Id,
+                (f, u) => new { f.DocId, f.UserId, u.FullName, f.Status }), m => m.keep.DocId, f => f.DocId,
+                (m, f) => new
+                {
+                    keep = m.keep,
+                    flow = f,
+                    keepdtl = m.dtl
+                }).Join(db.Departments, j => j.keep.AccDpt, d => d.DptId,
+                (j, d) => new {
+                    keep = j.keep,
+                    flow = j.flow,
+                    keepdtl = j.keepdtl,
+                    dpt = d
+                }).Join(db.Assets, j => j.keep.AssetNo, a => a.AssetNo,
+                (j, a) => new {
+                    keep = j.keep,
+                    flow = j.flow,
+                    keepdtl = j.keepdtl,
+                    dpt = j.dpt,
+                    asset = a
+                }).ToList()
+                .ForEach(j => kv.Add(new KeepListVModel
+                {
+                    DocType = "保養",
+                    DocId = j.keep.DocId,
+                    AssetNo = j.keep.AssetNo,
+                    AssetName = j.keep.AssetName,
+                    ApplyDpt = j.keep.DptId,
+                    AccDpt = j.keep.AccDpt,
+                    AccDptName = j.dpt.Name_C,
+                    Result = j.keepdtl.Result,
+                    InOut = j.keepdtl.InOut == "0" ? "自行" :
+                    j.keepdtl.InOut == "1" ? "委外" :
+                    j.keepdtl.InOut == "2" ? "租賃" :
+                    j.keepdtl.InOut == "3" ? "保固" :
+                    j.keepdtl.InOut == "4" ? "借用" :
+                    j.keepdtl.InOut == "5" ? "委外/自行" : "",
+                    Memo = j.keepdtl.Memo,
+                    Cost = j.keepdtl.Cost,
+                    Days = DateTime.Now.Subtract(j.keep.SentDate.GetValueOrDefault()).Days,
+                    Flg = j.flow.Status,
+                    FlowUid = j.flow.UserId,
+                    FlowUname = j.flow.FullName,
+                    Cycle = j.keep.Cycle,
+                    WartySt = j.asset.WartySt,
+                    WartyEd = j.asset.WartyEd,
+                    EndDate = j.keepdtl.EndDate
+                }));
+            if (flw == "已處理")
+                kv = kv.Where(r => r.Flg == "?").ToList();
+            else if (flw == "已結案")
+                kv = kv.Where(r => r.Flg == "2").ToList();
+            else if (flw == "所有")
+                kv = kv.ToList();
+
+            if (!string.IsNullOrEmpty(inout))
+                kv = kv.Where(r => r.InOut == inout).ToList();
+            if (!string.IsNullOrEmpty(flowuid))
+                kv = kv.Where(v => v.FlowUid == Convert.ToInt32(flowuid)).ToList();
+            kv = kv.OrderByDescending(r => r.DocId).ToList();
+
+            MemoryStream stream = new MemoryStream();
+            ExcelPackage package = new ExcelPackage(stream);
+
+            package.Workbook.Worksheets.Add("保養清單");
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            #region write header
+            sheet.Cells[1, 1].Value = "類別";
+            sheet.Cells[1, 2].Value = "表單編號";
+            sheet.Cells[1, 3].Value = "財產編號";
+            sheet.Cells[1, 4].Value = "儀器名稱";
+            //sheet.Cells[1, 5].Value = "申請部門代號";
+            sheet.Cells[1, 5].Value = "成本中心代號";
+            sheet.Cells[1, 6].Value = "成本中心名稱";
+            sheet.Cells[1, 7].Value = "保養方式";
+            sheet.Cells[1, 8].Value = "保養結果";
+            sheet.Cells[1, 9].Value = "保養描述";
+            sheet.Cells[1, 10].Value = "費用";
+            sheet.Cells[1, 11].Value = "保養週期";
+            sheet.Cells[1, 12].Value = "保固起始日";
+            sheet.Cells[1, 13].Value = "保固終止日";
+            sheet.Cells[1, 14].Value = "完工日";
+            sheet.Cells[1, 15].Value = "關卡人員";
+            sheet.Cells[1, 16].Value = "流程狀態";
+
+            using (ExcelRange range = sheet.Cells[1, 1, 1, 20])
+            {
+                //range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                //range.Style.Fill.BackgroundColor.SetColor(Color.Gray);
+                //range.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+                //range.Style.Border.Bottom.Color.SetColor(Color.Black);
+                //range.AutoFitColumns(4);
+            }
+            #endregion
+
+            #region write content
+
+            int pos = 2;
+            foreach (var item in kv)
+            {
+                sheet.Cells[pos, 1].Value = item.DocType;
+                sheet.Cells[pos, 2].Value = item.DocId;
+                sheet.Cells[pos, 3].Value = item.AssetNo;
+                sheet.Cells[pos, 4].Value = item.AssetName;
+                //sheet.Cells[pos, 5].Value = item.ApplyDpt;
+                sheet.Cells[pos, 5].Value = item.AccDpt;
+                sheet.Cells[pos, 6].Value = item.AccDptName;
+                sheet.Cells[pos, 7].Value = item.InOut;
+                sheet.Cells[pos, 8].Value = item.Result;
+                sheet.Cells[pos, 9].Value = item.Memo;
+                sheet.Cells[pos, 10].Value = item.Cost;
+                sheet.Cells[pos, 11].Value = item.Cycle;
+                sheet.Cells[pos, 12].Value = item.WartySt.HasValue == true ? item.WartySt.Value.ToString("yyyy/MM/dd") : "";
+                sheet.Cells[pos, 13].Value = item.WartyEd.HasValue == true ? item.WartyEd.Value.ToString("yyyy/MM/dd") : "";
+                sheet.Cells[pos, 14].Value = item.EndDate.HasValue == true ? item.EndDate.Value.ToString("yyyy/MM/dd") : "";
+                sheet.Cells[pos, 15].Value = item.FlowUname;
+                if (item.Flg == "2")
+                {
+                    sheet.Cells[pos, 16].Value = "已結案";
+                }
+                else
+                {
+                    sheet.Cells[pos, 16].Value = "流程中";
+                }
+                pos++;
+            }
+            #endregion
+
+            string fileName = "保養查詢清單" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+
+            //因為是用Query的方式,這個地方要用串流的方式來存檔
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                package.SaveAs(memoryStream);
+                //請注意 一定要加入這行,不然Excel會是空檔
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                //注意Excel的ContentType,是要用這個"application/vnd.ms-excel"
+                return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", fileName);
             }
         }
 

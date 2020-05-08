@@ -132,18 +132,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
     //月故障率報表
     public class MonthFailRateVModel
     {
+        [Display(Name = "財產編號")]
+        public string AssetNo { get; set; }
+        [Display(Name = "中文名稱")]
+        public string Cname { get; set; }
         [Display(Name = "單位代號")]
         public string CustId { get; set; }
         [Display(Name = "單位名稱")]
         public string CustNam { get; set; }
-        [Display(Name = "廠牌")]
-        public string Brand { get; set; }
-        [Display(Name = "設備件數")]
-        public int PlantAmt { get; set; }
-        [Display(Name = "月維修件數")]
-        public int RepairAmt { get; set; }
+        [Display(Name = "維修工時(分)")]
+        public decimal RepairMins { get; set; }
+        [Display(Name = "總工時(分)")]
+        public decimal TotalMins { get; set; }
         [Display(Name = "故障率")]
-        public decimal FailRate { get; set; }
+        public string FailRate { get; set; }
+        //[Display(Name = "廠牌")]
+        //public string Brand { get; set; }
+        //[Display(Name = "設備件數")]
+        //public int PlantAmt { get; set; }
+        //[Display(Name = "月維修件數")]
+        //public int RepairAmt { get; set; }
+
 
         //public List<MonthFailRateVModel> GetList(string gid, DateTime sdate, DateTime edate, string cls)
         //{

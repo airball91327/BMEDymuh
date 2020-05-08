@@ -54,7 +54,7 @@ $(function () {
         }
         else {
             $('#FlowVendor').val('');
-            $('#imgLOADING').show();
+            $('#imgLOADING5').show();
             var docid = $('#DocId').val();
             $.ajax({
                 url: '../KeepFlows/GetNextEmp',
@@ -62,7 +62,7 @@ $(function () {
                 dataType: "json",
                 data: "cls=" + $(this).val() + "&docid=" + docid,
                 success: function (data) {
-                    $('#imgLOADING').hide();
+                    $('#imgLOADING5').hide();
                     if (data.success == false) {
                         $('#FlowCls').val('請選擇');
                         alert(data.error);
@@ -78,14 +78,14 @@ $(function () {
     });
 
     $('#FlowVendor').change(function () {
-        $('#imgLOADING').show();
+        $('#imgLOADING5').show();
         $.ajax({
             url: '../KeepFlows/GetNextEmp',
             type: "POST",
             dataType: "json",
             data: "cls=維修工程師&docid=" + $('#DocId').val() + "&vendor=" + $(this).val(),
             success: function (data) {
-                $('#imgLOADING').hide();
+                $('#imgLOADING5').hide();
                 if (data.success == false) {
                     $('#FlowCls').val('請選擇');
                     alert(data.error);

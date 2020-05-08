@@ -9,6 +9,12 @@
 {
     <div class="form-horizontal">
         <div class="form-group">
+            @Html.Label("qtyKEYNAME", "手冊名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtyKEYNAME", "", new { @class = "form-control", placeholder = "輸入關鍵字" })
+            </div>
+        </div>
+        <div class="form-group">
             @Html.Label("qtyBRAND", "設備廠牌", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBox("qtyBRAND", "", new { @class = "form-control" })

@@ -31,8 +31,11 @@
             @Html.DisplayNameFor(model => model.Cost)
         </th>
         @*<th>
-                @Html.DisplayNameFor(model => model.Days)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Days)
+        </th>*@
+        <th>
+            流程狀態
+        </th>
         <th></th>
     </tr>
 
@@ -67,6 +70,16 @@
             @*<td>
                     @Html.DisplayFor(modelItem => item.Days)
                 </td>*@
+            <td>
+                @if (item.Flg == "2")
+                {
+                    <span>已結案</span>
+                }
+                else
+                {
+                    <span>流程中</span>
+                }
+            </td>
             <td width="100px">
                 @if (item.Flg == "?" && (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager")))
                 {

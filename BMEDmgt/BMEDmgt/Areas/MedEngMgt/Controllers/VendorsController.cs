@@ -262,7 +262,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             
             qv.VendorList = items;
 
-            return PartialView(qv);
+            return PartialView("QryVendor2", qv);
         }
 
         public JsonResult GetVendorUnite(int id)

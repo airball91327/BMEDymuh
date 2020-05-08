@@ -94,8 +94,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
                 .Where(f => f.Status == "?").FirstOrDefault();
-            if (rf.Cls.Contains("工程師") || rf.Cls == "醫工經辦")
+            if (rf.Cls.Contains("工程師"))
+            {
+                if (repairDtl.EndDate == null)
+                {
+                    repairDtl.EndDate = DateTime.Now;
+                }
                 return PartialView(repairDtl);
+            }
+            else if (rf.Cls == "醫工經辦")
+            {
+                return PartialView(repairDtl);
+            }
             else
                 return PartialView("Details", repairDtl);
         }
@@ -126,6 +136,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         repairDtl.Cost = db.RepairCosts.Where(k => k.DocId == repairDtl.DocId)
                         .Select(k => k.TotalCost)
                         .DefaultIfEmpty(0).Sum();
+                        if (repairDtl.IsCharged == "Y" && repairDtl.EndDate == null)
+                        {
+                            throw new Exception("有費用時，需先填寫完工日!");
+                        }
                         if (repairDtl.EndDate != null && repairDtl.Cost <= 0)
                         {
                             throw new Exception("請先維護費用明細資料，才可以儲存完工日期!!");
@@ -171,6 +185,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 }
                             }
                         }
+                    }
+                    //設定完工的"時間"
+                    if (repairDtl.EndDate.HasValue)
+                    {
+                        DateTime setDate = repairDtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+                        repairDtl.EndDate = setDate;
                     }
                     db.Entry(repairDtl).State = EntityState.Modified;
                     db.SaveChanges();

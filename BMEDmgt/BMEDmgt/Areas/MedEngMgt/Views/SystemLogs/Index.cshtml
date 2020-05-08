@@ -1,4 +1,7 @@
-﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.SystemLog>
+﻿@model PagedList.IPagedList<BMEDmgt.Areas.MedEngMgt.Models.SystemLog>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -6,37 +9,69 @@
 
 <h2>系統訊息紀錄</h2>
 
+<button id="BtnExcel" class="btn btn-primary">匯出Excel</button>
+<img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.LogClass)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().LogClass)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LogTime)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().LogTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().UserId)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Action)
+        <th style="max-width: 500px;">
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Action)
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LogClass)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LogTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Action)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td style="max-width: 500px;">
+                @Html.DisplayFor(modelItem => item.Action)
+            </td>
+        </tr>
+    }
 
 </table>
+
+<div>
+    @Html.PagedListPager(Model,
+    page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+
+<script>
+    $(function () {
+        $('#BtnExcel').click(function () {
+            $.ajax({
+                url: '@Url.Action("ExportToExcel", "SystemLogs")',
+                data: { },
+                type: "GET",
+                beforeSend: function () {
+                    $("#imgLOADING2").show();
+                },
+                success: function (data) {
+                    window.location.href = '@Url.Action("ExportToExcel", "SystemLogs")';
+                    $("#imgLOADING2").hide();
+                },
+                error: function (msg) {
+                    alert(msg);
+                    $("#imgLOADING2").hide()
+                }
+            });
+        });
+    });
+</script>

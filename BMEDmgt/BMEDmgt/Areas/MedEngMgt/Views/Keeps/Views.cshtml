@@ -13,6 +13,7 @@
 <ul class="nav nav-pills">
     <li role="presentation" class="active"><a href="#keep" data-toggle="tab">申請資料</a></li>
     <li role="presentation"><a href="#keepdtl" data-toggle="tab">保養紀錄</a></li>
+    <li role="presentation"><a href="#keeprecord" data-toggle="tab">保養項目登錄</a></li>
     <li role="presentation"><a href="#keepemp" data-toggle="tab">工程師列表</a></li>
     <li role="presentation"><a href="#keepcost" data-toggle="tab">費用明細</a></li>
     <li role="presentation"><a href="#keepflow" data-toggle="tab">流程記錄</a></li>
@@ -21,8 +22,7 @@
 <div class="tab-content">
     <div id="keep" class="tab-pane fade in active">
         <div>
-
-            @Html.Action("Details","Keeps", new { id = Model.DocId })
+            @Html.Action("Details", "Keeps", new { id = Model.DocId })
         </div>
     </div>
     <div id="keepdtl" class="tab-pane fade">
@@ -33,6 +33,11 @@
     <div id="keepemp" class="tab-pane fade">
         <p>
             @Html.Action("Details", "KeepEmps", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keeprecord" class="tab-pane fade">
+        <p>
+            @Html.Action("Details", "KeepRecords", new { id = Model.DocId })
         </p>
     </div>
     <div id="keepcost" class="tab-pane fade">
