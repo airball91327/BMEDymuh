@@ -16,7 +16,7 @@ using System.Data.SqlClient;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AttainFilesController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
