@@ -3,6 +3,57 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 <script src="~/Areas/MedEngMgt/Scripts/Report.js"></script>
 
+<script>
+    $(function () {
+        $("#btnQtyAccdpt").click(function () {
+            var keynam = $("#AccdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../Departments/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+                    appenddata += "<option value = ''>請選擇</option>";
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    $('#AccDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+        $("#btnQtyDelivdpt").click(function () {
+            var keynam = $("#DelivdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../Departments/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+                    appenddata += "<option value = ''>請選擇</option>";
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    $('#DelivDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+    });
+</script>
+
 <h2>統計報表</h2>
 
 @using (Ajax.BeginForm("Index3", "Reports",
