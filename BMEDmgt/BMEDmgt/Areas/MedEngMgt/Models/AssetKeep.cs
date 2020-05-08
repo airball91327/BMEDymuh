@@ -37,7 +37,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public decimal? Hours { get; set; }
         [Display(Name = "保養方式")]
         public string InOut { get; set; }
-        [Display(Name = "保養格式代號")]
+        [Display(Name = "WORDPAD保養單貼上")]
         public string FormatId { get; set; }
         [Display(Name = "異動人員")]
         public Nullable<int> Rtp { get; set; }
