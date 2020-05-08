@@ -29,6 +29,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Required]
         [Display(Name = "廠商名稱")]
         public string VendorName { get; set; }
+        [Required]
         [Display(Name = "廠商統一編號")]
         public string VendorUniteNo { get; set; }
         [Required]
