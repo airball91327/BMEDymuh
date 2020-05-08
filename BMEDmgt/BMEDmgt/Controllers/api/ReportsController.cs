@@ -18,7 +18,7 @@ namespace BMEDmgt.Controllers.api
     {
         private BMEDcontext db = new BMEDcontext();
 
-        public IQueryable<RpKpHistoryVModel> RpKpHistory(string assetNo)
+        public IQueryable<RpKpHistoryVModel> GetRpKpHistory(string assetNo)
         {
             List<RpKpHistoryVModel> sv = new List<RpKpHistoryVModel>();
             List<RpKpHistoryVModel> sv2 = new List<RpKpHistoryVModel>();

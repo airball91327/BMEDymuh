@@ -13,7 +13,7 @@ using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class NewsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
