@@ -273,6 +273,7 @@
     <Compile Include="Controllers\api\DocIdFactoriesController.cs" />
     <Compile Include="Controllers\api\KeepsController.cs" />
     <Compile Include="Controllers\api\RepairsController.cs" />
+    <Compile Include="Controllers\api\ReportsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\api\AssetsController.cs" />
     <Compile Include="Controllers\api\CheckAccountController.cs" />
