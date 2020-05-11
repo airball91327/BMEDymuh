@@ -173,6 +173,29 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             dk.Rtp = WebSecurity.CurrentUserId;
                                             dk.Rtt = DateTime.Now;
                                             db.Entry(dk).State = EntityState.Modified;
+                                            //低於安全存量，send mail
+                                            if(dk.Qty < dk.SafeQty)
+                                            {
+                                                //Send Mail
+                                                Tmail mail = new Tmail();
+                                                string body = "";
+                                                AppUser u;
+                                                u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                                                mail.from = new System.Net.Mail.MailAddress(u.Email);
+                                                mail.to = new System.Net.Mail.MailAddress("eao@ymuh.ym.edu.tw");
+
+                                                mail.message.Subject = "醫療儀器管理資訊系統[庫存安全存量通知]：材料名稱： " + dk.StokNam;
+                                                body += "<p>材料名稱：" + dk.StokNam + "</p>";
+                                                body += "<p>單價：" + dk.Price + "</p>";
+                                                body += "<p>數量：" + dk.Qty + "</p>";
+                                                body += "<p>安全存量：" + dk.SafeQty + "</p>";
+                                                body += "<p>庫存地點：" + dk.Loc + "</p>";
+                                                body += "<br/>";
+                                                body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                                                mail.message.Body = body;
+                                                mail.message.IsBodyHtml = true;
+                                                mail.SendMail();
+                                            }
                                         }
                                     });
                                 try

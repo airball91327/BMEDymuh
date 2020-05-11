@@ -25,6 +25,7 @@
                 new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING", OnSuccess = "showmsg" }))
 {
     @Html.HiddenFor(model => model.AssetNo)
+    @Html.HiddenFor(model => model.Docid)
     <div class="form-horizontal">
         <h4>資產設備</h4>
         <hr />

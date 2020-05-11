@@ -237,6 +237,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     d.OpenDate = dv.OpenDate;
                     d.OrderDate = dv.OrderDate;
                     db.SaveChanges();
+                    //更新Asset資料
+                    var assets = db.Assets.Where(a => a.Docid == dv.Docid).ToList();
+                    if (assets.Count() > 0)
+                    {
+                        foreach (var item in assets)
+                        {
+                            item.WartySt = dv.WartySt;
+                            item.WartyEd = dv.WartyEd;
+                            item.BuyDate = dv.OrderDate;
+                            db.Entry(item).State = EntityState.Modified;
+                        }
+                        db.SaveChanges();
+                    }
                 }
                 return Json(new { success = true, msg = "儲存成功!" });
             }
