@@ -154,10 +154,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Assign assign = new Assign();
             assign.DocId = docid;
             List<SelectListItem> listItem = new List<SelectListItem>();
-            listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
+            //listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
             listItem.Add(new SelectListItem { Text = "申請人", Value = "申請人" });
             listItem.Add(new SelectListItem { Text = "驗收人", Value = "驗收人" });
-            listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
+            //listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
             listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
@@ -329,10 +329,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Assign assign = new Assign();
             assign.DocId = id;
             List<SelectListItem> listItem = new List<SelectListItem>();
-            listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
+            //listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
             listItem.Add(new SelectListItem { Text = "申請人", Value = "申請人" });
             listItem.Add(new SelectListItem { Text = "驗收人", Value = "驗收人" });
-            listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
+            //listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
             listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
@@ -681,15 +681,47 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "設備工程師":
                     list = new List<ListItem>();
                     s = Roles.GetUsersInRole("MedEngineer").ToList();
-                    foreach (string l in s)
+                    var lastEngFlow = db.KeepFlows.Where(kf => kf.DocId == docid).Where(kf => kf.Cls.Contains("設備工程師"))
+                                                  .Where(kf => kf.Status == "1").OrderByDescending(kf => kf.StepId).FirstOrDefault();
+                    int? lastEng = null;
+                    if (lastEngFlow != null)
                     {
-                        u = db.AppUsers.Find(WebSecurity.GetUserId(l));
-                        if (u != null)
+                        lastEng = lastEngFlow.UserId;
+                    }
+                    if (lastEng != null)
+                    {
+                        var eng = db.AppUsers.Find(lastEng);
+                        li = new ListItem();
+                        li.Text = eng.FullName;
+                        li.Value = eng.Id.ToString();
+                        list.Add(li);
+                        foreach (string l in s)
                         {
-                            li = new ListItem();
-                            li.Text = u.FullName;
-                            li.Value = WebSecurity.GetUserId(l).ToString();
-                            list.Add(li);
+                            u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                            if (u != null)
+                            {
+                                if (u.Id != lastEng)
+                                {
+                                    li = new ListItem();
+                                    li.Text = u.FullName;
+                                    li.Value = WebSecurity.GetUserId(l).ToString();
+                                    list.Add(li);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (string l in s)
+                        {
+                            u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                            if (u != null)
+                            {
+                                li = new ListItem();
+                                li.Text = u.FullName;
+                                li.Value = WebSecurity.GetUserId(l).ToString();
+                                list.Add(li);
+                            }
                         }
                     }
                     break;

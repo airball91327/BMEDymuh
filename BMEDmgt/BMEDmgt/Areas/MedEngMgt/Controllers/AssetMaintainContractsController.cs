@@ -187,6 +187,28 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                 db.AssetMaintainContracts.Add(assetMaintainContract);
                 db.SaveChanges();
+                //回寫總金額至各設備保養金額
+                var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == assetMaintainContract.PurchaseNo).ToList();
+                if (assets.Count() > 0)
+                {
+                    foreach(var item in assets)
+                    {
+                        var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).FirstOrDefault();
+                        if (assetKeep != null)
+                        {
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            db.Entry(assetKeep).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            assetKeep = new AssetKeep();
+                            assetKeep.AssetNo = item.AssetNo;
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            db.AssetKeeps.Add(assetKeep);
+                        }
+                    }
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -210,12 +232,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 listItem.Add(new SelectListItem { Text = assetMaintainContract.AssetName + "(" + assetMaintainContract.AssetNo + ")",
                                                   Value = assetMaintainContract.AssetNo });
-                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text", assetMaintainContract.AssetNo);
+                ViewData["AssetNo"] = new SelectList(listItem, "Value", "Text", assetMaintainContract.AssetNo);
             }
             else
             {
                 listItem.Add(new SelectListItem { Text = "", Value = "" });
-                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text");
+                ViewData["AssetNo"] = new SelectList(listItem, "Value", "Text");
             }
 
             List<SelectListItem> listItem2 = new List<SelectListItem>();
@@ -263,13 +285,35 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var asset = db.Assets.Find(assetMaintainContract.AssetNo);
-                //assetMaintainContract.AssetName = asset.Cname;
+                var asset = db.Assets.Find(assetMaintainContract.AssetNo);
+                assetMaintainContract.AssetName = asset.Cname;
                 assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
                 assetMaintainContract.Rtt = DateTime.Now;
 
                 db.Entry(assetMaintainContract).State = EntityState.Modified;
                 db.SaveChanges();
+                //回寫總金額至各設備保養金額
+                var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == assetMaintainContract.PurchaseNo).ToList();
+                if (assets.Count() > 0)
+                {
+                    foreach (var item in assets)
+                    {
+                        var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).FirstOrDefault();
+                        if (assetKeep != null)
+                        {
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            db.Entry(assetKeep).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            assetKeep = new AssetKeep();
+                            assetKeep.AssetNo = item.AssetNo;
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            db.AssetKeeps.Add(assetKeep);
+                        }
+                    }
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(assetMaintainContract);

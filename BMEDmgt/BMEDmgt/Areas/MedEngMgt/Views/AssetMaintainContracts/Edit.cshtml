@@ -86,7 +86,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.VendorUniteNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.VendorUniteNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.VendorUniteNo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.VendorUniteNo, "", new { @class = "text-danger" })
@@ -100,7 +100,7 @@
                     @Html.TextBox("AssetKeyName", "", new { @class = "form-control", placeholder = "財編或關鍵字" })
                     @Html.HiddenFor(model => model.AssetName)
                     <input id="btnQtyAsset" type="button" value="查詢" class="btn btn-default">
-                    @Html.DropDownList("AssetNo", new List<SelectListItem> { new SelectListItem { Text = "", Value = "" } },
+                    @Html.DropDownList("AssetNo", null,
                                        "請選擇", new { @class = "form-control" })
                     <input id="addAsset" type="button" value="加入設備" class="btn btn-success">
                     @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
