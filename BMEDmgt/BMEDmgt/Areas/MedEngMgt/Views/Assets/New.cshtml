@@ -50,8 +50,8 @@
                 @Html.LabelFor(model => model.AssetClass)
             </div>
             <div class="editor-field">
-                @Html.RadioButton("AssetClass", "醫工")醫療儀器
-                @Html.RadioButton("AssetClass", "工務")工程設施
+                @Html.RadioButton("AssetClass", "醫療儀器")醫療儀器
+                @Html.RadioButton("AssetClass", "工程設施")工程設施
                 @Html.ValidationMessageFor(model => model.AssetClass)
             </div>
             @Html.HiddenFor(model => model.AccDate)
@@ -122,6 +122,7 @@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.DelivEmp)
+                @Html.HiddenFor(model => model.DelivEmp)
             </div>
             <div class="editor-field">
                 @*@Html.HiddenFor(model => model.DelivUid)*@
@@ -292,6 +293,12 @@
                 }
             });
         });
+        $('#DelivUid').change(function () {
+            var delivName = $('#DelivUid option:selected').text();
+            if (delivName != "") {
+                $('#DelivEmp').val(delivName);
+            }
+        });
     });
 
     function OnSuccess(data) {
@@ -303,6 +310,7 @@
             //
             $("#AssetNo").val('');
             $("#MakeNo").val('');
+            window.close();
             //var isrepeated = $("#IsCopy").is(":checked");
             //if (!isrepeated) {
             //    close();

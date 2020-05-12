@@ -88,6 +88,7 @@ $(function () {
             select.html(appenddata);
         }
         else {
+            $('#imgLOADING_flow').show();
             $('#SelectVendor').val('');
             $('#SelectVendor').prop("disabled", true);
             $.ajax({
@@ -100,6 +101,7 @@ $(function () {
                     var select = $('#SelectEng');
                     $('option', select).remove();
                     select.addItems(data);
+                    $('#imgLOADING_flow').hide();
                 }
             });
         }

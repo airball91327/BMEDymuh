@@ -3,7 +3,7 @@
 @using (Ajax.BeginForm("NextFlow", "DelivFlow", new AjaxOptions
 {
     HttpMethod = "POST",
-    LoadingElementId = "imgLOADING",
+    LoadingElementId = "imgLOADING_flow",
     OnBegin = "presend",
     OnSuccess = "showmsg"
 }, new { id = "fmFLOW"}))
@@ -64,6 +64,6 @@
     </table>
     <p>
         <input id="btnSEND" type="submit" value="確定送出" />
-        <img src="~/Images/opc-ajax-loader.gif" id="imgLOADING" hidden />
+        <img src="~/Images/opc-ajax-loader.gif" id="imgLOADING_flow" hidden />
     </p>
 }

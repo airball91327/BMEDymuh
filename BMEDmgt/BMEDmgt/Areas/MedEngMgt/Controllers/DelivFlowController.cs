@@ -307,13 +307,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         //    li.Value = WebSecurity.GetUserId(l).ToString();
                         //    list.Add(li);
                         //}
-                        li = new ListItem();
-                        li.Text = u.FullName;
-                        li.Value = WebSecurity.GetUserId(l).ToString();
-                        if (li.Value == Convert.ToString(r.EngId))
-                            list.Insert(0, li);
-                        else
-                            list.Add(li);
+                        if (u != null)
+                        {
+                            li = new ListItem();
+                            li.Text = u.FullName;
+                            li.Value = WebSecurity.GetUserId(l).ToString();
+                            if (li.Value == Convert.ToString(r.EngId))
+                                list.Insert(0, li);
+                            else
+                                list.Add(li);
+                        }
                     }
                     u = db.AppUsers.Find(r.EngId);
                     if (u != null)
