@@ -263,11 +263,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 Delivery d = db.Deliveries.Find(id);
                 if (d != null)
                 {
+                    var contract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == d.PurchaseNo).FirstOrDefault();
                     dv.Docid = d.Docid;
                     dv.WartyNt = d.WartyNt;
                     dv.AcceptDate = d.AcceptDate;
                     if (d.WartySt == null)
-                        dv.WartySt = DateTime.Now;
+                        dv.WartySt = contract == null ? DateTime.Now : contract.WarrantySdate;
                     else
                         dv.WartySt = d.WartySt;
                     if (d.WartyEd == null)
@@ -275,7 +276,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (d.WartyMon != null)
                             dv.WartyEd = dv.WartySt.Value.AddMonths(d.WartyMon);
                         else
-                            dv.WartyEd = DateTime.Now;
+                            dv.WartyEd = contract == null ? DateTime.Now : contract.WarrantyEdate;
                     }
                     else
                         dv.WartyEd = d.WartyEd;
@@ -406,6 +407,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //r.PurchaseNo = id;
             r.WartyMon = 0;
             r.DelivDateR = DateTime.Now;
+            //預設交貨人
+            r.DelivPson = "1";
             db.Deliveries.Add(r);
             db.SaveChanges();
             List<SelectListItem> listItem = new List<SelectListItem>();
@@ -420,8 +423,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             foreach (string s in eng)
             {
                 p = db.AppUsers.Find(WebSecurity.GetUserId(s));
-                if (p.Status == "Y")
-                    listItem.Add(new SelectListItem { Text = p.FullName, Value = p.Id.ToString() });
+                if (p != null)
+                {
+                    if (p.Status == "Y")
+                        listItem.Add(new SelectListItem { Text = p.FullName, Value = p.Id.ToString() });
+                }
                 //if (p.CustId != null)
                 //{
                 //    if (db.CustOrgans.Find(p.CustId).GroupId == c.GroupId)

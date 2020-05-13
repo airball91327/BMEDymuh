@@ -197,6 +197,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (assetKeep != null)
                         {
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
                             db.Entry(assetKeep).State = EntityState.Modified;
                         }
                         else
@@ -204,6 +205,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             assetKeep = new AssetKeep();
                             assetKeep.AssetNo = item.AssetNo;
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
                             db.AssetKeeps.Add(assetKeep);
                         }
                     }
@@ -302,6 +304,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (assetKeep != null)
                         {
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
                             db.Entry(assetKeep).State = EntityState.Modified;
                         }
                         else
@@ -309,6 +312,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             assetKeep = new AssetKeep();
                             assetKeep.AssetNo = item.AssetNo;
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
                             db.AssetKeeps.Add(assetKeep);
                         }
                     }
