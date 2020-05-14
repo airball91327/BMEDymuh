@@ -1,4 +1,5 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.EffectRatio
+<script src="~/Areas/MedEngMgt/Scripts/HtmltoExcel.js"></script>
 @{
     ViewBag.Title = "成效指標";
 }
@@ -76,4 +77,64 @@
             @Html.ValidationMessageFor(model => model.KeepFinishedRatio, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
+                   onclick="javascript:exportExcel('tbToExcel')" />
+        </div>
+    </div>
 </div>
+
+
+@*匯出Excel用table*@
+<table class="table" id="tbToExcel" style="display: none">
+    <tr>
+        <td>
+            七日自行維修案件數
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.FiveDaysInRepCases)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            自行維修案件數
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.TotalInRepCases)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            七日自行維修率
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.FiveInRepRatio)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            已完工保養案件數
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.KpFinishedCases)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            保養案件數
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.TotalKeepCases)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            保養完成率
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.KeepFinishedRatio)
+        </td>
+    </tr>
+</table>

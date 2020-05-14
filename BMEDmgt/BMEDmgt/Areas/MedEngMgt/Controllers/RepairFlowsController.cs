@@ -218,35 +218,35 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             db.SaveChanges();
                             //Send Mail
                             Tmail mail = new Tmail();
-                            string body = "";
-                            AppUser u;
-                            Repair rp = db.Repairs.Find(ss);
-                            RepairDtl dtl = db.RepairDtls.Find(ss);
-                            u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                            mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                            u = db.AppUsers.Find(rf.UserId);
-                            mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                            db.RepairFlows.Where(f => f.DocId == ss).Select(f => f.UserId).Distinct()
-                                .Join(db.AppUsers, f => f, a => a.Id,
-                                (f, a) => a).ToList()
-                                .ForEach(a =>
-                                {
-                                    mail.cc.Add(new System.Net.Mail.MailAddress(a.Email));
-                                });
+                            //string body = "";
+                            //AppUser u;
+                            //Repair rp = db.Repairs.Find(ss);
+                            //RepairDtl dtl = db.RepairDtls.Find(ss);
+                            //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                            //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                            //u = db.AppUsers.Find(rf.UserId);
+                            //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                            //db.RepairFlows.Where(f => f.DocId == ss).Select(f => f.UserId).Distinct()
+                            //    .Join(db.AppUsers, f => f, a => a.Id,
+                            //    (f, a) => a).ToList()
+                            //    .ForEach(a =>
+                            //    {
+                            //        mail.cc.Add(new System.Net.Mail.MailAddress(a.Email));
+                            //    });
 
-                            mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + rp.AssetName;
-                            body += "<p>表單編號：" + ss + "</p>";
-                            body += "<p>申請人：" + rp.UserName + "</p>";
-                            body += "<p>儀器名稱：" + rp.AssetName + "</p>";
-                            body += "<p>處理結果：" + dtl.DealState + "</p>";
-                            body += "<p>處理描述：" + dtl.DealDes + "</p>";
-                            body += "<br/>";
-                            //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                            body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                            body += "<br/>";
-                            body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                            mail.message.Body = body;
-                            mail.message.IsBodyHtml = true;
+                            //mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + rp.AssetName;
+                            //body += "<p>表單編號：" + ss + "</p>";
+                            //body += "<p>申請人：" + rp.UserName + "</p>";
+                            //body += "<p>儀器名稱：" + rp.AssetName + "</p>";
+                            //body += "<p>處理結果：" + dtl.DealState + "</p>";
+                            //body += "<p>處理描述：" + dtl.DealDes + "</p>";
+                            //body += "<br/>";
+                            ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                            //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                            //body += "<br/>";
+                            //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                            //mail.message.Body = body;
+                            //mail.message.IsBodyHtml = true;
                             //mail.SendMail();
                         }
                         else if (assign.FlowCls == "廢除")
@@ -281,25 +281,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             {
                                 //Send Mail
                                 Tmail mail = new Tmail();
-                                string body = "";
-                                AppUser u;
-                                Repair rp = db.Repairs.Find(ss);
-                                RepairDtl dtl = db.RepairDtls.Find(ss);
-                                u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                                mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                u = db.AppUsers.Find(flow.UserId);
-                                mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + rp.AssetName;
-                                body += "<p>表單編號：" + ss + "</p>";
-                                body += "<p>申請人：" + rp.UserName + "</p>";
-                                body += "<p>儀器名稱：" + rp.AssetName + "</p>";
-                                body += "<br/>";
-                                //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                                body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                                body += "<br/>";
-                                body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                                mail.message.Body = body;
-                                mail.message.IsBodyHtml = true;
+                                //string body = "";
+                                //AppUser u;
+                                //Repair rp = db.Repairs.Find(ss);
+                                //RepairDtl dtl = db.RepairDtls.Find(ss);
+                                //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                                //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                //u = db.AppUsers.Find(flow.UserId);
+                                //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                //mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + rp.AssetName;
+                                //body += "<p>表單編號：" + ss + "</p>";
+                                //body += "<p>申請人：" + rp.UserName + "</p>";
+                                //body += "<p>儀器名稱：" + rp.AssetName + "</p>";
+                                //body += "<br/>";
+                                ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                                //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                                //body += "<br/>";
+                                //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                                //mail.message.Body = body;
+                                //mail.message.IsBodyHtml = true;
                                 //mail.SendMail();
                             }
                         }
@@ -483,7 +483,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(rd).State = EntityState.Modified;
                     db.SaveChanges();
                     //Send Mail
-                    //Tmail mail = new Tmail();
+                    Tmail mail = new Tmail();
                     //string body = "";
                     //string sto = "";
                     //AppUser u;
@@ -548,26 +548,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         //Send Mail
                         Tmail mail = new Tmail();
-                        string body = "";
-                        AppUser u;
-                        //Repair repair = db.Repairs.Find(assign.DocId);
-                        u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                        mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                        u = db.AppUsers.Find(flow.UserId);
-                        mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                                                            //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
-                        mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
-                        body += "<p>申請人：" + repair.UserName + "</p>";
-                        body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                        body += "<p>儀器名稱：" + repair.AssetName + "</p>";
-                        body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                        body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                        //string body = "";
+                        //AppUser u;
+                        ////Repair repair = db.Repairs.Find(assign.DocId);
+                        //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                        //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                        //u = db.AppUsers.Find(flow.UserId);
+                        //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                        //                                                    //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
+                        //mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
+                        //body += "<p>申請人：" + repair.UserName + "</p>";
+                        //body += "<p>財產編號：" + repair.AssetNo + "</p>";
+                        //body += "<p>儀器名稱：" + repair.AssetName + "</p>";
                         //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                        body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                        body += "<br/>";
-                        body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                        mail.message.Body = body;
-                        mail.message.IsBodyHtml = true;
+                        //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                        //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                        //body += "<br/>";
+                        //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                        //mail.message.Body = body;
+                        //mail.message.IsBodyHtml = true;
                         //mail.SendMail();
                     }
                 }

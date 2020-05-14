@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.RpKpHistoryVModel>
 
+<p>
+    <a class="btn btn-default" href="@Url.Action("ExcelRpKpHistory", TempData["qry"])">匯出Excel</a>
+</p>
 <div>
     @Html.Action("AssetView", "Assets", new { id = ViewData["Ano"] })
 </div>
