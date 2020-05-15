@@ -1030,14 +1030,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                 }
             }
-            if (usr != null)
-            {
-                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", usr.Id);
-            }
-            else
-            {
-                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", u.Id);
-            }       
+            ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", r.CheckerId);
             //
             List<Asset> alist = null;
             if (u.DptId != null)
