@@ -41,6 +41,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (ModelState.IsValid)
             {
                 string str = model.UserName;
+                //驗證人員是否離職
+                AppUser ur = db.AppUsers.Where(u => u.UserName == model.UserName).FirstOrDefault();
+                if (ur != null)
+                {
+                    if (ur.Status == "N")
+                    {
+                        this.ModelState.AddModelError(string.Empty, "該人員已離職!");
+                        return this.View(model);
+                    }
+                }
                 //int abc;
                 //if(Int32.TryParse(str, out abc))
                 //    model.UserName = str.PadLeft(10, '0');
