@@ -21,6 +21,9 @@
             @Html.DisplayNameFor(model => model.FirstOrDefault().AssetBrand)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ManualClass)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().FileType)
         </th>
         <th>
@@ -51,6 +54,9 @@
                 @Html.DisplayFor(modelItem => item.AssetBrand)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ManualClass)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FileType)
             </td>
             <td>
@@ -66,7 +72,7 @@
                 <a href="@Url.Content("~/" + item.FilePath + item.FileName)">下載</a>
             </td>
             <td>
-                @if (Roles.IsUserInRole("Admin"))
+                @if (Roles.IsUserInRole("Admin") && item.SearchFrom != "asset")
                 {
                     @Html.ActionLink("編輯", "Edit", new { id = item.FileId })<br />
                     @Html.ActionLink("刪除", "Delete", new { id = item.FileId })

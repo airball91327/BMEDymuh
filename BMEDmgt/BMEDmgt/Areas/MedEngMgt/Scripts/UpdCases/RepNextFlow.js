@@ -54,15 +54,15 @@ $(function () {
         }
         else {
             $('#FlowVendor').val('');
-            $('#imgLOADING').show();
-            var docid = $('#DocId').val();
+            $('#imgLOADING_FLOW').show();
+            var docid = $('#DocId').val().split(';', 1);
             $.ajax({
                 url: '../RepairFlows/GetNextEmp',
                 type: "POST",
                 dataType: "json",
                 data: "cls=" + $(this).val() + "&docid=" + docid,
                 success: function (data) {
-                    $('#imgLOADING').hide();
+                    $('#imgLOADING_FLOW').hide();
                     if (data.success == false) {
                         $('#FlowCls').val('請選擇');
                         alert(data.error);

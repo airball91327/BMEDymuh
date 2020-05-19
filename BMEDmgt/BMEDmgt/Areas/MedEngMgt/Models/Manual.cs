@@ -20,6 +20,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "設備廠牌*")]
         public string AssetBrand { get; set; }
         [Required]
+        [Display(Name = "手冊類別*")]
+        public string ManualClass { get; set; }
+        [Required]
         [Display(Name = "檔案類型*")]
         public string FileType { get; set; }
         [NotMapped]
@@ -42,5 +45,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int? Rtp { get; set; }
         [Display(Name = "異動時間")]
         public DateTime Rtt { get; set; }
+        [NotMapped]
+        [Display(Name = "手冊查詢來源")]
+        public string SearchFrom { get; set; }
     }
 }

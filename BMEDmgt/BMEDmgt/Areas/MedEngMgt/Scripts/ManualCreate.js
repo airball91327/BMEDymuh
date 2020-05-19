@@ -44,6 +44,7 @@ $(function () {
             return {
                 ManualName: $("#ManualName").val(),
                 AssetBrand: $("#AssetBrand").val(),
+                ManualClass: $("#ManualClass").val(),
                 AssetType: $("#AssetType").val(),
                 FileType: $("#FileType").val(),
                 NewFileType: $("#NewFileType").val(),

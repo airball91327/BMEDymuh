@@ -596,7 +596,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ListItem li;
             AppUser u;
             Repair r = db.Repairs.Find(docid);
-            Asset asset = db.Assets.Find(r.AssetNo);
+            Asset asset = new Asset();
+            if (r != null)
+            {
+                asset = db.Assets.Find(r.AssetNo);
+            }
             string g = "";
             //if(r != null)
             //    g = db.CustOrgans.Find(db.AppUsers.Find(r.UserId).DptId).GroupId;
@@ -661,19 +665,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     break;
                 case "單位主管":
                     s = Roles.GetUsersInRole("Manager").ToList();
-                    string c = db.AppUsers.Find(r.UserId).DptId;
-                    list = new List<ListItem>();
-                    foreach (string l in s)
+                    if (r != null)
                     {
-                        u = db.AppUsers.Find(WebSecurity.GetUserId(l));
-                        if (u != null)
+                        string c = db.AppUsers.Find(r.UserId).DptId;
+                        list = new List<ListItem>();
+                        foreach (string l in s)
                         {
-                            if (u.DptId == c)
+                            u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                            if (u != null)
                             {
-                                li = new ListItem();
-                                li.Text = u.FullName;
-                                li.Value = WebSecurity.GetUserId(l).ToString();
-                                list.Add(li);
+                                if (u.DptId == c)
+                                {
+                                    li = new ListItem();
+                                    li.Text = u.FullName;
+                                    li.Value = WebSecurity.GetUserId(l).ToString();
+                                    list.Add(li);
+                                }
                             }
                         }
                     }

@@ -44,6 +44,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.ManualClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ManualClass, null, "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ManualClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.FileType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.FileType, null, "請選擇", new { @class = "form-control" })
