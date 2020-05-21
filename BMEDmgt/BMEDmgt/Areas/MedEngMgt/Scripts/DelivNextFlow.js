@@ -132,7 +132,7 @@ $(function () {
                     return false;
                 }
             });
-
+            return false;
         }
         else {
             var c = $('span[id="cls_now"]').text();
