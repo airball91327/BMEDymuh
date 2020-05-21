@@ -59,7 +59,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
             //listItem.Add(new SelectListItem { Text = "得標廠商", Value = "得標廠商" });
             //listItem.Add(new SelectListItem { Text = "使用單位", Value = "使用單位" });
-            listItem.Add(new SelectListItem { Text = "設備經辦", Value = "設備經辦" });
+            //listItem.Add(new SelectListItem { Text = "設備經辦", Value = "設備經辦" });
             //listItem.Add(new SelectListItem { Text = "採購主管", Value = "採購主管" });
             if (rf.Cls == "設備主管")
                 listItem.Add(new SelectListItem { Text = "結案", Value = "結案" });

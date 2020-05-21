@@ -1343,6 +1343,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Repair repair = db.Repairs.Find(id);
             RepairDtl dtl = db.RepairDtls.Find(id);
+            var dtlR = db.RepairDtlRecords.Where(r => r.DocId == id).ToList();
             RepairEmp emp = db.RepairEmps
                 .Where(ep => ep.DocId == id).FirstOrDefault();
             string[] s = new string[] { "?", "2" };
@@ -1371,7 +1372,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 vm.TroubleDes = repair.TroubleDes;
                 if (dtl != null)
                 {
-                    vm.DealDes = dtl.DealDes;
+                    if (dtlR.Count() > 0)
+                    {
+                        foreach(var item in dtlR)
+                        {
+                            vm.DealDes += item.Rtt + item.DealDes + "\r\n";
+                        }
+                    }
+                    else
+                    {
+                        vm.DealDes = dtl.DealDes;
+                    }
                     vm.EndDate = dtl.EndDate;
                 }
                 //
