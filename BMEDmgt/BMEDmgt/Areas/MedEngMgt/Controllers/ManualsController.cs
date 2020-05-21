@@ -39,7 +39,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["FTYPE"] = new SelectList(Item, "Value", "Text", "");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
-            listItem2.Add(new SelectListItem { Text = "中英文操作手冊", Value = "中英文操作手冊" });
+            listItem2.Add(new SelectListItem { Text = "設備使用手冊", Value = "設備使用手冊" });
             listItem2.Add(new SelectListItem { Text = "操作簡介", Value = "操作簡介" });
             listItem2.Add(new SelectListItem { Text = "清潔消毒步驟", Value = "清潔消毒步驟" });
             ViewData["CLASS"] = new SelectList(listItem2, "Value", "Text", "");
@@ -57,7 +57,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string manualClass = fm["qtyCLASS"];
             List<Manual> mlist;
             mlist = db.Manuals.ToList();
-            var assetFile = db.AssetFiles.Where(af => af.Title == "中英文操作手冊" 
+            var assetFile = db.AssetFiles.Where(af => af.Title == "設備使用手冊" 
                                                    || af.Title == "操作簡介" 
                                                    || af.Title == "清潔消毒步驟").ToList();
             var assets = db.Assets.Where(a => !string.IsNullOrEmpty(a.Brand))
@@ -157,7 +157,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ViewData["FileType"] = new SelectList(Item, "Value", "Text", "");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
-            listItem2.Add(new SelectListItem { Text = "中英文操作手冊", Value = "中英文操作手冊" });
+            listItem2.Add(new SelectListItem { Text = "設備使用手冊", Value = "設備使用手冊" });
             listItem2.Add(new SelectListItem { Text = "操作簡介", Value = "操作簡介" });
             listItem2.Add(new SelectListItem { Text = "清潔消毒步驟", Value = "清潔消毒步驟" });
             ViewData["ManualClass"] = new SelectList(listItem2, "Value", "Text", "");
@@ -289,7 +289,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             List<SelectListItem> listItem2 = new List<SelectListItem>();
-            listItem2.Add(new SelectListItem { Text = "中英文操作手冊", Value = "中英文操作手冊" });
+            listItem2.Add(new SelectListItem { Text = "設備使用手冊", Value = "設備使用手冊" });
             listItem2.Add(new SelectListItem { Text = "操作簡介", Value = "操作簡介" });
             listItem2.Add(new SelectListItem { Text = "清潔消毒步驟", Value = "清潔消毒步驟" });
             ViewData["ManualClass"] = new SelectList(listItem2, "Value", "Text", manual.ManualClass);
