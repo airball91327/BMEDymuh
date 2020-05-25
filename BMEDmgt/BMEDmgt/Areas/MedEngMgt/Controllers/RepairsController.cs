@@ -335,7 +335,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             SelectListItem li2;
-            Roles.GetUsersInRole("Engineer").ToList()
+            Roles.GetUsersInRole("MedEngineer").ToList()
                         .ForEach(x =>
                         {
                             AppUser u = db.AppUsers.Find(WebSecurity.GetUserId(x));
@@ -352,6 +352,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem5 = new List<SelectListItem>();
             listItem5.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
             listItem5.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            var repairAreas = db.RepairAreas.ToList();
+            if (repairAreas.Count() > 0)
+            {
+                listItem5.Clear();
+                foreach (var item in repairAreas)
+                {
+                    listItem5.Add(new SelectListItem { Text = item.AreaName, Value = item.AreaName });
+                }
+            }
             ViewData["REPAIRAREA"] = new SelectList(listItem5, "Value", "Text");
 
             return View();

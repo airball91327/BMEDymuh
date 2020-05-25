@@ -381,6 +381,11 @@
 <div id="pnlASSETKEEP">
     @Html.Action("Edit", "AssetKeeps", new { id = Model.AssetNo })
 </div>
+<div>
+    <h4>手冊列表</h4>
+    <hr />
+    @Html.Action("AssetList", "AssetFile", new { id = Model.AssetNo })
+</div>
 @*<div>
         @Html.ActionLink("回到資產列表", "Index")
     </div>*@
