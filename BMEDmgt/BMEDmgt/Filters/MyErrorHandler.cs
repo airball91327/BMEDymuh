@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Filters
 {
@@ -17,6 +18,7 @@ namespace BMEDmgt.Filters
             SystemLog log = new SystemLog();
             log.LogClass = "系統錯誤訊息";
             log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
             log.Action = filterContext.Exception.Message;
             db.SystemLogs.Add(log);
             db.SaveChanges();

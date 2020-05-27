@@ -807,7 +807,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     else
                     {
-                        repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == WebSecurity.CurrentUserId).ToList();
+                        var userId = WebSecurity.CurrentUserId;
+                        repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == userId).ToList();
                     }
                 repairFlows.Select(f => new
                 {

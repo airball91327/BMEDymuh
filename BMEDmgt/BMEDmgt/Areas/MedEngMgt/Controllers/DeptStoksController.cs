@@ -83,6 +83,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 deptStok.Rtt = DateTime.Now;
                 db.DeptStoks.Add(deptStok);
                 db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "庫存管理 > 新增 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -181,6 +189,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DeptStok deptStok = db.DeptStoks.Find(id);
             db.DeptStoks.Remove(deptStok);
+            db.SaveChanges();
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "庫存管理 > 刪除 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
+            db.SystemLogs.Add(log);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

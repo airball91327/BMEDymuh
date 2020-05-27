@@ -264,6 +264,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     //Membership.UpdateUser(user);
                     if (Roles.IsUserInRole("Admin"))
                     {
+                        var oriRoles = Roles.GetRolesForUser(appUser.UserName).ToList();  // Origin user roles.
                         if (Roles.GetRolesForUser(appUser.UserName).Count() > 0)
                             Roles.RemoveUserFromRoles(appUser.UserName, Roles.GetRolesForUser(appUser.UserName));
                         //Roles.AddUserToRole(userprofile.UserName, userprofile.InRole);
@@ -271,6 +272,33 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         foreach (UserInRolesVModel u in uv)
                         {
                             Roles.AddUserToRole(appUser.UserName, u.RoleName);
+                        }
+                        var newRoles = Roles.GetRolesForUser(appUser.UserName).ToList();  // Updated user roles.
+                        var removeRoles = oriRoles.Except(newRoles).ToList();
+                        var addRoles = newRoles.Except(oriRoles).ToList();
+                        if (removeRoles.Count() > 0 || addRoles.Count() > 0)
+                        {
+                            checkResult += "設定角色：";
+                        }
+                        if (removeRoles.Count() > 0)
+                        {
+                            checkResult += "刪除";
+                            foreach (var name in removeRoles)
+                            {
+                                var roleDes = db.AppRoles.Where(r => r.RoleName == name).First().Description;
+                                checkResult += "【" + roleDes + "】";
+                            }
+                            checkResult += ";";
+                        }
+                        if (addRoles.Count() > 0)
+                        {
+                            checkResult += "新增";
+                            foreach (var name in addRoles)
+                            {
+                                var roleDes = db.AppRoles.Where(r => r.RoleName == name).First().Description;
+                                checkResult += "【" + roleDes + "】";
+                            }
+                            checkResult += ";";
                         }
                     }
                     //Checking the modified columns.

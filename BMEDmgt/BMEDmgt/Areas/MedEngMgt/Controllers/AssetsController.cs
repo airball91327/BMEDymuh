@@ -494,6 +494,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         db.AssetKeeps.Add(ak);
                     }
                     db.SaveChanges();
+                    // Save log. 
+                    SystemLog log = new SystemLog();
+                    log.LogClass = "醫療儀器紀錄";
+                    log.LogTime = DateTime.UtcNow.AddHours(8);
+                    log.UserId = WebSecurity.CurrentUserId;
+                    log.Action = "資產維護 > 新增設備 > " + asset.AssetNo + "(" + asset.Cname + ")";
+                    db.SystemLogs.Add(log);
+                    db.SaveChanges();
                 }
                 catch (Exception e)
                 {
@@ -769,7 +777,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if(ak != null)
                 db.AssetKeeps.Remove(ak);
             db.SaveChanges();
-
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "資產維護 > 設備刪除 > " + asset.AssetNo + "(" + asset.Cname + ")";
+            db.SystemLogs.Add(log);
+            db.SaveChanges();
             //return RedirectToAction("Index");
             return new JsonResult
             {
