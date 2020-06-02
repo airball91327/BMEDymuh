@@ -190,19 +190,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         {
                             if (db.RepairEmps.Where(emp => emp.DocId == ss).Count() <= 0)
                             {
-                                throw new Exception("沒有維修工程師紀錄!!");
+                                throw new Exception("【案件" + ss + "】【工程師列表】> 工時紀錄尚未填寫!!");
                             }
-                            else if (db.KeepDtls.Find(ss).EndDate == null)
+                            else if (db.RepairDtls.Find(ss).EndDate == null)
                             {
-                                throw new Exception("沒有完工日!!");
+                                throw new Exception("【案件" + ss + "】【請修紀錄】> 沒有【完工日】!!");
                             }
-                            if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).Result))
+                            if (string.IsNullOrEmpty(db.RepairDtls.Find(ss).InOut))
                             {
-                                throw new Exception("保養結果不可空白!!");
-                            }
-                            if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).InOut))
-                            {
-                                throw new Exception("保養方式不可空白!!");
+                                throw new Exception("【案件" + ss + "】【請修紀錄】> 【維修方式】不可空白!!");
                             }
                         }
                         if (assign.FlowCls == "結案")

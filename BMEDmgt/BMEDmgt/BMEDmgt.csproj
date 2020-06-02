@@ -331,6 +331,7 @@
     <Content Include="Areas\MedEngMgt\Scripts\RepNextFlow.js" />
     <Content Include="Areas\MedEngMgt\Scripts\UpdCases\FileUpload.js" />
     <Content Include="Areas\MedEngMgt\Scripts\UpdCases\KeepDtl.js" />
+    <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepDtl.js" />
     <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepNextFlow.js" />
     <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepEmp.js" />
     <Content Include="Areas\MedEngMgt\Scripts\UpdCases\RepEdit.js" />
