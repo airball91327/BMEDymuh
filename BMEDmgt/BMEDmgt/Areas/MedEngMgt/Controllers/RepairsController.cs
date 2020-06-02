@@ -410,7 +410,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 foreach(var item in rps)
                 {
                     var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
-                                                    .Where(rf => rf.Cls.Contains("工程師")).OrderByDescending(rf => rf.StepId).FirstOrDefault();
+                                                    .Where(rf => rf.Cls.Contains("工程師"))
+                                                    .OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
                     if (lastEngFlow != null)
                     {
                         item.EngId = lastEngFlow.UserId;
@@ -802,7 +803,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     var repairFlows = db.RepairFlows.ToList();
                     if (otherDoc == null ? false : otherDoc.Contains("true"))
                     {
-                        var ur = db.AppUsers.Where(a => a.UserName == "eao").FirstOrDefault();
+                        var ur = db.AppUsers.Where(a => a.UserName == "eao").ToList().FirstOrDefault();
                         repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == ur.Id).ToList();
                     }
                     else
@@ -936,7 +937,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Repair r = new Repair();
             AppUser usr = null;
-            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).FirstOrDefault();
+            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).ToList().FirstOrDefault();
             //CustOrgan c = db.CustOrgans.Find(u.DptId);
             //Vendor v = db.Vendors.Find(u.VendorId);
             r.Email = u.Email == null ? "" : u.Email;
@@ -1176,7 +1177,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 /* 非醫療儀器的設備全送給雅雲 */
                 if(repair.PlantClass != "醫療儀器")
                 {
-                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "eao").FirstOrDefault();
+                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "eao").ToList().FirstOrDefault();
                     at.EngId = tempEng.Id;
                 }
 
@@ -1188,8 +1189,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
-                    u = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault();
-                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
+                    u = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault();
+                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault().Id;
                     //throw new Exception("無工程師資料!!");
                 }
                 rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
@@ -1249,7 +1250,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!(Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager")))
             {
 
-                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
                 if (rf != null)
                 {
                     if (rf.UserId != WebSecurity.CurrentUserId)
@@ -1312,8 +1313,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            RepairFlow repflow = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?")
-                .FirstOrDefault();
+            RepairFlow repflow = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList()
+                                               .FirstOrDefault();
             repflow.Status = "3";
             repflow.Rtp = WebSecurity.CurrentUserId;
             repflow.Rtt = DateTime.Now;
@@ -1355,10 +1356,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             RepairDtl dtl = db.RepairDtls.Find(id);
             var dtlR = db.RepairDtlRecords.Where(r => r.DocId == id).ToList();
             RepairEmp emp = db.RepairEmps
-                .Where(ep => ep.DocId == id).FirstOrDefault();
+                .Where(ep => ep.DocId == id).ToList().FirstOrDefault();
             string[] s = new string[] { "?", "2" };
             RepairFlow flow = db.RepairFlows.Where(f => f.DocId == id)
-                .Where(f => s.Contains(f.Status)).FirstOrDefault();
+                .Where(f => s.Contains(f.Status)).ToList().FirstOrDefault();
             RepairPrintVModel vm = new RepairPrintVModel();
             if (repair == null)
             {
@@ -1415,7 +1416,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     else {
                         flow = db.RepairFlows.Where(f => f.DocId == id && f.Cls == "驗收人")
-                            .OrderByDescending(f => f.StepId).FirstOrDefault();
+                            .OrderByDescending(f => f.StepId).ToList().FirstOrDefault();
                         if (flow != null)
                         {
                             vm.CloseDate = flow.Rtt;

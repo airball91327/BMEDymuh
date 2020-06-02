@@ -186,10 +186,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     if (!string.IsNullOrEmpty(ss))
                     {
-                        KeepFlow kf = db.KeepFlows.Where(f => f.DocId == ss && f.Status == "?").FirstOrDefault();
+                        KeepFlow kf = db.KeepFlows.Where(f => f.DocId == ss && f.Status == "?").ToList().FirstOrDefault();
                         if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                         {
-                            if (db.KeepEmps.Where(emp => emp.DocId == ss).Count() <= 0)
+                            if (db.KeepEmps.Where(emp => emp.DocId == ss).ToList().Count() <= 0)
                             {
                                 throw new Exception("【工程師列表】> 工時紀錄尚未填寫!!");
                             }
@@ -337,7 +337,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
             KeepDtl dtl = db.KeepDtls.Find(id);
-            KeepFlow kf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+            KeepFlow kf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
             if (kf != null)
             {
                 if (kf.Cls == "驗收人")
@@ -405,7 +405,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assign.FlowUid = WebSecurity.CurrentUserId;
             if (ModelState.IsValid)
             {
-                KeepFlow kf = db.KeepFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
+                KeepFlow kf = db.KeepFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").ToList().FirstOrDefault();
                 if (assign.FlowCls == "驗收人" || assign.FlowCls == "結案" || assign.FlowCls == "設備主管")
                 {
                     if (db.KeepEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
@@ -682,7 +682,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     list = new List<ListItem>();
                     s = Roles.GetUsersInRole("MedEngineer").ToList();
                     var lastEngFlow = db.KeepFlows.Where(kf => kf.DocId == docid).Where(kf => kf.Cls.Contains("設備工程師"))
-                                                  .Where(kf => kf.Status == "1").OrderByDescending(kf => kf.StepId).FirstOrDefault();
+                                                  .Where(kf => kf.Status == "1").OrderByDescending(kf => kf.StepId).ToList().FirstOrDefault();
                     int? lastEng = null;
                     if (lastEngFlow != null)
                     {

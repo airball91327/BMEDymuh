@@ -98,8 +98,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (t != null)
             {
                 at = db.Assets.Where(a => a.Docid == t.Docid).ToList();
-                AssetFile af = db.AssetFiles.Where(f => f.AssetNo == id && f.SeqNo == sno)
-                    .FirstOrDefault();
+                AssetFile af = db.AssetFiles.Where(f => f.AssetNo == id && f.SeqNo == sno).ToList()
+                                            .FirstOrDefault();
                 ViewData["ano"] = id;
                 ViewData["sno"] = sno;
                 ViewData["cname"] = t.Cname;

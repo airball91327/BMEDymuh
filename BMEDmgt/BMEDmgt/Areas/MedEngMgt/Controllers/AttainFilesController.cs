@@ -237,7 +237,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             af.DocId = ff;
                             af.DocType = attainFile.DocType;
                             i = db.AttainFiles.Where(a => a.DocType == attainFile.DocType)
-                                  .Where(a => a.DocId == ff).ToList();
+                                              .Where(a => a.DocId == ff).ToList();
                             af.SeqNo = i.Count == 0 ? 1 : i.Select(a => a.SeqNo).Max() + 1;
                             path = Path.Combine(Server.MapPath(s), ff + "_"
                                    + af.SeqNo.ToString() + Path.GetExtension(Request.Files[0].FileName));
@@ -540,7 +540,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
             }
             List<AttainFile> af = db.AttainFiles.Where(f => f.DocId == id)
-                    .Where(f => f.DocType == typ).ToList();
+                                                .Where(f => f.DocType == typ).ToList();
             AppUser u;
             foreach (AttainFile a in af)
             {
@@ -585,7 +585,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
             }
             List<AttainFile> af = db.AttainFiles.Where(f => f.DocId == id)
-                    .Where(f => f.DocType == typ).ToList();
+                                                .Where(f => f.DocType == typ).ToList();
             AppUser u;
             foreach (AttainFile a in af)
             {

@@ -25,7 +25,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult Create()
         {
             Keep r = new Keep();
-            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).FirstOrDefault();
+            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).ToList().FirstOrDefault();
             //CustOrgan c = db.CustOrgans.Find(u.DptId);
             //Vendor v = db.Vendors.Find(u.VendorId);
             r.Email = u.Email == null ? "" : u.Email;
@@ -166,8 +166,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 AppUser u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
-                    u = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault();
-                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
+                    u = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault();
+                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault().Id;
                     //throw new Exception("無工程師資料!!");
                 }
                 rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
@@ -1345,7 +1345,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     return View(keep);
                 }
-                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
                 if (rf != null)
                 {
                     if (rf.UserId != WebSecurity.CurrentUserId)
@@ -1371,7 +1371,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (!string.IsNullOrEmpty(id))
             {
-                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
                 if (rf != null)
                 {
                     if (rf.UserId != WebSecurity.CurrentUserId)

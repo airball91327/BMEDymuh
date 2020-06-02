@@ -93,7 +93,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
-                .Where(f => f.Status == "?").FirstOrDefault();
+                .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (rf.Cls.Contains("工程師"))
             {
                 if (repairDtl.EndDate == null)
@@ -154,7 +154,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     .Where(k => k.StockType == "0").ToList()
                                     .ForEach(c =>
                                     {
-                                        dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).FirstOrDefault();
+                                        dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).ToList().FirstOrDefault();
                                         if (dk != null)
                                         {
                                             sr = new StokRecord();
@@ -355,7 +355,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             .Where(k => k.StockType == "0").ToList()
                                             .ForEach(c =>
                                             {
-                                                dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).FirstOrDefault();
+                                                dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).ToList().FirstOrDefault();
                                                 if (dk != null)
                                                 {
                                                     sr = new StokRecord();

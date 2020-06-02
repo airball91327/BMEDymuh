@@ -32,10 +32,10 @@ namespace BMEDmgt.Providers
             AppUser user;
             foreach (string username in usernames)
             {
-                user = context.AppUsers.Where(u => u.UserName == username).FirstOrDefault();
+                user = context.AppUsers.Where(u => u.UserName == username).ToList().FirstOrDefault();
                 foreach (string rolename in roleNames)
                 {
-                    role = context.AppRoles.Where(a => a.RoleName == rolename).FirstOrDefault();
+                    role = context.AppRoles.Where(a => a.RoleName == rolename).ToList().FirstOrDefault();
                     if (user != null && role != null)
                     {
                         if (context.UsersInRoles.Where(u => u.UserName == username)
@@ -133,7 +133,7 @@ namespace BMEDmgt.Providers
                 foreach (string r in roleNames)
                 {
                     user = users.Where(u => u.RoleId == context.AppRoles.Where(a => a.RoleName == r).FirstOrDefault().RoleId)
-                        .FirstOrDefault();
+                                .ToList().FirstOrDefault();
                     if (user != null)
                     {
                         context.UsersInRoles.Remove(user);

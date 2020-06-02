@@ -1097,7 +1097,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             foreach (UnSignListVModel s in sv)
             {
-                RepairEmp kp = db.RepairEmps.Where(p => p.DocId == s.DocId)
+                RepairEmp kp = db.RepairEmps.Where(p => p.DocId == s.DocId).ToList()
                    .FirstOrDefault();
                 if (kp != null)
                 {
@@ -1169,7 +1169,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 s.TroubleDes = db.Keeps.Find(s.DocId).Cycle.ToString();
                 s.FailFactor = "";
-                KeepEmp kp = db.KeepEmps.Where(p => p.DocId == s.DocId)
+                KeepEmp kp = db.KeepEmps.Where(p => p.DocId == s.DocId).ToList()
                     .FirstOrDefault();
                 if (kp != null)
                 {
@@ -1399,7 +1399,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             else
             {
-                var ur = db.AppUsers.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                var ur = db.AppUsers.Where(u => u.UserName == User.Identity.Name).ToList().FirstOrDefault();
                 v.AccDpt = ur.DptId;
             }
             //計算時間區間
@@ -2167,12 +2167,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 m.EndDate = rd.EndDate.Value;
                 m.Cost = rd.Cost;
                 m.FailFactor = rd.FailFactor;
-                r = db.Repairs.Where(i => i.DocId == rd.DocId).FirstOrDefault();
+                r = db.Repairs.Where(i => i.DocId == rd.DocId).ToList().FirstOrDefault();
                 if (r != null)
                 {
                     m.TroubleDes = r.TroubleDes;
                     m.CustId = r.AccDpt;
-                    o = db.Departments.Where(c => c.DptId == r.AccDpt).FirstOrDefault();
+                    o = db.Departments.Where(c => c.DptId == r.AccDpt).ToList().FirstOrDefault();
                     if (o != null)
                         m.CustNam = o.Name_C;
                     m.ApplyDate = r.ApplyDate.Value;
@@ -2185,7 +2185,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         m.Type = a.Type;
                     }
                 }
-                p = db.RepairEmps.Where(e => e.DocId == rd.DocId).FirstOrDefault();
+                p = db.RepairEmps.Where(e => e.DocId == rd.DocId).ToList().FirstOrDefault();
                 if (p != null)
                 {
                     AppUser u = db.AppUsers.Find(p.UserId);

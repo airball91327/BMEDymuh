@@ -42,7 +42,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 if (item.UserId != null)
                 {
-                    var user = db.AppUsers.Where(u => u.Id == item.UserId.Value).FirstOrDefault();
+                    var user = db.AppUsers.Where(u => u.Id == item.UserId.Value).ToList().FirstOrDefault();
                     item.UserName = user.UserName;
                     item.FullName = user.FullName;
                 }
@@ -179,7 +179,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 sheet.Cells[pos, 1].Value = item.LogClass;
                 sheet.Cells[pos, 2].Value = item.LogTime.ToString("yyyy/MM/dd");
-                var ur = db.AppUsers.Where(u => u.Id == item.UserId).FirstOrDefault();
+                var ur = db.AppUsers.Where(u => u.Id == item.UserId).ToList().FirstOrDefault();
                 sheet.Cells[pos, 3].Value = ur == null ? "" : ur.UserName;
                 sheet.Cells[pos, 4].Value = item.Action;
 

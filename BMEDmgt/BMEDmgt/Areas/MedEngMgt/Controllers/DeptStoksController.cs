@@ -107,7 +107,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
-                DeptStok sk = db.DeptStoks.Where(d => d.StokNo == stokRecord.StokNo).FirstOrDefault();
+                DeptStok sk = db.DeptStoks.Where(d => d.StokNo == stokRecord.StokNo).ToList().FirstOrDefault();
                 if (sk != null)
                 {
                     if (stokRecord.InOut == "進庫")

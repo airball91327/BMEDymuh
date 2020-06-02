@@ -51,12 +51,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             foreach(var item in contracts)
             {
-                var dptU = db.Departments.Where(d => d.DptId == item.UseDpt).FirstOrDefault();
-                var dptP = db.Departments.Where(d => d.DptId == item.PurchaseDpt).FirstOrDefault();
-                var dptS = db.Departments.Where(d => d.DptId == item.Sponsor).FirstOrDefault();
-                var dptC = db.Departments.Where(d => d.DptId == item.CoOrganizer).FirstOrDefault();
-                var userS = db.AppUsers.Where(u => u.Id == item.SponsorUid).FirstOrDefault();
-                var userC = db.AppUsers.Where(u => u.Id == item.CoOrganizerUid).FirstOrDefault();
+                var dptU = db.Departments.Where(d => d.DptId == item.UseDpt).ToList().FirstOrDefault();
+                var dptP = db.Departments.Where(d => d.DptId == item.PurchaseDpt).ToList().FirstOrDefault();
+                var dptS = db.Departments.Where(d => d.DptId == item.Sponsor).ToList().FirstOrDefault();
+                var dptC = db.Departments.Where(d => d.DptId == item.CoOrganizer).ToList().FirstOrDefault();
+                var userS = db.AppUsers.Where(u => u.Id == item.SponsorUid).ToList().FirstOrDefault();
+                var userC = db.AppUsers.Where(u => u.Id == item.CoOrganizerUid).ToList().FirstOrDefault();
                 item.UseDptName = dptU == null ? "" : dptU.Name_C;
                 item.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
                 item.SponsorDptName = dptS == null ? "" : dptS.Name_C;
@@ -80,14 +80,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
-            var dptU = db.Departments.Where(d => d.DptId == assetPContract.UseDpt).FirstOrDefault();
-            var dptP = db.Departments.Where(d => d.DptId == assetPContract.PurchaseDpt).FirstOrDefault();
-            var dptS = db.Departments.Where(d => d.DptId == assetPContract.Sponsor).FirstOrDefault();
-            var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).FirstOrDefault();
-            var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
-            var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
-            var user3 = db.AppUsers.Where(u => u.Id == assetPContract.ContractMgr).FirstOrDefault();
-            var user4 = db.AppUsers.Where(u => u.Id == assetPContract.SecondMgr).FirstOrDefault();
+            var dptU = db.Departments.Where(d => d.DptId == assetPContract.UseDpt).ToList().FirstOrDefault();
+            var dptP = db.Departments.Where(d => d.DptId == assetPContract.PurchaseDpt).ToList().FirstOrDefault();
+            var dptS = db.Departments.Where(d => d.DptId == assetPContract.Sponsor).ToList().FirstOrDefault();
+            var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).ToList().FirstOrDefault();
+            var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).ToList().FirstOrDefault();
+            var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).ToList().FirstOrDefault();
+            var user3 = db.AppUsers.Where(u => u.Id == assetPContract.ContractMgr).ToList().FirstOrDefault();
+            var user4 = db.AppUsers.Where(u => u.Id == assetPContract.SecondMgr).ToList().FirstOrDefault();
             assetPContract.UseDptName = dptU == null ? "" : dptU.Name_C;
             assetPContract.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
             assetPContract.SponsorDptName = dptS == null ? "" : dptS.Name_C;
@@ -201,7 +201,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ListItem1.Add(new SelectListItem { Text = "請選擇", Value = "" });
             if (assetPContract.PurchaseUid != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetPContract.PurchaseUid).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.PurchaseUid).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -209,7 +209,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (assetPContract.SponsorUid != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -217,7 +217,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (assetPContract.CoOrganizerUid != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -225,7 +225,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (assetPContract.ContractMgr != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetPContract.ContractMgr).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.ContractMgr).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -233,7 +233,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (assetPContract.SecondMgr != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetPContract.SecondMgr).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetPContract.SecondMgr).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     ListItem1.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -291,12 +291,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
-            var dptU = db.Departments.Where(d => d.DptId == assetPContract.UseDpt).FirstOrDefault();
-            var dptP = db.Departments.Where(d => d.DptId == assetPContract.PurchaseDpt).FirstOrDefault();
-            var dptS = db.Departments.Where(d => d.DptId == assetPContract.Sponsor).FirstOrDefault();
-            var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).FirstOrDefault();
-            var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).FirstOrDefault();
-            var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).FirstOrDefault();
+            var dptU = db.Departments.Where(d => d.DptId == assetPContract.UseDpt).ToList().FirstOrDefault();
+            var dptP = db.Departments.Where(d => d.DptId == assetPContract.PurchaseDpt).ToList().FirstOrDefault();
+            var dptS = db.Departments.Where(d => d.DptId == assetPContract.Sponsor).ToList().FirstOrDefault();
+            var dptC = db.Departments.Where(d => d.DptId == assetPContract.CoOrganizer).ToList().FirstOrDefault();
+            var userS = db.AppUsers.Where(u => u.Id == assetPContract.SponsorUid).ToList().FirstOrDefault();
+            var userC = db.AppUsers.Where(u => u.Id == assetPContract.CoOrganizerUid).ToList().FirstOrDefault();
             assetPContract.UseDptName = dptU == null ? "" : dptU.Name_C;
             assetPContract.PurchaseDptName = dptP == null ? "" : dptP.Name_C;
             assetPContract.SponsorDptName = dptS == null ? "" : dptS.Name_C;
@@ -441,12 +441,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (!string.IsNullOrEmpty(purchaseNo))
             {
-                var purContract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == purchaseNo).FirstOrDefault();
+                var purContract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == purchaseNo).ToList().FirstOrDefault();
                 if (purContract != null)
                 {
                     if (purContract.UseDpt != null)
                     {
-                        var dpt = db.Departments.Where(d => d.DptId == purContract.UseDpt).FirstOrDefault();
+                        var dpt = db.Departments.Where(d => d.DptId == purContract.UseDpt).ToList().FirstOrDefault();
                         if (dpt != null)
                         {
                             purContract.UseDptName = dpt.Name_C;
@@ -525,7 +525,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<AssetPurchaseContract> ContractList = new List<AssetPurchaseContract>();
             foreach (string purchaseNo in PNOList)
             {
-                var targetContract = db.AssetPurchaseContracts.Where(s => s.PurchaseNo == purchaseNo).FirstOrDefault();
+                var targetContract = db.AssetPurchaseContracts.Where(s => s.PurchaseNo == purchaseNo).ToList().FirstOrDefault();
                 if (targetContract != null)
                 {
                     ContractList.Add(targetContract);

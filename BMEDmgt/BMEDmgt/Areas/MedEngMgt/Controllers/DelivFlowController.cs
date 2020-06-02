@@ -419,7 +419,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     break;
                 case "使用單位":
-                    DelivFlow df = db.DelivFlows.Where(d => d.Docid == r.Docid).Where(d => d.Cls == "使用單位").FirstOrDefault();
+                    DelivFlow df = db.DelivFlows.Where(d => d.Docid == r.Docid).Where(d => d.Cls == "使用單位")
+                                                .ToList().FirstOrDefault();
                     if (df != null)
                     {
                         u = db.AppUsers.Find(df.Userid);

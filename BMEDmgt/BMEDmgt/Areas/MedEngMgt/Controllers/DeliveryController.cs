@@ -263,7 +263,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 Delivery d = db.Deliveries.Find(id);
                 if (d != null)
                 {
-                    var contract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == d.PurchaseNo).FirstOrDefault();
+                    var contract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == d.PurchaseNo).ToList().FirstOrDefault();
                     dv.Docid = d.Docid;
                     dv.WartyNt = d.WartyNt;
                     dv.AcceptDate = d.AcceptDate;
@@ -343,7 +343,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Department c = db.Departments.Find(delivery.AccDpt);
             if (c != null)
                 delivery.AccDptNam = c.Name_C;
-            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).ToList().FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));
@@ -477,7 +477,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             var assetPurchaseContracts = db.AssetPurchaseContracts.ToList();
             foreach (var item in assetPurchaseContracts)
             {
-                var isDocExist = db.Deliveries.Where(d => d.PurchaseNo == item.PurchaseNo).FirstOrDefault();
+                var isDocExist = db.Deliveries.Where(d => d.PurchaseNo == item.PurchaseNo).ToList().FirstOrDefault();
                 if (isDocExist == null)
                 {
                     listItem6.Add(new SelectListItem { Text = item.PurchaseName + "(" + item.PurchaseNo + ")", Value = item.PurchaseNo });
@@ -604,7 +604,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (c != null)
                 delivery.AccDptNam = c.Name_C;
             int vendorId = Convert.ToInt32(delivery.VendorId);
-            Vendor v = db.Vendors.Where(vv => vv.VendorId == vendorId).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.VendorId == vendorId).ToList().FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));

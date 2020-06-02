@@ -54,7 +54,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     
                 }
                 KeepFlow kf2 = db.KeepFlows.Where(f2 => f2.DocId == id)
-                          .Where(f2 => f2.Status == "?").FirstOrDefault();
+                          .Where(f2 => f2.Status == "?").ToList().FirstOrDefault();
                 if (kf2.Cls.Contains("工程師"))
                     return PartialView(kf);
                 else

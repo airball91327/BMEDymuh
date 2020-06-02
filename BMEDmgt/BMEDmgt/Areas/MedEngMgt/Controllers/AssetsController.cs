@@ -589,7 +589,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             if (asset.VendorId != null)
             {
-                Vendor vr = db.Vendors.Where(v => v.VendorId == asset.VendorId).FirstOrDefault();
+                Vendor vr = db.Vendors.Where(v => v.VendorId == asset.VendorId).ToList().FirstOrDefault();
                 if(vr != null)
                     asset.VendorName = vr.VendorName;
             }
@@ -871,10 +871,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         AssetNo = a.AssetNo,
                         Cname = a.Cname + "(" + a.AssetNo + ")",
                         AccDpt = a.AccDpt
-                    });
+                    }).ToList();
                 if (!string.IsNullOrEmpty(accDpt))
                 {
-                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000" || r.AssetNo == "001");
+                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000" || r.AssetNo == "001").ToList();
                 }
 
                 string s = JsonConvert.SerializeObject(result);
@@ -892,7 +892,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 var result = db.Assets
                     .Where(a => a.DisposeKind != "報廢")
-                    .Where(a => a.AssetNo == id).FirstOrDefault();
+                    .Where(a => a.AssetNo == id).ToList().FirstOrDefault();
 
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -914,7 +914,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         AssetNo = a.AssetNo,
                         Cname = a.Cname + "(" + a.AssetNo + ")"
-                    });
+                    }).ToList();
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);
@@ -939,7 +939,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         dptid = d.DptId,
                         dptname = d.Name_C
-                    });
+                    }).ToList();
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);
@@ -1023,7 +1023,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     asset.AccDpt = dy.AccDpt;
                     int vendorId = Convert.ToInt32(dy.VendorId);
-                    Vendor vr = db.Vendors.Where(v => v.VendorId == vendorId).FirstOrDefault();
+                    Vendor vr = db.Vendors.Where(v => v.VendorId == vendorId).ToList().FirstOrDefault();
                     asset.VendorId = vr == null ? 0 : vr.VendorId;
                 }
                 asset.Docid = docid;

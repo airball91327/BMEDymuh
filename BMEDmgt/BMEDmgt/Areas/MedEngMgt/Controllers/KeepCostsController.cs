@@ -67,7 +67,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.KeepCosts.Add(keepCost);
                 db.SaveChanges();
                 //
-                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId)
+                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId).ToList()
                     .FirstOrDefault();
                 if (dtl != null)
                 {
@@ -97,7 +97,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             keepCost.DocId = id;
             keepCost.SeqNo = seqno + 1;
             KeepFlow kf = db.KeepFlows.Where(f => f.DocId == id)
-                          .Where(f => f.Status == "?").FirstOrDefault();
+                          .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (!(kf.Cls.Contains("工程師") || kf.Cls == "醫工經辦"))
             {
                 List<KeepCost> t = db.KeepCosts.Where(c => c.DocId == id).ToList();
@@ -166,7 +166,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.KeepCosts.Add(keepCost);
                     db.SaveChanges();
                     //
-                    KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId)
+                    KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId).ToList()
                         .FirstOrDefault();
                     if (dtl != null)
                     {
@@ -218,7 +218,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.KeepCosts.Remove(keepCost);
                 db.SaveChanges();
                 //
-                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId)
+                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepCost.DocId).ToList()
                     .FirstOrDefault();
                 if (dtl != null)
                 {

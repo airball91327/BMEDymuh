@@ -185,7 +185,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     if (!string.IsNullOrEmpty(ss))
                     {
-                        RepairFlow rf = db.RepairFlows.Where(f => f.DocId == ss && f.Status == "?").FirstOrDefault();
+                        RepairFlow rf = db.RepairFlows.Where(f => f.DocId == ss && f.Status == "?").ToList().FirstOrDefault();
                         if (assign.FlowCls == "驗收人")
                         {
                             if (db.RepairEmps.Where(emp => emp.DocId == ss).Count() <= 0)
@@ -341,7 +341,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
-            RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+            RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
             if (rf != null)
             {
                 assign.ClsNow = rf.Cls;
@@ -441,7 +441,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             if (ModelState.IsValid)
             {
-                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
+                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").ToList().FirstOrDefault();
                 if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                 {
                     if (db.RepairEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
@@ -467,7 +467,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 if (assign.FlowCls == "結案")
                 {
-                    var isQuestExist = db.QuestAnswers.Where(q => q.Docid == assign.DocId).FirstOrDefault();
+                    var isQuestExist = db.QuestAnswers.Where(q => q.Docid == assign.DocId).ToList().FirstOrDefault();
                     if (isQuestExist == null)
                     {
                         throw new Exception("請填寫滿意度問卷。");
@@ -736,7 +736,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     s = Roles.GetUsersInRole("MedEngineer").ToList();
                     list = new List<ListItem>();
                     var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == docid).Where(rf => rf.Cls.Contains("設備工程師"))
-                                                    .Where(rf => rf.Status == "1").OrderByDescending(rf => rf.StepId).FirstOrDefault();
+                                                    .Where(rf => rf.Status == "1").OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
                     int? lastEng = null;
                     if (lastEngFlow != null)
                     {

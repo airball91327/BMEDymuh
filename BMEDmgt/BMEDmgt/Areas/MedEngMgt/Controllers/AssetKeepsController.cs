@@ -167,7 +167,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Asset at = db.Assets.Find(ano);
             Delivery d = db.Deliveries.Find(id);
             int vid = d.VendorId != null ? Convert.ToInt32(d.VendorId) : 0;
-            Vendor v = db.Vendors.Where(vv => vv.VendorId == vid).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.VendorId == vid).ToList().FirstOrDefault();
             List<string> s;
             ListItem li;
             s = Roles.GetUsersInRole("Engineer").ToList();

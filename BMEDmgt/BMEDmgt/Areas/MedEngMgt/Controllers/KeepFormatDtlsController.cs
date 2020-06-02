@@ -48,7 +48,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (id != null)
             {
                 KeepFormatDtl keepformat_dtl = db.KeepFormatDtls.Where(d => d.FormatId == id).OrderByDescending(d => d.Sno)
-                    .FirstOrDefault();
+                    .ToList().FirstOrDefault();
                 if (keepformat_dtl != null)
                 {
                     keepformat_dtl.Sno += 1;
