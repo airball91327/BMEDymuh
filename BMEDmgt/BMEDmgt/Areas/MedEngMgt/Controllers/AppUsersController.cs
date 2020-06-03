@@ -104,7 +104,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             UserId.Add(new SelectListItem
             {
                 Value = u.Id.ToString(),
-                Text = u.FullName,
+                Text = "(" + u.UserName + ")" + u.FullName,
                 Selected = false
             });
             ViewData["Suserid"] = UserId;

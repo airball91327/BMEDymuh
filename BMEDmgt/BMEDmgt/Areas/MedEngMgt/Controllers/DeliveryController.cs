@@ -426,7 +426,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (p != null)
                 {
                     if (p.Status == "Y")
-                        listItem.Add(new SelectListItem { Text = p.FullName, Value = p.Id.ToString() });
+                        listItem.Add(new SelectListItem { Text = "(" + p.UserName + ")" + p.FullName, Value = p.Id.ToString() });
                 }
                 //if (p.CustId != null)
                 //{

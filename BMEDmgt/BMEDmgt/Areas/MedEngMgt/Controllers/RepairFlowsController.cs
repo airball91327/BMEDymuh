@@ -616,7 +616,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     if (u.VendorId.ToString() == vendor)
                                     {
                                         li = new ListItem();
-                                        li.Text = u.FullName;
+                                        li.Text = "(" + u.UserName + ")" + u.FullName;
                                         li.Value = u.Id.ToString();
                                         list.Add(li);
                                     }
@@ -627,7 +627,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 if (u != null)
                                 {
                                     li = new ListItem();
-                                    li.Text = u.FullName;
+                                    li.Text = "(" + u.UserName + ")" + u.FullName;
                                     li.Value = u.Id.ToString();
                                     list.Add(li);
                                 }
@@ -643,7 +643,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (!string.IsNullOrEmpty(u.DptId))
                         {
                             li = new ListItem();
-                            li.Text = u.FullName;
+                            li.Text = "(" + u.UserName + ")" + u.FullName;
                             li.Value = WebSecurity.GetUserId(l).ToString();
                             list.Add(li);
                         }
@@ -656,7 +656,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         u = db.AppUsers.Find(WebSecurity.GetUserId(l));
                         li = new ListItem();
-                        li.Text = u.FullName;
+                        li.Text = "(" + u.UserName + ")" + u.FullName;
                         li.Value = WebSecurity.GetUserId(l).ToString();
                         list.Add(li);
                     }
@@ -675,7 +675,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 if (u.DptId == c)
                                 {
                                     li = new ListItem();
-                                    li.Text = u.FullName;
+                                    li.Text = "(" + u.UserName + ")" + u.FullName;
                                     li.Value = WebSecurity.GetUserId(l).ToString();
                                     list.Add(li);
                                 }
@@ -686,11 +686,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "申請人":
                     if (r != null)
                     {
-                        list = new List<ListItem>();
-                        li = new ListItem();
-                        li.Text = r.UserName;
-                        li.Value = r.UserId.ToString();
-                        list.Add(li);
+                        u = db.AppUsers.Find(r.UserId);
+                        if (u != null)
+                        {
+                            list = new List<ListItem>();
+                            li = new ListItem();
+                            li.Text = "(" + u.UserName + ")" + r.UserName;
+                            li.Value = r.UserId.ToString();
+                            list.Add(li);
+                        }
                     }
                     else
                     {
@@ -715,18 +719,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             ul.AddRange(db.AppUsers.Where(f => f.DptId == asset.DelivDpt)
                                 .Where(f => f.Status == "Y").ToList());
                         }
+
                         list = new List<ListItem>();
                         li = new ListItem();
-                        li.Text = r.CheckerName;
-                        li.Value = r.CheckerId.ToString();
-                        list.Add(li);
+                        u = db.AppUsers.Find(r.CheckerId);
+                        if (u != null)
+                        {
+                            li.Text = "(" + u.UserName + ")" + r.CheckerName;
+                            li.Value = r.CheckerId.ToString();
+                            list.Add(li);
+                        }
                         //
                         foreach (AppUser l in ul)
                         {
+                            u = db.AppUsers.Find(l.Id);
                             li = new ListItem();
-                            li.Text = l.FullName;
-                            li.Value = l.Id.ToString();
-                            list.Add(li);
+                            if (u != null)
+                            {
+                                li.Text = "(" + l.UserName + ")" + l.FullName;
+                                li.Value = l.Id.ToString();
+                                list.Add(li);
+                            }
                         }
                     }
                     break;
@@ -744,7 +757,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         var eng = db.AppUsers.Find(lastEng);
                         li = new ListItem();
-                        li.Text = eng.FullName;
+                        li.Text = "(" + eng.UserName + ")" + eng.FullName;
                         li.Value = eng.Id.ToString();
                         list.Add(li);
                         foreach (string l in s)
@@ -755,7 +768,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 if (u.Id != lastEng)
                                 {
                                     li = new ListItem();
-                                    li.Text = u.FullName;
+                                    li.Text = "(" + u.UserName + ")" + u.FullName;
                                     li.Value = WebSecurity.GetUserId(l).ToString();
                                     list.Add(li);
                                 }
@@ -770,7 +783,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             if (u != null)
                             {
                                 li = new ListItem();
-                                li.Text = u.FullName;
+                                li.Text = "(" + u.UserName + ")" + u.FullName;
                                 li.Value = WebSecurity.GetUserId(l).ToString();
                                 list.Add(li);
                             }
