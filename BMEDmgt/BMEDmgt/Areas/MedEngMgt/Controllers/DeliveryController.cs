@@ -148,6 +148,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 else
                     vm.Clear();
             }
+            foreach(var item in vm)
+            {
+                var u = db.AppUsers.Find(item.UserId);
+                item.Contact = u == null ? "" : u.Ext;
+                u = db.AppUsers.Find(item.FlowUid);
+                item.FlowUname = u == null ? "" : u.FullName;
+                item.CompanyNam = db.Departments.Find(item.Company) == null ? "" : db.Departments.Find(item.Company).Name_C;  
+            }
             return PartialView("_DeliveryList", vm);
         }
 
@@ -214,6 +222,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 else
                     vm.Clear();
+            }
+            foreach (var item in vm)
+            {
+                var u = db.AppUsers.Find(item.UserId);
+                item.Contact = u == null ? "" : u.Ext;
+                u = db.AppUsers.Find(item.FlowUid);
+                item.FlowUname = u == null ? "" : u.FullName;
+                item.CompanyNam = db.Departments.Find(item.Company) == null ? "" : db.Departments.Find(item.Company).Name_C;
             }
             return PartialView("_DeliveryList", vm);
         }

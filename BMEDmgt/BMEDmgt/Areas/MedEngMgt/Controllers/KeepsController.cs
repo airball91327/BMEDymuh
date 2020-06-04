@@ -693,9 +693,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         DocType = "保養",
                         DocId = j.keep.DocId,
+                        UserFullName = j.keep.UserName,
+                        Contact = j.keep.Contact,
                         AssetNo = j.keep.AssetNo,
                         AssetName = j.keep.AssetName,
                         ApplyDpt = j.keep.DptId,
+                        ApplyDptName = db.Departments.Find(j.keep.DptId) == null ? "" : db.Departments.Find(j.keep.DptId).Name_C,
                         AccDpt = j.keep.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         Result = j.keepdtl.Result,

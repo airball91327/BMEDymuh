@@ -21,12 +21,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string DocType { get; set; }
         [Display(Name = "表單編號")]
         public string DocId { get; set; }
+        [Display(Name = "申請人姓名")]
+        public string UserFullName { get; set; }
+        [Display(Name = "申請人分機")]
+        public string Contact { get; set; }
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Display(Name = "儀器名稱")]
         public string AssetName { get; set; }
         [Display(Name = "申請部門代號")]
         public string ApplyDpt { get; set; }
+        [Display(Name = "申請部門")]
+        public string ApplyDptName { get; set; }
         [Display(Name = "成本中心代號")]
         public string AccDpt { get; set; }
         [Display(Name = "成本中心名稱")]
@@ -44,6 +50,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int? Days { get; set; }
         public string Flg { get; set; }
         public int FlowUid { get; set; }
+        [Display(Name = "目前關卡處理人")]
+        public string FlowUName { get; set; }
         public string FlowCls { get; set; }
         [Display(Name = "廠商")]
         public string Vendor { get; set; }
@@ -57,12 +65,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string DocType { get; set; }
         [Display(Name = "表單編號")]
         public string DocId { get; set; }
+        [Display(Name = "申請人姓名")]
+        public string UserFullName { get; set; }
+        [Display(Name = "申請人分機")]
+        public string Contact { get; set; }
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Display(Name = "儀器名稱")]
         public string AssetName { get; set; }
         [Display(Name = "申請部門代號")]
         public string ApplyDpt { get; set; }
+        [Display(Name = "申請部門")]
+        public string ApplyDptName { get; set; }
         [Display(Name = "成本中心代號")]
         public string AccDpt { get; set; }
         [Display(Name = "成本中心名稱")]
@@ -80,6 +94,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int? Days { get; set; }
         public string Flg { get; set; }
         public int FlowUid { get; set; }
+        [Display(Name = "目前關卡處理人")]
         public string FlowUname { get; set; }
         public string FlowCls { get; set; }
         [Display(Name = "廠商")]

@@ -2864,6 +2864,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 sv = sv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
             }
+            if (!string.IsNullOrEmpty(v.StockName))
+            {
+                sv = sv.Where(vv => !string.IsNullOrEmpty(vv.StokNam)).ToList();
+                sv = sv.Where(vv => vv.StokNam.Contains(v.StockName)).ToList();
+            }
             //
             return sv;
         }

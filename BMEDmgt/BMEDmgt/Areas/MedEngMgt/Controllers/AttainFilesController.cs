@@ -317,6 +317,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             attainFile.SeqNo = 1;
             attainFile.IsPublic = "N";
 
+            if(doctype == "2")
+            {
+                return PartialView("UploadForKeep", attainFile);
+            }
             return PartialView(attainFile);
         }
 

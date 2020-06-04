@@ -9,11 +9,17 @@
             @Html.DisplayNameFor(model => model.Docid)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyNam)
+            @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccDptNam)
+            @Html.DisplayNameFor(model => model.Contact)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyNam)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.AccDptNam)
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.ContractNo)
         </th>
@@ -28,6 +34,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Days)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlowUname)
         </th>
         <th>
             流程狀態
@@ -55,11 +64,17 @@
             @Html.DisplayFor(modelItem => item.Docid)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyNam)
+            @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AccDptNam)
+            @Html.DisplayFor(modelItem => item.Contact)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyNam)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.AccDptNam)
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.ContractNo)
         </td>
@@ -74,6 +89,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Days)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlowUname)
         </td>
         <td>
             @if (item.Flg == "2")

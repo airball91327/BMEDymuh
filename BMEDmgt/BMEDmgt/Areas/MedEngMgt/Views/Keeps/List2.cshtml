@@ -37,7 +37,13 @@
             @Html.DisplayNameFor(model => model.DocId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccDptName)
+            @Html.DisplayNameFor(model => model.UserFullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplyDptName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AssetName)
@@ -58,7 +64,7 @@
             @Html.DisplayNameFor(model => model.EndDate)
         </th>
         <th>
-            關卡人員
+            目前關卡處理人
         </th>
         <th>
             流程狀態
@@ -76,7 +82,13 @@
                 @Html.DisplayFor(modelItem => item.DocId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AccDptName)
+                @Html.DisplayFor(modelItem => item.UserFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyDptName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AssetNo)

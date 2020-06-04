@@ -511,9 +511,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         DocType = "請修",
                         DocId = j.repair.DocId,
+                        UserFullName = j.repair.UserName,
+                        Contact = j.repair.Contact,
                         AssetNo = j.repair.AssetNo,
                         AssetName = j.repair.AssetName,
                         ApplyDpt = j.repair.DptId,
+                        ApplyDptName = db.Departments.Find(j.repair.DptId) == null ? "" : db.Departments.Find(j.repair.DptId).Name_C,
                         AccDpt = j.repair.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         TroubleDes = j.repair.TroubleDes,
@@ -523,6 +526,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Days = DateTime.Now.Subtract(j.repair.ApplyDate.GetValueOrDefault()).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
+                        FlowUName = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
                         FlowCls = j.flow.Cls
                     }));
             }
@@ -1247,7 +1251,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return View();
             }
             Repair repair = db.Repairs.Find(id);
-            if (!(Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager")))
+            if (!(Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager") ||
+                  Roles.IsUserInRole("MedEngineer")))
             {
 
                 RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();

@@ -402,6 +402,44 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return View(asset);
         }
 
+        // GET: MedEngMgt/Assets/DetailsForModal/5
+        public ActionResult DetailsForModal(string ano)
+        {
+            if (ano == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ano = ano.Trim();
+            Asset asset = db.Assets.Find(ano);
+            if (asset == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.RequestTimeout);
+            }
+            if (asset.DelivUid != null)
+            {
+                asset.DelivEmp = "(" + db.AppUsers.Find(asset.DelivUid.Value).UserName + ") "
+                    + asset.DelivEmp;
+            }
+            if (!string.IsNullOrEmpty(asset.DelivDpt))
+            {
+                asset.DelivDptName = db.Departments.Find(asset.DelivDpt).Name_C;
+            }
+            if (!string.IsNullOrEmpty(asset.AccDpt))
+            {
+                asset.AccDptName = db.Departments.Find(asset.AccDpt).Name_C;
+            }
+            if (asset.EngId != 0)
+            {
+                var ur = db.AppUsers.Find(asset.EngId);
+                asset.EngName = "(" + ur.UserName + ") " + ur.FullName;
+                asset.EngEmail = ur.Email;
+                asset.EngTel = ur.Mobile;
+            }
+            asset.VendorName = asset.VendorId == null ? "" : db.Vendors.Find(asset.VendorId).VendorName;
+
+            return View(asset);
+        }
+
         public ActionResult AssetView(string id)
         {
             if (id == null)

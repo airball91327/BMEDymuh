@@ -378,7 +378,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                 }
             }
-            ViewData["FlowCls"] = new SelectList(listItem, "Value", "Text", "");
+            if (kf.Cls == "驗收人")
+            {
+                ViewData["FlowCls"] = new SelectList(listItem, "Value", "Text", "結案");
+            }
+            else
+            {
+                ViewData["FlowCls"] = new SelectList(listItem, "Value", "Text", "");
+            }
 
             //List<SelectListItem> flowvendor = new List<SelectListItem>();
             //db.Vendors.ToList().ForEach(v => {

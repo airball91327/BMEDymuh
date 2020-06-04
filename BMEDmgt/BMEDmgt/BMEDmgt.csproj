@@ -737,6 +737,8 @@
     <Content Include="Areas\MedEngMgt\Views\RepairAreas\Index.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Vendors\QryVendor2.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetMaintainContracts\GetContractAssetList2.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Assets\DetailsForModal.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AttainFiles\UploadForKeep.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

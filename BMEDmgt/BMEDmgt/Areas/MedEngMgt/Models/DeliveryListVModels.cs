@@ -22,9 +22,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int UserId { get; set; }
         [Display(Name = "申請人姓名")]
         public string UserName { get; set; }
-        [Display(Name = "所屬單位")]
+        [Display(Name = "申請人分機")]
+        public string Contact { get; set; }
+        [Display(Name = "申請部門代號")]
         public string Company { get; set; }
-        [Display(Name = "所屬單位代號名稱")]
+        [Display(Name = "申請部門")]
         public string CompanyNam { get; set; }
         [Display(Name = "成本中心")]
         public string AccDpt { get; set; }
@@ -42,6 +44,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int? Days { get; set; }
         public string Flg { get; set; }
         public int FlowUid { get; set; }
+        [Display(Name = "目前關卡處理人")]
+        public string FlowUname { get; set; }
         public string VendorNo { get; set; }
 
         public List<DeliveryListVModel> GetList(string cls = null)
