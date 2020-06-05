@@ -29,7 +29,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     DocId = f.DocId,
                     StepId = f.StepId,
-                    UserName = a.FullName,
+                    UserName = "(" + a.UserName + ")" +  a.FullName,
                     Opinions = f.Opinions,
                     Role = f.Role,
                     Status = f.Status,

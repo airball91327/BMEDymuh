@@ -415,6 +415,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (lastEngFlow != null)
                     {
                         item.EngId = lastEngFlow.UserId;
+                        var u = db.AppUsers.Where(a => a.Id == item.EngId).ToList().FirstOrDefault();
+                        item.EngName = u == null ? "" : u.FullName;
                     }
                 }
                 if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
@@ -527,7 +529,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
                         FlowUName = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
-                        FlowCls = j.flow.Cls
+                        FlowCls = j.flow.Cls,
+                        RepEngName = j.repair.EngName
                     }));
             }
             if (flw == "已處理")

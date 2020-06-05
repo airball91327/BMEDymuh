@@ -5,7 +5,7 @@
     $(function () {
         $('#exportExcel').click(function () {
             var s = $('#frmKEEP').serialize();
-            console.log(s);
+            //console.log(s);
             $.ajax({
                 url: '../Keeps/ExcelKeepList',
                 data: s ,

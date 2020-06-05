@@ -57,6 +57,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Vendor { get; set; }
         [Display(Name = "設備類別")]
         public string PlantClass { get; set; }
+        [Display(Name = "負責工程師")]
+        public string RepEngName { get; set; }
     }
 
     public class KeepListVModel
@@ -111,5 +113,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "完工日")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? EndDate { get; set; }
+        [Display(Name = "負責工程師")]
+        public string KeepEngName { get; set; }
     }
 }

@@ -1027,7 +1027,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             sheet.Cells[1, 13].Value = "保固終止日";
             sheet.Cells[1, 14].Value = "完工日";
             sheet.Cells[1, 15].Value = "關卡人員";
-            sheet.Cells[1, 16].Value = "流程狀態";
+            sheet.Cells[1, 16].Value = "負責工程師";
+            sheet.Cells[1, 17].Value = "流程狀態";
 
             using (ExcelRange range = sheet.Cells[1, 1, 1, 20])
             {
@@ -1044,6 +1045,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int pos = 2;
             foreach (var item in kv)
             {
+                var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).ToList().FirstOrDefault();
                 sheet.Cells[pos, 1].Value = item.DocType;
                 sheet.Cells[pos, 2].Value = item.DocId;
                 sheet.Cells[pos, 3].Value = item.AssetNo;
@@ -1060,13 +1062,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 sheet.Cells[pos, 13].Value = item.WartyEd.HasValue == true ? item.WartyEd.Value.ToString("yyyy/MM/dd") : "";
                 sheet.Cells[pos, 14].Value = item.EndDate.HasValue == true ? item.EndDate.Value.ToString("yyyy/MM/dd") : "";
                 sheet.Cells[pos, 15].Value = item.FlowUname;
+                sheet.Cells[pos, 16].Value = assetKeep == null ? "" : assetKeep.KeepEngName;
                 if (item.Flg == "2")
                 {
-                    sheet.Cells[pos, 16].Value = "已結案";
+                    sheet.Cells[pos, 17].Value = "已結案";
                 }
                 else
                 {
-                    sheet.Cells[pos, 16].Value = "流程中";
+                    sheet.Cells[pos, 17].Value = "流程中";
                 }
                 pos++;
             }
