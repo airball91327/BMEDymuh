@@ -80,7 +80,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             Roles.GetUsersInRole("Engineer").ToList()
@@ -89,7 +89,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             listItem = listItem.GroupBy(g => g.Value).Select(g => g.First()).ToList();

@@ -135,7 +135,7 @@
                     @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "blank" })
                     @Html.Raw("|")
                 }
-                @Html.ActionLink("預覽", "Views", new { id = item.DocId })
+                @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" })
             </td>
         </tr>
     }
