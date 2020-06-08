@@ -401,6 +401,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             listItem3.Add(new SelectListItem { Text = "", Value = "" });
             ViewData["FlowUid"] = new SelectList(listItem3, "Value", "Text", "");
+            if (kf.Cls == "驗收人")
+            {
+                listItem3.Clear();
+                listItem3.Add(new SelectListItem { Text = "", Value = "0" });
+                ViewData["FlowUid"] = new SelectList(listItem3, "Value", "Text", "0");
+            }
+            //
             assign.Hint = "";
 
             return PartialView(assign);

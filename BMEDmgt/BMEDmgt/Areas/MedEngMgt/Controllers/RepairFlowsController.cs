@@ -404,6 +404,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             listItem3.Add(new SelectListItem { Text = "", Value = "" });
             ViewData["FlowUid"] = new SelectList(listItem3, "Value", "Text", "");
+            if (rf.Cls == "驗收人")
+            {
+                listItem3.Clear();
+                listItem3.Add(new SelectListItem { Text = "", Value = "0" });
+                ViewData["FlowUid"] = new SelectList(listItem3, "Value", "Text", "0");
+            }
+            //
             assign.Hint = "使用者key單→設備工程師維護(若無費用user驗收結案,有費用夾帶報價資料給設備主管)→單位主管(相關單位主管核決)→設備工程師維護→使用者驗收結案";
             return PartialView(assign);
         }
