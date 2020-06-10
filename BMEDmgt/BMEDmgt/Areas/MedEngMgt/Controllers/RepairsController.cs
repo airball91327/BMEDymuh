@@ -419,16 +419,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         item.EngName = u == null ? "" : u.FullName;
                     }
                 }
-                if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
-                {
-                    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                    if (u != null)
-                        rps = rps.Where(r => r.DptId == u.DptId)
-                            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
-                            .Distinct().ToList();
-                    else
-                        throw new Exception("無部門資料!!");
-                }
+                //if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
+                //{
+                //    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                //    if (u != null)
+                //        rps = rps.Where(r => r.DptId == u.DptId)
+                //            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
+                //            .Distinct().ToList();
+                //    else
+                //        throw new Exception("無部門資料!!");
+                //}
                 if (Roles.IsUserInRole("Usual"))  //一般使用者可查詢自己申請之案件
                 {
                     AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
