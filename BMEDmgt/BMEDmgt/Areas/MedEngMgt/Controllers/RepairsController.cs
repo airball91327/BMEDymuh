@@ -462,7 +462,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (!string.IsNullOrEmpty(plantClass))
                     rps = rps.Where(r => r.PlantClass == plantClass).ToList();
                 if (!string.IsNullOrEmpty(troubleDes))
-                    rps = rps.Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
+                    rps = rps.Where(r => !string.IsNullOrEmpty(r.TroubleDes))
+                             .Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
                 if (!string.IsNullOrEmpty(qtyEngId))
                 {
                     int tempEngId = Convert.ToInt32(qtyEngId);

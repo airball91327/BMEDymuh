@@ -218,6 +218,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         DateTime setDate = repairDtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
                         repairDtl.EndDate = setDate;
                     }
+                    //擷取已存工時
+                    var originDtl = db.RepairDtls.Where(r => r.DocId == repairDtl.DocId).ToList().FirstOrDefault();
+                    if (originDtl != null)
+                    {
+                        repairDtl.Hour = originDtl.Hour;
+                    }
+                    db.Entry(originDtl).State = EntityState.Detached;
                     db.Entry(repairDtl).State = EntityState.Modified;
                     db.SaveChanges();
 
