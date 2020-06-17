@@ -397,7 +397,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 asset.EngEmail = ur.Email;
                 asset.EngTel = ur.Mobile;
             }
-            asset.VendorName = asset.VendorId == null ? "" : db.Vendors.Find(asset.VendorId).VendorName;
+            if (asset.VendorId != null)
+            {
+                var vd = db.Vendors.Find(asset.VendorId);
+                asset.VendorName = vd == null ? "" : vd.VendorName;
+            }
+            else
+            {
+                asset.VendorName = "";
+            }
+            
 
             return View(asset);
         }
