@@ -148,6 +148,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 else
                     vm.Clear();
             }
+            foreach(var item in vm)
+            {
+                var u = db.AppUsers.Find(item.UserId);
+                item.Contact = u == null ? "" : u.Ext;
+                u = db.AppUsers.Find(item.FlowUid);
+                item.FlowUname = u == null ? "" : u.FullName;
+                item.CompanyNam = db.Departments.Find(item.Company) == null ? "" : db.Departments.Find(item.Company).Name_C;  
+            }
             return PartialView("_DeliveryList", vm);
         }
 
@@ -215,6 +223,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 else
                     vm.Clear();
             }
+            foreach (var item in vm)
+            {
+                var u = db.AppUsers.Find(item.UserId);
+                item.Contact = u == null ? "" : u.Ext;
+                u = db.AppUsers.Find(item.FlowUid);
+                item.FlowUname = u == null ? "" : u.FullName;
+                item.CompanyNam = db.Departments.Find(item.Company) == null ? "" : db.Departments.Find(item.Company).Name_C;
+            }
             return PartialView("_DeliveryList", vm);
         }
         [HttpPost]
@@ -237,6 +253,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     d.OpenDate = dv.OpenDate;
                     d.OrderDate = dv.OrderDate;
                     db.SaveChanges();
+                    //更新Asset資料
+                    var assets = db.Assets.Where(a => a.Docid == dv.Docid).ToList();
+                    if (assets.Count() > 0)
+                    {
+                        foreach (var item in assets)
+                        {
+                            item.WartySt = dv.WartySt;
+                            item.WartyEd = dv.WartyEd;
+                            item.BuyDate = dv.OrderDate;
+                            db.Entry(item).State = EntityState.Modified;
+                        }
+                        db.SaveChanges();
+                    }
                 }
                 return Json(new { success = true, msg = "儲存成功!" });
             }
@@ -250,11 +279,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 Delivery d = db.Deliveries.Find(id);
                 if (d != null)
                 {
+                    var contract = db.AssetPurchaseContracts.Where(p => p.PurchaseNo == d.PurchaseNo).ToList().FirstOrDefault();
                     dv.Docid = d.Docid;
                     dv.WartyNt = d.WartyNt;
                     dv.AcceptDate = d.AcceptDate;
                     if (d.WartySt == null)
-                        dv.WartySt = DateTime.Now;
+                        dv.WartySt = contract == null ? DateTime.Now : contract.WarrantySdate;
                     else
                         dv.WartySt = d.WartySt;
                     if (d.WartyEd == null)
@@ -262,7 +292,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (d.WartyMon != null)
                             dv.WartyEd = dv.WartySt.Value.AddMonths(d.WartyMon);
                         else
-                            dv.WartyEd = DateTime.Now;
+                            dv.WartyEd = contract == null ? DateTime.Now : contract.WarrantyEdate;
                     }
                     else
                         dv.WartyEd = d.WartyEd;
@@ -329,7 +359,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Department c = db.Departments.Find(delivery.AccDpt);
             if (c != null)
                 delivery.AccDptNam = c.Name_C;
-            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.UniteNo == delivery.VendorId).ToList().FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));
@@ -393,6 +423,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //r.PurchaseNo = id;
             r.WartyMon = 0;
             r.DelivDateR = DateTime.Now;
+            //預設交貨人
+            r.DelivPson = "1";
             db.Deliveries.Add(r);
             db.SaveChanges();
             List<SelectListItem> listItem = new List<SelectListItem>();
@@ -407,8 +439,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             foreach (string s in eng)
             {
                 p = db.AppUsers.Find(WebSecurity.GetUserId(s));
-                if (p.Status == "Y")
-                    listItem.Add(new SelectListItem { Text = p.FullName, Value = p.Id.ToString() });
+                if (p != null)
+                {
+                    if (p.Status == "Y")
+                        listItem.Add(new SelectListItem { Text = "(" + p.UserName + ")" + p.FullName, Value = p.Id.ToString() });
+                }
                 //if (p.CustId != null)
                 //{
                 //    if (db.CustOrgans.Find(p.CustId).GroupId == c.GroupId)
@@ -458,7 +493,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             var assetPurchaseContracts = db.AssetPurchaseContracts.ToList();
             foreach (var item in assetPurchaseContracts)
             {
-                var isDocExist = db.Deliveries.Where(d => d.PurchaseNo == item.PurchaseNo).FirstOrDefault();
+                var isDocExist = db.Deliveries.Where(d => d.PurchaseNo == item.PurchaseNo).ToList().FirstOrDefault();
                 if (isDocExist == null)
                 {
                     listItem6.Add(new SelectListItem { Text = item.PurchaseName + "(" + item.PurchaseNo + ")", Value = item.PurchaseNo });
@@ -556,7 +591,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //body += "<p>申請人：" + delivery.UserName + "</p>";
                 //body += "<p>合約號碼：" + delivery.ContractNo + "</p>";
                 //body += "<p>採購案號：" + delivery.PurchaseNo + "</p>";
-                //body += "<p><a href='http://dms.cch.org.tw/MvcMedEngMgr'>處理案件</a></p>";
+                //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                 //body += "<br/>";
                 //body += "<p>若有任何問題，請與驗收工程師(" + db.UserProfiles.Find(delivery.EngId).FullName + ")聯絡</p>";
                 //body += "<h3>this is a inform letter from system manager.Do not reply for it.</h3>";
@@ -585,7 +620,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (c != null)
                 delivery.AccDptNam = c.Name_C;
             int vendorId = Convert.ToInt32(delivery.VendorId);
-            Vendor v = db.Vendors.Where(vv => vv.VendorId == vendorId).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.VendorId == vendorId).ToList().FirstOrDefault();
             if (v != null)
                 delivery.VendorNam = v.VendorName;
             AppUser u = db.AppUsers.Find(Convert.ToInt32(delivery.DelivPson));

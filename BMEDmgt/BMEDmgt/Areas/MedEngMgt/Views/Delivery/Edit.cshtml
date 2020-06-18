@@ -1,7 +1,7 @@
 ﻿@model BMEDmgt.Areas.MedEngMgt.Models.Delivery
 
 <script src="~/Scripts/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
 @{
@@ -111,7 +111,7 @@
             @Html.ValidationMessageFor(model => model.MakeNo)
         </div>*@
 
-    <div class="editor-label">
+    @*<div class="editor-label">
         @Html.LabelFor(model => model.DelivPson)
     </div>
     <div class="editor-field">
@@ -122,8 +122,8 @@
         {
             @Html.Action("UserInfo", "Account", new { id = Model.DelivPson })
         }
-
-    </div>
+    </div>*@
+    @Html.HiddenFor(model => model.DelivPson)
 
     <div class="editor-label">
         @Html.LabelFor(model => model.DelivDateR)
@@ -166,7 +166,7 @@
     </div>
     <div id="pnlVENDOR">
         <h2>
-            經辦/廠商專區
+            經辦/工程師專區
         </h2>
         <div>
             @Html.ActionLink("新增儀器", "New", "Assets", new { docid = Model.Docid, rdate = Model.DelivDateR },

@@ -1,9 +1,12 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.RepKeepStokVModel>
+<script src="~/Areas/MedEngMgt/Scripts/HtmltoExcel.js"></script>
 
 @*<p>
     @Html.ActionLink("匯出Excel", "RepKeepStokExcel")
 </p>*@
-<table class="table">
+<input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
+       onclick="javascript:exportExcel('tbToExcel')" />
+<table class="table" id="tbToExcel">
     <tr>
         <th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.CustId)

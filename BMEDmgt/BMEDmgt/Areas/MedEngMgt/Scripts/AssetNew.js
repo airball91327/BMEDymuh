@@ -9,7 +9,7 @@
             contentType: "application/json; charset=utf-8",
             url: '../../AppUsers/GetUsersInDpt',
             type: "GET",
-            data: "cid=" + s,
+            data: "id=" + s,
             dataType: "json",
             success: function (data) {
                 //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';

@@ -5,7 +5,7 @@
 
 @using (Ajax.BeginForm("UpdCases", "RepairFlows",
     new AjaxOptions { HttpMethod = "POST",
-        LoadingElementId ="imgLOADING",
+        LoadingElementId = "imgLOADING_FLOW",
         OnBegin = "presend",
         OnSuccess = "showmsg" }))
 {
@@ -86,7 +86,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input id="btnGO" type="submit" value="確定送出" class="btn btn-success" />
-                <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+                <img id="imgLOADING_FLOW" src="~/Images/opc-ajax-loader.gif" style="display: none" />
             </div>
         </div>
     </div>

@@ -63,6 +63,7 @@
             var c = window.opener.document.getElementById("cls_now");
             $(s).html('').load(encodeURI("../AssetFile/List?id=" + $("#AssetNo").val() + "&title=" + $("#Title").val()), function () {
                 $(f).html('').load(encodeURI("../AssetFile/CheckFiles?id=" + $("#AssetNo").val() + "&cls=" + $(c).text()), function () {
+                    //alert("上傳完成!");
                     window.close();
                 });
             });

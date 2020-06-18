@@ -25,7 +25,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         public ActionResult Create()
         {
             Keep r = new Keep();
-            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).FirstOrDefault();
+            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).ToList().FirstOrDefault();
             //CustOrgan c = db.CustOrgans.Find(u.DptId);
             //Vendor v = db.Vendors.Find(u.VendorId);
             r.Email = u.Email == null ? "" : u.Email;
@@ -166,8 +166,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 AppUser u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
-                    u = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault();
-                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
+                    u = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault();
+                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault().Id;
                     //throw new Exception("無工程師資料!!");
                 }
                 rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
@@ -196,7 +196,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     body += "<p>放置地點：" + keep.PlaceLoc + "</p>";
                     //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
                     //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                    body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                    body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                     body += "<br/>";
                     body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                     mail.message.Body = body;
@@ -693,9 +693,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         DocType = "保養",
                         DocId = j.keep.DocId,
+                        UserFullName = j.keep.UserName,
+                        Contact = j.keep.Contact,
                         AssetNo = j.keep.AssetNo,
                         AssetName = j.keep.AssetName,
                         ApplyDpt = j.keep.DptId,
+                        ApplyDptName = db.Departments.Find(j.keep.DptId) == null ? "" : db.Departments.Find(j.keep.DptId).Name_C,
                         AccDpt = j.keep.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         Result = j.keepdtl.Result,
@@ -1024,7 +1027,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             sheet.Cells[1, 13].Value = "保固終止日";
             sheet.Cells[1, 14].Value = "完工日";
             sheet.Cells[1, 15].Value = "關卡人員";
-            sheet.Cells[1, 16].Value = "流程狀態";
+            sheet.Cells[1, 16].Value = "負責工程師";
+            sheet.Cells[1, 17].Value = "流程狀態";
 
             using (ExcelRange range = sheet.Cells[1, 1, 1, 20])
             {
@@ -1041,6 +1045,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int pos = 2;
             foreach (var item in kv)
             {
+                var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).ToList().FirstOrDefault();
                 sheet.Cells[pos, 1].Value = item.DocType;
                 sheet.Cells[pos, 2].Value = item.DocId;
                 sheet.Cells[pos, 3].Value = item.AssetNo;
@@ -1057,13 +1062,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 sheet.Cells[pos, 13].Value = item.WartyEd.HasValue == true ? item.WartyEd.Value.ToString("yyyy/MM/dd") : "";
                 sheet.Cells[pos, 14].Value = item.EndDate.HasValue == true ? item.EndDate.Value.ToString("yyyy/MM/dd") : "";
                 sheet.Cells[pos, 15].Value = item.FlowUname;
+                sheet.Cells[pos, 16].Value = assetKeep == null ? "" : assetKeep.KeepEngName;
                 if (item.Flg == "2")
                 {
-                    sheet.Cells[pos, 16].Value = "已結案";
+                    sheet.Cells[pos, 17].Value = "已結案";
                 }
                 else
                 {
-                    sheet.Cells[pos, 16].Value = "流程中";
+                    sheet.Cells[pos, 17].Value = "流程中";
                 }
                 pos++;
             }
@@ -1345,7 +1351,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     return View(keep);
                 }
-                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
                 if (rf != null)
                 {
                     if (rf.UserId != WebSecurity.CurrentUserId)
@@ -1371,7 +1377,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (!string.IsNullOrEmpty(id))
             {
-                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+                KeepFlow rf = db.KeepFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
                 if (rf != null)
                 {
                     if (rf.UserId != WebSecurity.CurrentUserId)

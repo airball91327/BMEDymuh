@@ -335,7 +335,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             SelectListItem li2;
-            Roles.GetUsersInRole("Engineer").ToList()
+            Roles.GetUsersInRole("MedEngineer").ToList()
                         .ForEach(x =>
                         {
                             AppUser u = db.AppUsers.Find(WebSecurity.GetUserId(x));
@@ -352,6 +352,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem5 = new List<SelectListItem>();
             listItem5.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
             listItem5.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            var repairAreas = db.RepairAreas.ToList();
+            if (repairAreas.Count() > 0)
+            {
+                listItem5.Clear();
+                foreach (var item in repairAreas)
+                {
+                    listItem5.Add(new SelectListItem { Text = item.AreaName, Value = item.AreaName });
+                }
+            }
             ViewData["REPAIRAREA"] = new SelectList(listItem5, "Value", "Text");
 
             return View();
@@ -401,22 +410,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 foreach(var item in rps)
                 {
                     var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
-                                                    .Where(rf => rf.Cls.Contains("工程師")).OrderByDescending(rf => rf.StepId).FirstOrDefault();
+                                                    .Where(rf => rf.Cls.Contains("工程師"))
+                                                    .OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
                     if (lastEngFlow != null)
                     {
                         item.EngId = lastEngFlow.UserId;
+                        var u = db.AppUsers.Where(a => a.Id == item.EngId).ToList().FirstOrDefault();
+                        item.EngName = u == null ? "" : u.FullName;
                     }
                 }
-                if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
-                {
-                    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                    if (u != null)
-                        rps = rps.Where(r => r.DptId == u.DptId)
-                            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
-                            .Distinct().ToList();
-                    else
-                        throw new Exception("無部門資料!!");
-                }
+                //if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
+                //{
+                //    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                //    if (u != null)
+                //        rps = rps.Where(r => r.DptId == u.DptId)
+                //            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
+                //            .Distinct().ToList();
+                //    else
+                //        throw new Exception("無部門資料!!");
+                //}
                 if (Roles.IsUserInRole("Usual"))  //一般使用者可查詢自己申請之案件
                 {
                     AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
@@ -450,7 +462,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (!string.IsNullOrEmpty(plantClass))
                     rps = rps.Where(r => r.PlantClass == plantClass).ToList();
                 if (!string.IsNullOrEmpty(troubleDes))
-                    rps = rps.Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
+                    rps = rps.Where(r => !string.IsNullOrEmpty(r.TroubleDes))
+                             .Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
                 if (!string.IsNullOrEmpty(qtyEngId))
                 {
                     int tempEngId = Convert.ToInt32(qtyEngId);
@@ -501,9 +514,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         DocType = "請修",
                         DocId = j.repair.DocId,
+                        UserFullName = j.repair.UserName,
+                        Contact = j.repair.Contact,
                         AssetNo = j.repair.AssetNo,
                         AssetName = j.repair.AssetName,
                         ApplyDpt = j.repair.DptId,
+                        ApplyDptName = db.Departments.Find(j.repair.DptId) == null ? "" : db.Departments.Find(j.repair.DptId).Name_C,
                         AccDpt = j.repair.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         TroubleDes = j.repair.TroubleDes,
@@ -513,7 +529,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Days = DateTime.Now.Subtract(j.repair.ApplyDate.GetValueOrDefault()).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
-                        FlowCls = j.flow.Cls
+                        FlowUName = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
+                        FlowCls = j.flow.Cls,
+                        RepEngName = j.repair.EngName
                     }));
             }
             if (flw == "已處理")
@@ -793,12 +811,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     var repairFlows = db.RepairFlows.ToList();
                     if (otherDoc == null ? false : otherDoc.Contains("true"))
                     {
-                        var ur = db.AppUsers.Where(a => a.UserName == "eao").FirstOrDefault();
+                        var ur = db.AppUsers.Where(a => a.UserName == "eao").ToList().FirstOrDefault();
                         repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == ur.Id).ToList();
                     }
                     else
                     {
-                        repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == WebSecurity.CurrentUserId).ToList();
+                        var userId = WebSecurity.CurrentUserId;
+                        repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == userId).ToList();
                     }
                 repairFlows.Select(f => new
                 {
@@ -926,7 +945,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Repair r = new Repair();
             AppUser usr = null;
-            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).FirstOrDefault();
+            AppUser u = db.AppUsers.Where(p => p.Id == WebSecurity.CurrentUserId).ToList().FirstOrDefault();
             //CustOrgan c = db.CustOrgans.Find(u.DptId);
             //Vendor v = db.Vendors.Find(u.VendorId);
             r.Email = u.Email == null ? "" : u.Email;
@@ -1030,14 +1049,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                 }
             }
-            if (usr != null)
-            {
-                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", usr.Id);
-            }
-            else
-            {
-                ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", u.Id);
-            }       
+            ViewData["CheckerName"] = new SelectList(listItem, "Value", "Text", r.CheckerId);
             //
             List<Asset> alist = null;
             if (u.DptId != null)
@@ -1173,7 +1185,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 /* 非醫療儀器的設備全送給雅雲 */
                 if(repair.PlantClass != "醫療儀器")
                 {
-                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "eao").FirstOrDefault();
+                    var tempEng = db.AppUsers.Where(ur => ur.UserName == "eao").ToList().FirstOrDefault();
                     at.EngId = tempEng.Id;
                 }
 
@@ -1185,8 +1197,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 u = db.AppUsers.Find(rf.UserId);
                 if (u == null)
                 {
-                    u = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault();
-                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").FirstOrDefault().Id;
+                    u = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault();
+                    rf.UserId = db.AppUsers.Where(ur => ur.UserName == "16552").ToList().FirstOrDefault().Id;
                     //throw new Exception("無工程師資料!!");
                 }
                 rf.Role = Roles.GetRolesForUser(u.UserName).FirstOrDefault();
@@ -1211,7 +1223,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
                 body += "<p>故障描述：" + repair.TroubleDes + "</p>";
                 //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                body += "<p><a href='http://172.17.3.114/EMS'>處理案件</a></p>";
+                body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                 body += "<br/>";
                 body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                 mail.message.Body = body;
@@ -1243,10 +1255,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return View();
             }
             Repair repair = db.Repairs.Find(id);
-            if (!(Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager")))
+            if (!(Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager") ||
+                  Roles.IsUserInRole("MedEngineer")))
             {
 
-                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
                 if (rf != null)
                 {
                     if (rf.UserId != WebSecurity.CurrentUserId)
@@ -1309,8 +1322,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            RepairFlow repflow = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?")
-                .FirstOrDefault();
+            RepairFlow repflow = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList()
+                                               .FirstOrDefault();
             repflow.Status = "3";
             repflow.Rtp = WebSecurity.CurrentUserId;
             repflow.Rtt = DateTime.Now;
@@ -1350,11 +1363,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             Repair repair = db.Repairs.Find(id);
             RepairDtl dtl = db.RepairDtls.Find(id);
+            var dtlR = db.RepairDtlRecords.Where(r => r.DocId == id).ToList();
             RepairEmp emp = db.RepairEmps
-                .Where(ep => ep.DocId == id).FirstOrDefault();
+                .Where(ep => ep.DocId == id).ToList().FirstOrDefault();
             string[] s = new string[] { "?", "2" };
             RepairFlow flow = db.RepairFlows.Where(f => f.DocId == id)
-                .Where(f => s.Contains(f.Status)).FirstOrDefault();
+                .Where(f => s.Contains(f.Status)).ToList().FirstOrDefault();
             RepairPrintVModel vm = new RepairPrintVModel();
             if (repair == null)
             {
@@ -1378,7 +1392,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 vm.TroubleDes = repair.TroubleDes;
                 if (dtl != null)
                 {
-                    vm.DealDes = dtl.DealDes;
+                    if (dtlR.Count() > 0)
+                    {
+                        foreach(var item in dtlR)
+                        {
+                            vm.DealDes += item.Rtt + item.DealDes + "\r\n";
+                        }
+                    }
+                    else
+                    {
+                        vm.DealDes = dtl.DealDes;
+                    }
                     vm.EndDate = dtl.EndDate;
                 }
                 //
@@ -1401,7 +1425,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     else {
                         flow = db.RepairFlows.Where(f => f.DocId == id && f.Cls == "驗收人")
-                            .OrderByDescending(f => f.StepId).FirstOrDefault();
+                            .OrderByDescending(f => f.StepId).ToList().FirstOrDefault();
                         if (flow != null)
                         {
                             vm.CloseDate = flow.Rtt;

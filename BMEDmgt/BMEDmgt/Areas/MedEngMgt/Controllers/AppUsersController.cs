@@ -76,7 +76,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(qname))
             {
                 ulist = ulist.Where(u => u.FullName != null)
-                    .Where(u => u.FullName.Contains(qname)).ToList();
+                             .Where(u => u.FullName.Contains(qname)).ToList();
             }
             if (!string.IsNullOrEmpty(dpt))
             {
@@ -104,7 +104,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             UserId.Add(new SelectListItem
             {
                 Value = u.Id.ToString(),
-                Text = u.FullName,
+                Text = "(" + u.UserName + ")" + u.FullName,
                 Selected = false
             });
             ViewData["Suserid"] = UserId;
@@ -152,7 +152,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             UserInRolesVModel uv;
             foreach (string r in Roles.GetRolesForUser(u.UserName))
             {
-                uv = rv.Where(v => v.RoleName == r).FirstOrDefault();
+                uv = rv.Where(v => v.RoleName == r).ToList().FirstOrDefault();
                 if (uv != null)
                 {
                     uv.IsSelected = true;
@@ -191,8 +191,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //
                 MembershipUser ur = Membership.CreateUser(appUser.UserName, appUser.Password, appUser.Email);
                 //
-                AppUser newUser = db.AppUsers.Where(a => a.UserName == appUser.UserName)
-                    .FirstOrDefault();
+                AppUser newUser = db.AppUsers.Where(a => a.UserName == appUser.UserName).ToList()
+                                             .FirstOrDefault();
                 newUser.FullName = appUser.FullName;
                 newUser.DptId = appUser.DptId;
                 newUser.Mobile = appUser.Mobile;
@@ -236,7 +236,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 UserInRolesVModel uv;
                 foreach (string r in Roles.GetRolesForUser(u.UserName))
                 {
-                    uv = rv.Where(v => v.RoleName == r).FirstOrDefault();
+                    uv = rv.Where(v => v.RoleName == r).ToList().FirstOrDefault();
                     if (uv != null)
                     {
                         uv.IsSelected = true;
@@ -264,6 +264,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     //Membership.UpdateUser(user);
                     if (Roles.IsUserInRole("Admin"))
                     {
+                        var oriRoles = Roles.GetRolesForUser(appUser.UserName).ToList();  // Origin user roles.
                         if (Roles.GetRolesForUser(appUser.UserName).Count() > 0)
                             Roles.RemoveUserFromRoles(appUser.UserName, Roles.GetRolesForUser(appUser.UserName));
                         //Roles.AddUserToRole(userprofile.UserName, userprofile.InRole);
@@ -271,6 +272,33 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         foreach (UserInRolesVModel u in uv)
                         {
                             Roles.AddUserToRole(appUser.UserName, u.RoleName);
+                        }
+                        var newRoles = Roles.GetRolesForUser(appUser.UserName).ToList();  // Updated user roles.
+                        var removeRoles = oriRoles.Except(newRoles).ToList();
+                        var addRoles = newRoles.Except(oriRoles).ToList();
+                        if (removeRoles.Count() > 0 || addRoles.Count() > 0)
+                        {
+                            checkResult += "設定角色：";
+                        }
+                        if (removeRoles.Count() > 0)
+                        {
+                            checkResult += "刪除";
+                            foreach (var name in removeRoles)
+                            {
+                                var roleDes = db.AppRoles.Where(r => r.RoleName == name).ToList().First().Description;
+                                checkResult += "【" + roleDes + "】";
+                            }
+                            checkResult += ";";
+                        }
+                        if (addRoles.Count() > 0)
+                        {
+                            checkResult += "新增";
+                            foreach (var name in addRoles)
+                            {
+                                var roleDes = db.AppRoles.Where(r => r.RoleName == name).ToList().First().Description;
+                                checkResult += "【" + roleDes + "】";
+                            }
+                            checkResult += ";";
                         }
                     }
                     //Checking the modified columns.
@@ -336,7 +364,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             UserInRolesVModel uv;
             foreach (string r in Roles.GetRolesForUser(u.UserName))
             {
-                uv = rv.Where(v => v.RoleName == r).FirstOrDefault();
+                uv = rv.Where(v => v.RoleName == r).ToList().FirstOrDefault();
                 if (uv != null)
                 {
                     uv.IsSelected = true;
@@ -379,7 +407,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     UserList u = new UserList();
                     u.uid = f.Id;
-                    u.uname = f.FullName;
+                    u.uname = "(" + f.UserName + ")" + f.FullName;
                     us.Add(u);
                 }
                 s = JsonConvert.SerializeObject(us);
@@ -461,7 +489,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
         public JsonResult GetUserById(int id)
         {
-            var user = db.AppUsers.Where(p => p.Id == id).FirstOrDefault();
+            var user = db.AppUsers.Where(p => p.Id == id).ToList().FirstOrDefault();
             if (user != null)
             {
                 return Json(user, JsonRequestBehavior.AllowGet);

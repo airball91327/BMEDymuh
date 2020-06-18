@@ -80,7 +80,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             Roles.GetUsersInRole("Engineer").ToList()
@@ -89,7 +89,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             u = db.AppUsers.Find(WebSecurity.GetUserId(x));
                             if (u != null)
                             {
-                                listItem.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
+                                listItem.Add(new SelectListItem { Text = "(" + u.UserName + ")" + u.FullName, Value = u.Id.ToString() });
                             }
                         });
             listItem = listItem.GroupBy(g => g.Value).Select(g => g.First()).ToList();
@@ -167,7 +167,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Asset at = db.Assets.Find(ano);
             Delivery d = db.Deliveries.Find(id);
             int vid = d.VendorId != null ? Convert.ToInt32(d.VendorId) : 0;
-            Vendor v = db.Vendors.Where(vv => vv.VendorId == vid).FirstOrDefault();
+            Vendor v = db.Vendors.Where(vv => vv.VendorId == vid).ToList().FirstOrDefault();
             List<string> s;
             ListItem li;
             s = Roles.GetUsersInRole("Engineer").ToList();

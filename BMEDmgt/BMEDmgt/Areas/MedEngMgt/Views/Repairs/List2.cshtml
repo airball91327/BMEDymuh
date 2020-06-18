@@ -13,7 +13,13 @@
             @Html.DisplayNameFor(model => model.DocId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccDptName)
+            @Html.DisplayNameFor(model => model.UserFullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplyDptName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AssetName)
@@ -29,6 +35,12 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlowUName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepEngName)
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.Days)
@@ -49,7 +61,13 @@
                 @Html.DisplayFor(modelItem => item.DocId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AccDptName)
+                @Html.DisplayFor(modelItem => item.UserFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyDptName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AssetNo)<br />
@@ -67,6 +85,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlowUName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RepEngName)
+            </td>
             @*<td>
                     @Html.DisplayFor(modelItem => item.Days)
                 </td>*@
@@ -83,11 +107,11 @@
             <td width="100px">
                 @if (item.Flg == "?" && (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager")))
                 {
-                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
                     @Html.Raw("|")
                 }
                 @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |
-                @Html.ActionLink("預覽", "Views", new { id = item.DocId })
+                @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" })
             </td>
 
         </tr>

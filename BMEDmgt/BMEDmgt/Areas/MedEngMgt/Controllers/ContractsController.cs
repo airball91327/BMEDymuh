@@ -268,7 +268,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         cno = c.ContractNo,
                         cname = c.ContractName
-                    });
+                    }).ToList();
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);

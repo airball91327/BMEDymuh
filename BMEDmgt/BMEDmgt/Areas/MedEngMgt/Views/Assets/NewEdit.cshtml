@@ -3,7 +3,7 @@
     Layout = "";
 }
 <script src="~/Scripts/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script src="~/Areas/MedEngMgt/Scripts/DatePickerReady.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
@@ -53,8 +53,8 @@
                 @Html.LabelFor(model => model.AssetClass)
             </div>
             <div class="editor-field">
-                @Html.RadioButton("AssetClass", "醫工")醫療儀器
-                @Html.RadioButton("AssetClass", "工務")工程設施
+                @Html.RadioButton("AssetClass", "醫療儀器")醫療儀器
+                @Html.RadioButton("AssetClass", "工程設施")工程設施
                 @Html.ValidationMessageFor(model => model.AssetClass)
             </div>
             @Html.HiddenFor(model => model.AccDate)

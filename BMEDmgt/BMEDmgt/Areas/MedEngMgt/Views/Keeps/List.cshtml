@@ -83,7 +83,7 @@
             @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
             @Html.Raw("|")
     }
-            @Html.ActionLink("預覽", "Views", new { id = item.DocId }) |
+            @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |
             @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人"
             && item.Src == "M")
         {

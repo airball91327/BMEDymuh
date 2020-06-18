@@ -114,10 +114,10 @@ namespace BMEDmgt.Providers
             string oldpwd = GetMD5Hash(oldPassword);
             AppUser userObj;
             if (Roles.IsUserInRole("Admin"))
-                userObj = context.AppUsers.Where(x => x.UserName == username)
+                userObj = context.AppUsers.Where(x => x.UserName == username).ToList()
                 .FirstOrDefault();
             else
-                userObj = context.AppUsers.Where(x => x.UserName == username && x.Password == oldpwd)
+                userObj = context.AppUsers.Where(x => x.UserName == username && x.Password == oldpwd).ToList()
                     .FirstOrDefault();
 
             if (userObj != null || Roles.IsUserInRole("Admin"))
@@ -208,7 +208,7 @@ namespace BMEDmgt.Providers
 
         public override string GetPassword(string username, string answer)
         {
-            var user = context.AppUsers.Where(x => x.UserName == username).FirstOrDefault();
+            var user = context.AppUsers.Where(x => x.UserName == username).ToList().FirstOrDefault();
 
             if (user != null)
                 return user.Password;
@@ -219,7 +219,7 @@ namespace BMEDmgt.Providers
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
 
-            var user = context.AppUsers.Where(x => x.UserName == username && x.Status == "Y").FirstOrDefault();
+            var user = context.AppUsers.Where(x => x.UserName == username && x.Status == "Y").ToList().FirstOrDefault();
             if (user != null)
             {
                 context.Entry(user).Reload();
@@ -247,7 +247,7 @@ namespace BMEDmgt.Providers
 
         public override string ResetPassword(string username, string answer)
         {
-            var userObj = context.AppUsers.Where(x => x.UserName == username && x.Status == "Y").FirstOrDefault();
+            var userObj = context.AppUsers.Where(x => x.UserName == username && x.Status == "Y").ToList().FirstOrDefault();
             if (userObj != null)
             {
                 string pwd = ProductPassword();
@@ -287,7 +287,7 @@ namespace BMEDmgt.Providers
 
         public override void UpdateUser(MembershipUser user)
         {
-            var userObj = context.AppUsers.Where(x => x.UserName == user.UserName)
+            var userObj = context.AppUsers.Where(x => x.UserName == user.UserName).ToList()
                 .FirstOrDefault();
 
             if (userObj != null)
@@ -309,9 +309,9 @@ namespace BMEDmgt.Providers
             //-----------------------------------------------------------------------------------------
             string sha1Pswd = GetMD5Hash(password);
 
-            var userObj = pcontext.DB_GEN_STAFF_PWs.Where(x => x.STAFFNO == username && x.PASSWORD == password)
+            var userObj = pcontext.DB_GEN_STAFF_PWs.Where(x => x.STAFFNO == username && x.PASSWORD == password).ToList()
                 .FirstOrDefault();
-            var uObj = context.AppUsers.Where(p => p.UserName == username && p.Password == sha1Pswd)
+            var uObj = context.AppUsers.Where(p => p.UserName == username && p.Password == sha1Pswd).ToList()
                 .FirstOrDefault();
             if (userObj != null)
                 return true;

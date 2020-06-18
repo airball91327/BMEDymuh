@@ -213,7 +213,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             dt.Columns.Add("表單編號(請修案號)");
             dt.Columns.Add("時間戳記");
             //dt.Columns.Add("部門代號");
-            //dt.Columns.Add("部門名稱");
+            dt.Columns.Add("申請部門");
             //
             int cols = 0;
             db.QuestionnaireMs.Where(m => m.Flg == "Y")
@@ -233,8 +233,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         //dw[0] = j.ContractNo + j.Contract;
                         dw[1] = j.TimeStamp;
                         //dw[2] = j.DptId;
-                        //dw[3] = j.DptName;
-                        cols = 2;
+                        dw[2] = j.DptName;
+                        cols = 3;
                         foreach (QuestAnswer s in j.Answers)
                         {
                             dw[cols] = s.Answer;
@@ -656,6 +656,242 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             TempData["qry2"] = v;
             return PartialView("AssetKpSche", AssetKpSche(v));
         }
+        public void ExcelRpKpHistory(ReportQryVModel v)
+        {
+            //
+            ExcelPackage excel = new ExcelPackage();
+            var sheet1 = excel.Workbook.Worksheets.Add("儀器基本資料");
+            //Sheet1
+            Asset asset = db.Assets.Find(v.AssetNo);
+            if (asset != null)
+            {
+                asset.DelivDptName = db.Departments.Find(asset.DelivDpt).Name_C;
+                asset.AccDptName = db.Departments.Find(asset.AccDpt).Name_C;
+            }
+            sheet1.Cells[1, 1].Value = "儀器基本資料";
+            sheet1.Cells[2, 1].Value = "財產編號";
+            sheet1.Cells[2, 2].Value = asset.AssetNo;
+            sheet1.Cells[3, 1].Value = "成本中心";
+            sheet1.Cells[3, 2].Value = asset.AccDptName;
+            sheet1.Cells[4, 1].Value = "廠牌";
+            sheet1.Cells[4, 2].Value = asset.Brand;
+            sheet1.Cells[5, 1].Value = "型號";
+            sheet1.Cells[5, 2].Value = asset.Type;
+            sheet1.Cells[6, 1].Value = "中文名稱";
+            sheet1.Cells[6, 2].Value = asset.Cname;
+            sheet1.Cells[7, 1].Value = "取得金額";
+            sheet1.Cells[7, 2].Value = asset.Cost;
+            sheet1.Cells[8, 1].Value = "取得日期";
+            sheet1.Cells[8, 2].Value = asset.BuyDate == null ? "" : asset.BuyDate.Value.ToString("yyyy/MM/dd"); ;
+            sheet1.Cells[9, 1].Value = "耐用年限";
+            sheet1.Cells[9, 2].Value = asset.UseLife == null ? "" : asset.UseLife.Value.ToString();
+            //sheet2
+            var sheet2 = excel.Workbook.Worksheets.Add("維修保養履歷");
+            List<RpKpHistoryVModel> sv = new List<RpKpHistoryVModel>();
+            List<RpKpHistoryVModel> sv2 = new List<RpKpHistoryVModel>();
+            var ss = new[] { "?", "2" };
+            sv = db.Assets.Where(a => a.AssetNo == v.AssetNo)
+                .Join(db.Repairs, a => a.AssetNo, r => r.AssetNo,
+                (a, r) => new
+                {
+                    DocType = "請修",
+                    DocId = r.DocId,
+                    AssetNo = a.AssetNo,
+                    AssetName = a.Cname,
+                    ApplyDate = r.ApplyDate,
+                    TroubleDes = r.TroubleDes
+                }).Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
+                    (r, f) => r).Join(db.RepairDtls, r => r.DocId, d => d.DocId,
+                (r, d) => new
+                {
+                    DocType = "請修",
+                    DocId = r.DocId,
+                    AssetNo = r.AssetNo,
+                    AssetName = r.AssetName,
+                    ApplyDate = r.ApplyDate,
+                    TroubleDes = r.TroubleDes,
+                    DealDes = d.DealDes,
+                    EndDate = d.EndDate,
+                    Hours = d.Hour,
+                    Cost = d.Cost
+                }).Join(db.RepairEmps.Join(db.AppUsers, r => r.UserId, a => a.Id,
+                (r, a) => new
+                {
+                    DocId = r.DocId,
+                    UserName = a.FullName
+                }), d => d.DocId, e => e.DocId,
+                (d, e) => new RpKpHistoryVModel
+                {
+                    DocType = "請修",
+                    DocId = d.DocId,
+                    AssetNo = d.AssetNo,
+                    AssetName = d.AssetName,
+                    ApplyDate = d.ApplyDate.Value,
+                    TroubleDes = d.TroubleDes,
+                    DealDes = d.DealDes,
+                    EndDate = d.EndDate,
+                    Hours = d.Hours,
+                    Cost = d.Cost,
+                    EngName = e.UserName
+                }).ToList();
+            //
+            sv2 = db.Assets.Where(a => a.AssetNo == v.AssetNo)
+                .Join(db.Keeps, a => a.AssetNo, r => r.AssetNo,
+                (a, r) => new
+                {
+                    DocType = "保養",
+                    DocId = r.DocId,
+                    AssetNo = a.AssetNo,
+                    AssetName = a.Cname,
+                    ApplyDate = r.SentDate,
+                    TroubleDes = ""
+                }).Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
+                    (r, f) => r).Join(db.KeepDtls, r => r.DocId, d => d.DocId,
+                (r, d) => new
+                {
+                    DocType = r.DocType,
+                    DocId = r.DocId,
+                    AssetNo = r.AssetNo,
+                    AssetName = r.AssetName,
+                    ApplyDate = r.ApplyDate,
+                    TroubleDes = r.TroubleDes,
+                    DealDes = d.Result,
+                    EndDate = d.EndDate,
+                    Hours = d.Hours,
+                    Cost = d.Cost
+                }).Join(db.KeepEmps.Join(db.AppUsers, r => r.UserId, a => a.Id,
+                (r, a) => new
+                {
+                    DocId = r.DocId,
+                    UserName = a.FullName
+                }), d => d.DocId, e => e.DocId,
+                (d, e) => new RpKpHistoryVModel
+                {
+                    DocType = d.DocType,
+                    DocId = d.DocId,
+                    AssetNo = d.AssetNo,
+                    AssetName = d.AssetName,
+                    ApplyDate = d.ApplyDate.Value,
+                    TroubleDes = d.TroubleDes,
+                    DealDes = d.DealDes,
+                    EndDate = d.EndDate,
+                    Hours = d.Hours,
+                    Cost = d.Cost,
+                    EngName = e.UserName
+                }).ToList();
+            sv.AddRange(sv2);
+            if (v.Sdate != null)
+                sv = sv.Where(s => s.ApplyDate >= v.Sdate).ToList();
+            if (v.Edate != null)
+                sv = sv.Where(s => s.ApplyDate <= v.Edate).ToList();
+            //Title
+            sheet2.Cells[1, 1].Value = "表單類別";
+            sheet2.Cells[1, 2].Value = "表單編號";
+            sheet2.Cells[1, 3].Value = "送單日期";
+            sheet2.Cells[1, 4].Value = "完工日期";
+            sheet2.Cells[1, 5].Value = "工程師";
+            sheet2.Cells[1, 6].Value = "工時";
+            sheet2.Cells[1, 7].Value = "費用";
+            sheet2.Cells[1, 8].Value = "故障原因";
+            sheet2.Cells[1, 9].Value = "處理情形";
+            //Data
+            int startPos = 2;
+            foreach(var item in sv)
+            {
+                sheet2.Cells[startPos, 1].Value = item.DocType;
+                sheet2.Cells[startPos, 2].Value = item.DocId;
+                sheet2.Cells[startPos, 3].Value = item.ApplyDate;
+                sheet2.Cells[startPos, 4].Value = item.EndDate;
+                sheet2.Cells[startPos, 5].Value = item.EngName;
+                sheet2.Cells[startPos, 6].Value = item.Hours;
+                sheet2.Cells[startPos, 7].Value = item.Cost;
+                sheet2.Cells[startPos, 8].Value = item.TroubleDes;
+                sheet2.Cells[startPos, 9].Value = item.DealDes;
+                startPos++;
+            }
+            //sheet3
+            if (v.Edate == null)
+            {
+                if (v.Sdate == null)
+                {
+                    v.Sdate = DateTime.Now.AddYears(-1);
+                }
+                v.Edate = DateTime.Now.AddHours(23)
+                .AddMinutes(59)
+                .AddSeconds(59);
+            }
+
+            List<RpKpHistoryVModel> rk = RpKpHistory(v);
+            AssetAnalysis ay = new AssetAnalysis();
+            ay.RepairHour = rk.Where(r => r.DocType == "請修").Select(r => r.Hours).Sum().Value;
+            ay.RepCost = rk.Where(r => r.DocType == "請修").Select(r => r.Cost).Sum().Value;
+            ay.KeepHour = rk.Where(r => r.DocType == "保養").Select(r => r.Hours).Sum().Value;
+            ay.KeepCost = rk.Where(r => r.DocType == "保養").Select(r => r.Cost).Sum().Value;
+            Asset at = db.Assets.Find(v.AssetNo);
+            if (at != null)
+            {
+                if (at.Cost != null)
+                {
+                    if (at.Cost > 0)
+                        ay.RepRatio = decimal.Round(ay.RepCost / at.Cost.Value * 100m, 2);
+                    else
+                        ay.RepRatio = 0;
+                }
+            }
+            double faildays = 0;
+            double day = 0;
+            rk.Where(r => r.DocType == "請修").ToList()
+                .ForEach(r =>
+                {
+                    if (r.EndDate == null)
+                    {
+                        faildays += v.Edate.Value.Subtract(r.ApplyDate).TotalDays;
+                    }
+                    else if (r.EndDate.Value.CompareTo(v.Edate.Value) > 0)
+                    {
+                        faildays += v.Edate.Value.Subtract(r.ApplyDate).TotalDays;
+                    }
+                    else
+                    {
+                        day = r.EndDate.Value.Subtract(r.ApplyDate).TotalDays;
+                        if (day > 0)
+                        {
+                            if (day <= 1d)
+                                faildays += 1d;
+                            else
+                                faildays += day;
+                        }
+                    }
+                });
+            ay.ProperRate = decimal.Round(100m -
+                Convert.ToDecimal(faildays / v.Edate.Value.Subtract(v.Sdate.Value).TotalDays) * 100m, 2);
+            //
+            var sheet3 = excel.Workbook.Worksheets.Add("總計");
+            sheet3.Cells[1, 1].Value = "總計";
+            sheet3.Cells[2, 1].Value = "維修時數";
+            sheet3.Cells[2, 2].Value = ay.RepairHour;
+            sheet3.Cells[3, 1].Value = "保養時數";
+            sheet3.Cells[3, 2].Value = ay.KeepHour;
+            sheet3.Cells[4, 1].Value = "維修金額";
+            sheet3.Cells[4, 2].Value = ay.RepCost;
+            sheet3.Cells[5, 1].Value = "保養金額";
+            sheet3.Cells[5, 2].Value = ay.KeepCost;
+            sheet3.Cells[6, 1].Value = "妥善率";
+            sheet3.Cells[6, 2].Value = ay.ProperRate;
+            sheet3.Cells[7, 1].Value = "維修比";
+            sheet3.Cells[7, 2].Value = ay.RepRatio;
+            sheet3.Cells[8, 1].Value = "備註：維修比 = 維修總金額/取得金額。";
+        
+            using (var memoryStream = new MemoryStream())
+            {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=RpKpHistory.xlsx");
+                excel.SaveAs(memoryStream);
+                memoryStream.WriteTo(Response.OutputStream);
+                Response.Flush();
+                Response.End();
+            }
+        }
         private List<RpKpHistoryVModel> RpKpHistory(ReportQryVModel v)
         {
             List<RpKpHistoryVModel> sv = new List<RpKpHistoryVModel>();
@@ -861,7 +1097,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             foreach (UnSignListVModel s in sv)
             {
-                RepairEmp kp = db.RepairEmps.Where(p => p.DocId == s.DocId)
+                RepairEmp kp = db.RepairEmps.Where(p => p.DocId == s.DocId).ToList()
                    .FirstOrDefault();
                 if (kp != null)
                 {
@@ -933,7 +1169,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 s.TroubleDes = db.Keeps.Find(s.DocId).Cycle.ToString();
                 s.FailFactor = "";
-                KeepEmp kp = db.KeepEmps.Where(p => p.DocId == s.DocId)
+                KeepEmp kp = db.KeepEmps.Where(p => p.DocId == s.DocId).ToList()
                     .FirstOrDefault();
                 if (kp != null)
                 {
@@ -1163,7 +1399,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             else
             {
-                var ur = db.AppUsers.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                var ur = db.AppUsers.Where(u => u.UserName == User.Identity.Name).ToList().FirstOrDefault();
                 v.AccDpt = ur.DptId;
             }
             //計算時間區間
@@ -1931,12 +2167,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 m.EndDate = rd.EndDate.Value;
                 m.Cost = rd.Cost;
                 m.FailFactor = rd.FailFactor;
-                r = db.Repairs.Where(i => i.DocId == rd.DocId).FirstOrDefault();
+                r = db.Repairs.Where(i => i.DocId == rd.DocId).ToList().FirstOrDefault();
                 if (r != null)
                 {
                     m.TroubleDes = r.TroubleDes;
                     m.CustId = r.AccDpt;
-                    o = db.Departments.Where(c => c.DptId == r.AccDpt).FirstOrDefault();
+                    o = db.Departments.Where(c => c.DptId == r.AccDpt).ToList().FirstOrDefault();
                     if (o != null)
                         m.CustNam = o.Name_C;
                     m.ApplyDate = r.ApplyDate.Value;
@@ -1949,7 +2185,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         m.Type = a.Type;
                     }
                 }
-                p = db.RepairEmps.Where(e => e.DocId == rd.DocId).FirstOrDefault();
+                p = db.RepairEmps.Where(e => e.DocId == rd.DocId).ToList().FirstOrDefault();
                 if (p != null)
                 {
                     AppUser u = db.AppUsers.Find(p.UserId);
@@ -2627,6 +2863,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(v.AccDpt))
             {
                 sv = sv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            }
+            if (!string.IsNullOrEmpty(v.StockName))
+            {
+                sv = sv.Where(vv => !string.IsNullOrEmpty(vv.StokNam)).ToList();
+                sv = sv.Where(vv => vv.StokNam.Contains(v.StockName)).ToList();
             }
             //
             return sv;

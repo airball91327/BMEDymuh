@@ -58,9 +58,9 @@ $(function () {
     else if (c === "設備工程師") {
         $('#pnlASSET').html('');
         $('#pnlASSETVIEW').html('');
-        $('#pnlVENDOR').html('');
+        //$('#pnlVENDOR').html('');
         $('#pnlMEDMGR').html('');
-        $('#pnlTODO').html('');
+        //$('#pnlTODO').html('');
     }
     else if (c === "設備經辦") {
         $('#pnlASSETVIEW').html('');
@@ -88,6 +88,7 @@ $(function () {
             select.html(appenddata);
         }
         else {
+            $('#imgLOADING_flow').show();
             $('#SelectVendor').val('');
             $('#SelectVendor').prop("disabled", true);
             $.ajax({
@@ -100,6 +101,7 @@ $(function () {
                     var select = $('#SelectEng');
                     $('option', select).remove();
                     select.addItems(data);
+                    $('#imgLOADING_flow').hide();
                 }
             });
         }
@@ -130,7 +132,7 @@ $(function () {
                     return false;
                 }
             });
-
+            return false;
         }
         else {
             var c = $('span[id="cls_now"]').text();
@@ -144,7 +146,7 @@ $(function () {
                     return false;
                 }
             }
-            else if (c === "設備主管" || c === "設備經辦") {
+            if (c === "設備主管" || c === "設備經辦" || c === "設備工程師") {
                 s = $('#WartyDataForm').serialize();
                 $.ajax({
                     url: '../../Delivery/EditData',

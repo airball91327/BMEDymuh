@@ -37,6 +37,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     });
                 });
             ViewData["FTYPE"] = new SelectList(Item, "Value", "Text", "");
+            //
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "設備使用手冊", Value = "設備使用手冊" });
+            listItem2.Add(new SelectListItem { Text = "維護手冊", Value = "維護手冊" });
+            listItem2.Add(new SelectListItem { Text = "操作簡介", Value = "操作簡介" });
+            listItem2.Add(new SelectListItem { Text = "清潔消毒步驟", Value = "清潔消毒步驟" });
+            ViewData["CLASS"] = new SelectList(listItem2, "Value", "Text", "");
 
             return View();
         }
@@ -48,25 +55,61 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string type = fm["qtyTYPE"];
             string ftype = fm["qtyFTYPE"];
             string keyname = fm["qtyKEYNAME"];
+            string manualClass = fm["qtyCLASS"];
             List<Manual> mlist;
             mlist = db.Manuals.ToList();
+            var assetFile = db.AssetFiles.Where(af => af.Title == "設備使用手冊" 
+                                                   || af.Title == "維護手冊"
+                                                   || af.Title == "操作簡介" 
+                                                   || af.Title == "清潔消毒步驟").ToList();
+            var assets = db.Assets.Where(a => !string.IsNullOrEmpty(a.Brand))
+                                  .Where(a => !string.IsNullOrEmpty(a.Type)).ToList();
+            var alist = assetFile.Join(assets, af => af.AssetNo, a => a.AssetNo, (af, a) =>
+                                    new
+                                    {
+                                        assetfile = af,
+                                        asset = a
+                                    }).ToList();
             if (!string.IsNullOrEmpty(brand))
             {
                 mlist = mlist.Where(m => m.AssetBrand == brand).ToList();
+                alist = alist.Where(a => a.asset.Brand == brand).ToList();
             }
             if (!string.IsNullOrEmpty(type))
             {
                 mlist = mlist.Where(m => m.AssetType == type).ToList();
+                alist = alist.Where(a => a.asset.Type == type).ToList();
             }
             if (!string.IsNullOrEmpty(ftype))
             {
                 mlist = mlist.Where(m => m.FileType == ftype).ToList();
+                alist = alist.Where(a => a.assetfile.FileLink.Contains(ftype.ToLower())).ToList();
             }
             if (!string.IsNullOrEmpty(keyname))
             {
                 mlist = mlist.Where(m => m.ManualName.Contains(keyname)).ToList();
+                alist = alist.Where(a => a.assetfile.Title.Contains(keyname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(manualClass))
+            {
+                mlist = mlist.Where(m => m.ManualClass == manualClass).ToList();
+                alist = alist.Where(a => a.assetfile.Title == manualClass).ToList();
+            }
+            //增加驗收案設備手冊至mlist
+            foreach (var item in alist)
+            {
+                mlist.Add(new Manual
+                {
+                    ManualName = item.assetfile.Title,
+                    AssetType = item.asset.Type,
+                    AssetBrand = item.asset.Brand,
+                    ManualClass = item.assetfile.Title,
+                    FilePath = item.assetfile.FileLink,
+                    SearchFrom = "asset"
+                });
             }
 
+            //
             if (mlist.ToPagedList(page, pageSize).Count <= 0)
                 return PartialView("List", mlist.ToPagedList(1, pageSize));
 
@@ -114,6 +157,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 Value = "新增"
             });
             ViewData["FileType"] = new SelectList(Item, "Value", "Text", "");
+            //
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "設備使用手冊", Value = "設備使用手冊" });
+            listItem2.Add(new SelectListItem { Text = "維護手冊", Value = "維護手冊" });
+            listItem2.Add(new SelectListItem { Text = "操作簡介", Value = "操作簡介" });
+            listItem2.Add(new SelectListItem { Text = "清潔消毒步驟", Value = "清潔消毒步驟" });
+            ViewData["ManualClass"] = new SelectList(listItem2, "Value", "Text", "");
             //
             return View();
         }
@@ -241,6 +291,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 return HttpNotFound();
             }
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            listItem2.Add(new SelectListItem { Text = "設備使用手冊", Value = "設備使用手冊" });
+            listItem2.Add(new SelectListItem { Text = "維護手冊", Value = "維護手冊" });
+            listItem2.Add(new SelectListItem { Text = "操作簡介", Value = "操作簡介" });
+            listItem2.Add(new SelectListItem { Text = "清潔消毒步驟", Value = "清潔消毒步驟" });
+            ViewData["ManualClass"] = new SelectList(listItem2, "Value", "Text", manual.ManualClass);
+            //
             return View(manual);
         }
 

@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.MonthFailRateVModel>
+<script src="~/Areas/MedEngMgt/Scripts/HtmltoExcel.js"></script>
 
-@*<p>
-    @Html.ActionLink("匯出Excel", "MonthFailRateExcel")
-</p>*@
-<table class="table">
+<input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
+       onclick="javascript:exportExcel('tbFailRate')" />
+<table class="table" id="tbFailRate">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.AssetNo)

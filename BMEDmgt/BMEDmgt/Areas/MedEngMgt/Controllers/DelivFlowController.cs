@@ -57,9 +57,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
-            listItem.Add(new SelectListItem { Text = "得標廠商", Value = "得標廠商" });
+            //listItem.Add(new SelectListItem { Text = "得標廠商", Value = "得標廠商" });
             //listItem.Add(new SelectListItem { Text = "使用單位", Value = "使用單位" });
-            listItem.Add(new SelectListItem { Text = "設備經辦", Value = "設備經辦" });
+            //listItem.Add(new SelectListItem { Text = "設備經辦", Value = "設備經辦" });
             //listItem.Add(new SelectListItem { Text = "採購主管", Value = "採購主管" });
             if (rf.Cls == "設備主管")
                 listItem.Add(new SelectListItem { Text = "結案", Value = "結案" });
@@ -307,19 +307,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         //    li.Value = WebSecurity.GetUserId(l).ToString();
                         //    list.Add(li);
                         //}
-                        li = new ListItem();
-                        li.Text = u.FullName;
-                        li.Value = WebSecurity.GetUserId(l).ToString();
-                        if (li.Value == Convert.ToString(r.EngId))
-                            list.Insert(0, li);
-                        else
-                            list.Add(li);
+                        if (u != null)
+                        {
+                            li = new ListItem();
+                            li.Text = "(" + u.UserName + ")" + u.FullName;
+                            li.Value = WebSecurity.GetUserId(l).ToString();
+                            if (li.Value == Convert.ToString(r.EngId))
+                                list.Insert(0, li);
+                            else
+                                list.Add(li);
+                        }
                     }
                     u = db.AppUsers.Find(r.EngId);
                     if (u != null)
                     {
                         li = new ListItem();
-                        li.Text = u.FullName;
+                        li.Text = "(" + u.UserName + ")" + u.FullName;
                         li.Value = u.Id.ToString();
                         list.Add(li);
                     }
@@ -334,7 +337,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             if (u.Status == "Y")
                             {
                                 li = new ListItem();
-                                li.Text = u.FullName;
+                                li.Text = "(" + u.UserName + ")" + u.FullName;
                                 li.Value = WebSecurity.GetUserId(l).ToString();
                                 list.Add(li);
                             }
@@ -368,7 +371,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         //    }
                         //}
                         li = new ListItem();
-                        li.Text = u.FullName;
+                        li.Text = "(" + u.UserName + ")" + u.FullName;
                         li.Value = WebSecurity.GetUserId(l).ToString();
                         list.Add(li);
                     }
@@ -376,10 +379,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "申請者":
                     if (r != null)
                     {
-                        li = new ListItem();
-                        li.Text = r.UserName;
-                        li.Value = r.UserId.ToString();
-                        list.Add(li);
+                        u = db.AppUsers.Find(r.UserId);
+                        if (u != null)
+                        {
+                            li = new ListItem();
+                            li.Text = "(" + u.UserName + ")" + r.UserName;
+                            li.Value = r.UserId.ToString();
+                            list.Add(li);
+                        }
                     }
                     break;
                 case "採購人員":
@@ -416,7 +423,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     break;
                 case "使用單位":
-                    DelivFlow df = db.DelivFlows.Where(d => d.Docid == r.Docid).Where(d => d.Cls == "使用單位").FirstOrDefault();
+                    DelivFlow df = db.DelivFlows.Where(d => d.Docid == r.Docid).Where(d => d.Cls == "使用單位")
+                                                .ToList().FirstOrDefault();
                     if (df != null)
                     {
                         u = db.AppUsers.Find(df.Userid);
@@ -456,7 +464,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         //    }
                         //}
                         li = new ListItem();
-                        li.Text = u.FullName;
+                        li.Text = "(" + u.UserName + ")" + u.FullName;
                         li.Value = WebSecurity.GetUserId(l).ToString();
                         list.Add(li);
                     }

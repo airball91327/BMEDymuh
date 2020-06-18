@@ -149,7 +149,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
             if (oldContract.ContractMgr != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == oldContract.ContractMgr).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == oldContract.ContractMgr).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -187,6 +187,30 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                 db.AssetMaintainContracts.Add(assetMaintainContract);
                 db.SaveChanges();
+                //回寫總金額至各設備保養金額
+                var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == assetMaintainContract.PurchaseNo).ToList();
+                if (assets.Count() > 0)
+                {
+                    foreach(var item in assets)
+                    {
+                        var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).ToList().FirstOrDefault();
+                        if (assetKeep != null)
+                        {
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            db.Entry(assetKeep).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            assetKeep = new AssetKeep();
+                            assetKeep.AssetNo = item.AssetNo;
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            db.AssetKeeps.Add(assetKeep);
+                        }
+                    }
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -210,12 +234,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 listItem.Add(new SelectListItem { Text = assetMaintainContract.AssetName + "(" + assetMaintainContract.AssetNo + ")",
                                                   Value = assetMaintainContract.AssetNo });
-                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text", assetMaintainContract.AssetNo);
+                ViewData["AssetNo"] = new SelectList(listItem, "Value", "Text", assetMaintainContract.AssetNo);
             }
             else
             {
                 listItem.Add(new SelectListItem { Text = "", Value = "" });
-                ViewData["DefaultAsset"] = new SelectList(listItem, "Value", "Text");
+                ViewData["AssetNo"] = new SelectList(listItem, "Value", "Text");
             }
 
             List<SelectListItem> listItem2 = new List<SelectListItem>();
@@ -228,7 +252,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
             if (assetMaintainContract.ContractMgr != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.ContractMgr).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.ContractMgr).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -236,7 +260,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (assetMaintainContract.SecondMgr != null)
             {
-                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.SecondMgr).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == assetMaintainContract.SecondMgr).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     listItem3.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });
@@ -263,13 +287,37 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var asset = db.Assets.Find(assetMaintainContract.AssetNo);
-                //assetMaintainContract.AssetName = asset.Cname;
+                var asset = db.Assets.Find(assetMaintainContract.AssetNo);
+                assetMaintainContract.AssetName = asset.Cname;
                 assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
                 assetMaintainContract.Rtt = DateTime.Now;
 
                 db.Entry(assetMaintainContract).State = EntityState.Modified;
                 db.SaveChanges();
+                //回寫總金額至各設備保養金額
+                var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == assetMaintainContract.PurchaseNo).ToList();
+                if (assets.Count() > 0)
+                {
+                    foreach (var item in assets)
+                    {
+                        var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).ToList().FirstOrDefault();
+                        if (assetKeep != null)
+                        {
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            db.Entry(assetKeep).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            assetKeep = new AssetKeep();
+                            assetKeep.AssetNo = item.AssetNo;
+                            assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
+                            assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            db.AssetKeeps.Add(assetKeep);
+                        }
+                    }
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(assetMaintainContract);
@@ -342,12 +390,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (!string.IsNullOrEmpty(purchaseNo) && !string.IsNullOrEmpty(assetNo))
             {
                 var dataExist = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo && a.AssetNo == assetNo)
-                                                     .FirstOrDefault();
+                                                     .ToList().FirstOrDefault();
                 if (dataExist != null)
                 {
                     throw new Exception("設備或案號重複");
                 }
-                var asset = db.Assets.Where(a => a.AssetNo == assetNo).FirstOrDefault();
+                var asset = db.Assets.Where(a => a.AssetNo == assetNo).ToList().FirstOrDefault();
                 AssetsInMContracts ac = new AssetsInMContracts();
                 ac.PurchaseNo = purchaseNo;
                 ac.AssetNo = asset.AssetNo;
@@ -376,8 +424,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo).ToList();
             foreach(var item in assets)
             {
-                var accDpt = db.Assets.Where(a => a.AssetNo == item.AssetNo).FirstOrDefault().AccDpt;
-                var dpt = db.Departments.Where(d => d.DptId == accDpt).FirstOrDefault();
+                var accDpt = db.Assets.Where(a => a.AssetNo == item.AssetNo).ToList().FirstOrDefault().AccDpt;
+                var dpt = db.Departments.Where(d => d.DptId == accDpt).ToList().FirstOrDefault();
                 if (dpt != null)
                 {
                     item.AccDptName = dpt.Name_C;
@@ -392,8 +440,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             var assets = db.AssetsInMContracts.Where(a => a.PurchaseNo == purchaseNo).ToList();
             foreach (var item in assets)
             {
-                var accDpt = db.Assets.Where(a => a.AssetNo == item.AssetNo).FirstOrDefault().AccDpt;
-                var dpt = db.Departments.Where(d => d.DptId == accDpt).FirstOrDefault();
+                var accDpt = db.Assets.Where(a => a.AssetNo == item.AssetNo).ToList().FirstOrDefault().AccDpt;
+                var dpt = db.Departments.Where(d => d.DptId == accDpt).ToList().FirstOrDefault();
                 if (dpt != null)
                 {
                     item.AccDptName = dpt.Name_C;
@@ -481,7 +529,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<AssetMaintainContract> ContractList = new List<AssetMaintainContract>();
             foreach (string purchaseNo in PNOList)
             {
-                var targetContract = db.AssetMaintainContracts.Where(s => s.PurchaseNo == purchaseNo).FirstOrDefault();
+                var targetContract = db.AssetMaintainContracts.Where(s => s.PurchaseNo == purchaseNo).ToList().FirstOrDefault();
                 if (targetContract != null)
                 {
                     ContractList.Add(targetContract);

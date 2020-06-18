@@ -397,7 +397,61 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 asset.EngEmail = ur.Email;
                 asset.EngTel = ur.Mobile;
             }
-            asset.VendorName = asset.VendorId == null ? "" : db.Vendors.Find(asset.VendorId).VendorName;
+            if (asset.VendorId != null)
+            {
+                var vd = db.Vendors.Find(asset.VendorId);
+                asset.VendorName = vd == null ? "" : vd.VendorName;
+            }
+            else
+            {
+                asset.VendorName = "";
+            }
+
+            return View(asset);
+        }
+
+        // GET: MedEngMgt/Assets/DetailsForModal/5
+        public ActionResult DetailsForModal(string ano)
+        {
+            if (ano == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ano = ano.Trim();
+            Asset asset = db.Assets.Find(ano);
+            if (asset == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.RequestTimeout);
+            }
+            if (asset.DelivUid != null)
+            {
+                asset.DelivEmp = "(" + db.AppUsers.Find(asset.DelivUid.Value).UserName + ") "
+                    + asset.DelivEmp;
+            }
+            if (!string.IsNullOrEmpty(asset.DelivDpt))
+            {
+                asset.DelivDptName = db.Departments.Find(asset.DelivDpt).Name_C;
+            }
+            if (!string.IsNullOrEmpty(asset.AccDpt))
+            {
+                asset.AccDptName = db.Departments.Find(asset.AccDpt).Name_C;
+            }
+            if (asset.EngId != 0)
+            {
+                var ur = db.AppUsers.Find(asset.EngId);
+                asset.EngName = "(" + ur.UserName + ") " + ur.FullName;
+                asset.EngEmail = ur.Email;
+                asset.EngTel = ur.Mobile;
+            }
+            if (asset.VendorId != null)
+            {
+                var vd = db.Vendors.Find(asset.VendorId);
+                asset.VendorName = vd == null ? "" : vd.VendorName;
+            }
+            else
+            {
+                asset.VendorName = "";
+            }
 
             return View(asset);
         }
@@ -494,6 +548,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         db.AssetKeeps.Add(ak);
                     }
                     db.SaveChanges();
+                    // Save log. 
+                    SystemLog log = new SystemLog();
+                    log.LogClass = "醫療儀器紀錄";
+                    log.LogTime = DateTime.UtcNow.AddHours(8);
+                    log.UserId = WebSecurity.CurrentUserId;
+                    log.Action = "資產維護 > 新增設備 > " + asset.AssetNo + "(" + asset.Cname + ")";
+                    db.SystemLogs.Add(log);
+                    db.SaveChanges();
                 }
                 catch (Exception e)
                 {
@@ -581,7 +643,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             if (asset.VendorId != null)
             {
-                Vendor vr = db.Vendors.Where(v => v.VendorId == asset.VendorId).FirstOrDefault();
+                Vendor vr = db.Vendors.Where(v => v.VendorId == asset.VendorId).ToList().FirstOrDefault();
                 if(vr != null)
                     asset.VendorName = vr.VendorName;
             }
@@ -769,7 +831,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if(ak != null)
                 db.AssetKeeps.Remove(ak);
             db.SaveChanges();
-
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "資產維護 > 設備刪除 > " + asset.AssetNo + "(" + asset.Cname + ")";
+            db.SystemLogs.Add(log);
+            db.SaveChanges();
             //return RedirectToAction("Index");
             return new JsonResult
             {
@@ -856,10 +925,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         AssetNo = a.AssetNo,
                         Cname = a.Cname + "(" + a.AssetNo + ")",
                         AccDpt = a.AccDpt
-                    });
+                    }).ToList();
                 if (!string.IsNullOrEmpty(accDpt))
                 {
-                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000" || r.AssetNo == "001");
+                    result = result.Where(r => r.AccDpt == accDpt || r.AssetNo == "000" || r.AssetNo == "001").ToList();
                 }
 
                 string s = JsonConvert.SerializeObject(result);
@@ -877,7 +946,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 var result = db.Assets
                     .Where(a => a.DisposeKind != "報廢")
-                    .Where(a => a.AssetNo == id).FirstOrDefault();
+                    .Where(a => a.AssetNo == id).ToList().FirstOrDefault();
 
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -899,7 +968,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         AssetNo = a.AssetNo,
                         Cname = a.Cname + "(" + a.AssetNo + ")"
-                    });
+                    }).ToList();
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);
@@ -924,7 +993,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         dptid = d.DptId,
                         dptname = d.Name_C
-                    });
+                    }).ToList();
 
                 string s = JsonConvert.SerializeObject(result);
                 return Json(s, JsonRequestBehavior.AllowGet);
@@ -1008,7 +1077,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     asset.AccDpt = dy.AccDpt;
                     int vendorId = Convert.ToInt32(dy.VendorId);
-                    Vendor vr = db.Vendors.Where(v => v.VendorId == vendorId).FirstOrDefault();
+                    Vendor vr = db.Vendors.Where(v => v.VendorId == vendorId).ToList().FirstOrDefault();
                     asset.VendorId = vr == null ? 0 : vr.VendorId;
                 }
                 asset.Docid = docid;

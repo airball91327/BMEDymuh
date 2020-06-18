@@ -266,7 +266,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //main.CustId = c.DptId;
             //main.CustNam = c.Name_C;
             main.Rtt = DateTime.Now;
-            var questMain = db.QuestMains.Where(qm => qm.Docid == docId).FirstOrDefault();
+            var questMain = db.QuestMains.Where(qm => qm.Docid == docId).ToList().FirstOrDefault();
             if (questMain == null)
             {
                 db.QuestMains.Add(main);
@@ -342,10 +342,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (ModelState.IsValid)
             {
-                var ur = db.AppUsers.Where(u => u.Id == WebSecurity.CurrentUserId).FirstOrDefault();
+                var ur = db.AppUsers.Where(u => u.Id == WebSecurity.CurrentUserId).ToList().FirstOrDefault();
                 QuestMain main = db.QuestMains.Find(model.Docid);
                 main.CustId = ur == null ? "" : ur.DptId;
-                var dpt = db.Departments.Where(d => d.DptId == ur.DptId).FirstOrDefault();
+                var dpt = db.Departments.Where(d => d.DptId == ur.DptId).ToList().FirstOrDefault();
                 main.CustNam = dpt == null ? "" : dpt.Name_C;
                 //main.ContractNo = model.ContractNo;
                 db.Entry(main).State = EntityState.Modified;

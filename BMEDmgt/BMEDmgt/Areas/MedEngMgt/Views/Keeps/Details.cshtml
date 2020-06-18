@@ -96,6 +96,10 @@
 
         <dd>
             @Html.DisplayFor(model => model.AssetNo)
+            @if (Model.AssetNo != "000" && Model.AssetNo != "001")  //無財編設備
+            {
+                <button class="btn btn-default" data-toggle="modal" data-target="#assetDtlModal">詳細內容</button>
+            }
         </dd>
 
         <dt>
@@ -124,6 +128,31 @@
 
     </dl>
 </div>
+
+<!-- Modal -->
+<div id="assetDtlModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">資產設備詳細內容</h4>
+            </div>
+            <div class="modal-body">
+                @if (Model.AssetNo != "000" && Model.AssetNo != "001")  //無財編設備
+                {
+                    @Html.Action("DetailsForModal", "Assets", new { ano = Model.AssetNo })
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 <script>
     $(function () {

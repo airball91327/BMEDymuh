@@ -55,30 +55,30 @@
     function getExcel(tableId) {
         //整个表格拷贝到EXCEL中
         if (getExplorer() === 'ie') {
-            //创建AX对象excel
+            //建立AX物件excel
             var currentTB = document.getElementById(tableId);
             var oXL = new ActiveXObject('Excel.Application');
-            //获取workbook对象
+            //獲取workbook物件
             var oWB = oXL.Workbooks.Add();
-            //激活当前sheet
+            //啟用當前sheet
             var xlsheet = oWB.Worksheets(1);
-            //把表格中的内容移到TextRange中
+            //把表格中的內容移到TextRange中
             var sel = document.body.createTextRange();
             sel.moveToElementText(currentTB);
-            //全选TextRange中内容
+            //全選TextRange中內容
             sel.select;
-            //复制TextRange中内容
+            //複製TextRange中內容
             sel.execCommand('Copy');
-            //粘贴到活动的EXCEL中
+            //貼上到活動的EXCEL中
             xlsheet.Paste();
-            //设置excel可见属性
+            //設定excel可見屬性
             oXL.Visible = true;
 
             try {
-                var fname = oXL.Application.GetSaveAsFilename('haha.xls', 'Excel Spreadsheets (*.xls), *.xls');
+                var fname = oXL.Application.GetSaveAsFilename('download.xls', 'Excel Spreadsheets (*.xls), *.xls');
             } catch (e) {
                 print('Nested catch caught ' + e);
-                alert("请确认:\n1.Microsoft Excel已被安装.\n2.工具 => Internet 选项=> 安全 => 设置 \"启用不安全的 ActiveX\"");
+                alert("請確認:\n1.Microsoft Excel已被安裝.\n2.工具 => Internet 選項=> 安全 => 設置 \"啟用不安全的 ActiveX\"");
             } finally {
                 oWB.SaveAs(fname);
 

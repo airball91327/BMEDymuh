@@ -28,15 +28,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     DocId = f.DocId,
                     StepId = f.StepId,
-                    UserName = a.FullName,
+                    UserName = "(" + a.UserName + ")" + a.FullName,
                     Opinions = f.Opinions,
                     Role = f.Role,
                     Status = f.Status,
                     Rtt = f.Rtt,
+                    Rtp = f.Rtp,
                     Cls = f.Cls
                 }).ToList()
                 .ForEach(f =>
                 {
+                    var rtpUser = db.AppUsers.Where(u => u.Id == f.Rtp).ToList().FirstOrDefault();
                     rf.Add(new RepairFlow
                     {
                         DocId = f.DocId,
@@ -46,6 +48,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Role = f.Role,
                         Status = f.Status,
                         Rtt = f.Rtt,
+                        RtpName = rtpUser == null ? "" : "(" + rtpUser.UserName + ")" + rtpUser.FullName,
                         Cls = f.Cls
                     });
                 });
@@ -153,10 +156,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Assign assign = new Assign();
             assign.DocId = docid;
             List<SelectListItem> listItem = new List<SelectListItem>();
-            listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
+            //listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
             listItem.Add(new SelectListItem { Text = "申請人", Value = "申請人" });
             listItem.Add(new SelectListItem { Text = "驗收人", Value = "驗收人" });
-            listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
+            //listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
             listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
@@ -185,24 +188,20 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     if (!string.IsNullOrEmpty(ss))
                     {
-                        RepairFlow rf = db.RepairFlows.Where(f => f.DocId == ss && f.Status == "?").FirstOrDefault();
+                        RepairFlow rf = db.RepairFlows.Where(f => f.DocId == ss && f.Status == "?").ToList().FirstOrDefault();
                         if (assign.FlowCls == "驗收人")
                         {
                             if (db.RepairEmps.Where(emp => emp.DocId == ss).Count() <= 0)
                             {
-                                throw new Exception("沒有維修工程師紀錄!!");
+                                throw new Exception("【案件" + ss + "】【工程師列表】> 工時紀錄尚未填寫!!");
                             }
-                            else if (db.KeepDtls.Find(ss).EndDate == null)
+                            else if (db.RepairDtls.Find(ss).EndDate == null)
                             {
-                                throw new Exception("沒有完工日!!");
+                                throw new Exception("【案件" + ss + "】【請修紀錄】> 沒有【完工日】!!");
                             }
-                            if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).Result))
+                            if (string.IsNullOrEmpty(db.RepairDtls.Find(ss).InOut))
                             {
-                                throw new Exception("保養結果不可空白!!");
-                            }
-                            if (string.IsNullOrEmpty(db.KeepDtls.Find(ss).InOut))
-                            {
-                                throw new Exception("保養方式不可空白!!");
+                                throw new Exception("【案件" + ss + "】【請修紀錄】> 【維修方式】不可空白!!");
                             }
                         }
                         if (assign.FlowCls == "結案")
@@ -218,35 +217,35 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             db.SaveChanges();
                             //Send Mail
                             Tmail mail = new Tmail();
-                            string body = "";
-                            AppUser u;
-                            Repair rp = db.Repairs.Find(ss);
-                            RepairDtl dtl = db.RepairDtls.Find(ss);
-                            u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                            mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                            u = db.AppUsers.Find(rf.UserId);
-                            mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                            db.RepairFlows.Where(f => f.DocId == ss).Select(f => f.UserId).Distinct()
-                                .Join(db.AppUsers, f => f, a => a.Id,
-                                (f, a) => a).ToList()
-                                .ForEach(a =>
-                                {
-                                    mail.cc.Add(new System.Net.Mail.MailAddress(a.Email));
-                                });
+                            //string body = "";
+                            //AppUser u;
+                            //Repair rp = db.Repairs.Find(ss);
+                            //RepairDtl dtl = db.RepairDtls.Find(ss);
+                            //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                            //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                            //u = db.AppUsers.Find(rf.UserId);
+                            //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                            //db.RepairFlows.Where(f => f.DocId == ss).Select(f => f.UserId).Distinct()
+                            //    .Join(db.AppUsers, f => f, a => a.Id,
+                            //    (f, a) => a).ToList()
+                            //    .ForEach(a =>
+                            //    {
+                            //        mail.cc.Add(new System.Net.Mail.MailAddress(a.Email));
+                            //    });
 
-                            mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + rp.AssetName;
-                            body += "<p>表單編號：" + ss + "</p>";
-                            body += "<p>申請人：" + rp.UserName + "</p>";
-                            body += "<p>儀器名稱：" + rp.AssetName + "</p>";
-                            body += "<p>處理結果：" + dtl.DealState + "</p>";
-                            body += "<p>處理描述：" + dtl.DealDes + "</p>";
-                            body += "<br/>";
-                            //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                            body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                            body += "<br/>";
-                            body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                            mail.message.Body = body;
-                            mail.message.IsBodyHtml = true;
+                            //mail.message.Subject = "醫療儀器管理資訊系統[請修案-結案通知]：儀器名稱： " + rp.AssetName;
+                            //body += "<p>表單編號：" + ss + "</p>";
+                            //body += "<p>申請人：" + rp.UserName + "</p>";
+                            //body += "<p>儀器名稱：" + rp.AssetName + "</p>";
+                            //body += "<p>處理結果：" + dtl.DealState + "</p>";
+                            //body += "<p>處理描述：" + dtl.DealDes + "</p>";
+                            //body += "<br/>";
+                            ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                            //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                            //body += "<br/>";
+                            //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                            //mail.message.Body = body;
+                            //mail.message.IsBodyHtml = true;
                             //mail.SendMail();
                         }
                         else if (assign.FlowCls == "廢除")
@@ -281,25 +280,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             {
                                 //Send Mail
                                 Tmail mail = new Tmail();
-                                string body = "";
-                                AppUser u;
-                                Repair rp = db.Repairs.Find(ss);
-                                RepairDtl dtl = db.RepairDtls.Find(ss);
-                                u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                                mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                u = db.AppUsers.Find(flow.UserId);
-                                mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + rp.AssetName;
-                                body += "<p>表單編號：" + ss + "</p>";
-                                body += "<p>申請人：" + rp.UserName + "</p>";
-                                body += "<p>儀器名稱：" + rp.AssetName + "</p>";
-                                body += "<br/>";
-                                //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                                body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                                body += "<br/>";
-                                body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                                mail.message.Body = body;
-                                mail.message.IsBodyHtml = true;
+                                //string body = "";
+                                //AppUser u;
+                                //Repair rp = db.Repairs.Find(ss);
+                                //RepairDtl dtl = db.RepairDtls.Find(ss);
+                                //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                                //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                //u = db.AppUsers.Find(flow.UserId);
+                                //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                //mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + rp.AssetName;
+                                //body += "<p>表單編號：" + ss + "</p>";
+                                //body += "<p>申請人：" + rp.UserName + "</p>";
+                                //body += "<p>儀器名稱：" + rp.AssetName + "</p>";
+                                //body += "<br/>";
+                                ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                                //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                                //body += "<br/>";
+                                //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                                //mail.message.Body = body;
+                                //mail.message.IsBodyHtml = true;
                                 //mail.SendMail();
                             }
                         }
@@ -334,14 +333,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //}
             assign.CanClose = true;
             List<SelectListItem> listItem = new List<SelectListItem>();
-            listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
+            //listItem.Add(new SelectListItem { Text = "維修工程師", Value = "維修工程師" });
             listItem.Add(new SelectListItem { Text = "申請人", Value = "申請人" });
             listItem.Add(new SelectListItem { Text = "驗收人", Value = "驗收人" });
-            listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
+            //listItem.Add(new SelectListItem { Text = "醫工經辦", Value = "醫工經辦" });
             listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
             listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
             listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
-            RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").FirstOrDefault();
+            RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id && f.Status == "?").ToList().FirstOrDefault();
             if (rf != null)
             {
                 assign.ClsNow = rf.Cls;
@@ -377,11 +376,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (rf.Cls == "維修工程師")
                 {
                     listItem.Clear();
+                    listItem.Add(new SelectListItem { Text = "申請人", Value = "申請人" });
+                    listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
                     listItem.Add(new SelectListItem { Text = "設備工程師", Value = "設備工程師" });
                     listItem.Add(new SelectListItem { Text = "設備主管", Value = "設備主管" });
                 }
             }
-            ViewData["FlowCls"] = new SelectList(listItem, "Value", "Text", "");
+            if (rf.Cls == "驗收人")
+            {
+                ViewData["FlowCls"] = new SelectList(listItem, "Value", "Text", "結案");
+            }
+            else
+            {
+                ViewData["FlowCls"] = new SelectList(listItem, "Value", "Text", "");
+            }
+            
 
             //List<SelectListItem> flowvendor = new List<SelectListItem>();
             //db.Vendors.ToList().ForEach(v =>
@@ -398,6 +407,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem3 = new List<SelectListItem>();
             listItem3.Add(new SelectListItem { Text = "", Value = "" });
             ViewData["FlowUid"] = new SelectList(listItem3, "Value", "Text", "");
+            if (rf.Cls == "驗收人")
+            {
+                listItem3.Clear();
+                listItem3.Add(new SelectListItem { Text = "", Value = "0" });
+                ViewData["FlowUid"] = new SelectList(listItem3, "Value", "Text", "0");
+            }
+            //
             assign.Hint = "使用者key單→設備工程師維護(若無費用user驗收結案,有費用夾帶報價資料給設備主管)→單位主管(相關單位主管核決)→設備工程師維護→使用者驗收結案";
             return PartialView(assign);
         }
@@ -441,7 +457,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             if (ModelState.IsValid)
             {
-                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").FirstOrDefault();
+                RepairFlow rf = db.RepairFlows.Where(f => f.DocId == assign.DocId && f.Status == "?").ToList().FirstOrDefault();
                 if (assign.FlowCls == "驗收人" || assign.FlowCls == "設備主管")
                 {
                     if (db.RepairEmps.Where(emp => emp.DocId == assign.DocId).Count() <= 0)
@@ -467,7 +483,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 if (assign.FlowCls == "結案")
                 {
-                    var isQuestExist = db.QuestAnswers.Where(q => q.Docid == assign.DocId).FirstOrDefault();
+                    var isQuestExist = db.QuestAnswers.Where(q => q.Docid == assign.DocId).ToList().FirstOrDefault();
                     if (isQuestExist == null)
                     {
                         throw new Exception("請填寫滿意度問卷。");
@@ -483,7 +499,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(rd).State = EntityState.Modified;
                     db.SaveChanges();
                     //Send Mail
-                    //Tmail mail = new Tmail();
+                    Tmail mail = new Tmail();
                     //string body = "";
                     //string sto = "";
                     //AppUser u;
@@ -508,7 +524,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
                     //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
                     //body += "<p>處理描述：" + rd.DealDes + "</p>";
-                    //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>檢視案件</a></p>";
+                    //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>檢視案件</a></p>";
                     //body += "<br/>";
                     //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                     //mail.message.Body = body;
@@ -548,26 +564,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         //Send Mail
                         Tmail mail = new Tmail();
-                        string body = "";
-                        AppUser u;
-                        //Repair repair = db.Repairs.Find(assign.DocId);
-                        u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                        mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                        u = db.AppUsers.Find(flow.UserId);
-                        mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                                                            //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
-                        mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
-                        body += "<p>申請人：" + repair.UserName + "</p>";
-                        body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                        body += "<p>儀器名稱：" + repair.AssetName + "</p>";
-                        body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                        body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                        //string body = "";
+                        //AppUser u;
+                        ////Repair repair = db.Repairs.Find(assign.DocId);
+                        //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                        //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                        //u = db.AppUsers.Find(flow.UserId);
+                        //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                        //                                                    //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
+                        //mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
+                        //body += "<p>申請人：" + repair.UserName + "</p>";
+                        //body += "<p>財產編號：" + repair.AssetNo + "</p>";
+                        //body += "<p>儀器名稱：" + repair.AssetName + "</p>";
                         //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                        body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                        body += "<br/>";
-                        body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                        mail.message.Body = body;
-                        mail.message.IsBodyHtml = true;
+                        //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                        //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
+                        //body += "<br/>";
+                        //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                        //mail.message.Body = body;
+                        //mail.message.IsBodyHtml = true;
                         //mail.SendMail();
                     }
                 }
@@ -597,7 +612,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ListItem li;
             AppUser u;
             Repair r = db.Repairs.Find(docid);
-            Asset asset = db.Assets.Find(r.AssetNo);
+            Asset asset = new Asset();
+            if (r != null)
+            {
+                asset = db.Assets.Find(r.AssetNo);
+            }
             string g = "";
             //if(r != null)
             //    g = db.CustOrgans.Find(db.AppUsers.Find(r.UserId).DptId).GroupId;
@@ -615,7 +634,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     if (u.VendorId.ToString() == vendor)
                                     {
                                         li = new ListItem();
-                                        li.Text = u.FullName;
+                                        li.Text = "(" + u.UserName + ")" + u.FullName;
                                         li.Value = u.Id.ToString();
                                         list.Add(li);
                                     }
@@ -626,7 +645,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 if (u != null)
                                 {
                                     li = new ListItem();
-                                    li.Text = u.FullName;
+                                    li.Text = "(" + u.UserName + ")" + u.FullName;
                                     li.Value = u.Id.ToString();
                                     list.Add(li);
                                 }
@@ -642,7 +661,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         if (!string.IsNullOrEmpty(u.DptId))
                         {
                             li = new ListItem();
-                            li.Text = u.FullName;
+                            li.Text = "(" + u.UserName + ")" + u.FullName;
                             li.Value = WebSecurity.GetUserId(l).ToString();
                             list.Add(li);
                         }
@@ -655,26 +674,29 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         u = db.AppUsers.Find(WebSecurity.GetUserId(l));
                         li = new ListItem();
-                        li.Text = u.FullName;
+                        li.Text = "(" + u.UserName + ")" + u.FullName;
                         li.Value = WebSecurity.GetUserId(l).ToString();
                         list.Add(li);
                     }
                     break;
                 case "單位主管":
                     s = Roles.GetUsersInRole("Manager").ToList();
-                    string c = db.AppUsers.Find(r.UserId).DptId;
-                    list = new List<ListItem>();
-                    foreach (string l in s)
+                    if (r != null)
                     {
-                        u = db.AppUsers.Find(WebSecurity.GetUserId(l));
-                        if (u != null)
+                        string c = db.AppUsers.Find(r.UserId).DptId;
+                        list = new List<ListItem>();
+                        foreach (string l in s)
                         {
-                            if (u.DptId == c)
+                            u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                            if (u != null)
                             {
-                                li = new ListItem();
-                                li.Text = u.FullName;
-                                li.Value = WebSecurity.GetUserId(l).ToString();
-                                list.Add(li);
+                                if (u.DptId == c)
+                                {
+                                    li = new ListItem();
+                                    li.Text = "(" + u.UserName + ")" + u.FullName;
+                                    li.Value = WebSecurity.GetUserId(l).ToString();
+                                    list.Add(li);
+                                }
                             }
                         }
                     }
@@ -682,11 +704,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 case "申請人":
                     if (r != null)
                     {
-                        list = new List<ListItem>();
-                        li = new ListItem();
-                        li.Text = r.UserName;
-                        li.Value = r.UserId.ToString();
-                        list.Add(li);
+                        u = db.AppUsers.Find(r.UserId);
+                        if (u != null)
+                        {
+                            list = new List<ListItem>();
+                            li = new ListItem();
+                            li.Text = "(" + u.UserName + ")" + r.UserName;
+                            li.Value = r.UserId.ToString();
+                            list.Add(li);
+                        }
                     }
                     else
                     {
@@ -711,35 +737,77 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             ul.AddRange(db.AppUsers.Where(f => f.DptId == asset.DelivDpt)
                                 .Where(f => f.Status == "Y").ToList());
                         }
+
                         list = new List<ListItem>();
                         li = new ListItem();
-                        li.Text = r.CheckerName;
-                        li.Value = r.CheckerId.ToString();
-                        list.Add(li);
+                        u = db.AppUsers.Find(r.CheckerId);
+                        if (u != null)
+                        {
+                            li.Text = "(" + u.UserName + ")" + r.CheckerName;
+                            li.Value = r.CheckerId.ToString();
+                            list.Add(li);
+                        }
                         //
                         foreach (AppUser l in ul)
                         {
+                            u = db.AppUsers.Find(l.Id);
                             li = new ListItem();
-                            li.Text = l.FullName;
-                            li.Value = l.Id.ToString();
-                            list.Add(li);
+                            if (u != null)
+                            {
+                                li.Text = "(" + l.UserName + ")" + l.FullName;
+                                li.Value = l.Id.ToString();
+                                list.Add(li);
+                            }
                         }
                     }
                     break;
                 case "設備工程師":
                     s = Roles.GetUsersInRole("MedEngineer").ToList();
                     list = new List<ListItem>();
-                    foreach (string l in s)
+                    var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == docid).Where(rf => rf.Cls.Contains("設備工程師"))
+                                                    .Where(rf => rf.Status == "1").OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
+                    int? lastEng = null;
+                    if (lastEngFlow != null)
                     {
-                        u = db.AppUsers.Find(WebSecurity.GetUserId(l));
-                        if (u != null)
+                        lastEng = lastEngFlow.UserId;
+                    }
+                    if (lastEng != null)
+                    {
+                        var eng = db.AppUsers.Find(lastEng);
+                        li = new ListItem();
+                        li.Text = "(" + eng.UserName + ")" + eng.FullName;
+                        li.Value = eng.Id.ToString();
+                        list.Add(li);
+                        foreach (string l in s)
                         {
-                            li = new ListItem();
-                            li.Text = u.FullName;
-                            li.Value = WebSecurity.GetUserId(l).ToString();
-                            list.Add(li);
+                            u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                            if (u != null)
+                            {
+                                if (u.Id != lastEng)
+                                {
+                                    li = new ListItem();
+                                    li.Text = "(" + u.UserName + ")" + u.FullName;
+                                    li.Value = WebSecurity.GetUserId(l).ToString();
+                                    list.Add(li);
+                                }
+                            }
                         }
                     }
+                    else
+                    {
+                        foreach (string l in s)
+                        {
+                            u = db.AppUsers.Find(WebSecurity.GetUserId(l));
+                            if (u != null)
+                            {
+                                li = new ListItem();
+                                li.Text = "(" + u.UserName + ")" + u.FullName;
+                                li.Value = WebSecurity.GetUserId(l).ToString();
+                                list.Add(li);
+                            }
+                        }
+                    }
+
                     break;
                 default:
                     list = new List<ListItem>();

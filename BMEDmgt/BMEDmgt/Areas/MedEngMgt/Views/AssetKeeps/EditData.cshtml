@@ -21,7 +21,7 @@
             @Html.ValidationSummary(true)
 
             <fieldset>
-                <legend>AssetKeep</legend>
+                <legend>設備保養資料</legend>
 
                 @Html.HiddenFor(model => model.AssetNo)
 
@@ -91,7 +91,7 @@
 
                         $('#SelectFormatId').change(function () {
                             var txt = $(this).val();
-                            var url = "../../KeepFormat/GetPlants?id=" + txt;
+                            var url = "../../KeepFormats/GetPlants?id=" + txt;
                             $("#pnlPLANTS").html('').load(encodeURI(url));
                         });
                     </script>
@@ -100,7 +100,7 @@
 
                 </div>
                 <p>
-                    <input type="submit" value="Save" />
+                    <input type="submit" value="儲存" />
                 </p>
             </fieldset>
         }
@@ -114,6 +114,7 @@
         var d = window.opener.document.getElementById("Docid").value;
         $(f).html('').load(encodeURI("../../Delivery/WartyData?id=" + d), function () {
             alert(msg);
+            window.close();
         });
     }
 </script>

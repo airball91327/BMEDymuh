@@ -33,6 +33,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string AccDpt { get; set; }
         [Display(Name = "保管部門")]
         public string DelivDpt { get; set; }
+        [Display(Name = "零件名稱")]
+        public string StockName { get; set; }
     }
     //
     public class UserHour
@@ -363,12 +365,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                 m.EndDate = rd.EndDate.Value;
                 m.Cost = rd.Cost;
                 m.FailFactor = rd.FailFactor;
-                r = db.Repairs.Where(i => i.DocId == rd.DocId).FirstOrDefault();
+                r = db.Repairs.Where(i => i.DocId == rd.DocId).ToList().FirstOrDefault();
                 if (r != null)
                 {
                     m.TroubleDes = r.TroubleDes;
                     m.CustId = r.AccDpt;
-                    o = db.CustOrgans.Where(c => c.CustId == r.AccDpt).FirstOrDefault();
+                    o = db.CustOrgans.Where(c => c.CustId == r.AccDpt).ToList().FirstOrDefault();
                     if (o.GroupId != gid)
                         continue;
                     if (o != null)
@@ -378,11 +380,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                     if (!String.IsNullOrEmpty(cls))
                     {
                         a = db.Assets.Where(s => s.AssetNo == r.AssetNo)
-                            .Where(s => s.AssetClass == cls).FirstOrDefault();
+                            .Where(s => s.AssetClass == cls).ToList().FirstOrDefault();
                     }
                     else
                     {
-                        a = db.Assets.Where(s => s.AssetNo == r.AssetNo).FirstOrDefault();
+                        a = db.Assets.Where(s => s.AssetNo == r.AssetNo).ToList().FirstOrDefault();
                     }
                     if (a != null)
                     {
@@ -390,7 +392,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                         m.Type = a.Type;
                     }
                 }
-                p = db.RepairEmps.Where(e => e.DocId == rd.DocId).FirstOrDefault();
+                p = db.RepairEmps.Where(e => e.DocId == rd.DocId).ToList().FirstOrDefault();
                 if (p != null)
                 {
                     AppUser u = db.AppUsers.Find(p.UserId);
@@ -1534,7 +1536,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
             //
             foreach (UnSignListVModel s in sv)
             {
-                RepairEmp kp = db.RepairEmps.Where(p => p.DocId == s.DocId)
+                RepairEmp kp = db.RepairEmps.Where(p => p.DocId == s.DocId).ToList()
                    .FirstOrDefault();
                 if (kp != null)
                 {

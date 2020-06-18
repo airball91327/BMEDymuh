@@ -93,8 +93,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.RepairEmps.Add(repairEmp);
                 db.SaveChanges();
                 //
-                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairEmp.DocId)
-                   .FirstOrDefault();
+                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairEmp.DocId).ToList()
+                                             .FirstOrDefault();
                 if (dtl != null)
                 {
                     int hr = db.RepairEmps.Where(p => p.DocId == repairEmp.DocId)
@@ -121,8 +121,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            RepairEmp repairEmp = db.RepairEmps.Where(p => p.DocId == id)
-                .FirstOrDefault();
+            RepairEmp repairEmp = db.RepairEmps.Where(p => p.DocId == id).ToList()
+                                               .FirstOrDefault();
             if (repairEmp == null)
             {
                 repairEmp = new RepairEmp();
@@ -145,7 +145,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             ViewData["UserId"] = uids;
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
-              .Where(f => f.Status == "?").FirstOrDefault();
+              .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (!rf.Cls.Contains("工程師"))
             {
                 List<RepairEmp> emps = db.RepairEmps.Where(p => p.DocId == id).ToList();
@@ -215,8 +215,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.RepairEmps.Remove(repairEmp);
                 db.SaveChanges();
                 //
-                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairEmp.DocId)
-                   .FirstOrDefault();
+                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairEmp.DocId).ToList()
+                                             .FirstOrDefault();
                 if (dtl != null)
                 {
                     int hr = db.RepairEmps.Where(p => p.DocId == repairEmp.DocId)
@@ -291,8 +291,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         db.RepairEmps.Add(emp);
                         db.SaveChanges();
                         //
-                        dtl = db.RepairDtls.Where(d => d.DocId == ss)
-                              .FirstOrDefault();
+                        dtl = db.RepairDtls.Where(d => d.DocId == ss).ToList()
+                                           .FirstOrDefault();
                         if (dtl != null)
                         {
                             int hr = db.RepairEmps.Where(p => p.DocId == ss)

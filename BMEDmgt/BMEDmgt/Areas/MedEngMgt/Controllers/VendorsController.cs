@@ -70,7 +70,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (vendor.MgrId != null)
             {
                 int mgrid = Convert.ToInt32(vendor.MgrId);
-                var ur = db.AppUsers.Where(u => u.Id == mgrid).FirstOrDefault();
+                var ur = db.AppUsers.Where(u => u.Id == mgrid).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     vendor.MgrName = ur.FullName;
@@ -159,7 +159,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (vendor.MgrId != null)
             {
                 int mgrid = Convert.ToInt32(vendor.MgrId);
-                ur = db.AppUsers.Where(u => u.Id == mgrid).FirstOrDefault();
+                ur = db.AppUsers.Where(u => u.Id == mgrid).ToList().FirstOrDefault();
                 if (ur != null)
                 {
                     ListItem2.Add(new SelectListItem { Text = ur.FullName, Value = ur.Id.ToString() });

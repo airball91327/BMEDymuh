@@ -93,7 +93,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
-                .Where(f => f.Status == "?").FirstOrDefault();
+                .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (rf.Cls.Contains("工程師"))
             {
                 if (repairDtl.EndDate == null)
@@ -154,7 +154,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     .Where(k => k.StockType == "0").ToList()
                                     .ForEach(c =>
                                     {
-                                        dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).FirstOrDefault();
+                                        dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).ToList().FirstOrDefault();
                                         if (dk != null)
                                         {
                                             sr = new StokRecord();
@@ -173,6 +173,32 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             dk.Rtp = WebSecurity.CurrentUserId;
                                             dk.Rtt = DateTime.Now;
                                             db.Entry(dk).State = EntityState.Modified;
+                                            //低於安全存量，send mail
+                                            if(dk.Qty < dk.SafeQty)
+                                            {
+                                                //Send Mail
+                                                Tmail mail = new Tmail();
+                                                string body = "";
+                                                AppUser u;
+                                                u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                                                if (!string.IsNullOrEmpty(u.Email))
+                                                {
+                                                    mail.from = new System.Net.Mail.MailAddress(u.Email);
+                                                    mail.to = new System.Net.Mail.MailAddress("eao@ymuh.ym.edu.tw");
+
+                                                    mail.message.Subject = "醫療儀器管理資訊系統[庫存安全存量通知]：材料名稱： " + dk.StokNam;
+                                                    body += "<p>材料名稱：" + dk.StokNam + "</p>";
+                                                    body += "<p>單價：" + dk.Price + "</p>";
+                                                    body += "<p>數量：" + dk.Qty + "</p>";
+                                                    body += "<p>安全存量：" + dk.SafeQty + "</p>";
+                                                    body += "<p>庫存地點：" + dk.Loc + "</p>";
+                                                    body += "<br/>";
+                                                    body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                                                    mail.message.Body = body;
+                                                    mail.message.IsBodyHtml = true;
+                                                    mail.SendMail();
+                                                }
+                                            }
                                         }
                                     });
                                 try
@@ -192,6 +218,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         DateTime setDate = repairDtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
                         repairDtl.EndDate = setDate;
                     }
+                    //擷取已存工時
+                    var originDtl = db.RepairDtls.Where(r => r.DocId == repairDtl.DocId).ToList().FirstOrDefault();
+                    if (originDtl != null)
+                    {
+                        repairDtl.Hour = originDtl.Hour;
+                    }
+                    db.Entry(originDtl).State = EntityState.Detached;
                     db.Entry(repairDtl).State = EntityState.Modified;
                     db.SaveChanges();
 
@@ -329,7 +362,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             .Where(k => k.StockType == "0").ToList()
                                             .ForEach(c =>
                                             {
-                                                dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).FirstOrDefault();
+                                                dk = db.DeptStoks.Where(d => d.StokNo == c.PartNo).ToList().FirstOrDefault();
                                                 if (dk != null)
                                                 {
                                                     sr = new StokRecord();

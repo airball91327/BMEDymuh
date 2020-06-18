@@ -236,7 +236,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             KeepFlow kf = db.KeepFlows.Where(f => f.DocId == id)
-                           .Where(f => f.Status == "?").FirstOrDefault();
+                           .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (kf.Cls.Contains("工程師"))
                 return PartialView(keepDtl);
             else
@@ -313,6 +313,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         DateTime setDate = keepDtl.EndDate.Value.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
                         keepDtl.EndDate = setDate;
                     }
+                    //擷取已存工時
+                    var originDtl = db.KeepDtls.Where(r => r.DocId == keepDtl.DocId).ToList().FirstOrDefault();
+                    if (originDtl != null)
+                    {
+                        keepDtl.Hours = originDtl.Hours;
+                    }
+                    db.Entry(originDtl).State = EntityState.Detached;
                     db.Entry(keepDtl).State = EntityState.Modified;
                     db.SaveChanges();
                     return new JsonResult

@@ -92,7 +92,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
                 //
                 //
-                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepEmp.DocId)
+                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepEmp.DocId).ToList()
                     .FirstOrDefault();
                 if (dtl != null)
                 {
@@ -156,7 +156,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     if (!string.IsNullOrEmpty(ss))
                     {
-                        empTemp = db.KeepEmps.Where(e => e.DocId == ss && e.UserId == keepEmp.UserId).FirstOrDefault();
+                        empTemp = db.KeepEmps.Where(e => e.DocId == ss && e.UserId == keepEmp.UserId).ToList().FirstOrDefault();
                         if (empTemp != null)
                         {
                             throw new Exception("已有該工程師工時!");
@@ -211,7 +211,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            KeepEmp keepEmp = db.KeepEmps.Where(p => p.DocId == id)
+            KeepEmp keepEmp = db.KeepEmps.Where(p => p.DocId == id).ToList()
                 .FirstOrDefault();
             if (keepEmp == null)
             {
@@ -235,7 +235,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             ViewData["UserId"] = uids;
             KeepFlow kf = db.KeepFlows.Where(f => f.DocId == id)
-                         .Where(f => f.Status == "?").FirstOrDefault();
+                         .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (!kf.Cls.Contains("工程師"))
             {
                 List<KeepEmp> emps = db.KeepEmps.Where(p => p.DocId == id).ToList();
@@ -266,7 +266,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.KeepEmps.Add(keepEmp);
                 db.SaveChanges();
                 //
-                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepEmp.DocId)
+                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == keepEmp.DocId).ToList()
                     .FirstOrDefault();
                 if (dtl != null)
                 {
@@ -309,7 +309,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.KeepEmps.Remove(keepEmp);
                 db.SaveChanges();
                 //
-                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == docid)
+                KeepDtl dtl = db.KeepDtls.Where(d => d.DocId == docid).ToList()
                     .FirstOrDefault();
                 if (dtl != null)
                 {

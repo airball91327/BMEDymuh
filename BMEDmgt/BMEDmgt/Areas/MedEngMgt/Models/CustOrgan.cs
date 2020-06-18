@@ -67,7 +67,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
             }
             else
             {
-                AppUser user = db.AppUsers.Where(p => p.UserName == WebSecurity.CurrentUserName).FirstOrDefault();
+                AppUser user = db.AppUsers.Where(p => p.UserName == WebSecurity.CurrentUserName).ToList().FirstOrDefault();
                 if (user != null)
                 {
                     //dt2.Add(db.CustOrgans.Find(user.CustId));

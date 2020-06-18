@@ -65,8 +65,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.RepairCosts.Add(repairCost);
                 db.SaveChanges();
                 //
-                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId)
-                    .FirstOrDefault();
+                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId).ToList()
+                                             .FirstOrDefault();
                 if (dtl != null)
                 {
                     dtl.Cost = db.RepairCosts.Where(k => k.DocId == repairCost.DocId)
@@ -95,7 +95,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             repairCost.DocId = id;
             repairCost.SeqNo = seqno + 1;
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
-               .Where(f => f.Status == "?").FirstOrDefault();
+               .Where(f => f.Status == "?").ToList().FirstOrDefault();
             if (!(rf.Cls.Contains("工程師") || rf.Cls == "醫工經辦"))
             {
                 List<RepairCost> t = db.RepairCosts.Where(c => c.DocId == id).ToList();
@@ -164,8 +164,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.RepairCosts.Add(repairCost);
                     db.SaveChanges();
                     //
-                    RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId)
-                        .FirstOrDefault();
+                    RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId).ToList()
+                                                 .FirstOrDefault();
                     if (dtl != null)
                     {
                         dtl.Cost = db.RepairCosts.Where(k => k.DocId == repairCost.DocId)
@@ -208,8 +208,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.RepairCosts.Remove(repairCost);
                 db.SaveChanges();
                 //
-                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId)
-                    .FirstOrDefault();
+                RepairDtl dtl = db.RepairDtls.Where(d => d.DocId == repairCost.DocId).ToList()
+                                             .FirstOrDefault();
                 if (dtl != null)
                 {
                     dtl.Cost = db.RepairCosts.Where(k => k.DocId == repairCost.DocId)
