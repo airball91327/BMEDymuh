@@ -21,6 +21,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int repairCount = db.RepairFlows.Where(f => f.Status == "?")
                 .Where(f => f.UserId == WebSecurity.CurrentUserId).Count();
             v.RepairCount = repairCount;
+            //公用帳號的案件數量
+            var publicAcc = db.AppUsers.Where(u => u.UserName == "eao").ToList().FirstOrDefault();
+            int repairCount2 = 0;
+            if (publicAcc != null)
+            {
+                repairCount2 = db.RepairFlows.Where(f => f.Status == "?")
+                                 .Where(f => f.UserId == publicAcc.Id).Count();
+            }
+            v.RepairCount2 = repairCount2;
             //
             int keepCount = db.Keeps
                 .Join(db.KeepFlows.Where(f => f.Status == "?")

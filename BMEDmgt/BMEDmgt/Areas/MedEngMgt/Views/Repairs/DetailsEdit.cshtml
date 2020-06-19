@@ -1,0 +1,250 @@
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.Repair
+
+@{
+    ViewBag.Title = "預覽請修";
+}
+<div style="margin: 10pt">
+    @*@Html.Action("List", "AttainFiles", new { id = Model.DocId, typ = "1" })*@
+</div>
+<div>
+    @using (Ajax.BeginForm("DetailsEdit", "Repairs",
+                new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING2", OnSuccess = "showmsgPage1" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.DocId)
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DocId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DptId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DptName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Contact)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Contact)
+            </dd>
+
+            <dt style="padding-top:5px;">
+                @Html.DisplayNameFor(model => model.AccDpt)
+            </dt>
+
+            <dd class="form-inline">
+                 @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                 @Html.HiddenFor(model => model.AccDptName)
+                 <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                 @Html.DropDownListFor(model => model.AccDpt, null, new { @class = "form-control" })
+                 @Html.ValidationMessageFor(model => model.AccDpt, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RepType)
+            </dt>
+
+            <dd>
+                @Html.RadioButton("RepType", "請修")請修(無法移動之設備)
+                @Html.RadioButton("RepType", "送修")送修(需送至工務室維修)
+                @Html.ValidationMessageFor(model => model.RepType, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AssetNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssetNo)
+                @if (Model.AssetNo != "000" && Model.AssetNo != "001")  //無財編設備
+                {
+                    <button class="btn btn-default" data-toggle="modal" data-target="#assetDtlModal">詳細內容</button>
+                }
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AssetName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssetName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.BuyDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BuyDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cost)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cost)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Amt)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Amt)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PlantDoc)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PlantDoc)
+            </dd>
+
+            <dt style="padding-top:5px;">
+                @Html.DisplayNameFor(model => model.PlaceLoc)
+            </dt>
+
+            <dd>
+                @Html.EditorFor(model => model.PlaceLoc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PlaceLoc, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RepairArea)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RepairArea)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ApplyDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ApplyDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TroubleDes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TroubleDes)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CheckerName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CheckerName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PlantClass)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PlantClass)
+            </dd>
+
+            <dt>
+            </dt>
+
+            <dd style="padding-top:7px;">
+                <input type="submit" value="儲存" class="btn btn-default" />
+                <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </dd>
+
+        </dl>
+    }
+</div>
+
+<!-- Modal -->
+<div id="assetDtlModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">資產設備詳細內容</h4>
+            </div>
+            <div class="modal-body">
+                @if (Model.AssetNo != "000" && Model.AssetNo != "001")  //無財編設備
+                {
+                    @Html.Action("DetailsForModal", "Assets", new { ano = Model.AssetNo })
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        $("#btnQtyAccdpt").click(function () {
+            var keynam = $("#AccdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../../Departments/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    //var s = '[{"ListKey":"44","ListValue":"test1"},{"ListKey":"87","ListValue":"陳奕軒"}]';
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+                    appenddata += "<option value = ''>請選擇</option>";
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    $('#AccDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+    });
+    function showmsgPage1(data) {
+        if (!data.success) {
+            alert(data.error);
+        }
+        else {
+            alert("儲存成功!");
+        }
+    }
+</script>

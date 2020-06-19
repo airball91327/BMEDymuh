@@ -54,7 +54,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //int abc;
                 //if(Int32.TryParse(str, out abc))
                 //    model.UserName = str.PadLeft(10, '0');
-                if (model.Password == "111999")
+                if (model.Password == "52030248")
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")

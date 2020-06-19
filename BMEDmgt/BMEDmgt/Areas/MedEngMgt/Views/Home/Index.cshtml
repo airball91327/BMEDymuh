@@ -24,6 +24,10 @@
 
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">請修 <span class="badge">@Model.RepairCount</span></a></li>
+    @if (User.IsInRole("MedEngineer"))
+    {
+        <li><a data-toggle="tab" href="#menu2">請修-公用帳號 <span class="badge">@Model.RepairCount2</span></a></li>
+    }
     <li><a data-toggle="tab" href="#menu1">保養 <span class="badge">@Model.KeepCount</span></a></li>
     @*<li><a data-toggle="tab" href="#menu2">採購 <span class="badge">@Model.BuyEvalateCount</span></a></li>*@
     <li><a data-toggle="tab" href="#menu3">驗收 <span class="badge">@Model.DeliveryCount</span></a></li>
@@ -34,14 +38,21 @@
         <h4>維修</h4>
         <p>@Html.Action("Index", "Repairs")</p>
     </div>
+    @if (User.IsInRole("MedEngineer"))
+    {
+        <div id="menu2" class="tab-pane fade">
+            <h4>請修-公用帳號</h4>
+            <p>@Html.Action("IndexPublicAcc", "Repairs")</p>
+        </div>
+    }
     <div id="menu1" class="tab-pane fade">
         <h4>保養</h4>
         <p>@Html.Action("Index", "Keeps")</p>
     </div>
     @*<div id="menu2" class="tab-pane fade">
-        <h3>採購</h3>
-        <p>選配功能</p>
-    </div>*@
+            <h3>採購</h3>
+            <p>選配功能</p>
+        </div>*@
     <div id="menu3" class="tab-pane fade">
         <h4>驗收</h4>
         <p>@Html.Action("DeliveryListIndex", "Delivery")</p>
@@ -68,6 +79,10 @@
             else if (target == "#menu3") {
                 $("#pnlDELIVERYLIST").html('');
                 $("#btnDelivQry").trigger("click");
+            }
+            else if (target == "#menu2") {
+                $("#pnlREPAIRLIST2").html('');
+                $("#btnQTY4").trigger("click");
             }
         });
 

@@ -2,8 +2,9 @@
 
 <script src="~/Areas/MedEngMgt/Scripts/HtmltoExcel.js"></script>
 
-<input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
-       onclick="javascript:exportExcel('tbREPAIR')" />
+@*<input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
+       onclick="javascript:exportExcel('tbREPAIR')" />*@
+<button class="btn btn-default" id="btnExportExcel">匯出Excel</button>
 <table class="table" id="tbREPAIR">
     <tr>
         <th>
@@ -118,3 +119,30 @@
     }
 
 </table>
+
+
+<script>
+    $(function () {
+        $('#btnExportExcel').click(function () {
+            var s = $('#frmREPFORM2').serialize();
+            $.ajax({
+                url: '@Url.Action("ExportToExcel", "Repairs")',
+                data: s,
+                type: "POST",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#imgLOADING").show();
+                },
+                success: function (data) {
+                    window.location = '@Url.Action("Download", "Repairs")' + '?fileGuid=' + data.FileGuid
+                        + '&filename=' + data.FileName;
+                    $("#imgLOADING").hide();
+                },
+                error: function (msg) {
+                    alert(msg);
+                    $("#imgLOADING").hide()
+                }
+            });
+        });
+    });
+</script>

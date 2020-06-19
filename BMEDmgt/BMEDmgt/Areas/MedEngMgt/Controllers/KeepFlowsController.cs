@@ -34,10 +34,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     Role = f.Role,
                     Status = f.Status,
                     Rtt = f.Rtt,
+                    Rtp = f.Rtp,
                     Cls = f.Cls
                 }).ToList()
                 .ForEach(f =>
                 {
+                    var rtpUser = db.AppUsers.Where(u => u.Id == f.Rtp).ToList().FirstOrDefault();
                     kf.Add(new KeepFlow
                     {
                         DocId = f.DocId,
@@ -47,6 +49,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Role = f.Role,
                         Status = f.Status,
                         Rtt = f.Rtt,
+                        RtpName = rtpUser == null ? "" : "(" + rtpUser.UserName + ")" + rtpUser.FullName,
                         Cls = f.Cls
                     });
                 });

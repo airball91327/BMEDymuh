@@ -46,8 +46,14 @@
 <div class="tab-content">
     <div id="repair" class="tab-pane fade in active">
         <div>
-
-            @Html.Action("Details","Repairs", new { id = Model.DocId })
+            @if (User.IsInRole("MedEngineer"))
+            {
+                @Html.Action("DetailsEdit", "Repairs", new { id = Model.DocId })
+            }
+            else
+            {
+                @Html.Action("Details", "Repairs", new { id = Model.DocId })
+            }
         </div>
     </div>
     <div id="repairdtl" class="tab-pane fade">

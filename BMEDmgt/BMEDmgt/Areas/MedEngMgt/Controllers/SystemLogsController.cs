@@ -43,8 +43,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (item.UserId != null)
                 {
                     var user = db.AppUsers.Where(u => u.Id == item.UserId.Value).ToList().FirstOrDefault();
-                    item.UserName = user.UserName;
-                    item.FullName = user.FullName;
+                    if (user != null)
+                    {
+                        item.UserName = user.UserName;
+                        item.FullName = user.FullName;
+                    }
                 }
             }
 

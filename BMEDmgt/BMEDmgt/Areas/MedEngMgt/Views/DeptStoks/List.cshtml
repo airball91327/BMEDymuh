@@ -5,6 +5,7 @@
 
 <p>
     @Html.ActionLink("新增", "Create", null, new { @class = "btn btn-default" })
+    <button class="btn btn-default" id="btnExportExcel">匯出Excel</button>
 </p>
 <table class="table">
     <tr>
@@ -105,3 +106,29 @@
     @Html.PagedListPager(Model,
     page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
+
+<script>
+    $(function () {
+        $('#btnExportExcel').click(function () {
+            var s = $('#frmDEPTSTOKLIST').serialize();
+            $.ajax({
+                url: '@Url.Action("ExportToExcel", "DeptStoks")',
+                data: s,
+                type: "POST",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#imgLOADING").show();
+                },
+                success: function (data) {
+                    window.location = '@Url.Action("Download", "DeptStoks")' + '?fileGuid=' + data.FileGuid
+                        + '&filename=' + data.FileName;
+                    $("#imgLOADING").hide();
+                },
+                error: function (msg) {
+                    alert(msg);
+                    $("#imgLOADING").hide()
+                }
+            });
+        });
+    });
+</script>

@@ -140,7 +140,7 @@
 
         <dd>
             @Html.DisplayFor(model => model.VendorName)
-            @if (Model.VendorId != null)
+            @if (!string.IsNullOrEmpty(Model.VendorName))
             {
                 <a id="btnVendorDetail" class="btn btn-default" href="@Url.Action("Details2", "Vendors", new { id = Model.VendorId })" target="_blank">廠商詳細資料</a>
             }

@@ -11,6 +11,9 @@ using BMEDmgt.Models;
 using PagedList;
 using WebMatrix.WebData;
 using BMEDmgt.Filters;
+using System.IO;
+using OfficeOpenXml;
+using System.Drawing;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -30,6 +33,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string stokno = fm["qtySTOKNO"];
             string dname = fm["qtyDEPTNAME"];
             string brand = fm["qtyBRAND"];
+            string stockClass = fm["qtySTOCKCLASS"];
             List<DeptStok> dv = db.DeptStoks.ToList();
             if (!string.IsNullOrEmpty(stokno))
             {
@@ -42,6 +46,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(brand))
             {
                 dv = dv.Where(d => d.Brand == brand.ToUpper()).ToList();
+            }
+            if (!string.IsNullOrEmpty(stockClass))
+            {
+                dv = dv.Where(d => !string.IsNullOrEmpty(d.StokCls))
+                       .Where(d => d.StokCls.Contains(stockClass)).ToList();
             }
             if (dv.ToPagedList(page, pageSize).Count <= 0)
                 return PartialView("List", dv.ToPagedList(1, pageSize));
@@ -227,6 +236,109 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             return PartialView();
         }
+
+        [HttpPost]
+        public ActionResult ExportToExcel(FormCollection fm)
+        {
+            string stokno = fm["qtySTOKNO"];
+            string dname = fm["qtyDEPTNAME"];
+            string brand = fm["qtyBRAND"];
+            string stockClass = fm["qtySTOCKCLASS"];
+            List<DeptStok> dv = db.DeptStoks.ToList();
+            if (!string.IsNullOrEmpty(stokno))
+            {
+                dv = dv.Where(d => d.StokNo.Contains(stokno)).ToList();
+            }
+            if (!string.IsNullOrEmpty(dname))
+            {
+                dv = dv.Where(d => d.StokNam.Contains(dname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(brand))
+            {
+                dv = dv.Where(d => d.Brand == brand.ToUpper()).ToList();
+            }
+            if (!string.IsNullOrEmpty(stockClass))
+            {
+                dv = dv.Where(d => !string.IsNullOrEmpty(d.StokCls))
+                       .Where(d => d.StokCls.Contains(stockClass)).ToList();
+            }
+
+            string fileName = "";
+            MemoryStream stream = new MemoryStream();
+            ExcelPackage package = new ExcelPackage(stream);
+
+            package.Workbook.Worksheets.Add("庫存列表");
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            #region write header
+            sheet.Cells[1, 1].Value = "庫存類別";
+            sheet.Cells[1, 2].Value = "材料編號";
+            sheet.Cells[1, 3].Value = "材料名稱";
+            sheet.Cells[1, 4].Value = "單位";
+            sheet.Cells[1, 5].Value = "單價";
+            sheet.Cells[1, 6].Value = "數量";
+            sheet.Cells[1, 7].Value = "安全存量";
+            sheet.Cells[1, 8].Value = "規格";
+            sheet.Cells[1, 9].Value = "零件廠牌";
+
+            #endregion
+
+            #region write content
+            int pos = 2;
+            foreach (var item in dv)
+            {
+                sheet.Cells[pos, 1].Value = item.StokCls;
+                sheet.Cells[pos, 2].Value = item.StokNo;
+                sheet.Cells[pos, 3].Value = item.StokNam;
+                sheet.Cells[pos, 4].Value = item.Unite;
+                sheet.Cells[pos, 5].Value = item.Price;
+                sheet.Cells[pos, 6].Value = item.Qty;
+                sheet.Cells[pos, 7].Value = item.SafeQty;
+                sheet.Cells[pos, 8].Value = item.Standard;
+                sheet.Cells[pos, 9].Value = item.Brand;
+                pos++;
+            }
+            #endregion
+
+            // Generate a new unique identifier against which the file can be stored
+            string handle = Guid.NewGuid().ToString();
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = "庫存列表_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+            }
+            //因為是用Query的方式,這個地方要用串流的方式來存檔
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                package.SaveAs(memoryStream);
+                //請注意 一定要加入這行,不然Excel會是空檔
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                TempData[handle] = memoryStream.ToArray();
+                // Note we are returning a filename as well as the handle
+                return new JsonResult()
+                {
+                    Data = new { FileGuid = handle, FileName = fileName }
+                };
+            }
+        }
+        [HttpGet]
+        public virtual ActionResult Download(string fileGuid, string fileName)
+        {
+            if (TempData[fileGuid] != null)
+            {
+                byte[] data = TempData[fileGuid] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
+            }
+            else
+            {
+                // Problem - Log the error, generate a blank file,
+                //           redirect to another controller action - whatever fits with your application
+                return new EmptyResult();
+            }
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

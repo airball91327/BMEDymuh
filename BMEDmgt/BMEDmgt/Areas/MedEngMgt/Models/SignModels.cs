@@ -11,6 +11,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
     public class UnsignCounts
     {
         public int RepairCount { get; set; }
+        public int RepairCount2 { get; set; }
         public int KeepCount { get; set; }
         public int BuyEvalateCount { get; set; }
         public int DeliveryCount { get; set; }
@@ -37,6 +38,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string AccDpt { get; set; }
         [Display(Name = "成本中心名稱")]
         public string AccDptName { get; set; }
+        [Display(Name = "維修別")]
+        public string RepType { get; set; }
+        [Display(Name = "購入日")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? BuyDate { get; set; }
+        [Display(Name = "購入金額")]
+        public decimal? BuyCost { get; set; }
         [Display(Name = "故障描述")]
         public string TroubleDes { get; set; }
         [Display(Name = "處理狀態")]
@@ -59,6 +67,20 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string PlantClass { get; set; }
         [Display(Name = "負責工程師")]
         public string RepEngName { get; set; }
+        [Display(Name = "數量")]
+        public int Amt { get; set; }
+        [Display(Name = "送修儀器配件")]
+        public string PlantDoc { get; set; }
+        [Display(Name = "放置地點")]
+        public string PlaceLoc { get; set; }
+        [Display(Name = "維修院區")]
+        public string RepairArea { get; set; }
+        [Display(Name = "申請日期")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? ApplyDate { get; set; }
+        [Display(Name = "結案驗收人")]
+        public string CheckerName { get; set; }
     }
 
     public class KeepListVModel

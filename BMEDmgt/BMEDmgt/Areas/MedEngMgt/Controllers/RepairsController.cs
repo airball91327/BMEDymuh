@@ -419,16 +419,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         item.EngName = u == null ? "" : u.FullName;
                     }
                 }
-                if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
-                {
-                    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                    if (u != null)
-                        rps = rps.Where(r => r.DptId == u.DptId)
-                            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
-                            .Distinct().ToList();
-                    else
-                        throw new Exception("無部門資料!!");
-                }
+                //if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
+                //{
+                //    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                //    if (u != null)
+                //        rps = rps.Where(r => r.DptId == u.DptId)
+                //            .Union(db.Repairs.Where(r => r.AccDpt == u.DptId))
+                //            .Distinct().ToList();
+                //    else
+                //        throw new Exception("無部門資料!!");
+                //}
                 if (Roles.IsUserInRole("Usual"))  //一般使用者可查詢自己申請之案件
                 {
                     AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
@@ -462,7 +462,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (!string.IsNullOrEmpty(plantClass))
                     rps = rps.Where(r => r.PlantClass == plantClass).ToList();
                 if (!string.IsNullOrEmpty(troubleDes))
-                    rps = rps.Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
+                    rps = rps.Where(r => !string.IsNullOrEmpty(r.TroubleDes))
+                             .Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
                 if (!string.IsNullOrEmpty(qtyEngId))
                 {
                     int tempEngId = Convert.ToInt32(qtyEngId);
@@ -540,6 +541,38 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             else if (flw == "所有")
                 rv = rv.ToList();
             return PartialView("List2", rv.OrderByDescending(r => r.DocId));
+        }
+
+        public ActionResult IndexPublicAcc()
+        {
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            listItem.Add(new SelectListItem { Text = "待處理", Value = "待處理" });
+            listItem.Add(new SelectListItem { Text = "已處理", Value = "已處理" });
+            listItem.Add(new SelectListItem { Text = "已結案", Value = "已結案" });
+            ViewData["FLOWTYPE"] = new SelectList(listItem, "Value", "Text", "待處理");
+            //
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            db.DealStatus.Where(d => d.Flg == "Y").ToList()
+                .ForEach(d =>
+                {
+                    listItem3.Add(new SelectListItem { Text = d.Title, Value = d.Title });
+                });
+            ViewData["DEALSTATUS"] = new SelectList(listItem3, "Value", "Text");
+            //
+            List<SelectListItem> listItem2 = new List<SelectListItem>();
+            SelectListItem li;
+            db.Departments.ToList()
+                .ForEach(d =>
+                {
+                    li = new SelectListItem();
+                    li.Text = d.Name_C;
+                    li.Value = d.DptId;
+                    listItem2.Add(li);
+
+                });
+            ViewData["ACCDPT"] = new SelectList(listItem2, "Value", "Text");
+            ViewData["APPLYDPT"] = new SelectList(listItem2, "Value", "Text");
+            return PartialView();
         }
 
         public void ExcelRepData(List<string> rv)
@@ -926,6 +959,308 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 repair.Cost = asset.Cost;
             }
             return PartialView(repair);
+        }
+
+        public ActionResult DetailsEdit(string id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            Repair repair = db.Repairs.Find(id);
+            if (repair == null)
+            {
+                return HttpNotFound();
+            }
+            repair.DptName = db.Departments.Find(repair.DptId).Name_C;
+            repair.AccDptName = db.Departments.Find(repair.AccDpt).Name_C;
+            Asset asset = db.Assets.Find(repair.AssetNo);
+            if (asset != null)
+            {
+                repair.BuyDate = asset.BuyDate;
+                repair.Cost = asset.Cost;
+            }
+            List<SelectListItem> AccDpt = new List<SelectListItem>();
+            db.Departments.ToList()
+                .ForEach(dp =>
+                {
+                    AccDpt.Add(new SelectListItem
+                    {
+                        Value = dp.DptId,
+                        Text = dp.Name_C,
+                        Selected = false
+                    });
+                });
+            ViewData["AccDpt"] = AccDpt;
+            return PartialView(repair);
+        }
+
+        [HttpPost]
+        public ActionResult DetailsEdit(Repair repair)
+        {
+            Repair updateRepair = db.Repairs.Find(repair.DocId);
+            if (updateRepair == null)
+            {
+                return HttpNotFound();
+            }
+            try
+            {
+                //Update details.
+                updateRepair.AccDpt = repair.AccDpt;
+                updateRepair.PlaceLoc = repair.PlaceLoc;
+                updateRepair.RepType = repair.RepType;
+                updateRepair.Email = "NotMapped Required field.";
+                db.Entry(updateRepair).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return new JsonResult
+                {
+                    Data = new { success = true, error = "" },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 公用帳號查詢結果List
+        /// </summary>
+        /// <param name="fm"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ListPublicAcc(FormCollection fm, int page = 1)
+        {
+            string ftype = fm["qtyFLOWTYPE"];
+            string aname = fm["qtyASSETNAME"];
+            string ano = fm["qtyASSETNO"];
+            string acc = fm["qtyACCDPT"];
+            string docid = fm["qtyDOCID"];
+            string dptid = fm["qtyDPTID"];
+            string dealstatus = fm["qtyDEALSTATUS"];
+
+            List<RepairListVModel> rv = new List<RepairListVModel>();
+            AppUser usr = db.AppUsers.Where(u => u.UserName == "eao").ToList().FirstOrDefault();
+            if(usr == null)
+            {
+                usr = db.AppUsers.Find(WebSecurity.CurrentUserId);
+            }
+            var vendors = db.Assets.Join(db.Vendors, a => a.VendorId, v => v.VendorId,
+               (a, v) => new {
+                   ano = a.AssetNo,
+                   vname = v.VendorName
+               });
+            Department c;
+            switch (ftype)
+            {
+                case "已處理":
+                    db.RepairFlows.Where(f => f.Status == "?")
+                .Join(db.RepairFlows.Where(f2 => f2.UserId == usr.Id && f2.Status == "1"),
+                f => f.DocId, f2 => f2.DocId, (f, f2) => f)
+                .Select(f => new
+                {
+                    f.DocId,
+                    f.UserId,
+                    f.Status,
+                    f.Cls
+                }).Distinct()
+                .Join(db.Repairs, f => f.DocId, r => r.DocId,
+                (f, r) => new
+                {
+                    repair = r,
+                    flow = f
+                })
+                .Join(db.RepairDtls, m => m.repair.DocId, d => d.DocId,
+                (m, d) => new
+                {
+                    repair = m.repair,
+                    flow = m.flow,
+                    repdtl = d
+                }).Join(db.Departments, j => j.repair.AccDpt, d => d.DptId,
+                    (j, d) => new {
+                        repair = j.repair,
+                        flow = j.flow,
+                        repdtl = j.repdtl,
+                        dpt = d
+                    }).GroupJoin(vendors, j => j.repair.AssetNo, v => v.ano,
+                    (j, v) => new {
+                        j = j,
+                        v = v
+                    }).SelectMany(v => v.v.DefaultIfEmpty(),
+                    (x, y) => new { x, y }).ToList()
+                    .ForEach(j => rv.Add(new RepairListVModel
+                    {
+                        DocType = "請修",
+                        DocId = j.x.j.repair.DocId,
+                        AssetNo = j.x.j.repair.AssetNo,
+                        AssetName = j.x.j.repair.AssetName,
+                        ApplyDpt = j.x.j.repair.DptId,
+                        AccDpt = j.x.j.repair.AccDpt,
+                        AccDptName = j.x.j.dpt.Name_C,
+                        TroubleDes = j.x.j.repair.TroubleDes,
+                        DealState = j.x.j.repdtl.DealState,
+                        DealDes = j.x.j.repdtl.DealDes,
+                        Cost = j.x.j.repdtl.Cost,
+                        Days = DateTime.Now.Subtract(j.x.j.repair.ApplyDate.GetValueOrDefault()).Days,
+                        Flg = j.x.j.flow.Status,
+                        FlowUid = j.x.j.flow.UserId,
+                        FlowCls = j.x.j.flow.Cls,
+                        Vendor = j.y == null ? "" : j.y.vname
+                    }));
+
+                    break;
+                case "已結案":
+                    List<RepairFlow> rf = db.RepairFlows.Where(f => f.Status == "2").ToList();
+                    rf = rf.Join(db.RepairFlows.Where(f2 => f2.UserId == usr.Id),
+                         f => f.DocId, f2 => f2.DocId, (f, f2) => f).ToList();
+
+                    rf.Select(f => new
+                    {
+                        f.DocId,
+                        f.UserId,
+                        f.Status,
+                        f.Cls
+                    }).Distinct().Join(db.Repairs, f => f.DocId, r => r.DocId,
+               (f, r) => new
+               {
+                   repair = r,
+                   flow = f
+               })
+               .Join(db.RepairDtls, m => m.repair.DocId, d => d.DocId,
+               (m, d) => new
+               {
+                   repair = m.repair,
+                   flow = m.flow,
+                   repdtl = d
+               }).Join(db.Departments, j => j.repair.AccDpt, d => d.DptId,
+                    (j, d) => new {
+                        repair = j.repair,
+                        flow = j.flow,
+                        repdtl = j.repdtl,
+                        dpt = d
+                    }).GroupJoin(vendors, j => j.repair.AssetNo, v => v.ano,
+                    (j, v) => new {
+                        j = j,
+                        v = v
+                    }).SelectMany(v => v.v.DefaultIfEmpty(),
+                    (x, y) => new { x, y }).ToList()
+                    .ForEach(j => rv.Add(new RepairListVModel
+                    {
+                        DocType = "請修",
+                        DocId = j.x.j.repair.DocId,
+                        AssetNo = j.x.j.repair.AssetNo,
+                        AssetName = j.x.j.repair.AssetName,
+                        ApplyDpt = j.x.j.repair.DptId,
+                        AccDpt = j.x.j.repair.AccDpt,
+                        AccDptName = j.x.j.dpt.Name_C,
+                        TroubleDes = j.x.j.repair.TroubleDes,
+                        DealState = j.x.j.repdtl.DealState,
+                        DealDes = j.x.j.repdtl.DealDes,
+                        Cost = j.x.j.repdtl.Cost,
+                        Days = DateTime.Now.Subtract(j.x.j.repair.ApplyDate.GetValueOrDefault()).Days,
+                        Flg = j.x.j.flow.Status,
+                        FlowUid = j.x.j.flow.UserId,
+                        FlowCls = j.x.j.flow.Cls,
+                        Vendor = j.y == null ? "" : j.y.vname
+                    }));
+                    break;
+                case "待處理":
+                    var repairFlows = db.RepairFlows.ToList();
+                    var userId = WebSecurity.CurrentUserId;
+                    var publicAcc = db.AppUsers.Where(u => u.UserName == "eao").ToList().FirstOrDefault();
+                    if (publicAcc != null)
+                    {
+                        userId = publicAcc.Id;
+                    }
+                    repairFlows = repairFlows.Where(f => f.Status == "?" && f.UserId == userId).ToList();
+
+                    repairFlows.Select(f => new
+                    {
+                        f.DocId,
+                        f.UserId,
+                        f.Status,
+                        f.Cls
+                    }).Join(db.Repairs, f => f.DocId, r => r.DocId,
+                    (f, r) => new
+                    {
+                        repair = r,
+                        flow = f
+                    })
+                    .Join(db.RepairDtls, m => m.repair.DocId, d => d.DocId,
+                    (m, d) => new
+                    {
+                        repair = m.repair,
+                        flow = m.flow,
+                        repdtl = d
+                    }).Join(db.Departments, j => j.repair.AccDpt, d => d.DptId,
+                        (j, d) => new {
+                            repair = j.repair,
+                            flow = j.flow,
+                            repdtl = j.repdtl,
+                            dpt = d
+                        }).GroupJoin(vendors, j => j.repair.AssetNo, v => v.ano,
+                        (j, v) => new {
+                            j = j,
+                            v = v
+                        }).SelectMany(v => v.v.DefaultIfEmpty(),
+                        (x, y) => new { x, y }).ToList()
+                        .ForEach(j => rv.Add(new RepairListVModel
+                        {
+                            DocType = "請修",
+                            DocId = j.x.j.repair.DocId,
+                            AssetNo = j.x.j.repair.AssetNo,
+                            AssetName = j.x.j.repair.AssetName,
+                            ApplyDpt = j.x.j.repair.DptId,
+                            AccDpt = j.x.j.repair.AccDpt,
+                            AccDptName = j.x.j.dpt.Name_C,
+                            TroubleDes = j.x.j.repair.TroubleDes,
+                            DealState = j.x.j.repdtl.DealState,
+                            DealDes = j.x.j.repdtl.DealDes,
+                            Cost = j.x.j.repdtl.Cost,
+                            Days = DateTime.Now.Subtract(j.x.j.repair.ApplyDate.GetValueOrDefault()).Days,
+                            Flg = j.x.j.flow.Status,
+                            FlowUid = j.x.j.flow.UserId,
+                            FlowCls = j.x.j.flow.Cls,
+                            Vendor = j.y == null ? "" : j.y.vname,
+                            PlantClass = j.x.j.repair.PlantClass
+                        }));
+                    break;
+            };
+
+
+            if (!string.IsNullOrEmpty(docid))
+            {
+                rv = rv.Where(v => v.DocId == docid).ToList();
+            }
+            if (!string.IsNullOrEmpty(ano))
+            {
+                rv = rv.Where(v => v.AssetNo == ano).ToList();
+            }
+            if (!string.IsNullOrEmpty(dptid))
+            {
+                rv = rv.Where(v => v.ApplyDpt == dptid).ToList();
+            }
+            if (!string.IsNullOrEmpty(acc))
+            {
+                rv = rv.Where(v => v.AccDpt == acc).ToList();
+            }
+            if (!string.IsNullOrEmpty(aname))
+            {
+                rv = rv.Where(v => v.AssetName.Contains(aname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(dealstatus))
+            {
+                rv = rv.Where(v => v.DealState == dealstatus).ToList();
+            }
+            rv = rv.OrderByDescending(k => k.DocId).ToList();
+
+            if (rv.ToPagedList(page, pageSize).Count <= 0)
+                return PartialView(rv.ToPagedList(1, pageSize));
+
+            return PartialView(rv.ToPagedList(page, pageSize));
         }
 
         // GET: MedEngMgt/Repairs/Views/5
@@ -1464,6 +1799,299 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             return View(rp);
         }
+
+        [HttpPost]
+        public ActionResult ExportToExcel(FormCollection fm)
+        {
+            string aname = fm["qtyASSETNAME"];
+            string ano = fm["qtyASSETNO"];
+            string acc = fm["qtyACCDPT"];
+            string docid = fm["qtyDOCID"];
+            string dptid = fm["qtyDPTID"];
+            string flw = fm["qtyFLOWTYP"];
+            string typ = fm["qtyTYPE"];
+            string sd = fm["Sdate"];
+            string ed = fm["Edate"];
+            DateTime? sdate = null, edate = null;
+            string plantClass = fm["qtyPlantClass"];
+            string troubleDes = fm["qtyTroubleDes"];
+            string qtyEngId = fm["qtyEngId"];
+            string repairArea = fm["qtyRepairArea"];
+            if (!string.IsNullOrEmpty(sd))
+            {
+                sdate = DateTime.ParseExact(sd.Replace("-", "/"), "yyyy/MM/dd", null);
+            }
+            if (!string.IsNullOrEmpty(ed))
+            {
+                edate = DateTime.ParseExact(ed.Replace("-", "/"), "yyyy/MM/dd", null)
+                    .AddHours(23)
+                    .AddMinutes(59)
+                    .AddSeconds(59);
+            }
+            List<RepairListVModel> rv = new List<RepairListVModel>();
+            if (string.IsNullOrEmpty(aname) && string.IsNullOrEmpty(ano) &&
+                string.IsNullOrEmpty(acc) && string.IsNullOrEmpty(docid) &&
+                string.IsNullOrEmpty(dptid) && string.IsNullOrEmpty(typ) &&
+                string.IsNullOrEmpty(plantClass) && string.IsNullOrEmpty(troubleDes) &&
+                string.IsNullOrEmpty(qtyEngId) && string.IsNullOrEmpty(repairArea) &&
+                sdate == null && edate == null)
+            {
+                throw new Exception("請輸入查詢條件!!");
+            }
+            else
+            {
+                List<Repair> rps = db.Repairs.ToList();
+                foreach (var item in rps)
+                {
+                    var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
+                                                    .Where(rf => rf.Cls.Contains("工程師"))
+                                                    .OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
+                    if (lastEngFlow != null)
+                    {
+                        item.EngId = lastEngFlow.UserId;
+                        var u = db.AppUsers.Where(a => a.Id == item.EngId).ToList().FirstOrDefault();
+                        item.EngName = u == null ? "" : u.FullName;
+                    }
+                }
+                if (Roles.IsUserInRole("Usual"))  //一般使用者可查詢自己申請之案件
+                {
+                    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                    if (u != null)
+                        rps = rps.Where(r => r.UserId == u.Id).ToList();
+                    else
+                        throw new Exception("查無人員!!");
+                }
+                if (!string.IsNullOrEmpty(aname))
+                    rps = rps.Where(r => r.AssetName != null)
+                        .Where(r => r.AssetName.Contains(aname))
+                        .ToList();
+                if (!string.IsNullOrEmpty(ano))
+                    rps = rps.Where(r => r.AssetNo == ano).ToList();
+                if (!string.IsNullOrEmpty(acc))
+                    rps = rps.Where(r => r.AccDpt == acc).ToList();
+                if (!string.IsNullOrEmpty(docid))
+                    rps = rps.Where(r => r.DocId == docid).ToList();
+                if (!string.IsNullOrEmpty(dptid))
+                    rps = rps.Where(r => r.DptId == dptid).ToList();
+                if (!string.IsNullOrEmpty(plantClass))
+                    rps = rps.Where(r => r.PlantClass == plantClass).ToList();
+                if (!string.IsNullOrEmpty(troubleDes))
+                    rps = rps.Where(r => !string.IsNullOrEmpty(r.TroubleDes))
+                             .Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
+                if (!string.IsNullOrEmpty(qtyEngId))
+                {
+                    int tempEngId = Convert.ToInt32(qtyEngId);
+                    rps = rps.Where(r => r.EngId == tempEngId).ToList();
+                }
+                if (!string.IsNullOrEmpty(repairArea))
+                    rps = rps.Where(r => r.RepairArea == repairArea).ToList();
+                if (!string.IsNullOrEmpty(typ))
+                {
+                    if (!string.IsNullOrEmpty(aname))
+                    {
+                        rps = rps.Union(db.Repairs.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
+                        (r, a) => r).ToList()).ToList();
+                    }
+                    else
+                    {
+                        rps = rps.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
+                            (r, a) => r).ToList();
+                    }
+                }
+                if (sdate.HasValue)
+                {
+                    rps = rps.Where(r => r.ApplyDate >= sdate.Value).ToList();
+                }
+                if (edate.HasValue)
+                {
+                    rps = rps.Where(r => r.ApplyDate <= edate.Value).ToList();
+                }
+                var ss = new[] { "?", "2" };
+                rps.Join(db.RepairDtls, r => r.DocId, d => d.DocId,
+                    (r, d) => new {
+                        repair = r,
+                        dtl = d
+                    }).Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), m => m.repair.DocId, f => f.DocId,
+                    (m, f) => new
+                    {
+                        repair = m.repair,
+                        flow = f,
+                        repdtl = m.dtl
+                    }).Join(db.Departments, j => j.repair.AccDpt, d => d.DptId,
+                    (j, d) => new {
+                        repair = j.repair,
+                        flow = j.flow,
+                        repdtl = j.repdtl,
+                        dpt = d
+                    }).ToList()
+                    .ForEach(j => rv.Add(new RepairListVModel
+                    {
+                        DocType = "請修",
+                        DocId = j.repair.DocId,
+                        UserFullName = j.repair.UserName,
+                        Contact = j.repair.Contact,
+                        AssetNo = j.repair.AssetNo,
+                        AssetName = j.repair.AssetName,
+                        ApplyDpt = j.repair.DptId,
+                        ApplyDptName = db.Departments.Find(j.repair.DptId) == null ? "" : db.Departments.Find(j.repair.DptId).Name_C,
+                        AccDpt = j.repair.AccDpt,
+                        AccDptName = j.dpt.Name_C,
+                        RepType = j.repair.RepType,
+                        TroubleDes = j.repair.TroubleDes,
+                        DealState = j.repdtl.DealState,
+                        DealDes = j.repdtl.DealDes,
+                        Cost = j.repdtl.Cost,
+                        Days = DateTime.Now.Subtract(j.repair.ApplyDate.GetValueOrDefault()).Days,
+                        Flg = j.flow.Status,
+                        FlowUid = j.flow.UserId,
+                        FlowUName = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
+                        FlowCls = j.flow.Cls,
+                        RepEngName = j.repair.EngName,
+                        BuyDate = db.Assets.Find(j.repair.AssetNo) == null ? null : db.Assets.Find(j.repair.AssetNo).BuyDate,
+                        BuyCost = db.Assets.Find(j.repair.AssetNo) == null ? null : db.Assets.Find(j.repair.AssetNo).Cost,
+                        Amt = j.repair.Amt,
+                        PlantDoc = j.repair.PlantDoc,
+                        PlaceLoc = j.repair.PlaceLoc,
+                        RepairArea = j.repair.RepairArea,
+                        ApplyDate = j.repair.ApplyDate,
+                        PlantClass = j.repair.PlantClass,
+                        CheckerName = j.repair.CheckerName
+                    }));
+            }
+            if (flw == "已處理")
+                rv = rv.Where(r => r.Flg == "?").ToList();
+            else if (flw == "已結案")
+                rv = rv.Where(r => r.Flg == "2").ToList();
+            else if (flw == "所有")
+                rv = rv.ToList();
+
+            string fileName = "";
+            MemoryStream stream = new MemoryStream();
+            ExcelPackage package = new ExcelPackage(stream);
+
+            package.Workbook.Worksheets.Add("請修案");
+            ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            #region write header
+            sheet.Cells[1, 1].Value = "類別";
+            sheet.Cells[1, 2].Value = "表單編號";
+            sheet.Cells[1, 3].Value = "申請人姓名";
+            sheet.Cells[1, 4].Value = "申請人分機";
+            sheet.Cells[1, 5].Value = "申請部門";
+            sheet.Cells[1, 6].Value = "成本中心";
+            sheet.Cells[1, 7].Value = "維修別";
+            sheet.Cells[1, 8].Value = "財產編號";
+            sheet.Cells[1, 9].Value = "儀器名稱";
+            sheet.Cells[1, 10].Value = "購入日";
+            sheet.Cells[1, 11].Value = "購入金額";
+            sheet.Cells[1, 12].Value = "數量";
+            sheet.Cells[1, 13].Value = "送修儀器配件";
+            sheet.Cells[1, 14].Value = "放置地點";
+            sheet.Cells[1, 15].Value = "維修院區";
+            sheet.Cells[1, 16].Value = "申請日期";
+            sheet.Cells[1, 17].Value = "故障描述";
+            sheet.Cells[1, 18].Value = "結案驗收人";
+            sheet.Cells[1, 19].Value = "設備類別";
+            sheet.Cells[1, 20].Value = "處理狀態";
+            sheet.Cells[1, 21].Value = "處理描述";
+            sheet.Cells[1, 22].Value = "費用";
+            sheet.Cells[1, 23].Value = "目前關卡處理人";
+            sheet.Cells[1, 24].Value = "負責工程師";
+            sheet.Cells[1, 25].Value = "流程狀態";
+
+            #endregion
+
+            #region write content
+            int pos = 2;
+            foreach (var item in rv)
+            {
+                sheet.Cells[pos, 1].Value = item.DocType;
+                sheet.Cells[pos, 2].Value = item.DocId;
+                sheet.Cells[pos, 3].Value = item.UserFullName;
+                sheet.Cells[pos, 4].Value = item.Contact;
+                sheet.Cells[pos, 5].Value = item.ApplyDptName;
+                sheet.Cells[pos, 6].Value = item.AccDptName;
+                sheet.Cells[pos, 7].Value = item.RepType;
+                sheet.Cells[pos, 8].Value = item.AssetNo;
+                sheet.Cells[pos, 9].Value = item.AssetName;
+                sheet.Cells[pos, 10].Value = item.BuyDate.HasValue == false ? "" : item.BuyDate.Value.ToString("yyyy/MM/dd");
+                sheet.Cells[pos, 11].Value = item.BuyCost;
+                sheet.Cells[pos, 12].Value = item.Amt;
+                sheet.Cells[pos, 13].Value = item.PlantDoc;
+                sheet.Cells[pos, 14].Value = item.PlaceLoc;
+                sheet.Cells[pos, 15].Value = item.RepairArea;
+                sheet.Cells[pos, 16].Value = item.ApplyDate.HasValue == false ? "" : item.ApplyDate.Value.ToString("yyyy/MM/dd"); ;
+                sheet.Cells[pos, 17].Value = item.TroubleDes;
+                sheet.Cells[pos, 18].Value = item.CheckerName;
+                sheet.Cells[pos, 19].Value = item.PlantClass;
+                sheet.Cells[pos, 20].Value = item.DealState;
+                sheet.Cells[pos, 21].Style.WrapText = true;
+                sheet.Column(21).Width = 70;
+                var dtlR = db.RepairDtlRecords.Where(r => r.DocId == item.DocId).ToList();
+                if (dtlR.Count() > 0)
+                {
+                    int i = 1;
+                    foreach (var record in dtlR)
+                    {
+                        if (i != 1)
+                        {
+                            sheet.Cells[pos, 21].Value += "\n";
+                        }
+                        sheet.Cells[pos, 21].Value += record.Rtt + record.DealDes;
+                        i++;
+                    }
+                }
+                else
+                {
+                    sheet.Cells[pos, 21].Value = item.DealDes;
+                }
+                sheet.Cells[pos, 22].Value = item.Cost;
+                sheet.Cells[pos, 23].Value = item.FlowUName;
+                sheet.Cells[pos, 24].Value = item.RepEngName;
+                sheet.Cells[pos, 25].Value = item.FlowCls;
+
+                pos++;
+            }
+            #endregion
+
+            // Generate a new unique identifier against which the file can be stored
+            string handle = Guid.NewGuid().ToString();
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = "請修案列表_" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+            }
+            //因為是用Query的方式,這個地方要用串流的方式來存檔
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                package.SaveAs(memoryStream);
+                //請注意 一定要加入這行,不然Excel會是空檔
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                TempData[handle] = memoryStream.ToArray();
+                // Note we are returning a filename as well as the handle
+                return new JsonResult()
+                {
+                    Data = new { FileGuid = handle, FileName = fileName }
+                };
+            }
+        }
+        [HttpGet]
+        public virtual ActionResult Download(string fileGuid, string fileName)
+        {
+            if (TempData[fileGuid] != null)
+            {
+                byte[] data = TempData[fileGuid] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
+            }
+            else
+            {
+                // Problem - Log the error, generate a blank file,
+                //           redirect to another controller action - whatever fits with your application
+                return new EmptyResult();
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
