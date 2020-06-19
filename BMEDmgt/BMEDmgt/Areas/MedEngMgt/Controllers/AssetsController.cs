@@ -407,7 +407,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 asset.VendorName = "";
             }
 
-
             return View(asset);
         }
 
