@@ -519,7 +519,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         AssetNo = j.repair.AssetNo,
                         AssetName = j.repair.AssetName,
                         ApplyDpt = j.repair.DptId,
-                        ApplyDptName = db.Departments.Find(j.repair.DptId) == null ? "" : db.Departments.Find(j.repair.DptId).Name_C,
                         AccDpt = j.repair.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         TroubleDes = j.repair.TroubleDes,
@@ -529,10 +528,22 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Days = DateTime.Now.Subtract(j.repair.ApplyDate.GetValueOrDefault()).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
-                        FlowUName = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
                         FlowCls = j.flow.Cls,
                         RepEngName = j.repair.EngName
                     }));
+            }
+            foreach (var item in rv)
+            {
+                var dpt = db.Departments.Where(d => d.DptId == item.ApplyDpt).ToList().FirstOrDefault();
+                if (dpt != null)
+                {
+                    item.ApplyDptName = dpt.Name_C;
+                }
+                var flowuser = db.AppUsers.Where(u => u.Id == item.FlowUid).ToList().FirstOrDefault();
+                if (flowuser != null)
+                {
+                    item.FlowUName = flowuser.FullName;
+                }
             }
             if (flw == "已處理")
                 rv = rv.Where(r => r.Flg == "?").ToList();
@@ -1933,7 +1944,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         AssetNo = j.repair.AssetNo,
                         AssetName = j.repair.AssetName,
                         ApplyDpt = j.repair.DptId,
-                        ApplyDptName = db.Departments.Find(j.repair.DptId) == null ? "" : db.Departments.Find(j.repair.DptId).Name_C,
                         AccDpt = j.repair.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         RepType = j.repair.RepType,
@@ -1944,11 +1954,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Days = DateTime.Now.Subtract(j.repair.ApplyDate.GetValueOrDefault()).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
-                        FlowUName = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
                         FlowCls = j.flow.Cls,
                         RepEngName = j.repair.EngName,
-                        BuyDate = db.Assets.Find(j.repair.AssetNo) == null ? null : db.Assets.Find(j.repair.AssetNo).BuyDate,
-                        BuyCost = db.Assets.Find(j.repair.AssetNo) == null ? null : db.Assets.Find(j.repair.AssetNo).Cost,
                         Amt = j.repair.Amt,
                         PlantDoc = j.repair.PlantDoc,
                         PlaceLoc = j.repair.PlaceLoc,
@@ -1957,6 +1964,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         PlantClass = j.repair.PlantClass,
                         CheckerName = j.repair.CheckerName
                     }));
+            }
+            foreach (var item in rv)
+            {
+                var dpt = db.Departments.Where(d => d.DptId == item.ApplyDpt).ToList().FirstOrDefault();
+                if (dpt != null)
+                {
+                    item.ApplyDptName = dpt.Name_C;
+                }
+                var flowuser = db.AppUsers.Where(u => u.Id == item.FlowUid).ToList().FirstOrDefault();
+                if (flowuser != null)
+                {
+                    item.FlowUName = flowuser.FullName;
+                }
+                var asset = db.Assets.Where(a => a.AssetNo == item.AssetNo).ToList().FirstOrDefault();
+                if (asset != null)
+                {
+                    item.BuyDate = asset.BuyDate;
+                    item.BuyCost = asset.Cost;
+                }
             }
             if (flw == "已處理")
                 rv = rv.Where(r => r.Flg == "?").ToList();

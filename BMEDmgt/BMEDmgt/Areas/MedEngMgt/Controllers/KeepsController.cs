@@ -698,7 +698,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         AssetNo = j.keep.AssetNo,
                         AssetName = j.keep.AssetName,
                         ApplyDpt = j.keep.DptId,
-                        ApplyDptName = db.Departments.Find(j.keep.DptId) == null ? "" : db.Departments.Find(j.keep.DptId).Name_C,
                         AccDpt = j.keep.AccDpt,
                         AccDptName = j.dpt.Name_C,
                         Result = j.keepdtl.Result,
@@ -719,6 +718,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         WartyEd = j.asset.WartyEd,
                         EndDate = j.keepdtl.EndDate
                     }));
+            }
+            foreach(var item in kv)
+            {
+                var dpt = db.Departments.Where(d => d.DptId == item.ApplyDpt).ToList().FirstOrDefault();
+                if (dpt != null)
+                {
+                    item.ApplyDptName = dpt.Name_C;
+                }
             }
             if (flw == "已處理")
                 kv = kv.Where(r => r.Flg == "?").ToList();
