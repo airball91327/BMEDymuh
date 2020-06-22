@@ -5,7 +5,10 @@
     }
     else {
         alert("送出成功!");
-        location.replace("../../Home");
+        //location.replace("../../Home");
+        var btn = window.opener.document.getElementById("btnQTY");
+        btn.click();
+        window.close();
     }
 }
 
