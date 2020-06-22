@@ -76,10 +76,20 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelForRequired(model => model.AssetArea, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.AssetArea, "蘭陽")蘭陽
+                @Html.RadioButtonFor(model => model.AssetArea, "新民")新民
+                @Html.ValidationMessageFor(model => model.AssetArea, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelForRequired(model => model.AssetClass, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.RadioButtonFor(model => model.AssetClass, "醫療儀器")醫療儀器
                 @Html.RadioButtonFor(model => model.AssetClass, "工程設施")工程設施
+                @Html.RadioButtonFor(model => model.AssetClass, "其他")其他
                 @Html.ValidationMessageFor(model => model.AssetClass, "", new { @class = "text-danger" })
             </div>
         </div>

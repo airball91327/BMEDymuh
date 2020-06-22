@@ -46,22 +46,33 @@
                 @Html.EditorFor(model => model.Ename)
                 @Html.ValidationMessageFor(model => model.Ename)
             </div>
+
+            <div class="display-label">
+                @Html.LabelFor(model => model.AssetArea)
+            </div>
+            <div class="editor-field">
+                @Html.RadioButton("AssetArea", "蘭陽")蘭陽
+                @Html.RadioButton("AssetArea", "新民")新民
+                @Html.ValidationMessageFor(model => model.AssetArea)
+            </div>
+
             <div class="display-label">
                 @Html.LabelFor(model => model.AssetClass)
             </div>
             <div class="editor-field">
                 @Html.RadioButton("AssetClass", "醫療儀器")醫療儀器
                 @Html.RadioButton("AssetClass", "工程設施")工程設施
+                @Html.RadioButton("AssetClass", "其他")其他
                 @Html.ValidationMessageFor(model => model.AssetClass)
             </div>
             @Html.HiddenFor(model => model.AccDate)
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.AccDate)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.AccDate)
-                    @Html.ValidationMessageFor(model => model.AccDate)
-                </div>*@
+                @Html.LabelFor(model => model.AccDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.AccDate)
+                @Html.ValidationMessageFor(model => model.AccDate)
+            </div>*@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.RelDate)
@@ -80,12 +91,12 @@
             </div>
 
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.Standard)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Standard)
-                    @Html.ValidationMessageFor(model => model.Standard)
-                </div>*@
+                @Html.LabelFor(model => model.Standard)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Standard)
+                @Html.ValidationMessageFor(model => model.Standard)
+            </div>*@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.Type)
@@ -96,20 +107,20 @@
             </div>
             @Html.HiddenFor(model => model.VendorId)
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.Vender)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Vender)
-                    @Html.ValidationMessageFor(model => model.Vender)
-                </div>*@
+                @Html.LabelFor(model => model.Vender)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Vender)
+                @Html.ValidationMessageFor(model => model.Vender)
+            </div>*@
             @Html.HiddenFor(model => model.DisposeKind)
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.DisposeKind)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.DisposeKind)
-                    @Html.ValidationMessageFor(model => model.DisposeKind)
-                </div>*@
+                @Html.LabelFor(model => model.DisposeKind)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.DisposeKind)
+                @Html.ValidationMessageFor(model => model.DisposeKind)
+            </div>*@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.DelivDpt)
@@ -139,12 +150,12 @@
             </div>
             @Html.HiddenFor(model => model.AccDpt)
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.AccDpt)
-                </div>
-                <div class="editor-field">
-                    @Html.DropDownListFor(model => model.AccDpt, ViewData["AccDpts"] as SelectList, "請選擇")
-                    @Html.ValidationMessageFor(model => model.AccDpt)
-                </div>*@
+                @Html.LabelFor(model => model.AccDpt)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.AccDpt, ViewData["AccDpts"] as SelectList, "請選擇")
+                @Html.ValidationMessageFor(model => model.AccDpt)
+            </div>*@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.Cost)
@@ -155,12 +166,12 @@
             </div>
 
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.Shares)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Shares)
-                    @Html.ValidationMessageFor(model => model.Shares)
-                </div>*@
+                @Html.LabelFor(model => model.Shares)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Shares)
+                @Html.ValidationMessageFor(model => model.Shares)
+            </div>*@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.RiskLvl)
@@ -189,19 +200,19 @@
                 @Html.ValidationMessageFor(model => model.MacAddr)
             </div>
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.OsName)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.OsName)
-                    @Html.ValidationMessageFor(model => model.OsName)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.ApName)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.ApName)
-                    @Html.ValidationMessageFor(model => model.ApName)
-                </div>*@
+                @Html.LabelFor(model => model.OsName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.OsName)
+                @Html.ValidationMessageFor(model => model.OsName)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ApName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ApName)
+                @Html.ValidationMessageFor(model => model.ApName)
+            </div>*@
             <div class="editor-label">
                 @Html.LabelFor(model => model.MakeNo)
             </div>
@@ -219,12 +230,12 @@
             </div>
             @Html.HiddenFor(model => model.KeepYm)
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.KeepYm)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.KeepYm)
-                    @Html.ValidationMessageFor(model => model.KeepYm)
-                </div>*@
+                @Html.LabelFor(model => model.KeepYm)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.KeepYm)
+                @Html.ValidationMessageFor(model => model.KeepYm)
+            </div>*@
             <div class="editor-label">
                 @Html.LabelFor(model => model.Cycle)
             </div>
@@ -234,18 +245,18 @@
             </div>
             @Html.HiddenFor(model => model.Docid)
             @*<div class="editor-label">
-                    @Html.LabelFor(model => model.Docid)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Docid)
-                    @Html.ValidationMessageFor(model => model.Docid)
-                </div>*@
+                @Html.LabelFor(model => model.Docid)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Docid)
+                @Html.ValidationMessageFor(model => model.Docid)
+            </div>*@
             @*<div class="editor-label">
-                    @Html.Label("IsCopy", "沿用新增資料")
-                </div>
-                <div class="editor-label">
-                    @Html.CheckBox("IsCopy")
-                </div>*@
+                @Html.Label("IsCopy", "沿用新增資料")
+            </div>
+            <div class="editor-label">
+                @Html.CheckBox("IsCopy")
+            </div>*@
             <p>
                 <input type="submit" value="確定送出" />
             </p>

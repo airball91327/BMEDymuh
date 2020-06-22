@@ -18,6 +18,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string AssetNo { get; set; }
         [Display(Name = "醫工碼")]
         public string BmedNo { get; set; }
+        [Display(Name = "院區")]
+        public string AssetArea { get; set; }
         [Required]
         [Display(Name = "財產種類")]
         public string AssetClass { get; set; }

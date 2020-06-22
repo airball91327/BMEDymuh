@@ -74,6 +74,9 @@
                 @Html.CheckBox("chkALL")
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AssetArea)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().AssetClass)
             </th>
             <th>
@@ -134,6 +137,9 @@
                 <tr>
                     <td>
                         @Html.CheckBox("chkENG")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssetArea)
                     </td>
                     <td>
                         @if (item.DisposeKind == "報廢")

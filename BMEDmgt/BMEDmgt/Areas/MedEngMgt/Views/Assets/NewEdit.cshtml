@@ -49,12 +49,23 @@
                 @Html.EditorFor(model => model.Ename)
                 @Html.ValidationMessageFor(model => model.Ename)
             </div>
+
+            <div class="display-label">
+                @Html.LabelFor(model => model.AssetArea)
+            </div>
+            <div class="editor-field">
+                @Html.RadioButton("AssetArea", "蘭陽")蘭陽
+                @Html.RadioButton("AssetArea", "新民")新民
+                @Html.ValidationMessageFor(model => model.AssetArea)
+            </div>
+
             <div class="display-label">
                 @Html.LabelFor(model => model.AssetClass)
             </div>
             <div class="editor-field">
                 @Html.RadioButton("AssetClass", "醫療儀器")醫療儀器
                 @Html.RadioButton("AssetClass", "工程設施")工程設施
+                @Html.RadioButton("AssetClass", "其他")其他
                 @Html.ValidationMessageFor(model => model.AssetClass)
             </div>
             @Html.HiddenFor(model => model.AccDate)
