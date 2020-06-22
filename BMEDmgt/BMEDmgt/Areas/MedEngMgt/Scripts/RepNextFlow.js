@@ -4,11 +4,10 @@
         alert(data.error);
     }
     else {
-        alert("送出成功!");
         //location.replace("../../Home");
-        var btn = window.opener.document.getElementById("btnQTY");
-        btn.click();
-        window.close();
+        window.opener.jQuery("#btnQTY").trigger("click");
+        alert("送出成功!");
+        self.close();
     }
 }
 
