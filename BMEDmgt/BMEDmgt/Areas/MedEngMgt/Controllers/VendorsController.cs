@@ -237,7 +237,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             if (qv.QryType == "關鍵字")
             {
-                db.Vendors.Where(v => v.VendorName.Contains(qv.KeyWord))
+                db.Vendors.Where(v => v.Status != "N")
+                          .Where(v => v.VendorName.Contains(qv.KeyWord))
                     .ToList()
                     .ForEach(v => {
                         items.Add(new SelectListItem()
@@ -249,7 +250,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             else if (qv.QryType == "統一編號")
             {
-                db.Vendors.Where(v => v.UniteNo == qv.UniteNo)
+                db.Vendors.Where(v => v.Status != "N")
+                          .Where(v => v.UniteNo == qv.UniteNo)
                     .ToList()
                     .ForEach(v => {
                         items.Add(new SelectListItem()
