@@ -370,6 +370,24 @@
         </div>
     </div>
 }
+
+<div id="pnlASSETKEEP">
+    @Html.Action("Edit", "AssetKeeps", new { id = Model.AssetNo })
+</div>
+<div id="pnlAssetKeepTypes">
+    @Html.Action("List", "AssetKeepTypes", new { id = Model.AssetNo })
+</div>
+<div>
+    <h4>手冊列表</h4>
+    <hr />
+    @Html.Action("AssetList", "AssetFile", new { id = Model.AssetNo })
+</div>
+@*<div>
+        @Html.ActionLink("回到資產列表", "Index")
+    </div>*@
+
+
+
 <!-- 廠商 Modal -->
 <div id="modalVENDOR" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -388,17 +406,40 @@
     </div>
 </div>
 
-<div id="pnlASSETKEEP">
-    @Html.Action("Edit", "AssetKeeps", new { id = Model.AssetNo })
+<!-- 保養方式新增 Modal -->
+<div id="modalKEEPTYPE" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">新增保養週期</h4>
+            </div>
+            <div id="pnlCreateKeepType" class="modal-body">
+                @Html.Action("Create", "AssetKeepTypes", new { id = Model.AssetNo })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <h4>手冊列表</h4>
-    <hr />
-    @Html.Action("AssetList", "AssetFile", new { id = Model.AssetNo })
+
+<!-- 保養方式編輯 Modal -->
+<div id="modalTYPEEDIT" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">編輯保養週期</h4>
+            </div>
+            <div id="pnlEditKeepType" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
 </div>
-@*<div>
-        @Html.ActionLink("回到資產列表", "Index")
-    </div>*@
 
 @section Scripts {
 

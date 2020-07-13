@@ -73,5 +73,7 @@ namespace BMEDmgt.Models
         public DbSet<DelivCode> DelivCodes { get; set; }
         public DbSet<SystemLog> SystemLogs { get; set; }
         public DbSet<RepairArea> RepairAreas { get; set; }
+        public DbSet<AssetKeepType> AssetKeepTypes { get; set; }
+        public DbSet<AssetKeepTypeNo> AssetKeepTypeNos { get; set; }
     }
 }

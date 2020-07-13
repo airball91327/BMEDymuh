@@ -1,32 +1,32 @@
-﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetKeep
+﻿@model BMEDmgt.Areas.MedEngMgt.Models.AssetKeepType
 
-<script src="~/Areas/MedEngMgt/Scripts/AssetKeepEdit.js"></script>
-
-@*@using (Ajax.BeginForm("Edit", "AssetKeeps",
-                    new AjaxOptions { HttpMethod = "POST", LoadingElementId = "imgLOADING2", OnSuccess = "showmsg" }))
-    {
-        @Html.AntiForgeryToken()*@
-<form id="fmASSETKEEP">
+<form id="fmKEEPTYPE">
+    @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4>設備保養資料</h4>
-        <button class="btn btn-default" data-toggle="modal" data-target="#modalKEEPTYPE">新增保養週期</button>
-        <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.AssetNo, htmlAttributes: new { @id = "AssetNo2" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetNo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeepTypeNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.KeepTypeNo, ViewData["KeepTypeNo"] as SelectList, "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.KeepTypeNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ContractNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ContractNo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContractNo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cycle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cycle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cycle, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -50,7 +50,7 @@
             <div class="form-inline">
                 @Html.LabelFor(model => model.KeepEngId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.KeepEngId, null, "請選擇", new { @class = "form-control combobox" })
+                    @Html.DropDownListFor(model => model.KeepEngId, ViewData["KeepTypeEngId"] as SelectList, "請選擇", new { @class = "form-control combobox" })
                     @Html.ValidationMessageFor(model => model.KeepEngId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -75,7 +75,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.InOut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.InOut, null, "請選擇", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.InOut, ViewData["KeepTypeInOut"] as SelectList, "請選擇", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.InOut, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,16 +83,44 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FormatId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FormatId, null, "請選擇", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.FormatId, ViewData["KeepTypeFormatId"] as SelectList, "請選擇", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FormatId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="btnASSETKEEP" type="button" value="儲存" class="btn btn-default" />
-                <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+                <input id="keepTypeBtn" type="button" value="新增" class="btn btn-default" />
+                <img id="imgTypeLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
             </div>
         </div>
+
     </div>
 </form>
+
+
+<script>
+    $(function () {
+        var url = '@Url.Action("Create", "AssetKeepTypes", new { Area = "MedEngMgt" })'
+        $('#keepTypeBtn').click(function () {
+            $("#imgTypeLOADING").show();
+
+            var s = $("#fmKEEPTYPE").serialize();
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: s,
+                async: true,
+                success: function (data) {
+                    if (data.success == false) {
+                        alert(data.error);
+                    } else {
+                        alert('儲存成功!');
+                        $('#pnlAssetKeepTypes').html(data);
+                    }
+                }
+            });
+            $("#imgTypeLOADING").hide();
+        });
+    });
+</script>

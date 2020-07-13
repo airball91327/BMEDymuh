@@ -180,6 +180,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\AppRolesController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AppUsersController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetFileController.cs" />
+    <Compile Include="Areas\MedEngMgt\Controllers\AssetKeepTypesController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetKeepsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetMaintainContractsController.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\AssetPurchaseContractsController.cs" />
@@ -232,6 +233,8 @@
     <Compile Include="Areas\MedEngMgt\Models\AppUser.cs" />
     <Compile Include="Areas\MedEngMgt\Models\Asset.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetFile.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetKeepTypeNo.cs" />
+    <Compile Include="Areas\MedEngMgt\Models\AssetKeepType.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetKeep.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetsInMContracts.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AssetMaintainContract.cs" />
@@ -742,6 +745,9 @@
     <Content Include="Areas\MedEngMgt\Views\Repairs\IndexPublicAcc.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Repairs\ListPublicAcc.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Repairs\DetailsEdit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\Create.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\List.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

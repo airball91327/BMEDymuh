@@ -1,0 +1,100 @@
+﻿@model IEnumerable<BMEDmgt.Areas.MedEngMgt.Models.AssetKeepType>
+
+@if (Model.Count() > 0)
+{
+    <h4>保養週期列表</h4>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.KeepTypeNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeepYm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeepYm2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeepEngId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FormatId)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeepTypeDes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeepYm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeepYm2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KeepEngName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InOut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormatId)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new {assetNo = item.AssetNo, keepTypeNo = item.KeepTypeNo })" class="editBtns">編輯</a> |
+                    @Ajax.ActionLink("刪除", "Delete", new { assetNo = item.AssetNo, keepTypeNo = item.KeepTypeNo },
+                        new AjaxOptions { UpdateTargetId = "pnlAssetKeepTypes", OnBegin = "return confirm('確定刪除?');" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+<script>
+    $(function () {
+        $('.editBtns').click(function (event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "GET",
+                async: true,
+                success: function (data) {
+                    if (data.success == false) {
+                        alert(data.error);
+                    } else {
+                        $('#pnlEditKeepType').html(data);
+                        $('#modalTYPEEDIT').modal('show');
+                    }
+                }
+            });
+        });
+
+    });
+</script>
