@@ -319,6 +319,9 @@
     @Html.Action("Details", "AssetKeeps", new { id = Model.AssetNo})
 </div>
 <div>
+    @Html.Action("ViewList", "AssetKeepTypes", new { assetNo = Model.AssetNo })
+</div>
+<div>
     <h4>手冊列表</h4>
     <hr />
     @Html.Action("AssetList", "AssetFile", new { id = Model.AssetNo })

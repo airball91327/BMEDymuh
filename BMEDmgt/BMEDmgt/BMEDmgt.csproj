@@ -748,6 +748,7 @@
     <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\Create.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\List.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\Edit.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\AssetKeepTypes\ViewList.cshtml" />
     <None Include="Properties\PublishProfiles\BMEDmgt.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

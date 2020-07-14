@@ -25,11 +25,26 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return View(db.AssetKeepTypes.ToList());
         }
 
-        // GET: MedEngMgt/AssetKeepTypes/List
-        public ActionResult List()
+        // GET: MedEngMgt/AssetKeepTypes/List/5
+        public ActionResult List(string assetNo)
         {
-            var list = db.AssetKeepTypes.ToList();
+            var list = db.AssetKeepTypes.Where(ak => ak.AssetNo == assetNo).ToList();
             foreach(var item in list)
+            {
+                var keepType = db.AssetKeepTypeNos.Find(item.KeepTypeNo);
+                if (keepType != null)
+                {
+                    item.KeepTypeDes = keepType.Descirption;
+                }
+            }
+            return PartialView(list);
+        }
+
+        // GET: MedEngMgt/AssetKeepTypes/ViewList/5
+        public ActionResult ViewList(string assetNo)
+        {
+            var list = db.AssetKeepTypes.Where(ak => ak.AssetNo == assetNo).ToList();
+            foreach (var item in list)
             {
                 var keepType = db.AssetKeepTypeNos.Find(item.KeepTypeNo);
                 if (keepType != null)
@@ -115,9 +130,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 assetKeepType.Rtp = WebSecurity.CurrentUserId;
                 db.AssetKeepTypes.Add(assetKeepType);
                 db.SaveChanges();
-                return RedirectToAction("List");
+                return RedirectToAction("List", new { assetNo = assetKeepType.AssetNo });
             }
-            return RedirectToAction("List");
+            return RedirectToAction("List", new { assetNo = assetKeepType.AssetNo });
         }
 
         // GET: MedEngMgt/AssetKeepTypes/Edit/5
@@ -195,7 +210,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(assetKeepType).State = EntityState.Modified;
                 }
                 db.SaveChanges();
-                return RedirectToAction("List");
+                return RedirectToAction("List", new { assetNo = assetKeepType.AssetNo });
             }
             else
             {
@@ -225,7 +240,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.AssetKeepTypes.Remove(assetKeepType);
                 db.SaveChanges();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("List", new { assetNo = assetNo });
         }
 
         protected override void Dispose(bool disposing)

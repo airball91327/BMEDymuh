@@ -375,7 +375,7 @@
     @Html.Action("Edit", "AssetKeeps", new { id = Model.AssetNo })
 </div>
 <div id="pnlAssetKeepTypes">
-    @Html.Action("List", "AssetKeepTypes", new { id = Model.AssetNo })
+    @Html.Action("List", "AssetKeepTypes", new { assetNo = Model.AssetNo })
 </div>
 <div>
     <h4>手冊列表</h4>
