@@ -291,6 +291,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             dt.Columns.Add("廠牌");
             dt.Columns.Add("規格");
             dt.Columns.Add("型號");
+            dt.Columns.Add("廠商名稱");
+            dt.Columns.Add("廠商統編");
             dt.Columns.Add("製造號碼");
             dt.Columns.Add("財產狀況");
             dt.Columns.Add("成本(取得金額)");
@@ -307,12 +309,32 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 (a, u) => new {
                     asset = a,
                     user = u
-                }).Join(db.AssetKeeps, a => a.asset.AssetNo, k => k.AssetNo,
+                })
+                .GroupJoin(db.AssetKeeps, a => a.asset.AssetNo, k => k.AssetNo,
                 (a, k) => new {
                     asset = a.asset,
                     user = a.user,
                     assetkeep = k
-                }).ToList()
+                }).SelectMany(a => a.assetkeep.DefaultIfEmpty(), 
+                (a, s) => new {
+                    asset = a.asset,
+                    user = a.user,
+                    assetkeep = s
+                })
+                .GroupJoin(db.Vendors, a => a.asset.VendorId, vd => vd.VendorId,
+                (a, vd) => new {
+                    asset = a.asset,
+                    user = a.user,
+                    assetkeep = a.assetkeep,
+                    vendor = vd
+                }).SelectMany(a => a.vendor.DefaultIfEmpty(),
+                (a, s) => new {
+                    asset = a.asset,
+                    user = a.user,
+                    assetkeep = a.assetkeep,
+                    vendor = s
+                })
+                .ToList()
             .ForEach(m =>
             {
                 dw = dt.NewRow();
@@ -326,16 +348,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 dw[7] = m.asset.Brand;
                 dw[8] = m.asset.Standard;
                 dw[9] = m.asset.Type;
-                dw[10] = m.asset.MakeNo;
-                dw[11] = m.asset.DisposeKind;
-                dw[12] = m.asset.Cost;
-                dw[13] = m.assetkeep.Cycle;
-                dw[14] = m.assetkeep.KeepYm;
-                dw[15] = m.assetkeep.InOut;
-                dw[16] = m.asset.WartySt == null ? "" : m.asset.WartySt.Value.ToString("yyyy/MM/dd");
-                dw[17] = m.asset.WartyEd == null ? "" : m.asset.WartyEd.Value.ToString("yyyy/MM/dd");
-                dw[18] = m.assetkeep.KeepEngName;
-                dw[19] = m.asset.BuyDate == null?"":m.asset.BuyDate.Value.ToString("yyyy/MM/dd");
+                dw[10] = m.vendor == null ? "" : m.vendor.VendorName;
+                dw[11] = m.vendor == null ? "" : m.vendor.UniteNo;
+                dw[12] = m.asset.MakeNo;
+                dw[13] = m.asset.DisposeKind;
+                dw[14] = m.asset.Cost;
+                dw[15] = m.assetkeep == null ? null : m.assetkeep.Cycle;
+                dw[16] = m.assetkeep == null ? null : m.assetkeep.KeepYm;
+                dw[17] = m.assetkeep == null ? "" : m.assetkeep.InOut;
+                dw[18] = m.asset.WartySt == null ? "" : m.asset.WartySt.Value.ToString("yyyy/MM/dd");
+                dw[19] = m.asset.WartyEd == null ? "" : m.asset.WartyEd.Value.ToString("yyyy/MM/dd");
+                dw[20] = m.assetkeep == null ? "" : m.assetkeep.KeepEngName;
+                dw[21] = m.asset.BuyDate == null?"":m.asset.BuyDate.Value.ToString("yyyy/MM/dd");
                 dt.Rows.Add(dw);
             });
             //
