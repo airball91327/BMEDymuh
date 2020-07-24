@@ -343,6 +343,20 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         checkResult += "密碼；";
                     }
                 }
+                if (Roles.IsUserInRole("Admin"))
+                {
+                    var ur = db.AppUsers.Find(appUser.Id);
+                    if (ur != null)
+                    {
+                        //Change status from "N" to "Y"
+                        if (ur.Status == "N" && appUser.Status == "Y")  
+                        {
+                            ur.Status = appUser.Status;
+                            db.Entry(ur).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                }
                 // Save log. 
                 SystemLog log = new SystemLog();
                 log.LogClass = "系統管理者紀錄";
@@ -420,7 +434,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<AppUser> ul;
             List<UserList> us = new List<UserList>();
             string s = "";
-            ul = db.AppUsers.Where(p => p.FullName.Contains(keyname) || p.UserName == keyname).ToList();
+            ul = db.AppUsers.Where(p => p.FullName.Contains(keyname) || p.UserName == keyname)
+                            .Where(p => p.Status == "Y").ToList();
             foreach (AppUser f in ul)
             {
                 UserList u = new UserList();
@@ -471,7 +486,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     .ToList()
                     .ForEach(d =>
                     {
-                        ul = db.AppUsers.Where(p => p.DptId == d.DptId).ToList();
+                        ul = db.AppUsers.Where(p => p.DptId == d.DptId)
+                                        .Where(p => p.Status == "Y").ToList();
                         foreach (AppUser f in ul)
                         {
                             UserList u = new UserList();
