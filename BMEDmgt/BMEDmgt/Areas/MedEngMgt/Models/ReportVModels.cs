@@ -711,10 +711,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public int UserId { get; set; }
         [Display(Name = "工程師姓名")]
         public string UserNam { get; set; }
-        [Display(Name = "工時")]
+        [Display(Name = "維修工時")]
         public decimal Hours { get; set; }
-        [Display(Name = "件數")]
+        [Display(Name = "維修件數")]
         public int Cases { get; set; }
+        [Display(Name = "保養工時")]
+        public decimal KeepHours { get; set; }
+        [Display(Name = "保養件數")]
+        public int KeepCases { get; set; }
         [Display(Name = "轉撥計價費用")]
         public decimal Costs { get; set; }
         [Display(Name = "超過五天件數")]

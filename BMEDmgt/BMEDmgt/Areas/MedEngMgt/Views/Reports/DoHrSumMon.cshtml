@@ -21,6 +21,12 @@
             @Html.DisplayNameFor(model => model.Cases)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.KeepHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeepCases)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.OverFive)
         </th>
         <th>
@@ -54,6 +60,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cases)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeepHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeepCases)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OverFive)

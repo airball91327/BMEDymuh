@@ -10,6 +10,7 @@ using OfficeOpenXml;
 using System.IO;
 using System.Data;
 using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -1246,6 +1247,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             List<DoHrSumMonVModel> mv = new List<DoHrSumMonVModel>();
             DoHrSumMonVModel dv;
+
             List<UserHour> query = db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
                 .Where(d => d.EndDate <= v.Edate)
                 .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
@@ -1269,16 +1271,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     k.AccDpt,
                     c.AssetClass
                 }).Join(db.Departments, k => k.AccDpt, c => c.DptId,
-            (k, c) => new
-            {
-                k.DocId,
-                k.Hour,
-                k.EndDate,
-                k.InOut,
-                k.ApplyDate,
-                k.AssetClass,
-                k.AccDpt
-            }).Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
+                (k, c) => new
+                {
+                    k.DocId,
+                    k.Hour,
+                    k.EndDate,
+                    k.InOut,
+                    k.ApplyDate,
+                    k.AssetClass,
+                    k.AccDpt
+                }).Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
                 (rd, re) => new UserHour
                 {
                     Uid = re.UserId,
@@ -1290,100 +1292,159 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     AccDpt = rd.AccDpt
                 }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
             //
+            List<UserHour> query2 = db.KeepDtls.Where(d => d.EndDate >= v.Sdate)
+                .Where(d => d.EndDate <= v.Edate)
+                .Join(db.Keeps, kd => kd.DocId, k => k.DocId,
+                (kd, k) => new
+                {
+                    kd.DocId,
+                    kd.Hours,
+                    kd.EndDate,
+                    kd.InOut,
+                    k.SentDate,
+                    k.AccDpt,
+                    k.AssetNo
+                }).Join(db.Assets, k => k.AssetNo, c => c.AssetNo,
+                (k, c) => new
+                {
+                    k.DocId,
+                    k.Hours,
+                    k.EndDate,
+                    k.InOut,
+                    k.SentDate,
+                    k.AccDpt,
+                    c.AssetClass
+                }).Join(db.Departments, k => k.AccDpt, c => c.DptId,
+                (k, c) => new 
+                {
+                    k.DocId,
+                    k.Hours,
+                    k.EndDate,
+                    k.InOut,
+                    k.SentDate,
+                    k.AssetClass,
+                    k.AccDpt
+                }).Join(db.KeepEmps, kd => kd.DocId, ke => ke.DocId,
+                (kd, ke) => new UserHour
+                {
+                    Uid = ke.UserId,
+                    Hour = kd.Hours == null ? 0 : kd.Hours.Value,
+                    InOut = kd.InOut,
+                    AssetClass = kd.AssetClass,
+                    ApplyDate = kd.SentDate.Value,
+                    EndDate = kd.EndDate.Value,
+                    AccDpt = kd.AccDpt
+                }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
+            //
             if (!string.IsNullOrEmpty(v.AccDpt))
             {
                 query = query.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+                query2 = query2.Where(vv => vv.AccDpt == v.AccDpt).ToList();
             }
             //
             IEnumerable<IGrouping<int, UserHour>> rt = query.GroupBy(j => j.Uid);
+            IEnumerable<IGrouping<int, UserHour>> kt = query2.GroupBy(j => j.Uid);
             int case1 = 0;
             int case5 = 0;
             int abc = 0;
             DateTime sd = v.Edate.Value.AddMonths(-3);
             AppUser ur;
-            foreach (var g in rt)
+            //Get all engineers.
+            var engs = Roles.GetUsersInRole("MedEngineer").ToList();
+            foreach (var ss in engs)
             {
-                case1 = 0;
-                case5 = 0;
-                dv = new DoHrSumMonVModel();
-                dv.UserId = g.Key;
-                dv.UserNam = (ur = db.AppUsers.Find(g.Key)) == null ? "" : ur.FullName;
-                dv.Cases = g.Count();
-                dv.Hours = g.Sum(s => s.Hour);
-                case1 = g.Where(g1 => g1.EndDate.Subtract(g1.ApplyDate).Days < 5).Count();
-                case5 = g.Where(g1 => g1.EndDate.Subtract(g1.ApplyDate).Days >= 5).Count();
-                dv.OverFive = case5;
-                if (case1 + case5 > 0)
+                ur = db.AppUsers.Find(WebSecurity.GetUserId(ss));
+                if (ur != null)
                 {
-                    dv.OverFiveRate = Decimal.Round(Convert.ToDecimal(case1) /
-                            Convert.ToDecimal(case1 + case5), 2);
+                    var g = rt.Where(r => r.Key == ur.Id).FirstOrDefault();
+                    var keeps = kt.Where(k => k.Key == ur.Id).FirstOrDefault();
+                    case1 = 0;
+                    case5 = 0;
+                    dv = new DoHrSumMonVModel();
+                    dv.UserId = ur.Id;
+                    dv.UserNam = ur.FullName;
+                    dv.Cases = g == null ? 0 : g.Count();
+                    dv.Hours = g == null ? 0 : g.Sum(s => s.Hour);
+                    dv.KeepCases = keeps == null ? 0 : keeps.Count();
+                    dv.KeepHours = keeps == null ? 0 : keeps.Sum(k => k.Hour);
+                    case1 = g == null ? 0 : g.Where(g1 => g1.EndDate.Subtract(g1.ApplyDate).Days < 5).Count();
+                    case5 = g == null ? 0 : g.Where(g1 => g1.EndDate.Subtract(g1.ApplyDate).Days >= 5).Count();
+                    dv.OverFive = case5;
+                    if (case1 + case5 > 0)
+                    {
+                        dv.OverFiveRate = Decimal.Round(Convert.ToDecimal(case1) /
+                                Convert.ToDecimal(case1 + case5), 2);
+                    }
+                    else
+                        dv.OverFiveRate = 0m;
+                    //
+                    if (g != null)
+                    {
+                        dv.Case3M = db.RepairDtls.Where(d => d.EndDate >= sd)
+                        .Where(d => d.EndDate <= v.Edate)
+                        .Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
+                        (rd, re) => new
+                        {
+                            re.UserId
+                        }).Where(re => re.UserId == g.Key).Count();
+                        //dv.Fail3MRate
+                        IEnumerable<IGrouping<string, UserAsset>> ob = db.RepairDtls.Where(d => d.EndDate >= sd)
+                        .Where(d => d.EndDate <= v.Edate)
+                        .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
+                        (rd, r) => new
+                        {
+                            rd.DocId,
+                            r.AssetNo
+                        })
+                        .Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
+                        (rd, re) => new UserAsset
+                        {
+                            Uid = re.UserId,
+                            AssetNo = rd.AssetNo
+                        }).Where(re => re.Uid == g.Key).GroupBy(j => j.AssetNo);
+                        abc = 0;
+                        foreach (var q in ob)
+                        {
+                            if (q.Count() >= 2)
+                                abc += q.Count();
+                        }
+                        if (dv.Case3M > 0)
+                            dv.Fail3MRate = Decimal.Round(Convert.ToDecimal(abc) / Convert.ToDecimal(dv.Case3M), 2);
+                        else
+                            dv.Fail3MRate = 0m;
+                        //
+                        ob = db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
+                        .Where(d => d.EndDate <= v.Edate)
+                        .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
+                        (rd, r) => new
+                        {
+                            rd.DocId,
+                            r.AssetNo
+                        })
+                        .Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
+                        (rd, re) => new UserAsset
+                        {
+                            Uid = re.UserId,
+                            AssetNo = rd.AssetNo
+                        }).Where(re => re.Uid == g.Key).GroupBy(re => re.AssetNo);
+                        abc = 0;
+                        foreach (var q in ob)
+                        {
+                            if (q.Count() >= 2)
+                                abc += q.Count();
+                        }
+                        if (dv.Case3M > 0)
+                            dv.Fail1MRate = Decimal.Round(Convert.ToDecimal(abc) / Convert.ToDecimal(dv.Case3M), 2);
+                        else
+                            dv.Fail1MRate = 0m;
+                        //
+                        if (dv.Case3M > 0)
+                            dv.SelfRate = Decimal.Round(g.Where(x => x.InOut == "內修").Count() / Convert.ToDecimal(dv.Case3M), 2);
+                        else
+                            dv.SelfRate = 0m;
+                    }
+                    mv.Add(dv);
                 }
-                else
-                    dv.OverFiveRate = 0m;
-                //
-                dv.Case3M = db.RepairDtls.Where(d => d.EndDate >= sd)
-                .Where(d => d.EndDate <= v.Edate)
-                .Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
-                (rd, re) => new
-                {
-                    re.UserId
-                }).Where(re => re.UserId == g.Key).Count();
-                //dv.Fail3MRate
-                IEnumerable<IGrouping<string, UserAsset>> ob = db.RepairDtls.Where(d => d.EndDate >= sd)
-                .Where(d => d.EndDate <= v.Edate)
-                .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
-                (rd, r) => new
-                {
-                    rd.DocId,
-                    r.AssetNo
-                })
-                .Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
-                (rd, re) => new UserAsset
-                {
-                    Uid = re.UserId,
-                    AssetNo = rd.AssetNo
-                }).Where(re => re.Uid == g.Key).GroupBy(j => j.AssetNo);
-                abc = 0;
-                foreach (var q in ob)
-                {
-                    if (q.Count() >= 2)
-                        abc += q.Count();
-                }
-                if (dv.Case3M > 0)
-                    dv.Fail3MRate = Decimal.Round(Convert.ToDecimal(abc) / Convert.ToDecimal(dv.Case3M), 2);
-                else
-                    dv.Fail3MRate = 0m;
-                //
-                ob = db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
-                .Where(d => d.EndDate <= v.Edate)
-                .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
-                (rd, r) => new
-                {
-                    rd.DocId,
-                    r.AssetNo
-                })
-                .Join(db.RepairEmps, rd => rd.DocId, re => re.DocId,
-                (rd, re) => new UserAsset
-                {
-                    Uid = re.UserId,
-                    AssetNo = rd.AssetNo
-                }).Where(re => re.Uid == g.Key).GroupBy(re => re.AssetNo);
-                abc = 0;
-                foreach (var q in ob)
-                {
-                    if (q.Count() >= 2)
-                        abc += q.Count();
-                }
-                if (dv.Case3M > 0)
-                    dv.Fail1MRate = Decimal.Round(Convert.ToDecimal(abc) / Convert.ToDecimal(dv.Case3M), 2);
-                else
-                    dv.Fail1MRate = 0m;
-                //
-                if (dv.Case3M > 0)
-                    dv.SelfRate = Decimal.Round(g.Where(x => x.InOut == "內修").Count() / Convert.ToDecimal(dv.Case3M), 2);
-                else
-                    dv.SelfRate = 0m;
-                mv.Add(dv);
             }
             //
             return mv;
