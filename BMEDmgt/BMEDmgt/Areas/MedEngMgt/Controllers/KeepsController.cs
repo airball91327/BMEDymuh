@@ -1188,8 +1188,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         if (Roles.IsUserInRole("Manager"))
                         {
+                            //非同部門個人案件
+                            var kf2 = kf.Join(db.KeepFlows.Where(f2 => f2.UserId == WebSecurity.CurrentUserId),
+                                     f => f.DocId, f2 => f2.DocId, (f, f2) => f)
+                                     .Join(db.Keeps.Where(r => r.AccDpt != usr.DptId),
+                                     f => f.DocId, r => r.DocId, (f, r) => f)
+                                     .GroupBy(f => f.DocId).Select(group => group.First()).ToList();
+                            //部門案件
                             kf = kf.Join(db.Keeps.Where(r => r.AccDpt == usr.DptId),
                                 f => f.DocId, r => r.DocId, (f, r) => f).ToList();
+                            if (kf2.Count() > 0)
+                            {
+                                kf.AddRange(kf2);
+                            }
                         }
                     }
                     else
