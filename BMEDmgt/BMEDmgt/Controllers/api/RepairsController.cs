@@ -411,6 +411,25 @@ namespace BMEDmgt.Controllers.api
             }
             return did;
         }
+
+        public IHttpActionResult GetRepCount(string userName)
+        {
+            var user = db.AppUsers.Where(u => u.UserName == userName).FirstOrDefault();
+            string msg = "";
+            if (user != null)
+            {
+                int repairCount = db.RepairFlows.Where(f => f.Status == "?")
+                                                .Where(f => f.UserId == user.Id).Count();
+                msg = repairCount.ToString();
+                return Ok(msg);
+            }
+            else
+            {
+                msg = "查無此使用者!";
+                return BadRequest(msg);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
