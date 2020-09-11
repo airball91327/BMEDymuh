@@ -129,10 +129,11 @@ namespace BMEDmgt.Controllers.api
                 try
                 {
                     string ano = db.Keeps.Find(docid).AssetNo;
-                    db.AssetKeeps.Where( k => k.AssetNo == ano)
+                    db.AssetKeeps.Where(k => k.AssetNo == ano)
                         .Join(db.KeepFormatDtls, k => k.FormatId, f => f.FormatId,
                         (k, f) => f).ToList()
-                        .ForEach(f => {
+                        .ForEach(f =>
+                        {
                             if (keepRecords.Count(r => r.FormatId == f.FormatId && r.Sno == f.Sno) <= 0)
                             {
                                 newkprd.Add(new KeepRecord
@@ -188,12 +189,88 @@ namespace BMEDmgt.Controllers.api
                     });
                 }
             }
-            
+
             return keepRecords.AsQueryable();
         }
-            private bool KeepExists(string id)
+        private bool KeepExists(string id)
         {
             return db.Keeps.Count(e => e.DocId == id) > 0;
+        }
+        public IQueryable<Keep> GetByDeviceNo(string id)
+        {
+            string[] s = new string[] { "?", "2" };
+            //var rf = db.RepairFlows.Where(f => s.Contains(f.Status));
+            var rf = db.KeepFlows.Where(f => f.Status == "?");
+            IQueryable<Keep> rlist;
+            List<Keep> rs = new List<Keep>();
+            //var isQ = db.QuestAnswers.Select(q => q.Docid).Distinct();
+            db.Keeps.Where(r => r.AssetNo == id)
+                .Join(db.KeepDtls, r => r.DocId, d => d.DocId,
+                (r, d) => new
+                {
+                    r,
+                    enddate = d.EndDate
+                })
+                .Join(rf, r => r.r.DocId, f => f.DocId,
+                (r, f) => r).ToList()
+                .ForEach(k =>
+                {
+                    rs.Add(new Keep
+                    {
+                        DocId = k.r.DocId,
+                        SentDate = k.r.SentDate,
+                        PlaceLoc = k.r.PlaceLoc,
+                        Cycle = k.r.Cycle,
+                        AccDpt = k.r.AccDpt,
+                        AccDptName = db.Departments.Find(k.r.AccDpt).Name_C,
+                        AssetNo = k.r.AssetNo,
+                        AssetName = k.r.AssetName,
+                        Contact = k.r.Contact
+                        //IsQuest = isQ.Contains(k.r.DocId) ? "Y" : "N"
+                    });
+
+                });
+            //
+            return rs.AsQueryable();
+        }
+        public IQueryable<Keep> GetByEngId(string id)
+        {
+            string[] s = new string[] { "?", "2" };
+            int engId = Convert.ToInt32(id);
+            //var rf = db.RepairFlows.Where(f => s.Contains(f.Status));
+            var rf = db.KeepFlows.Where(f => f.Status == "?").
+                Where(f => f.UserId == engId);
+            IQueryable<Keep> rlist;
+            List<Keep> rs = new List<Keep>();
+            //var isQ = db.QuestAnswers.Select(q => q.Docid).Distinct();
+            db.Keeps
+                .Join(db.KeepDtls, r => r.DocId, d => d.DocId,
+                (r, d) => new
+                {
+                    r,
+                    enddate = d.EndDate
+                })
+                .Join(rf, r => r.r.DocId, f => f.DocId,
+                (r, f) => r).ToList()
+                .ForEach(k =>
+                {
+                    rs.Add(new Keep
+                    {
+                        DocId = k.r.DocId,
+                        SentDate = k.r.SentDate,
+                        PlaceLoc = k.r.PlaceLoc,
+                        Cycle = k.r.Cycle,
+                        AccDpt = k.r.AccDpt,
+                        AccDptName = db.Departments.Find(k.r.AccDpt).Name_C,
+                        AssetNo = k.r.AssetNo,
+                        AssetName = k.r.AssetName,
+                        Contact = k.r.Contact
+                        //IsQuest = isQ.Contains(k.r.DocId) ? "Y" : "N"
+                    });
+
+                });
+
+            return rs.AsQueryable();
         }
     }
 }
