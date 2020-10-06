@@ -106,7 +106,7 @@
                 }
             </td>
             <td width="100px">
-                @if (item.Flg == "?" && (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager")))
+                @if (item.Flg == "?" && Roles.IsUserInRole("Admin"))
                 {
                     @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
                     @Html.Raw("|")
