@@ -285,26 +285,26 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             {
                                 //Send Mail
                                 Tmail mail = new Tmail();
-                                //string body = "";
-                                //AppUser u;
-                                //Keep kp = db.Keeps.Find(ss);
-                                //KeepDtl dtl = db.KeepDtls.Find(ss);
-                                //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                                //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                //u = db.AppUsers.Find(flow.UserId);
-                                //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                                //mail.message.Subject = "醫療儀器管理資訊系統[保養案]：儀器名稱： " + kp.AssetName;
-                                //body += "<p>表單編號：" + ss + "</p>";
-                                //body += "<p>申請人：" + kp.UserName + "</p>";
-                                //body += "<p>儀器名稱：" + kp.AssetName + "</p>";
-                                //body += "<br/>";
-                                ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                                //body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
-                                //body += "<br/>";
-                                //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                                //mail.message.Body = body;
-                                //mail.message.IsBodyHtml = true;
-                                //mail.SendMail();
+                                string body = "";
+                                AppUser u;
+                                Keep kp = db.Keeps.Find(ss);
+                                KeepDtl dtl = db.KeepDtls.Find(ss);
+                                u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                                mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                u = db.AppUsers.Find(flow.UserId);
+                                mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                mail.message.Subject = "醫療儀器管理資訊系統[保養案]：儀器名稱： " + kp.AssetName;
+                                body += "<p>表單編號：" + ss + "</p>";
+                                body += "<p>申請人：" + kp.UserName + "</p>";
+                                body += "<p>儀器名稱：" + kp.AssetName + "</p>";
+                                body += "<br/>";
+                                //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                                body += "<p><a href='https://bmed.tmuh.org.tw/bmed'>處理案件</a></p>";
+                                body += "<br/>";
+                                body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                                mail.message.Body = body;
+                                mail.message.IsBodyHtml = true;
+                                mail.SendMail();
                             }
                         }
                     }

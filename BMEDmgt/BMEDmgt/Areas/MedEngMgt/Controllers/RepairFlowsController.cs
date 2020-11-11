@@ -564,26 +564,26 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         //Send Mail
                         Tmail mail = new Tmail();
-                        //string body = "";
-                        //AppUser u;
-                        ////Repair repair = db.Repairs.Find(assign.DocId);
-                        //u = db.AppUsers.Find(WebSecurity.CurrentUserId);
-                        //mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                        //u = db.AppUsers.Find(flow.UserId);
-                        //mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
-                        //                                                    //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
-                        //mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
-                        //body += "<p>申請人：" + repair.UserName + "</p>";
-                        //body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                        //body += "<p>儀器名稱：" + repair.AssetName + "</p>";
-                        //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                        //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
-                        //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
-                        //body += "<br/>";
-                        //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                        //mail.message.Body = body;
-                        //mail.message.IsBodyHtml = true;
-                        //mail.SendMail();
+                        string body = "";
+                        AppUser u;
+                        //Repair repair = db.Repairs.Find(assign.DocId);
+                        u = db.AppUsers.Find(WebSecurity.CurrentUserId);
+                        mail.from = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                        u = db.AppUsers.Find(flow.UserId);
+                        mail.to = new System.Net.Mail.MailAddress(u.Email); //u.Email
+                                                                            //mail.cc = new System.Net.Mail.MailAddress("99242@cch.org.tw");
+                        mail.message.Subject = "醫療儀器管理資訊系統[請修案]：儀器名稱： " + repair.AssetName;
+                        body += "<p>申請人：" + repair.UserName + "</p>";
+                        body += "<p>財產編號：" + repair.AssetNo + "</p>";
+                        body += "<p>儀器名稱：" + repair.AssetName + "</p>";
+                        body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                        body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                        body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
+                        body += "<br/>";
+                        body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                        mail.message.Body = body;
+                        mail.message.IsBodyHtml = true;
+                        mail.SendMail();
                     }
                 }
 
