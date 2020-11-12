@@ -15,6 +15,7 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using OfficeOpenXml;
 using System.IO;
+using BMEDmgt.Extensions;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -701,10 +702,30 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                Asset oriObj = db.Assets.Find(asset.AssetNo);
+                db.Entry(oriObj).State = EntityState.Detached;
                 asset.DelivEmp = asset.DelivUid == null ? "" : db.AppUsers.Find(asset.DelivUid).FullName;
                 db.Entry(asset).State = EntityState.Modified;
                 try
                 {
+                    db.SaveChanges();
+                    //
+                    Asset currentObj = db.Assets.Find(asset.AssetNo);
+                    var result = oriObj.EnumeratePropertyDifferences<Asset>(currentObj);
+                    // Save log. 
+                    SystemLog log = new SystemLog();
+                    log.LogClass = "醫療儀器紀錄";
+                    log.LogTime = DateTime.UtcNow.AddHours(8);
+                    log.UserId = WebSecurity.CurrentUserId;
+                    log.Action = "資產維護 > 設備編輯 > " + asset.AssetNo + "(" + asset.Cname + ")" + " ";
+                    if (result.Count() > 0)
+                    {
+                        foreach (string s in result)
+                        {
+                            log.Action += "【" + s + "】";
+                        }
+                    }
+                    db.SystemLogs.Add(log);
                     db.SaveChanges();
                 }
                 catch (Exception ex)

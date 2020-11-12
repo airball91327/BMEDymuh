@@ -227,6 +227,7 @@
     <Compile Include="Areas\MedEngMgt\Controllers\Tmail.cs" />
     <Compile Include="Areas\MedEngMgt\Controllers\VendorsController.cs" />
     <Compile Include="Areas\MedEngMgt\Helpers\HtmlExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Areas\MedEngMgt\Helpers\QRHelper.cs" />
     <Compile Include="Areas\MedEngMgt\MedEngMgtAreaRegistration.cs" />
     <Compile Include="Areas\MedEngMgt\Models\AccountViewModels.cs" />
