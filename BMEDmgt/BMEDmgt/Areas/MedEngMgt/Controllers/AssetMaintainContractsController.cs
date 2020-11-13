@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Filters;
 using BMEDmgt.Models;
 using OfficeOpenXml;
@@ -210,6 +211,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         }
                     }
                     db.SaveChanges();
+                    // Save log. 
+                    SystemLog log = new SystemLog();
+                    log.LogClass = "醫療儀器紀錄";
+                    log.LogTime = DateTime.UtcNow.AddHours(8);
+                    log.UserId = WebSecurity.CurrentUserId;
+                    log.Action = "合約維護 > 設備維護合約 > 新增 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
+                    db.SystemLogs.Add(log);
+                    db.SaveChanges();
                 }
                 return RedirectToAction("Index");
             }
@@ -283,10 +292,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,EndNoticeMonth,Note,IsTraining,IsYearKeepReport,ContractMgr,SecondMgr,ContractType,KeepCostRate,UniteCost")] AssetMaintainContract assetMaintainContract)
+        public ActionResult Edit([Bind(Include = "PurchaseNo,ContractNo,ContractName,ContractClass,VendorId,VendorName,VendorUniteNo,AssetNo,AssetName,Brand,Type,SeqNo,Qty,Unite,Sdate,Edate,Cycle,UseLife,TotalCost,YearCost,StagePayment,StageCost,EndNotice,EndNoticeMonth,Note,IsTraining,IsYearKeepReport,ContractMgr,SecondMgr,ContractType,KeepCostRate,UniteCost,Status")] AssetMaintainContract assetMaintainContract)
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.AssetMaintainContracts.Find(assetMaintainContract.PurchaseNo);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 var asset = db.Assets.Find(assetMaintainContract.AssetNo);
                 assetMaintainContract.AssetName = asset.Cname;
                 assetMaintainContract.Rtp = WebSecurity.CurrentUserId;
@@ -316,6 +328,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             db.AssetKeeps.Add(assetKeep);
                         }
                     }
+                    db.SaveChanges();
+                    // Save edit log.
+                    var currentObj = db.AssetMaintainContracts.Find(assetMaintainContract.PurchaseNo);
+                    var result = oriObj.EnumeratePropertyDifferences<AssetMaintainContract>(currentObj);
+                    SystemLog log = new SystemLog();
+                    log.LogClass = "醫療儀器紀錄";
+                    log.LogTime = DateTime.UtcNow.AddHours(8);
+                    log.UserId = WebSecurity.CurrentUserId;
+                    log.Action = "合約維護 > 設備維護合約 > 編輯 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
+                    if (result.Count() > 0)
+                    {
+                        foreach (string s in result)
+                        {
+                            log.Action += "【" + s + "】";
+                        }
+                    }
+                    db.SystemLogs.Add(log);
                     db.SaveChanges();
                 }
                 return RedirectToAction("Index");
@@ -349,6 +378,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             AssetMaintainContract assetMaintainContract = db.AssetMaintainContracts.Find(id);
             db.AssetMaintainContracts.Remove(assetMaintainContract);
+            db.SaveChanges();
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "合約維護 > 設備維護合約 > 刪除 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
+            db.SystemLogs.Add(log);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

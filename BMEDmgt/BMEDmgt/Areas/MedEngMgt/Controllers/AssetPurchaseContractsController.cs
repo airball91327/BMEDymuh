@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Filters;
 using BMEDmgt.Models;
 using OfficeOpenXml;
@@ -161,6 +162,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                 db.AssetPurchaseContracts.Add(assetPurchaseContract);
                 db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "合約維護 > 設備新購合約 > 新增 > " + assetPurchaseContract.PurchaseNo + "(" + assetPurchaseContract.PurchaseName + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -268,11 +278,31 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.AssetPurchaseContracts.Find(assetPurchaseContract.PurchaseNo);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 assetPurchaseContract.Status = "Y";
                 assetPurchaseContract.Rtp = WebSecurity.CurrentUserId;
                 assetPurchaseContract.Rtt = DateTime.Now;
 
                 db.Entry(assetPurchaseContract).State = EntityState.Modified;
+                db.SaveChanges();
+                // Save edit log.
+                var currentObj = db.AssetPurchaseContracts.Find(assetPurchaseContract.PurchaseNo);
+                var result = oriObj.EnumeratePropertyDifferences<AssetPurchaseContract>(currentObj);
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "合約維護 > 設備新購合約 > 編輯 > " + assetPurchaseContract.PurchaseNo + "(" + assetPurchaseContract.PurchaseName + ")";
+                if (result.Count() > 0)
+                {
+                    foreach (string s in result)
+                    {
+                        log.Action += "【" + s + "】";
+                    }
+                }
+                db.SystemLogs.Add(log);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -315,6 +345,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             AssetPurchaseContract assetPurchaseContract = db.AssetPurchaseContracts.Find(id);
             db.AssetPurchaseContracts.Remove(assetPurchaseContract);
             db.SaveChanges();
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "合約維護 > 設備新購合約 > 刪除 > " + assetPurchaseContract.PurchaseNo + "(" + assetPurchaseContract.PurchaseName + ")";
+            db.SystemLogs.Add(log);
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

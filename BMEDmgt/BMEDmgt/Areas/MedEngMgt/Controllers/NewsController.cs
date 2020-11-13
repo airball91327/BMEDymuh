@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -170,6 +171,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 news.RTT = DateTime.Now;
                 db.News.Add(news);
                 db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "管理紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "最新消息維護 > 新增 > " + news.NewsTitle;
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             List<SelectListItem> listItem1 = new List<SelectListItem>();
@@ -208,9 +218,30 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.News.Find(news.NewsId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 news.RTT = DateTime.Now;
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save edit log.
+                var currentObj = db.News.Find(news.NewsId);
+                var result = oriObj.EnumeratePropertyDifferences<News>(currentObj);
+                SystemLog log = new SystemLog();
+                log.LogClass = "管理紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "最新消息維護 > 編輯 > " + news.NewsTitle;
+                if (result.Count() > 0)
+                {
+                    foreach (string s in result)
+                    {
+                        log.Action += "【" + s + "】";
+                    }
+                }
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             List<SelectListItem> listItem1 = new List<SelectListItem>();
@@ -267,6 +298,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.SaveChanges();
                 }
             }
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "管理紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "最新消息維護 > 刪除 > " + news.NewsTitle;
+            db.SystemLogs.Add(log);
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

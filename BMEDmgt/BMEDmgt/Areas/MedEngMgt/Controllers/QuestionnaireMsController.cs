@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -65,6 +66,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 questionnaireM.Rtt = DateTime.Now;
                 db.QuestionnaireMs.Add(questionnaireM);
                 db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "滿意度問卷 > 新增 > " + questionnaireM.Qname;
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
 
                 return RedirectToAction("List", "Questionnaire", new { id = questionnaireM.VerId });
             }
@@ -96,10 +105,31 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.QuestionnaireMs.Find(questionnaireM.VerId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 questionnaireM.Rtp = WebSecurity.CurrentUserId;
                 questionnaireM.Rtt = DateTime.Now;
                 db.Entry(questionnaireM).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save edit log.
+                var currentObj = db.QuestionnaireMs.Find(questionnaireM.VerId);
+                var result = oriObj.EnumeratePropertyDifferences<QuestionnaireM>(currentObj);
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "滿意度問卷 > 編輯 > " + questionnaireM.Qname;
+                if (result.Count() > 0)
+                {
+                    foreach (string s in result)
+                    {
+                        log.Action += "【" + s + "】";
+                    }
+                }
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(questionnaireM);

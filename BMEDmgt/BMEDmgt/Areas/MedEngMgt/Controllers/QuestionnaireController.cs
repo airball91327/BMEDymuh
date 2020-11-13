@@ -504,6 +504,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.Questionnaires.Add(questionnaire);
                 db.SaveChanges();
+                // Save log.
+                var questionnaireM = db.QuestionnaireMs.Find(questionnaire.VerId);
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "滿意度問卷 > 新增問卷項目 > " + questionnaireM.Qname + "(" + questionnaire.Qtitle + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
 
                 return RedirectToAction("List", new { id = questionnaire.VerId });
             }
@@ -551,6 +560,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 return HttpNotFound();
             }
             db.Questionnaires.Remove(questionnaire);
+            db.SaveChanges();
+            // Save log.
+            var questionnaireM = db.QuestionnaireMs.Find(questionnaire.VerId);
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "滿意度問卷 > 刪除問卷項目 > " + questionnaireM.Qname + "(" + questionnaire.Qtitle + ")";
+            db.SystemLogs.Add(log);
             db.SaveChanges();
 
             return RedirectToAction("List", new { id = id });
