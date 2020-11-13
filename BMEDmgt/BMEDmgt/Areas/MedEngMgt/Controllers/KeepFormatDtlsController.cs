@@ -6,7 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -76,6 +78,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.KeepFormatDtls.Add(keepformat_dtl);
                 db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "保養格式 > 新增細項 > " + keepformat_dtl.FormatId + "(" + keepformat_dtl.Descript + ")";
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
                 return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno});
             }
 
@@ -103,7 +113,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.KeepFormatDtls.Find(keepformat_dtl.FormatId, keepformat_dtl.Sno);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(keepformat_dtl).State = EntityState.Modified;
+                db.SaveChanges();
+                // Save edit log.
+                var currentObj = db.KeepFormatDtls.Find(keepformat_dtl.FormatId, keepformat_dtl.Sno);
+                var result = oriObj.EnumeratePropertyDifferences<KeepFormatDtl>(currentObj);
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "保養格式 > 編輯細項 > " + keepformat_dtl.FormatId + "(" + keepformat_dtl.Descript + ")";
+                if (result.Count() > 0)
+                {
+                    foreach (string s in result)
+                    {
+                        log.Action += "【" + s + "】";
+                    }
+                }
+                db.SystemLogs.Add(log);
                 db.SaveChanges();
                 return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
             }
@@ -133,6 +163,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (kdtl != null)
             {
                 db.KeepFormatDtls.Remove(kdtl);
+                db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "保養格式 > 刪除細項 > " + keepformat_dtl.FormatId + "(" + keepformat_dtl.Descript + ")";
+                db.SystemLogs.Add(log);
                 db.SaveChanges();
                 return RedirectToAction("Edit", "KeepFormats", new { id = keepformat_dtl.FormatId, sno = keepformat_dtl.Sno });
             }

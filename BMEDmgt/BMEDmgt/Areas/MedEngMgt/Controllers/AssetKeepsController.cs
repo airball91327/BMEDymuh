@@ -12,6 +12,7 @@ using BMEDmgt.Filters;
 using System.Web.Security;
 using WebMatrix.WebData;
 using System.Web.UI.WebControls;
+using BMEDmgt.Extensions;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -145,6 +146,28 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Entry(assetKeep).State = EntityState.Modified;
                 }
                 db.SaveChanges();
+                if (kp != null)
+                {
+                    var asset = db.Assets.Find(assetKeep.AssetNo);
+                    var currentObj = db.AssetKeeps.Find(assetKeep.AssetNo);
+                    var result = kp.EnumeratePropertyDifferences<AssetKeep>(currentObj);
+                    // Save log. 
+                    SystemLog log = new SystemLog();
+                    log.LogClass = "醫療儀器紀錄";
+                    log.LogTime = DateTime.UtcNow.AddHours(8);
+                    log.UserId = WebSecurity.CurrentUserId;
+                    log.Action = "資產維護 > 設備編輯 > 設備保養資料 > " + asset.AssetNo + "(" + asset.Cname + ")" + " ";
+                    if (result.Count() > 0)
+                    {
+                        foreach (string s in result)
+                        {
+                            log.Action += "【" + s + "】";
+                        }
+                    }
+                    db.SystemLogs.Add(log);
+                    db.SaveChanges();
+                }
+
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },

@@ -14,6 +14,7 @@ using BMEDmgt.Filters;
 using System.IO;
 using OfficeOpenXml;
 using System.Drawing;
+using BMEDmgt.Extensions;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -167,10 +168,32 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.DeptStoks.Find(deptStok.StokId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 deptStok.Rtp = WebSecurity.CurrentUserId;
                 deptStok.Rtt = DateTime.Now;
                 db.Entry(deptStok).State = EntityState.Modified;
                 db.SaveChanges();
+                //
+                var currentObj = db.DeptStoks.Find(deptStok.StokId);
+                var result = oriObj.EnumeratePropertyDifferences<DeptStok>(currentObj);
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "庫存管理 > 編輯 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
+                if (result.Count() > 0)
+                {
+                    foreach (string s in result)
+                    {
+                        log.Action += "【" + s + "】";
+                    }
+                }
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(deptStok);

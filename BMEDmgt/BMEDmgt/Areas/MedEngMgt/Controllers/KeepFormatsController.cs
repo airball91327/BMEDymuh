@@ -6,7 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
+using WebMatrix.WebData;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -53,6 +55,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.KeepFormats.Add(keepformat);
                 db.SaveChanges();
+                // Save log. 
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "保養格式 > 新增 > " + keepformat.FormatId;
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -80,7 +90,27 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.KeepFormats.Find(keepformat.FormatId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(keepformat).State = EntityState.Modified;
+                db.SaveChanges();
+                // Save edit log.
+                var currentObj = db.KeepFormats.Find(keepformat.FormatId);
+                var result = oriObj.EnumeratePropertyDifferences<KeepFormat>(currentObj);
+                SystemLog log = new SystemLog();
+                log.LogClass = "醫療儀器紀錄";
+                log.LogTime = DateTime.UtcNow.AddHours(8);
+                log.UserId = WebSecurity.CurrentUserId;
+                log.Action = "保養格式 > 編輯 > " + keepformat.FormatId;
+                if (result.Count() > 0)
+                {
+                    foreach (string s in result)
+                    {
+                        log.Action += "【" + s + "】";
+                    }
+                }
+                db.SystemLogs.Add(log);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -114,6 +144,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             KeepFormat keepformat = db.KeepFormats.Find(id);
             db.KeepFormats.Remove(keepformat);
+            db.SaveChanges();
+            // Save log. 
+            SystemLog log = new SystemLog();
+            log.LogClass = "醫療儀器紀錄";
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = "保養格式 > 刪除 > " + keepformat.FormatId;
+            db.SystemLogs.Add(log);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
