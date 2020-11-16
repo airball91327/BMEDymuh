@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -61,6 +62,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.DealStatus.Add(dealStatus);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "處理狀況選單 > 新增 > " + dealStatus.Title;
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -91,8 +97,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.DealStatus.Find(dealStatus.Id);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(dealStatus).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.DealStatus.Find(dealStatus.Id);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<DealStatus>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "處理狀況選單 > 編輯 > " + dealStatus.Title;
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             return View(dealStatus);

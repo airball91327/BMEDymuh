@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using Newtonsoft.Json;
 using WebMatrix.WebData;
@@ -62,6 +63,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.DeviceClassCodes.Add(deviceClassCode);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "設備分類選單 > 新增 > " + deviceClassCode.M_code + "(" + deviceClassCode.M_name + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -92,8 +98,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.DeviceClassCodes.Find(deviceClassCode.M_code);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(deviceClassCode).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.DeviceClassCodes.Find(deviceClassCode.M_code);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<DeviceClassCode>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "設備分類選單 > 編輯 > " + deviceClassCode.M_code + "(" + deviceClassCode.M_name + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             return View(deviceClassCode);

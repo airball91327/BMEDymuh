@@ -296,31 +296,31 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     var oriUser = db.AppUsers.Where(u => u.Id == appUser.Id).ToList().FirstOrDefault();
                     if (oriUser.UserName != appUser.UserName)
                     {
-                        checkResult += "使用者名稱；";
+                        checkResult += "使用者名稱由" + oriUser.UserName + "變更為" + appUser.UserName + "；";
                     }
                     if (oriUser.FullName != appUser.FullName)
                     {
-                        checkResult += "使用者全名；";
+                        checkResult += "使用者全名由" + oriUser.FullName + "變更為" + appUser.FullName + "；";
                     }
                     if (oriUser.Email != appUser.Email)
                     {
-                        checkResult += "電子信箱；";
+                        checkResult += "電子信箱由" + oriUser.Email + "變更為" + appUser.Email + "；";
                     }
                     if (oriUser.Ext != appUser.Ext)
                     {
-                        checkResult += "分機；";
+                        checkResult += "分機由" + oriUser.Ext + "變更為" + appUser.Ext + "；";
                     }
                     if (oriUser.Mobile != appUser.Mobile)
                     {
-                        checkResult += "行動電話；";
+                        checkResult += "行動電話由" + oriUser.Mobile + "變更為" + appUser.Mobile + "；";
                     }
                     if (oriUser.DptId != appUser.DptId)
                     {
-                        checkResult += "所屬部門；";
+                        checkResult += "所屬部門由" + oriUser.DptId + "變更為" + appUser.DptId + "；";
                     }
                     if (oriUser.Status != appUser.Status)
                     {
-                        checkResult += "狀態；";
+                        checkResult += "狀態由" + oriUser.Status + "變更為" + appUser.Status + "；";
                     }
                     //
                     appUser.LastActivityDate = DateTime.Now;
@@ -331,7 +331,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (!string.IsNullOrEmpty(appUser.newPassword))
                     {
                         user.ChangePassword(appUser.Password, appUser.newPassword);
-                        checkResult += "密碼；";
+                        checkResult += "密碼變更；";
                     }
                 }
                 if (Roles.IsUserInRole("Admin"))

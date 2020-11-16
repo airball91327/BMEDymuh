@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -62,6 +63,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.NoAssetNoLists.Add(noAssetNoList);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "無財編設備名稱選單 > 新增 > " + noAssetNoList.Title;
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -92,8 +98,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.NoAssetNoLists.Find(noAssetNoList.Id);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(noAssetNoList).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.NoAssetNoLists.Find(noAssetNoList.Id);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<NoAssetNoList>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "無財編設備名稱選單 > 編輯 > " + noAssetNoList.Title;
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             return View(noAssetNoList);

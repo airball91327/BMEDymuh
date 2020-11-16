@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -91,6 +92,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.EngSubStaffs.Add(engSubStaff);
                 db.SaveChanges();
+                // Save log. 
+                var subUser = db.AppUsers.Find(engSubStaff.SubstituteId);
+                string logClass = "管理紀錄";
+                string logAction = "設定代理人 > 新增 > ";
+                if (subUser != null)
+                {
+                    logAction += subUser.UserName + "(" + subUser.FullName + ")";
+                }
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -160,8 +171,23 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             if (ModelState.IsValid)
             {
+                var oriObj = db.EngSubStaffs.Find(engSubStaff.EngId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(engSubStaff).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.EngSubStaffs.Find(engSubStaff.EngId);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<EngSubStaff>(currentObj);
+                var subUser = db.AppUsers.Find(engSubStaff.SubstituteId);
+                string logClass = "管理紀錄";
+                string logAction = "設定代理人 > 編輯 > ";
+                if (subUser != null)
+                {
+                    logAction += subUser.UserName + "(" + subUser.FullName + ")";
+                }
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             /* Get all engineers by role. */
@@ -206,6 +232,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             EngSubStaff engSubStaff = db.EngSubStaffs.Find(id);
             db.EngSubStaffs.Remove(engSubStaff);
             db.SaveChanges();
+            // Save log. 
+            var subUser = db.AppUsers.Find(engSubStaff.SubstituteId);
+            string logClass = "管理紀錄";
+            string logAction = "設定代理人 > 刪除 > ";
+            if (subUser != null)
+            {
+                logAction += subUser.UserName + "(" + subUser.FullName + ")";
+            }
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
+
             return RedirectToAction("Index");
         }
 

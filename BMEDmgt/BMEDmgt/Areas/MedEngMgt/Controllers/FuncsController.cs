@@ -89,6 +89,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [MyErrorHandler]
         public ActionResult RoleWithFuncs(FuncsInRoles fs)
         {
+            var oriFuncs = db.FuncsInRoles.Where(f => f.RoleId == fs.RoleId)
+                                          .Select(f => f.FuncId).ToList();
             //
             FuncsInRoles r;
             List<RoleInFuncsVModel> rvlst = new List<RoleInFuncsVModel>();
@@ -96,7 +98,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 .ForEach(f =>
                 {
                     if (db.Funcs.Find(f.FuncId).Module == fs.Module)
+                    {
                         db.FuncsInRoles.Remove(f);
+                    }
                 });
             fs.InFuncs.Where(f => f.IsSelected == true).ToList()
                 .ForEach(f =>
@@ -109,6 +113,35 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             try
             {
                 db.SaveChanges();
+                // Save log.
+                var logRole = db.AppRoles.Find(fs.RoleId);
+                string logAction = "功能權限設定 > 腳色[" + logRole.RoleName + "]";
+                var newFuncs = db.FuncsInRoles.Where(f => f.RoleId == fs.RoleId).Select(f => f.FuncId).ToList();
+                var removeFuncs = oriFuncs.Except(newFuncs).ToList();
+                var addFuncs = newFuncs.Except(oriFuncs).ToList();
+                if (removeFuncs.Count() > 0)
+                {
+                    logAction += "刪除";
+                    foreach (var funcid in removeFuncs)
+                    {
+                        var funcName = db.Funcs.Find(funcid).FuncName;
+                        logAction += "【" + funcName + "】";
+                    }
+                    logAction += ";";
+                }
+                if (addFuncs.Count() > 0)
+                {
+                    logAction += "新增";
+                    foreach (var funcid in addFuncs)
+                    {
+                        var funcName = db.Funcs.Find(funcid).FuncName;
+                        logAction += "【" + funcName + "】";
+                    }
+                    logAction += ";";
+                }
+                string logClass = "管理紀錄";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },

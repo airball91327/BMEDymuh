@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
@@ -53,6 +54,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.RepairAreas.Add(repairArea);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "維修地點維護 > 新增 > " + repairArea.AreaName;
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -83,8 +89,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.RepairAreas.Find(repairArea.Id);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(repairArea).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.RepairAreas.Find(repairArea.Id);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<RepairArea>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "維修地點維護 > 編輯 > " + repairArea.AreaName;
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             return View(repairArea);
@@ -113,6 +129,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             RepairArea repairArea = db.RepairAreas.Find(id);
             db.RepairAreas.Remove(repairArea);
             db.SaveChanges();
+            // Save log. 
+            string logClass = "管理紀錄";
+            string logAction = "維修地點維護 > 刪除 > " + repairArea.AreaName;
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
+
             return RedirectToAction("Index");
         }
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -61,6 +62,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.FailFactors.Add(failFactor);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "故障原因選單 > 新增 > " + failFactor.Title;
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -91,8 +97,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.FailFactors.Find(failFactor.Id);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(failFactor).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.FailFactors.Find(failFactor.Id);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<FailFactor>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "故障原因選單 > 編輯 > " + failFactor.Title;
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             return View(failFactor);

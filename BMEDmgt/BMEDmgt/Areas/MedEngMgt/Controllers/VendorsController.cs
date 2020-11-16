@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using WebMatrix.WebData;
 
@@ -117,6 +118,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 db.Vendors.Add(vendor);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "廠商維護 > 新增 > " + vendor.VendorName + "(" + vendor.UniteNo + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
             List<VendorType> vt = db.VendorTypes.ToList();
@@ -175,8 +181,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.Vendors.Find(vendor.VendorId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 db.Entry(vendor).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log.
+                var currentObj = db.Vendors.Find(vendor.VendorId);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<Vendor>(currentObj);
+                string logClass = "醫療儀器紀錄";
+                string logAction = "廠商維護 > 編輯 > " + vendor.VendorName + "(" + vendor.UniteNo + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             List<VendorType> vt = db.VendorTypes.ToList();
