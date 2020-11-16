@@ -1,77 +1,82 @@
-﻿@model PagedList.IPagedList<BMEDmgt.Areas.MedEngMgt.Models.SystemLog>
-
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
 <h2>系統訊息紀錄</h2>
+@using (Html.BeginForm("Index", "SystemLogs", FormMethod.Post,
+               new { id = "frmLOGLIST" }))
+{
+    <div class="form-horizontal">
 
-<button id="BtnExcel" class="btn btn-primary">匯出Excel</button>
-<img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+        <div class="form-group">
+            @Html.Label("訊息類別", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("qryLogClass", null, new { @class = "form-control" })
+                @Html.ValidationMessage("qryLogClass", "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().LogClass)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().LogTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().UserId)
-        </th>
-        <th style="max-width: 500px;">
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Action)
-        </th>
-    </tr>
+        <div class="form-group">
+            @Html.Label("員工編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qryUserName", "", new { @class = "form-control" })
+                @Html.ValidationMessage("qryUserName", "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LogClass)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LogTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td style="max-width: 500px;">
-                @Html.DisplayFor(modelItem => item.Action)
-            </td>
-        </tr>
-    }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQTY" type="button" value="查詢" class="btn btn-default" />
+                <img id="imgLOADING" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
 
-</table>
+}
 
-<div>
-    @Html.PagedListPager(Model,
-    page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+<div id="pnlLOGLIST" style="margin-top: 40px">
+
 </div>
 
 <script>
     $(function () {
-        $('#BtnExcel').click(function () {
-            $.ajax({
-                url: '@Url.Action("ExportToExcel", "SystemLogs")',
-                data: { },
-                type: "GET",
-                beforeSend: function () {
-                    $("#imgLOADING2").show();
-                },
-                success: function (data) {
-                    window.location.href = '@Url.Action("ExportToExcel", "SystemLogs")';
-                    $("#imgLOADING2").hide();
-                },
-                error: function (msg) {
-                    alert(msg);
-                    $("#imgLOADING2").hide()
-                }
-            });
+        var page = window.location.hash
+            ? window.location.hash.slice(1) : 1;
+        fetchPage(page);
+        $('#btnQTY').click(function () {
+            fetchPage(1);
         });
+
     });
+
+    var fetchPage = function (page) {
+        var pagedPartialUrl = '@Url.Action("List", "SystemLogs")';
+        var s = $('#frmLOGLIST').serialize();
+        $('#imgLOADING').show();
+        $.ajax({
+            url: pagedPartialUrl,
+            type: "GET",
+            data: s + "&page=" + page,
+            success: function (data) {
+
+                window.location.hash = page;
+
+                $('#pnlLOGLIST').html(data);
+
+                $('#pnlLOGLIST .pagination li a').each(function (i, item) {
+                    var hyperLinkUrl = $(item).attr('href');
+                    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                        var pageNumber = $(item).attr('href').replace(pagedPartialUrl + '?page=', '');
+                        $(item).attr('href', '#').click(function (event) {
+                            event.preventDefault();
+                            $(event.target).attr('href');
+                            fetchPage(pageNumber);
+                        });
+                    }
+                });
+                $('#imgLOADING').hide();
+            }
+        });
+
+    };
 </script>

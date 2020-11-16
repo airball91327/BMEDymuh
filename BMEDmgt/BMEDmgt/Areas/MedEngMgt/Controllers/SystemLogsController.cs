@@ -20,10 +20,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
     public class SystemLogsController : Controller
     {
         private BMEDcontext db = new BMEDcontext();
-        private int pageSize = 100;
+        private int pageSize = 50;
 
         // GET: MedEngMgt/SystemLogs
-        public ActionResult Index(int page = 1)
+        public ActionResult Index()
         {
             if (User.IsInRole("Admin") == true)
             {
@@ -32,23 +32,50 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 string logAction = "系統訊息紀錄";
                 var result = new SystemLogsController().SaveLog(logClass, logAction);
             }
+            //
+            //var logClasses = db.SystemLogs.Select(s => s.LogClass).Distinct().ToList();
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            listItem.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            listItem.Add(new SelectListItem { Text = "管理紀錄", Value = "管理紀錄" });
+            listItem.Add(new SelectListItem { Text = "醫療儀器紀錄", Value = "醫療儀器紀錄" });
+            listItem.Add(new SelectListItem { Text = "系統管理者紀錄", Value = "系統管理者紀錄" });
+            listItem.Add(new SelectListItem { Text = "系統錯誤訊息", Value = "系統錯誤訊息" });
+            ViewData["qryLogClass"] = listItem;
+            return View();
+        }
 
-            var systemLogs = db.SystemLogs.ToList();
-            foreach(var item in systemLogs)
+        // GET: MedEngMgt/SystemLogs/List
+        public ActionResult List(string qryLogClass, string qryUserName, int page = 1)
+        {
+            var qrySystemLogs = db.SystemLogs.Join(db.AppUsers, s => s.UserId, u => u.Id,
+                                              (s, u) => new 
+                                              { 
+                                                  log = s,
+                                                  user = u
+                                              });
+            if (!string.IsNullOrEmpty(qryLogClass))
             {
-                if (item.UserId != null)
-                {
-                    var user = db.AppUsers.Where(u => u.Id == item.UserId.Value).ToList().FirstOrDefault();
-                    if (user != null)
-                    {
-                        item.UserName = user.UserName;
-                        item.FullName = user.FullName;
-                    }
-                }
+                qrySystemLogs = qrySystemLogs.Where(s => s.log.LogClass == qryLogClass);
             }
+            if (!string.IsNullOrEmpty(qryUserName))
+            {
+                qrySystemLogs = qrySystemLogs.Where(s => s.user.UserName == qryUserName);
+            }
+            List<SystemLog> systemLogs = new List<SystemLog>();
+            qrySystemLogs.ToList()
+            .ForEach(s => systemLogs.Add(new SystemLog() 
+            { 
+                Id = s.log.Id ,
+                Action = s.log.Action,
+                LogClass = s.log.LogClass,
+                LogTime = s.log.LogTime,
+                UserName = s.user.UserName
+            }));
 
             systemLogs = systemLogs.OrderByDescending(s => s.LogTime).ToList();
-            return View(systemLogs.ToPagedList(page, pageSize));
+            if (systemLogs.ToPagedList(page, pageSize).Count <= 0)
+                return PartialView(systemLogs.ToPagedList(1, pageSize));
+            return PartialView(systemLogs.ToPagedList(page, pageSize));
         }
 
         // GET: MedEngMgt/SystemLogs/Details/5
@@ -147,7 +174,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         }
 
         // GET: MedEngMgt/SystemLogs/ExportToExcel
-        public ActionResult ExportToExcel()
+        public ActionResult ExportToExcel(string qryLogClass, string qryUserName)
         {
             string fileName = "";
 
@@ -171,15 +198,38 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             #endregion
 
             #region write content
-            var SystemLogList = db.SystemLogs.OrderByDescending(s => s.LogTime).ToList();
+            var qrySystemLogs = db.SystemLogs.Join(db.AppUsers, s => s.UserId, u => u.Id,
+                                              (s, u) => new
+                                              {
+                                                  log = s,
+                                                  user = u
+                                              });
+            if (!string.IsNullOrEmpty(qryLogClass))
+            {
+                qrySystemLogs = qrySystemLogs.Where(s => s.log.LogClass == qryLogClass);
+            }
+            if (!string.IsNullOrEmpty(qryUserName))
+            {
+                qrySystemLogs = qrySystemLogs.Where(s => s.user.UserName == qryUserName);
+            }
+            List<SystemLog> SystemLogList = new List<SystemLog>();
+            qrySystemLogs.ToList()
+            .ForEach(s => SystemLogList.Add(new SystemLog()
+            {
+                Id = s.log.Id,
+                Action = s.log.Action,
+                LogClass = s.log.LogClass,
+                LogTime = s.log.LogTime,
+                UserName = s.user.UserName
+            }));
+            SystemLogList = SystemLogList.OrderByDescending(s => s.LogTime).ToList();
 
             int pos = 2;
             foreach (var item in SystemLogList)
             {
                 sheet.Cells[pos, 1].Value = item.LogClass;
                 sheet.Cells[pos, 2].Value = item.LogTime.ToString("yyyy/MM/dd");
-                var ur = db.AppUsers.Where(u => u.Id == item.UserId).ToList().FirstOrDefault();
-                sheet.Cells[pos, 3].Value = ur == null ? "" : ur.UserName;
+                sheet.Cells[pos, 3].Value = item.UserName;
                 sheet.Cells[pos, 4].Value = item.Action;
 
                 using (ExcelRange range = sheet.Cells[pos, 1, pos, 30])
