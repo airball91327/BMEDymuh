@@ -238,14 +238,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.Manuals.Add(manaul);
                     db.SaveChanges();
                     // Save log. 
-                    SystemLog log = new SystemLog();
-                    log.LogClass = "醫療儀器紀錄";
-                    log.LogTime = DateTime.UtcNow.AddHours(8);
-                    log.UserId = WebSecurity.CurrentUserId;
-                    log.Action = "手冊維護 > 新增 > " + manaul.FileName;
-                    db.SystemLogs.Add(log);
-                    db.SaveChanges();
-
+                    string logClass = "醫療儀器紀錄";
+                    string logAction = "手冊維護 > 新增 > " + manaul.FileName;
+                    var result = new SystemLogsController().SaveLog(logClass, logAction);
                 }
                 catch (Exception e)
                 {
@@ -326,24 +321,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 manual.Rtt = DateTime.Now;
                 db.Entry(manual).State = EntityState.Modified;
                 db.SaveChanges();
-                //
-                var currentObj = db.Manuals.Find(manual.FileId);
-                var result = oriObj.EnumeratePropertyDifferences<Manual>(currentObj);
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "醫療儀器紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "手冊維護 > 編輯 > " + manual.FileName + " ";
-                if (result.Count() > 0)
-                {
-                    foreach (string s in result)
-                    {
-                        log.Action += "【" + s + "】";
-                    }
-                }
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                var currentObj = db.Manuals.Find(manual.FileId);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<Manual>(currentObj);
+                string logClass = "醫療儀器紀錄";
+                string logAction = "手冊維護 > 編輯 > " + manual.FileName + " ";
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return new JsonResult
                 {
                     Data = new { success = true, error = "" },
@@ -395,13 +379,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.Manuals.Remove(manual);
             db.SaveChanges();
             // Save log. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "醫療儀器紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "手冊維護 > 刪除 > " + manual.FileName;
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "醫療儀器紀錄";
+            string logAction = "手冊維護 > 刪除 > " + manual.FileName;
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
 
             return RedirectToAction("Index");
         }

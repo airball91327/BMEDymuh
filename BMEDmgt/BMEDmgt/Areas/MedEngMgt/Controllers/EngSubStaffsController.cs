@@ -23,13 +23,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (User.IsInRole("Admin") == true)
             {
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "設定代理人";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "系統管理者紀錄";
+                string logAction = "設定代理人";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
             }
             var user = db.AppUsers.Find(WebSecurity.CurrentUserId);
 

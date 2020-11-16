@@ -28,13 +28,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (User.IsInRole("Admin") == true)
             {
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "系統訊息紀錄";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "系統管理者紀錄";
+                string logAction = "系統訊息紀錄";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
             }
 
             var systemLogs = db.SystemLogs.ToList();
@@ -206,6 +202,64 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 //注意Excel的ContentType,是要用這個"application/vnd.ms-excel"
                 return this.File(memoryStream.ToArray(), "application/vnd.ms-excel", fileName);
+            }
+        }
+
+        /// <summary>
+        /// Save system log to DB.
+        /// </summary>
+        /// <param name="logClass">Class of system log.</param>
+        /// <param name="logAction">User action.</param>
+        /// <returns>If save success return true, else false.</returns>
+        public bool SaveLog(string logClass, string logAction)
+        {
+            SystemLog log = new SystemLog();
+            log.LogClass = logClass;
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = logAction;
+            try
+            {
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Save system log to DB.
+        /// </summary>
+        /// <param name="logClass">Class of system log.</param>
+        /// <param name="logAction1">User action.</param>
+        /// <param name="logAction2">String list of user actions.</param>
+        /// <returns>If save success return true, else false.</returns>
+        public bool SaveLog(string logClass, string logAction1, IEnumerable<string> logAction2)
+        {
+            SystemLog log = new SystemLog();
+            log.LogClass = logClass;
+            log.LogTime = DateTime.UtcNow.AddHours(8);
+            log.UserId = WebSecurity.CurrentUserId;
+            log.Action = logAction1;
+            if (logAction2.Count() > 0)
+            {
+                foreach (string s in logAction2)
+                {
+                    log.Action += "【" + s + "】";
+                }
+            }
+            try
+            {
+                db.SystemLogs.Add(log);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
 

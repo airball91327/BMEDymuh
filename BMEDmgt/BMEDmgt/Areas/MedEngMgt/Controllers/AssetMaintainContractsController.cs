@@ -212,13 +212,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     db.SaveChanges();
                     // Save log. 
-                    SystemLog log = new SystemLog();
-                    log.LogClass = "醫療儀器紀錄";
-                    log.LogTime = DateTime.UtcNow.AddHours(8);
-                    log.UserId = WebSecurity.CurrentUserId;
-                    log.Action = "合約維護 > 設備維護合約 > 新增 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
-                    db.SystemLogs.Add(log);
-                    db.SaveChanges();
+                    string logClass = "醫療儀器紀錄";
+                    string logAction = "合約維護 > 設備維護合約 > 新增 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
+                    var result = new SystemLogsController().SaveLog(logClass, logAction);
                 }
                 return RedirectToAction("Index");
             }
@@ -331,21 +327,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     db.SaveChanges();
                     // Save edit log.
                     var currentObj = db.AssetMaintainContracts.Find(assetMaintainContract.PurchaseNo);
-                    var result = oriObj.EnumeratePropertyDifferences<AssetMaintainContract>(currentObj);
-                    SystemLog log = new SystemLog();
-                    log.LogClass = "醫療儀器紀錄";
-                    log.LogTime = DateTime.UtcNow.AddHours(8);
-                    log.UserId = WebSecurity.CurrentUserId;
-                    log.Action = "合約維護 > 設備維護合約 > 編輯 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
-                    if (result.Count() > 0)
-                    {
-                        foreach (string s in result)
-                        {
-                            log.Action += "【" + s + "】";
-                        }
-                    }
-                    db.SystemLogs.Add(log);
-                    db.SaveChanges();
+                    var logAction2 = oriObj.EnumeratePropertyDifferences<AssetMaintainContract>(currentObj);
+                    string logClass = "醫療儀器紀錄";
+                    string logAction = "合約維護 > 設備維護合約 > 編輯 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
+                    var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
                 }
                 return RedirectToAction("Index");
             }
@@ -380,13 +365,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.AssetMaintainContracts.Remove(assetMaintainContract);
             db.SaveChanges();
             // Save log. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "醫療儀器紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "合約維護 > 設備維護合約 > 刪除 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "醫療儀器紀錄";
+            string logAction = "合約維護 > 設備維護合約 > 刪除 > " + assetMaintainContract.PurchaseNo + "(" + assetMaintainContract.ContractName + ")";
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
+
             return RedirectToAction("Index");
         }
 

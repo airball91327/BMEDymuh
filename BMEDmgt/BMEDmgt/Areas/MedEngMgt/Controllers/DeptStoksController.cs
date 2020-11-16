@@ -94,13 +94,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.DeptStoks.Add(deptStok);
                 db.SaveChanges();
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "醫療儀器紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "庫存管理 > 新增 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "醫療儀器紀錄";
+                string logAction = "庫存管理 > 新增 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -175,24 +172,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 deptStok.Rtt = DateTime.Now;
                 db.Entry(deptStok).State = EntityState.Modified;
                 db.SaveChanges();
-                //
-                var currentObj = db.DeptStoks.Find(deptStok.StokId);
-                var result = oriObj.EnumeratePropertyDifferences<DeptStok>(currentObj);
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "醫療儀器紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "庫存管理 > 編輯 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
-                if (result.Count() > 0)
-                {
-                    foreach (string s in result)
-                    {
-                        log.Action += "【" + s + "】";
-                    }
-                }
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                var currentObj = db.DeptStoks.Find(deptStok.StokId);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<DeptStok>(currentObj);
+                string logClass = "醫療儀器紀錄";
+                string logAction = "庫存管理 > 編輯 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
 
                 return RedirectToAction("Index");
             }
@@ -223,13 +208,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.DeptStoks.Remove(deptStok);
             db.SaveChanges();
             // Save log. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "醫療儀器紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "庫存管理 > 刪除 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "醫療儀器紀錄";
+            string logAction = "庫存管理 > 刪除 > " + deptStok.StokNam + "(" + deptStok.StokNo + ")";
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
+
             return RedirectToAction("Index");
         }
 

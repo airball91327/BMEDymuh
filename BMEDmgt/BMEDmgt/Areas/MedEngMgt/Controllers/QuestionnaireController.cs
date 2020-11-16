@@ -506,13 +506,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
                 // Save log.
                 var questionnaireM = db.QuestionnaireMs.Find(questionnaire.VerId);
-                SystemLog log = new SystemLog();
-                log.LogClass = "醫療儀器紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "滿意度問卷 > 新增問卷項目 > " + questionnaireM.Qname + "(" + questionnaire.Qtitle + ")";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "醫療儀器紀錄";
+                string logAction = "滿意度問卷 > 新增問卷項目 > " + questionnaireM.Qname + "(" + questionnaire.Qtitle + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
 
                 return RedirectToAction("List", new { id = questionnaire.VerId });
             }
@@ -563,13 +559,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.SaveChanges();
             // Save log.
             var questionnaireM = db.QuestionnaireMs.Find(questionnaire.VerId);
-            SystemLog log = new SystemLog();
-            log.LogClass = "醫療儀器紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "滿意度問卷 > 刪除問卷項目 > " + questionnaireM.Qname + "(" + questionnaire.Qtitle + ")";
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "醫療儀器紀錄";
+            string logAction = "滿意度問卷 > 刪除問卷項目 > " + questionnaireM.Qname + "(" + questionnaire.Qtitle + ")";
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
 
             return RedirectToAction("List", new { id = id });
         }

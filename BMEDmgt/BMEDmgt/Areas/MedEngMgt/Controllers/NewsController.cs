@@ -49,13 +49,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (User.IsInRole("Admin") == true)
             {
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "最新消息維護";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "系統管理者紀錄";
+                string logAction = "最新消息維護";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
             }
 
             return View(newslist);
@@ -172,13 +168,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.News.Add(news);
                 db.SaveChanges();
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "管理紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "最新消息維護 > 新增 > " + news.NewsTitle;
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "管理紀錄";
+                string logAction = "最新消息維護 > 新增 > " + news.NewsTitle;
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
 
                 return RedirectToAction("Index");
             }
@@ -226,21 +218,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
                 // Save edit log.
                 var currentObj = db.News.Find(news.NewsId);
-                var result = oriObj.EnumeratePropertyDifferences<News>(currentObj);
-                SystemLog log = new SystemLog();
-                log.LogClass = "管理紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "最新消息維護 > 編輯 > " + news.NewsTitle;
-                if (result.Count() > 0)
-                {
-                    foreach (string s in result)
-                    {
-                        log.Action += "【" + s + "】";
-                    }
-                }
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                var logAction2 = oriObj.EnumeratePropertyDifferences<News>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "最新消息維護 > 編輯 > " + news.NewsTitle;
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
 
                 return RedirectToAction("Index");
             }
@@ -299,13 +280,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
             }
             // Save log. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "管理紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "最新消息維護 > 刪除 > " + news.NewsTitle;
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "管理紀錄";
+            string logAction = "最新消息維護 > 刪除 > " + news.NewsTitle;
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
 
             return RedirectToAction("Index");
         }

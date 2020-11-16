@@ -1,4 +1,5 @@
-﻿using BMEDmgt.Areas.MedEngMgt.Models;
+﻿using BMEDmgt.Areas.MedEngMgt.Controllers;
+using BMEDmgt.Areas.MedEngMgt.Models;
 using BMEDmgt.Models;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,9 @@ namespace BMEDmgt.Filters
         public void OnException(ExceptionContext filterContext)
         {
             // Save error msg. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "系統錯誤訊息";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = filterContext.Exception.Message;
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "系統錯誤訊息";
+            string logAction = filterContext.Exception.Message;
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
 
             filterContext.ExceptionHandled = true;
             filterContext.Result = new JsonResult

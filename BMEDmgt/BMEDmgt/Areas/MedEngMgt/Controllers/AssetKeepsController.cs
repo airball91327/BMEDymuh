@@ -149,23 +149,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (kp != null)
                 {
                     var asset = db.Assets.Find(assetKeep.AssetNo);
-                    var currentObj = db.AssetKeeps.Find(assetKeep.AssetNo);
-                    var result = kp.EnumeratePropertyDifferences<AssetKeep>(currentObj);
                     // Save log. 
-                    SystemLog log = new SystemLog();
-                    log.LogClass = "醫療儀器紀錄";
-                    log.LogTime = DateTime.UtcNow.AddHours(8);
-                    log.UserId = WebSecurity.CurrentUserId;
-                    log.Action = "資產維護 > 設備編輯 > 設備保養資料 > " + asset.AssetNo + "(" + asset.Cname + ")" + " ";
-                    if (result.Count() > 0)
-                    {
-                        foreach (string s in result)
-                        {
-                            log.Action += "【" + s + "】";
-                        }
-                    }
-                    db.SystemLogs.Add(log);
-                    db.SaveChanges();
+                    var currentObj = db.AssetKeeps.Find(assetKeep.AssetNo);
+                    var logAction2 = kp.EnumeratePropertyDifferences<AssetKeep>(currentObj);
+                    string logClass = "醫療儀器紀錄";
+                    string logAction = "資產維護 > 設備編輯 > 設備保養資料 > " + asset.AssetNo + "(" + asset.Cname + ")" + " ";
+                    var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
                 }
 
                 return new JsonResult

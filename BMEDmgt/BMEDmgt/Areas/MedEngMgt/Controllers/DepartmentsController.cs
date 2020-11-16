@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BMEDmgt.Areas.MedEngMgt.Models;
+using BMEDmgt.Extensions;
 using BMEDmgt.Models;
 using Newtonsoft.Json;
 using WebMatrix.WebData;
@@ -25,13 +26,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (User.IsInRole("Admin") == true)
             {
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "部門維護";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "系統管理者紀錄";
+                string logAction = "部門維護";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
             }
             return View(db.Departments.ToList());
         }
@@ -70,6 +67,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 department.LastActivityDate = DateTime.Now;
                 db.Departments.Add(department);
                 db.SaveChanges();
+                // Save log. 
+                string logClass = "管理紀錄";
+                string logAction = "部門維護 > 新增 > " + department.DptId + "(" + department.Name_C + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 return RedirectToAction("Index");
             }
 
@@ -100,9 +102,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             if (ModelState.IsValid)
             {
+                var oriObj = db.Departments.Find(department.DptId);
+                db.Entry(oriObj).State = EntityState.Detached;
+                //
                 department.LastActivityDate = DateTime.Now;
                 db.Entry(department).State = EntityState.Modified;
                 db.SaveChanges();
+                // Save log. 
+                var currentObj = db.Departments.Find(department.DptId);
+                var logAction2 = oriObj.EnumeratePropertyDifferences<Department>(currentObj);
+                string logClass = "管理紀錄";
+                string logAction = "部門維護 > 編輯 > " + department.DptId + "(" + department.Name_C + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 return RedirectToAction("Index");
             }
             return View(department);

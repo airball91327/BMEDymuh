@@ -40,13 +40,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (User.IsInRole("Admin") == true)
             {
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "使用者維護";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "系統管理者紀錄";
+                string logAction = "使用者維護";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
             }
 
             return View();
@@ -199,15 +195,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 newUser.VendorId = appUser.VendorId;
                 db.Entry(newUser).State = EntityState.Modified;
                 db.SaveChanges();
-                //
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "使用者維護 > 新增使用者 > " + newUser.FullName + "(" + newUser.UserName + ")";
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "管理紀錄";
+                string logAction = "使用者維護 > 新增使用者 > " + newUser.FullName + "(" + newUser.UserName + ")";
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
                 //
                 List<UserInRolesVModel> uv = appUser.InRoles.Where(v => v.IsSelected == true).ToList();
                 foreach (UserInRolesVModel u in uv)
@@ -359,7 +350,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 // Save log. 
                 SystemLog log = new SystemLog();
-                log.LogClass = "系統管理者紀錄";
+                log.LogClass = "管理紀錄";
                 log.LogTime = DateTime.UtcNow.AddHours(8);
                 log.UserId = WebSecurity.CurrentUserId;
                 log.Action = "使用者維護 > 編輯使用者 > " + appUser.FullName + "(" + appUser.UserName + ") > " + checkResult;
@@ -397,13 +388,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             db.AppUsers.Remove(appUser);
             db.SaveChanges();
             // Save log. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "系統管理者紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "使用者維護 > 刪除使用者 > " + appUser.FullName + "(" + appUser.UserName + ")";
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "管理紀錄";
+            string logAction = "使用者維護 > 刪除使用者 > " + appUser.FullName + "(" + appUser.UserName + ")";
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
+
             return RedirectToAction("Index");
         }
 

@@ -67,13 +67,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.QuestionnaireMs.Add(questionnaireM);
                 db.SaveChanges();
                 // Save log. 
-                SystemLog log = new SystemLog();
-                log.LogClass = "醫療儀器紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "滿意度問卷 > 新增 > " + questionnaireM.Qname;
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                string logClass = "醫療儀器紀錄";
+                string logAction = "滿意度問卷 > 新增 > " + questionnaireM.Qname;
+                var result = new SystemLogsController().SaveLog(logClass, logAction);
 
                 return RedirectToAction("List", "Questionnaire", new { id = questionnaireM.VerId });
             }
@@ -114,21 +110,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.SaveChanges();
                 // Save edit log.
                 var currentObj = db.QuestionnaireMs.Find(questionnaireM.VerId);
-                var result = oriObj.EnumeratePropertyDifferences<QuestionnaireM>(currentObj);
-                SystemLog log = new SystemLog();
-                log.LogClass = "醫療儀器紀錄";
-                log.LogTime = DateTime.UtcNow.AddHours(8);
-                log.UserId = WebSecurity.CurrentUserId;
-                log.Action = "滿意度問卷 > 編輯 > " + questionnaireM.Qname;
-                if (result.Count() > 0)
-                {
-                    foreach (string s in result)
-                    {
-                        log.Action += "【" + s + "】";
-                    }
-                }
-                db.SystemLogs.Add(log);
-                db.SaveChanges();
+                var logAction2 = oriObj.EnumeratePropertyDifferences<QuestionnaireM>(currentObj);
+                string logClass = "醫療儀器紀錄";
+                string logAction = "滿意度問卷 > 編輯 > " + questionnaireM.Qname;
+                var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
 
                 return RedirectToAction("Index");
             }

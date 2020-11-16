@@ -574,13 +574,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                     db.SaveChanges();
                     // Save log. 
-                    SystemLog log = new SystemLog();
-                    log.LogClass = "醫療儀器紀錄";
-                    log.LogTime = DateTime.UtcNow.AddHours(8);
-                    log.UserId = WebSecurity.CurrentUserId;
-                    log.Action = "資產維護 > 新增設備 > " + asset.AssetNo + "(" + asset.Cname + ")";
-                    db.SystemLogs.Add(log);
-                    db.SaveChanges();
+                    string logClass = "醫療儀器紀錄";
+                    string logAction = "資產維護 > 新增設備 > " + asset.AssetNo + "(" + asset.Cname + ")";
+                    var result = new SystemLogsController().SaveLog(logClass, logAction);
+
                 }
                 catch (Exception e)
                 {
@@ -709,24 +706,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 try
                 {
                     db.SaveChanges();
-                    //
-                    Asset currentObj = db.Assets.Find(asset.AssetNo);
-                    var result = oriObj.EnumeratePropertyDifferences<Asset>(currentObj);
-                    // Save log. 
-                    SystemLog log = new SystemLog();
-                    log.LogClass = "醫療儀器紀錄";
-                    log.LogTime = DateTime.UtcNow.AddHours(8);
-                    log.UserId = WebSecurity.CurrentUserId;
-                    log.Action = "資產維護 > 設備編輯 > " + asset.AssetNo + "(" + asset.Cname + ")" + " ";
-                    if (result.Count() > 0)
-                    {
-                        foreach (string s in result)
-                        {
-                            log.Action += "【" + s + "】";
-                        }
-                    }
-                    db.SystemLogs.Add(log);
-                    db.SaveChanges();
+                    // Save log.
+                    var currentObj = db.Assets.Find(asset.AssetNo);
+                    var logAction2 = oriObj.EnumeratePropertyDifferences<Asset>(currentObj);
+                    string logClass = "醫療儀器紀錄";
+                    string logAction = "資產維護 > 設備編輯 > " + asset.AssetNo + "(" + asset.Cname + ")" + " ";
+                    var result = new SystemLogsController().SaveLog(logClass, logAction, logAction2);
+
                 }
                 catch (Exception ex)
                 {
@@ -877,13 +863,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 db.AssetKeeps.Remove(ak);
             db.SaveChanges();
             // Save log. 
-            SystemLog log = new SystemLog();
-            log.LogClass = "醫療儀器紀錄";
-            log.LogTime = DateTime.UtcNow.AddHours(8);
-            log.UserId = WebSecurity.CurrentUserId;
-            log.Action = "資產維護 > 設備刪除 > " + asset.AssetNo + "(" + asset.Cname + ")";
-            db.SystemLogs.Add(log);
-            db.SaveChanges();
+            string logClass = "醫療儀器紀錄";
+            string logAction = "資產維護 > 刪除設備 > " + asset.AssetNo + "(" + asset.Cname + ")";
+            var result = new SystemLogsController().SaveLog(logClass, logAction);
+
             //return RedirectToAction("Index");
             return new JsonResult
             {
