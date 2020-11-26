@@ -56,7 +56,7 @@
         $('#BtnExcel').click(function () {
             var logClass = $('#qryLogClass').val();
             var userName = $('#qryUserName').val();
-            alert(logClass + "-" + userName);
+            //alert(logClass + "-" + userName);
             $.ajax({
                 url: '@Url.Action("ExportToExcel", "SystemLogs")',
                 data: { qryLogClass: logClass, qryUserName: userName },
