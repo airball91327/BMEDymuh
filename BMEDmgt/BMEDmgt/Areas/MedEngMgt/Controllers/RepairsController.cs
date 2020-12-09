@@ -1623,10 +1623,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             RepairDtl dtl = db.RepairDtls.Find(id);
             if (dtl != null)
             {
-                if (dtl.IsCharged == "Y" && dtl.EndDate != null)
-                {
-                    ViewData["showCost"] = "Print";
-                }
+                //if (dtl.IsCharged == "Y" && dtl.EndDate != null)
+                //{
+                //    ViewData["showCost"] = "Print";
+                //}
             }
             return View(repair);
         }

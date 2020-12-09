@@ -96,7 +96,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             repairCost.SeqNo = seqno + 1;
             RepairFlow rf = db.RepairFlows.Where(f => f.DocId == id)
                .Where(f => f.Status == "?").ToList().FirstOrDefault();
-            if (!(rf.Cls.Contains("工程師") || rf.Cls == "醫工經辦"))
+            if (!(rf.Cls.Contains("工程師") || rf.Cls == "醫工經辦" || rf.Cls == "設備主管") )
             {
                 List<RepairCost> t = db.RepairCosts.Where(c => c.DocId == id).ToList();
                 return PartialView("Print", t);
