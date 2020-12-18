@@ -591,7 +591,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //body += "<p>申請人：" + delivery.UserName + "</p>";
                 //body += "<p>合約號碼：" + delivery.ContractNo + "</p>";
                 //body += "<p>採購案號：" + delivery.PurchaseNo + "</p>";
-                //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
+                //body += "<p><a href='http://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                 //body += "<br/>";
                 //body += "<p>若有任何問題，請與驗收工程師(" + db.UserProfiles.Find(delivery.EngId).FullName + ")聯絡</p>";
                 //body += "<h3>this is a inform letter from system manager.Do not reply for it.</h3>";

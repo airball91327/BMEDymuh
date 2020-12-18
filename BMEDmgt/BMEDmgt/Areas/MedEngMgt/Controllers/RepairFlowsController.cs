@@ -241,7 +241,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             //body += "<p>處理描述：" + dtl.DealDes + "</p>";
                             //body += "<br/>";
                             ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                            //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
+                            //body += "<p><a href='http://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                             //body += "<br/>";
                             //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                             //mail.message.Body = body;
@@ -294,7 +294,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 //body += "<p>儀器名稱：" + rp.AssetName + "</p>";
                                 //body += "<br/>";
                                 ////body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                                //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
+                                //body += "<p><a href='http://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                                 //body += "<br/>";
                                 //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                                 //mail.message.Body = body;
@@ -524,7 +524,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
                     //body += "<p>故障描述：" + repair.TroubleDes + "</p>";
                     //body += "<p>處理描述：" + rd.DealDes + "</p>";
-                    //body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>檢視案件</a></p>";
+                    //body += "<p><a href='http://mdms.ymuh.ym.edu.tw/'>檢視案件</a></p>";
                     //body += "<br/>";
                     //body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                     //mail.message.Body = body;
@@ -578,7 +578,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         body += "<p>儀器名稱：" + repair.AssetName + "</p>";
                         body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
                         body += "<p>故障描述：" + repair.TroubleDes + "</p>";
-                        body += "<p><a href='https://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
+                        body += "<p><a href='http://mdms.ymuh.ym.edu.tw/'>處理案件</a></p>";
                         body += "<br/>";
                         body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
                         mail.message.Body = body;
