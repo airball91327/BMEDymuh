@@ -407,18 +407,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             else {
                 var rps = db.Repairs.AsQueryable();
-                foreach(var item in db.Repairs.ToList())
-                {
-                    var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
-                                                    .Where(rf => rf.Cls.Contains("工程師"))
-                                                    .OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
-                    if (lastEngFlow != null)
-                    {
-                        item.EngId = lastEngFlow.UserId;
-                        var u = db.AppUsers.Where(a => a.Id == item.EngId).ToList().FirstOrDefault();
-                        item.EngName = u == null ? "" : u.FullName;
-                    }
-                }
                 //if (Roles.IsUserInRole("Manager"))  //單位主管可查詢單位請修案
                 //{
                 //    AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
@@ -463,11 +451,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 if (!string.IsNullOrEmpty(troubleDes))
                     rps = rps.Where(r => !string.IsNullOrEmpty(r.TroubleDes))
                              .Where(r => r.TroubleDes.Contains(troubleDes));
-                if (!string.IsNullOrEmpty(qtyEngId))
-                {
-                    int tempEngId = Convert.ToInt32(qtyEngId);
-                    rps = rps.Where(r => r.EngId == tempEngId);
-                }
                 if (!string.IsNullOrEmpty(repairArea))
                     rps = rps.Where(r => r.RepairArea == repairArea);
                 if (!string.IsNullOrEmpty(typ))
@@ -475,7 +458,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (!string.IsNullOrEmpty(aname))
                     {
                         rps = rps.Union(db.Repairs.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
-                        (r, a) => r).ToList());
+                        (r, a) => r));
                     }
                     else
                     {
@@ -528,6 +511,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
                         FlowCls = j.flow.Cls,
+                        RepEngId = j.repair.EngId,
                         RepEngName = j.repair.EngName
                     }));
             }
@@ -543,7 +527,24 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     item.FlowUName = flowuser.FullName;
                 }
+                //
+                var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
+                                .Where(rf => rf.Cls.Contains("工程師"))
+                                .OrderByDescending(rf => rf.StepId).ToList().FirstOrDefault();
+                if (lastEngFlow != null)
+                {
+                    item.RepEngId = lastEngFlow.UserId;
+                    var u = db.AppUsers.Where(a => a.Id == item.RepEngId).ToList().FirstOrDefault();
+                    item.RepEngName = u == null ? "" : u.FullName;
+                }
             }
+            //
+            if (!string.IsNullOrEmpty(qtyEngId))
+            {
+                int tempEngId = Convert.ToInt32(qtyEngId);
+                rv = rv.Where(r => r.RepEngId == tempEngId).ToList();
+            }
+            //
             if (flw == "已處理")
                 rv = rv.Where(r => r.Flg == "?").ToList();
             else if (flw == "已結案")

@@ -66,6 +66,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "設備類別")]
         public string PlantClass { get; set; }
         [Display(Name = "負責工程師")]
+        public int? RepEngId { get; set; }
+        [Display(Name = "負責工程師")]
         public string RepEngName { get; set; }
         [Display(Name = "數量")]
         public int Amt { get; set; }
