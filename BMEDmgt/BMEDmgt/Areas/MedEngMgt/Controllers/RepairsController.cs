@@ -406,8 +406,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 throw new Exception("請輸入查詢條件!!");
             }
             else {
-                List<Repair> rps = db.Repairs.ToList();
-                foreach(var item in rps)
+                var rps = db.Repairs.AsQueryable();
+                foreach(var item in db.Repairs.ToList())
                 {
                     var lastEngFlow = db.RepairFlows.Where(rf => rf.DocId == item.DocId)
                                                     .Where(rf => rf.Cls.Contains("工程師"))
@@ -433,7 +433,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 {
                     AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
                     if (u != null)
-                        rps = rps.Where(r => r.UserId == u.Id).ToList();
+                        rps = rps.Where(r => r.UserId == u.Id);
                     else
                         throw new Exception("查無人員!!");
                 }
@@ -449,48 +449,47 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 //}
                 if (!string.IsNullOrEmpty(aname))
                     rps = rps.Where(r => r.AssetName != null)
-                        .Where(r => r.AssetName.Contains(aname))
-                        .ToList();
+                        .Where(r => r.AssetName.Contains(aname));
                 if (!string.IsNullOrEmpty(ano))
-                    rps = rps.Where(r => r.AssetNo == ano).ToList();
+                    rps = rps.Where(r => r.AssetNo == ano);
                 if (!string.IsNullOrEmpty(acc))
-                    rps = rps.Where(r => r.AccDpt == acc).ToList();
+                    rps = rps.Where(r => r.AccDpt == acc);
                 if (!string.IsNullOrEmpty(docid))
-                    rps = rps.Where(r => r.DocId == docid).ToList();
+                    rps = rps.Where(r => r.DocId == docid);
                 if (!string.IsNullOrEmpty(dptid))
-                    rps = rps.Where(r => r.DptId == dptid).ToList();
+                    rps = rps.Where(r => r.DptId == dptid);
                 if (!string.IsNullOrEmpty(plantClass))
-                    rps = rps.Where(r => r.PlantClass == plantClass).ToList();
+                    rps = rps.Where(r => r.PlantClass == plantClass);
                 if (!string.IsNullOrEmpty(troubleDes))
                     rps = rps.Where(r => !string.IsNullOrEmpty(r.TroubleDes))
-                             .Where(r => r.TroubleDes.Contains(troubleDes)).ToList();
+                             .Where(r => r.TroubleDes.Contains(troubleDes));
                 if (!string.IsNullOrEmpty(qtyEngId))
                 {
                     int tempEngId = Convert.ToInt32(qtyEngId);
-                    rps = rps.Where(r => r.EngId == tempEngId).ToList();
+                    rps = rps.Where(r => r.EngId == tempEngId);
                 }
                 if (!string.IsNullOrEmpty(repairArea))
-                    rps = rps.Where(r => r.RepairArea == repairArea).ToList();
+                    rps = rps.Where(r => r.RepairArea == repairArea);
                 if (!string.IsNullOrEmpty(typ))
                 {
                     if (!string.IsNullOrEmpty(aname))
                     {
                         rps = rps.Union(db.Repairs.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
-                        (r, a) => r).ToList()).ToList();
+                        (r, a) => r).ToList());
                     }
                     else
                     {
                         rps = rps.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
-                            (r, a) => r).ToList();
+                            (r, a) => r);
                     }
                 }
                 if (sdate.HasValue)
                 {
-                    rps = rps.Where(r => r.ApplyDate >= sdate.Value).ToList();
+                    rps = rps.Where(r => r.ApplyDate >= sdate.Value);
                 }
                 if (edate.HasValue)
                 {
-                    rps = rps.Where(r => r.ApplyDate <= edate.Value).ToList();
+                    rps = rps.Where(r => r.ApplyDate <= edate.Value);
                 }
                 var ss = new[] { "?", "2" };
                 rps.Join(db.RepairDtls, r => r.DocId, d => d.DocId,

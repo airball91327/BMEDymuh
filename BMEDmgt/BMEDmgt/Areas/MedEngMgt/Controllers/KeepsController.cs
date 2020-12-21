@@ -621,47 +621,46 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             else
             {
-                List<Keep> rps = db.Keeps.ToList();
+                var rps = db.Keeps.AsQueryable();
                 if (Roles.IsUserInRole("Usual"))
                 {
                     AppUser u = db.AppUsers.Find(WebSecurity.CurrentUserId);
                     if (u != null)
-                        rps = rps.Where(r => dptid == u.DptId).ToList();
+                        rps = rps.Where(r => dptid == u.DptId);
                     else
                         throw new Exception("無部門資料!!");
                 }
                 if (!string.IsNullOrEmpty(aname))
                     rps = rps.Where(r => r.AssetName != null)
-                        .Where(r => r.AssetName.Contains(aname))
-                        .ToList();
+                        .Where(r => r.AssetName.Contains(aname));
                 if (!string.IsNullOrEmpty(ano))
-                    rps = rps.Where(r => r.AssetNo == ano).ToList();
+                    rps = rps.Where(r => r.AssetNo == ano);
                 if (!string.IsNullOrEmpty(acc))
-                    rps = rps.Where(r => r.AccDpt == acc).ToList();
+                    rps = rps.Where(r => r.AccDpt == acc);
                 if (!string.IsNullOrEmpty(docid))
-                    rps = rps.Where(r => r.DocId == docid).ToList();
+                    rps = rps.Where(r => r.DocId == docid);
                 if (!string.IsNullOrEmpty(dptid))
-                    rps = rps.Where(r => r.DptId == dptid).ToList();
+                    rps = rps.Where(r => r.DptId == dptid);
                 if (!string.IsNullOrEmpty(typ))
                 {
                     if (!string.IsNullOrEmpty(aname))
                     {
                         rps = rps.Union(db.Keeps.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
-                        (r, a) => r).ToList()).ToList();
+                        (r, a) => r).ToList());
                     }
                     else
                     {
                         rps = rps.Join(db.Assets.Where(a => a.Type == typ), r => r.AssetNo, a => a.AssetNo,
-                            (r, a) => r).ToList();
+                            (r, a) => r);
                     }
                 }
                 if (sdate.HasValue)
                 {
-                    rps = rps.Where(r => r.SentDate >= sdate.Value).ToList();
+                    rps = rps.Where(r => r.SentDate >= sdate.Value);
                 }
                 if (edate.HasValue)
                 {
-                    rps = rps.Where(r => r.SentDate <= edate.Value).ToList();
+                    rps = rps.Where(r => r.SentDate <= edate.Value);
                 }
                 var ss = new[] { "?", "2" };
                 rps.Join(db.KeepDtls, r => r.DocId, d => d.DocId,

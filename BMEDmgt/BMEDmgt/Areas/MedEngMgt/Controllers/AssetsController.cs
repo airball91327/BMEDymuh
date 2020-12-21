@@ -109,8 +109,48 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             TempData["qry"] = qryAsset;
             List<Asset> at = new List<Asset>();
             List<Asset> at2 = new List<Asset>();
-           try {
-                db.Assets.GroupJoin(db.Departments, a => a.DelivDpt, d => d.DptId,
+            //
+            var qAsset = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(qryAsset.AssetNo))
+            {
+                qAsset = qAsset.Where(a => a.AssetNo == qryAsset.AssetNo);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetName))
+            {
+                qAsset = qAsset.Where(a => a.Cname.Contains(qryAsset.AssetName));
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetCName2))
+            {
+                qAsset = qAsset.Where(a => a.Cname2 != null).Where(a => a.Cname2.Contains(qryAsset.AssetCName2));
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AccDpt))
+            {
+                qAsset = qAsset.Where(a => a.AccDpt == qryAsset.AccDpt);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.DelivDpt))
+            {
+                qAsset = qAsset.Where(a => a.DelivDpt == qryAsset.DelivDpt);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.Type))
+            {
+                qAsset = qAsset.Where(a => a.Type == qryAsset.Type);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.RiskLvl))
+            {
+                qAsset = qAsset.Where(a => a.RiskLvl == qryAsset.RiskLvl);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.VendorId))
+            {
+                var vid = Convert.ToInt32(qryAsset.VendorId);
+                qAsset = qAsset.Where(a => a.VendorId == vid);
+            }
+            if (string.IsNullOrEmpty(buyDate1) == false || string.IsNullOrEmpty(buyDate2) == false)
+            {
+                qAsset = qAsset.Where(v => v.BuyDate >= buyDateFrom && v.BuyDate <= buyDateTo);
+            }
+            //
+            try {
+                qAsset.GroupJoin(db.Departments, a => a.DelivDpt, d => d.DptId,
                (a, d) => new { Asset = a, Department = d })
                .SelectMany(p => p.Department.DefaultIfEmpty(),
                (x, y) => new { Asset = x.Asset, Department = y })
@@ -142,43 +182,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 throw new Exception(e.Message);
             }
             
-            if (!string.IsNullOrEmpty(qryAsset.AssetNo))
-            {
-                at2 = at2.Where(a => a.AssetNo == qryAsset.AssetNo).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.AssetName))
-            {
-                at2 = at2.Where(a => a.Cname.Contains(qryAsset.AssetName)).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.AssetCName2))
-            {
-                at2 = at2.Where(a => a.Cname2 != null).Where(a => a.Cname2.Contains(qryAsset.AssetCName2)).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.AccDpt))
-            {
-                at2 = at2.Where(a => a.AccDpt == qryAsset.AccDpt).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.DelivDpt))
-            {
-                at2 = at2.Where(a => a.DelivDpt == qryAsset.DelivDpt).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.Type))
-            {
-                at2 = at2.Where(a => a.Type == qryAsset.Type).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.RiskLvl))
-            {
-                at2 = at2.Where(a => a.RiskLvl == qryAsset.RiskLvl).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.VendorId))
-            {
-                var vid = Convert.ToInt32(qryAsset.VendorId);
-                at2 = at2.Where(a => a.VendorId == vid).ToList();
-            }
-            if (string.IsNullOrEmpty(buyDate1) == false || string.IsNullOrEmpty(buyDate2) == false)
-            {
-                at2 = at2.Where(v => v.BuyDate >= buyDateFrom && v.BuyDate <= buyDateTo).ToList();
-            }
             //
             List<SelectListItem> listItem = new List<SelectListItem>();
             Roles.GetUsersInRole("MedEngineer").ToList()
