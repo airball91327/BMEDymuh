@@ -757,6 +757,8 @@
     <Content Include="Scripts\bootstrap2.min.js" />
     <Content Include="Scripts\fileinput.js" />
     <Content Include="Scripts\fileinput.min.js" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\KeepRateIndex.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\KeepEndRate.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\NCKU.pubxml" />
     <None Include="Properties\PublishProfiles\SMH.pubxml" />

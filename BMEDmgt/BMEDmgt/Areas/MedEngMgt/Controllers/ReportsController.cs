@@ -40,6 +40,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
             ViewData["ACCDPT"] = new SelectList(listItem, "Value", "Text");
 
+            if (rpname == "保養達成率")
+                return View("KeepRateIndex", pv);
             return View(pv);
         }
 
@@ -384,6 +386,88 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult KeepEndRateIndex(ReportQryVModel v)
+        {
+            var qrySdate = v.Sdate;
+            var qryEdate = v.Edate;
+            if (qryEdate == null || qrySdate == null)
+            {
+                return new JsonResult
+                {
+                    Data = new { success = false, error = "需選擇一個時間區間!" },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
+            qryEdate = qryEdate.Value.AddDays(1).AddSeconds(-1);
+
+            var keep = db.Keeps.Where(k => k.SentDate >= qrySdate && k.SentDate <= qryEdate);
+            var query = keep.Join(db.KeepDtls, k => k.DocId, kd => kd.DocId,
+                            (k, kd) => new
+                            {
+                                keep = k,
+                                kdtl = kd
+                            })
+                            .Join(db.Assets, k => k.keep.AssetNo, a => a.AssetNo,
+                            (k, a) => new
+                            {
+                                keep = k.keep,
+                                kdtl = k.kdtl,
+                                asset = a
+                            })
+                            .Join(db.AssetKeeps, k => k.asset.AssetNo, ak => ak.AssetNo,
+                            (k, ak) => new
+                            {
+                                keep = k.keep,
+                                kdtl = k.kdtl,
+                                asset = k.asset,
+                                assetkeep = ak
+                            });
+
+            var groupEngs = query.GroupBy(q => q.assetkeep.KeepEngId).Select(group => group.FirstOrDefault().assetkeep.KeepEngId).Distinct().ToList();
+            var engineers = groupEngs.Join(db.AppUsers, g => g, a => a.Id, (g, a) => a).ToList();
+            List<KeepEndRate> result = new List<KeepEndRate>();
+            /* 0: 自行, 1: 委外, 2: 租賃, 3: 保固, 4: 借用, 5: 委外/自行*/
+            foreach (var eng in engineers)
+            {
+                //總數
+                int KeepCases = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Count();
+                int EndCases = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null).Count();
+                decimal EndCasesRate = EndCases == 0 ? 0 : ((decimal)EndCases / KeepCases);
+                //自行
+                int KeepCases1 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut == "1").Count();
+                int EndCases1 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null)
+                                     .Where(q => q.kdtl.InOut == "1").Count();
+                decimal EndCasesRate1 = EndCases1 == 0 ? 0 : ((decimal)EndCases1 / KeepCases1);
+                //委外
+                int KeepCases2 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut == "2").Count();
+                int EndCases2 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null)
+                                     .Where(q => q.kdtl.InOut == "2").Count();
+                decimal EndCasesRate2 = EndCases2 == 0 ? 0 : ((decimal)EndCases2 / KeepCases2);
+                //其他
+                int KeepCasesOther = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut != "1" && q.kdtl.InOut != "2").Count();
+
+                KeepEndRate kr = new KeepEndRate();
+                kr.UserId = eng.Id;
+                kr.UserName = eng.UserName;
+                kr.FullName = eng.FullName;
+                kr.KeepCases = KeepCases;
+                kr.EndCases = EndCases;
+                kr.EndCasesRate = EndCasesRate.ToString("P");
+                kr.KeepCases1 = KeepCases1;
+                kr.EndCases1 = EndCases1;
+                kr.EndCasesRate1 = EndCasesRate1.ToString("P");
+                kr.KeepCases2 = KeepCases2;
+                kr.EndCases2 = EndCases2;
+                kr.EndCasesRate2 = EndCasesRate2.ToString("P");
+                kr.KeepCasesOther = KeepCasesOther;
+                result.Add(kr);
+            }
+
+            return PartialView("KeepEndRate", result);
+        }
+
         public void ExcelAssetProperRate(ReportQryVModel v)
         {
             DataTable dt = new DataTable();

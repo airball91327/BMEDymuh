@@ -2583,4 +2583,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "查詢日期(止)")]
         public DateTime Edate { set; get; }
     }
+
+    public class KeepEndRate
+    {
+        public int UserId { get; set; }
+        [Display(Name = "工程師代號")]
+        public string UserName { get; set; }
+        [Display(Name = "工程師姓名")]
+        public string FullName { get; set; }
+        //[Display(Name = "保養工時")]
+        //public decimal KeepHours { get; set; }
+        [Display(Name = "完成件數")]
+        public int EndCases { get; set; }
+        [Display(Name = "總件數")]
+        public int KeepCases { get; set; }
+        [Display(Name = "達成率")]
+        public string EndCasesRate { get; set; }
+        [Display(Name = "完成件數(自行)")]
+        public int EndCases1 { get; set; }
+        [Display(Name = "總件數(自行)")]
+        public int KeepCases1 { get; set; }
+        [Display(Name = "達成率(自行)")]
+        public string EndCasesRate1 { get; set; }
+        [Display(Name = "完成件數(委外)")]
+        public int EndCases2 { get; set; }
+        [Display(Name = "總件數(委外)")]
+        public int KeepCases2 { get; set; }
+
+        [Display(Name = "達成率(委外)")]
+        public string EndCasesRate2 { get; set; }
+        [Display(Name = "總件數(其他)")]
+        public int KeepCasesOther { get; set; }
+    }
 }
