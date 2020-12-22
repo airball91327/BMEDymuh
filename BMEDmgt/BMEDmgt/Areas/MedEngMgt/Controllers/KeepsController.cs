@@ -667,27 +667,30 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     (r, d) => new {
                         keep = r,
                         dtl = d
-                    }).Join(db.KeepFlows.Where(f => ss.Contains(f.Status)).Join(db.AppUsers, f => f.UserId, u => u.Id,
-                    (f, u) => new { f.DocId,f.UserId,u.FullName,f.Status}), m => m.keep.DocId, f => f.DocId,
+                    })
+                    .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), m => m.keep.DocId, f => f.DocId,
                     (m, f) => new
                     {
                         keep = m.keep,
                         flow = f,
                         keepdtl = m.dtl
-                    }).Join(db.Departments, j => j.keep.AccDpt, d => d.DptId,
+                    })
+                    .Join(db.Departments, j => j.keep.AccDpt, d => d.DptId,
                     (j, d) => new {
                         keep = j.keep,
                         flow = j.flow,
                         keepdtl = j.keepdtl,
                         dpt = d
-                    }).Join(db.Assets, j => j.keep.AssetNo, a => a.AssetNo,
+                    })
+                    .Join(db.Assets, j => j.keep.AssetNo, a => a.AssetNo,
                     (j, a) => new {
                         keep = j.keep,
                         flow = j.flow,
                         keepdtl = j.keepdtl,
                         dpt = j.dpt,
                         asset = a
-                    }).ToList()
+                    })
+                    .ToList()
                     .ForEach(j => kv.Add(new KeepListVModel
                     {
                         DocType = "保養",
@@ -711,7 +714,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Days = DateTime.Now.Subtract(j.keep.SentDate.GetValueOrDefault()).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
-                        FlowUname = j.flow.FullName,
+                        FlowUname = db.AppUsers.Find(j.flow.UserId) == null ? "" : db.AppUsers.Find(j.flow.UserId).FullName,
                         Cycle = j.keep.Cycle,
                         WartySt = j.asset.WartySt,
                         WartyEd = j.asset.WartyEd,
