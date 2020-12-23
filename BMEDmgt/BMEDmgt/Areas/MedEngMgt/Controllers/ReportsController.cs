@@ -390,9 +390,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         [HttpPost]
         public ActionResult KeepEndRateIndex(ReportQryVModel v)
         {
-            var qrySdate = v.Sdate;
-            var qryEdate = v.Edate;
-            if (qryEdate == null || qrySdate == null)
+            if (v.Sdate == null || v.Edate == null)
             {
                 return new JsonResult
                 {
@@ -400,6 +398,74 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }
+            List<KeepEndRate> result = GetKeepEndRateList(v);
+            TempData["qry"] = v;
+
+            return PartialView("KeepEndRate", result);
+        }
+
+        public void ExcelKeepEndRate(ReportQryVModel v)
+        {
+            //
+            ExcelPackage excel = new ExcelPackage();
+            var sheet1 = excel.Workbook.Worksheets.Add("保養達成率");
+            //Sheet1
+            List<KeepEndRate> result = GetKeepEndRateList(v);
+            //Title
+            #region write header
+            sheet1.Cells[1, 1].Value = "表單產生日期";
+            sheet1.Cells[1, 2].Value = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            sheet1.Cells[2, 1].Value = "工程師代號";
+            sheet1.Cells[2, 2].Value = "工程師姓名";
+            sheet1.Cells[2, 3].Value = "完成件數";
+            sheet1.Cells[2, 4].Value = "總件數";
+            sheet1.Cells[2, 5].Value = "達成率";
+            sheet1.Cells[2, 6].Value = "完成件數(自行)";
+            sheet1.Cells[2, 7].Value = "總件數(自行)";
+            sheet1.Cells[2, 8].Value = "達成率(自行)";
+            sheet1.Cells[2, 9].Value = "完成件數(委外)";
+            sheet1.Cells[2, 10].Value = "總件數(委外)";
+            sheet1.Cells[2, 11].Value = "達成率(委外)";
+            sheet1.Cells[2, 12].Value = "總件數(其他)";
+            #endregion
+
+            //Data
+            #region write content
+            int pos = 3;
+            foreach (var item in result)
+            {
+                sheet1.Cells[pos, 1].Value = item.UserName;
+                sheet1.Cells[pos, 2].Value = item.FullName;
+                sheet1.Cells[pos, 3].Value = item.EndCases;
+                sheet1.Cells[pos, 4].Value = item.KeepCases;
+                sheet1.Cells[pos, 5].Value = item.EndCasesRate;
+                sheet1.Cells[pos, 6].Value = item.EndCases1;
+                sheet1.Cells[pos, 7].Value = item.KeepCases1;
+                sheet1.Cells[pos, 8].Value = item.EndCasesRate1;
+                sheet1.Cells[pos, 9].Value = item.EndCases2;
+                sheet1.Cells[pos, 10].Value = item.KeepCases2;
+                sheet1.Cells[pos, 11].Value = item.EndCasesRate2;
+                sheet1.Cells[pos, 12].Value = item.KeepCasesOther;
+                pos++;
+            }
+            #endregion
+
+            var fileName = "保養達成率" + DateTime.Now.ToString("yyyyMMdd")  + ".xlsx";
+            using (var memoryStream = new MemoryStream())
+            {
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;  filename=" + fileName);
+                excel.SaveAs(memoryStream);
+                memoryStream.WriteTo(Response.OutputStream);
+                Response.Flush();
+                Response.End();
+            }
+        }
+
+        private List<KeepEndRate> GetKeepEndRateList(ReportQryVModel v)
+        {
+            var qrySdate = v.Sdate;
+            var qryEdate = v.Edate;
             qryEdate = qryEdate.Value.AddDays(1).AddSeconds(-1);
 
             var keep = db.Keeps.Where(k => k.SentDate >= qrySdate && k.SentDate <= qryEdate);
@@ -464,8 +530,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 kr.KeepCasesOther = KeepCasesOther;
                 result.Add(kr);
             }
-
-            return PartialView("KeepEndRate", result);
+            return result;
         }
 
         public void ExcelAssetProperRate(ReportQryVModel v)
