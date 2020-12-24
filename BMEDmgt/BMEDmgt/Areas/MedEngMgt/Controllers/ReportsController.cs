@@ -439,12 +439,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 sheet1.Cells[pos, 3].Value = item.EndCases;
                 sheet1.Cells[pos, 4].Value = item.KeepCases;
                 sheet1.Cells[pos, 5].Value = item.EndCasesRate;
-                sheet1.Cells[pos, 6].Value = item.EndCases1;
-                sheet1.Cells[pos, 7].Value = item.KeepCases1;
-                sheet1.Cells[pos, 8].Value = item.EndCasesRate1;
-                sheet1.Cells[pos, 9].Value = item.EndCases2;
-                sheet1.Cells[pos, 10].Value = item.KeepCases2;
-                sheet1.Cells[pos, 11].Value = item.EndCasesRate2;
+                sheet1.Cells[pos, 6].Value = item.EndCasesIn;
+                sheet1.Cells[pos, 7].Value = item.KeepCasesIn;
+                sheet1.Cells[pos, 8].Value = item.EndCasesRateIn;
+                sheet1.Cells[pos, 9].Value = item.EndCasesOut;
+                sheet1.Cells[pos, 10].Value = item.KeepCasesOut;
+                sheet1.Cells[pos, 11].Value = item.EndCasesRateOut;
                 sheet1.Cells[pos, 12].Value = item.KeepCasesOther;
                 pos++;
             }
@@ -502,17 +502,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 int EndCases = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null).Count();
                 decimal EndCasesRate = EndCases == 0 ? 0 : ((decimal)EndCases / KeepCases);
                 //自行
-                int KeepCases1 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut == "1").Count();
-                int EndCases1 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null)
-                                     .Where(q => q.kdtl.InOut == "1").Count();
-                decimal EndCasesRate1 = EndCases1 == 0 ? 0 : ((decimal)EndCases1 / KeepCases1);
+                int KeepCasesIn = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut == "0").Count();
+                int EndCasesIn = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null)
+                                     .Where(q => q.kdtl.InOut == "0").Count();
+                decimal EndCasesRateIn = EndCasesIn == 0 ? 0 : ((decimal)EndCasesIn / KeepCasesIn);
                 //委外
-                int KeepCases2 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut == "2").Count();
-                int EndCases2 = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null)
-                                     .Where(q => q.kdtl.InOut == "2").Count();
-                decimal EndCasesRate2 = EndCases2 == 0 ? 0 : ((decimal)EndCases2 / KeepCases2);
+                int KeepCasesOut = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut == "1").Count();
+                int EndCasesOut = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.EndDate != null)
+                                     .Where(q => q.kdtl.InOut == "1").Count();
+                decimal EndCasesRateOut = EndCasesOut == 0 ? 0 : ((decimal)EndCasesOut / KeepCasesOut);
                 //其他
-                int KeepCasesOther = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut != "1" && q.kdtl.InOut != "2").Count();
+                int KeepCasesOther = query.Where(q => q.assetkeep.KeepEngId == eng.Id).Where(q => q.kdtl.InOut != "0" && q.kdtl.InOut != "1").Count();
 
                 KeepEndRate kr = new KeepEndRate();
                 kr.UserId = eng.Id;
@@ -521,12 +521,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 kr.KeepCases = KeepCases;
                 kr.EndCases = EndCases;
                 kr.EndCasesRate = EndCasesRate.ToString("P");
-                kr.KeepCases1 = KeepCases1;
-                kr.EndCases1 = EndCases1;
-                kr.EndCasesRate1 = EndCasesRate1.ToString("P");
-                kr.KeepCases2 = KeepCases2;
-                kr.EndCases2 = EndCases2;
-                kr.EndCasesRate2 = EndCasesRate2.ToString("P");
+                kr.KeepCasesIn = KeepCasesIn;
+                kr.EndCasesIn = EndCasesIn;
+                kr.EndCasesRateIn = EndCasesRateIn.ToString("P");
+                kr.KeepCasesOut = KeepCasesOut;
+                kr.EndCasesOut = EndCasesOut;
+                kr.EndCasesRateOut = EndCasesRateOut.ToString("P");
                 kr.KeepCasesOther = KeepCasesOther;
                 result.Add(kr);
             }
