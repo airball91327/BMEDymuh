@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Qty)
         </th>
+        <th class="hidden">
+            @Html.DisplayNameFor(model => model.Brand)
+        </th>
         <th></th>
     </tr>
 
@@ -37,6 +40,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Qty)
+            </td>
+            <td class="hidden">
+                @Html.DisplayFor(modelItem => item.Brand)
             </td>
             <td>
                 <input type="radio" name="rblSELECT" />
