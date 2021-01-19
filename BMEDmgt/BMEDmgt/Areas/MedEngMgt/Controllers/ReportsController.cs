@@ -616,11 +616,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     {
                         if (r.EndDate.Value.CompareTo(v.Edate.Value) > 0)
                         {
-                            faildays += v.Edate.Value.Subtract(r.repair.ApplyDate.Value).TotalDays;
+                            //faildays += v.Edate.Value.Subtract(r.repair.ApplyDate.Value).TotalDays;
+                            faildays += v.Edate.Value.Subtract(r.repair.ApplyDate.Value).Days;
                         }
                         else
                         {
-                            dd = r.EndDate.Value.Subtract(r.repair.ApplyDate.Value).TotalDays;
+                            //dd = r.EndDate.Value.Subtract(r.repair.ApplyDate.Value).TotalDays;
+                            dd = r.EndDate.Value.Subtract(r.repair.ApplyDate.Value).Days;
                             if (dd > 0)
                             {
                                 if (dd <= 1d)
