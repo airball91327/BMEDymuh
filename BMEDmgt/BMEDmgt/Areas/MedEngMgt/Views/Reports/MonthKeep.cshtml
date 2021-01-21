@@ -3,6 +3,9 @@
 <p>
     <a class="btn btn-default" href="@Url.Action("ExcelMK", TempData["qry"])">匯出Excel</a>
 </p>
+<div>
+    @Html.Action("GetRepairKeep", "Reports", new { Area = "MedEngMgt", v = TempData["qry"], type = "Keep" })
+</div>
 <table class="table">
     <tr>
         <th>

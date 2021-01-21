@@ -759,6 +759,7 @@
     <Content Include="Scripts\fileinput.min.js" />
     <Content Include="Areas\MedEngMgt\Views\Reports\KeepRateIndex.cshtml" />
     <Content Include="Areas\MedEngMgt\Views\Reports\KeepEndRate.cshtml" />
+    <Content Include="Areas\MedEngMgt\Views\Reports\RepairKeep2.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\NCKU.pubxml" />
     <None Include="Properties\PublishProfiles\SMH.pubxml" />

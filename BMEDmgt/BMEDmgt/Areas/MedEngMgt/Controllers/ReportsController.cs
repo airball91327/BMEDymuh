@@ -2157,6 +2157,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
             return mv;
         }
+
+        public ActionResult GetRepairKeep(ReportQryVModel v, string type)
+        {
+            ViewData["Type"] = type;
+            if (type == "Repair")
+            {                
+                return PartialView("RepairKeep2", RepairKeep(v));
+            }
+            else
+            {
+                return PartialView("RepairKeep2", RepairKeep(v));
+            }
+        }
         public List<RepairKeepVModel> RepairCost(ReportQryVModel v)
         {
 
