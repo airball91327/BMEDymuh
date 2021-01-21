@@ -36,7 +36,7 @@ $(function () {
                 $("#TotalCost").val(v1 * v2);
             }
             $("#VendorId").val('000');
-            //$("#VendorName").val($obj.get(4).innerText.trim());
+            $("#VendorName").val($obj.get(5).innerText.trim());
         }               
     })
 
