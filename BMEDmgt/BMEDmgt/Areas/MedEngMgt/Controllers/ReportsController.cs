@@ -1522,10 +1522,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     if (case1 + case5 > 0)
                     {
                         dv.OverFiveRate = Decimal.Round(Convert.ToDecimal(case1) /
-                                Convert.ToDecimal(case1 + case5), 2);
+                                Convert.ToDecimal(case1 + case5), 2).ToString("P2");
                     }
                     else
-                        dv.OverFiveRate = 0m;
+                        dv.OverFiveRate = 0m.ToString("P2");
                     //
                     if (g != null)
                     {
@@ -2387,12 +2387,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         m.CustNam = o.Name_C;
                     m.ApplyDate = r.ApplyDate.Value;
                     m.AssetNo = r.AssetNo;
-                    a = db.Assets.Where(s => s.AssetNo == r.AssetNo)
-                            .Where(s => s.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).FirstOrDefault();
+                    a = db.Assets.Where(s => s.AssetNo == r.AssetNo).FirstOrDefault();
+                            //.Where(s => s.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                     if (a != null)
                     {
                         m.AssetNam = a.Cname;
                         m.Type = a.Type;
+                        m.AssetClass = a.AssetClass;
                     }
                 }
                 p = db.RepairEmps.Where(e => e.DocId == rd.DocId).ToList().FirstOrDefault();
@@ -2403,6 +2404,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 mv2.Add(m);
             }
+            mv2 = mv2.Where(s => s.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
             IEnumerable<IGrouping<string, RepeatFailVModel>> query = mv2.GroupBy(s => s.AssetNo);
             foreach (var group in query)
             {

@@ -29,9 +29,9 @@
         <th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.AccDpt)
         </th>
-        <th style="width: 100px; text-align: right">
+        @*<th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.AccDptNam)
-        </th>
+        </th>*@
         <th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.TroubleDes)
         </th>
@@ -53,12 +53,12 @@
         <th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.Qty)
         </th>
-        <th style="width: 100px; text-align: right">
+        @*<th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.TotalPrice)
-        </th>
+        </th>*@
         @*<th style="width: 100px; text-align: right">
                 @Html.DisplayNameFor(model => model.Cost)
             </th>*@
@@ -99,10 +99,12 @@
             </td>
             <td style="text-align: right">
                 @Html.DisplayFor(modelItem => item.AccDpt)
-            </td>
-            <td style="text-align: right">
+                <br />
                 @Html.DisplayFor(modelItem => item.AccDptNam)
             </td>
+            @*<td style="text-align: right">
+                @Html.DisplayFor(modelItem => item.AccDptNam)
+            </td>*@
             <td style="text-align: right">
                 @Html.DisplayFor(modelItem => item.TroubleDes)
             </td>
@@ -124,12 +126,12 @@
             <td style="text-align: right">
                 @Html.DisplayFor(modelItem => item.Qty)
             </td>
-            <td style="text-align: right">
+            @*<td style="text-align: right">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td style="text-align: right">
                 @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
+            </td>*@
             @*<td style="text-align: right">
                     @Html.DisplayFor(modelItem => item.Cost)
                 </td>*@

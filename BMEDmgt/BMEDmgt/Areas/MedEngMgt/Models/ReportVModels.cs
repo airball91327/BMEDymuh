@@ -330,6 +330,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string AssetNam { get; set; }
         [Display(Name = "設備型號")]
         public string Type { get; set; }
+        [Display(Name = "財產種類")]
+        public string AssetClass { get; set; }
         [Display(Name = "故障描述")]
         public string TroubleDes { get; set; }
         [Display(Name = "故障原因")]
@@ -724,7 +726,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "超過五天件數")]
         public int OverFive { get; set; }
         [Display(Name = "五日完修率")]
-        public decimal OverFiveRate { get; set; }
+        public string OverFiveRate { get; set; }
         [Display(Name = "自修率")]
         public decimal SelfRate { get; set; }
         [Display(Name = "三個月維修總件數")]
@@ -800,10 +802,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
                 if (case1 + case5 > 0)
                 {
                     dv.OverFiveRate = Decimal.Round(Convert.ToDecimal(case1) /
-                            Convert.ToDecimal(case1 + case5), 2);
+                            Convert.ToDecimal(case1 + case5), 2).ToString("P2");
                 }
                 else
-                    dv.OverFiveRate = 0m;
+                    dv.OverFiveRate = 0m.ToString("P2");
                 //
                 dv.Case3M = db.RepairDtls.Where(d => d.EndDate >= sd)
                 .Where(d => d.EndDate <= edate)
