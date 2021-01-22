@@ -1737,19 +1737,64 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DataTable dt = new DataTable();
             DataRow dw;
-            dt.Columns.Add("表單編號");
-            dt.Columns.Add("請修日期");
-            dt.Columns.Add("完工日期");
-            dt.Columns.Add("財產編號");
-            dt.Columns.Add("成本中心");
-            dt.Columns.Add("故障描述");
-            dt.Columns.Add("故障原因");
-            dt.Columns.Add("處理狀況");
-            dt.Columns.Add("處理描述");
-            dt.Columns.Add("維修方式");
-            dt.Columns.Add("維修費用");
-            dt.Columns.Add("工程師");
-            dt.Columns.Add("總工時");
+            //
+            for (int i = 0; i <= 12; i++)
+            {
+                dt.Columns.Add();
+            }
+            //Title
+            dw = dt.NewRow();
+            dw[0] = "單位代號";
+            dw[1] = "單位名稱";
+            dw[2] = "應維修";
+            dw[3] = "已維修";
+            dw[4] = "維修達成率";
+            dw[5] = "維修費用";
+            dt.Rows.Add(dw);
+            //Data
+            int rcnt = 0;
+            int rent = 0;
+            List<RepairKeepVModel> rk = RepairKeep(v);
+            rk.ForEach(m =>
+            {
+                rcnt += m.RepairAmt;
+                rent += m.RpEndAmt;
+                dw = dt.NewRow();
+                dw[0] = m.CustId;
+                dw[1] = m.CustNam;
+                dw[2] = m.RepairAmt;
+                dw[3] = m.RpEndAmt;
+                dw[4] = m.RepFinishedRate;
+                dw[5] = m.RepCost;
+                dt.Rows.Add(dw);
+            });
+            dw = dt.NewRow();
+            dw[0] = "";
+            dw[1] = "";
+            dw[2] = rcnt;
+            dw[3] = "";
+            dw[4] = decimal.Round(Convert.ToDecimal(rent) / Convert.ToDecimal(rcnt) * 100m, 2);
+            dw[5] = "";
+            dt.Rows.Add(dw);
+            dw = dt.NewRow();
+            dt.Rows.Add(dw);
+            //Title2
+            dw = dt.NewRow();
+            dw[0] = "表單編號";
+            dw[1] = "請修日期";
+            dw[2] = "完工日期";
+            dw[3] = "財產編號";
+            dw[4] = "成本中心";
+            dw[5] = "故障描述";
+            dw[6] = "故障原因";
+            dw[7] = "處理狀況";
+            dw[8] = "處理描述";
+            dw[9] = "維修方式";
+            dw[10] = "維修費用";
+            dw[11] = "工程師";
+            dw[12] = "總工時";
+            dt.Rows.Add(dw);
+            //Data2
             List<MonthRepairVModel> mv = MonthRepair(v);
             mv.ForEach(m =>
             {
@@ -1772,7 +1817,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             ExcelPackage excel = new ExcelPackage();
             var workSheet = excel.Workbook.Worksheets.Add("月維修清單");
-            workSheet.Cells[1, 1].LoadFromDataTable(dt, true);
+            workSheet.Cells[1, 1].LoadFromDataTable(dt, false);
             using (var memoryStream = new MemoryStream())
             {
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -1789,10 +1834,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
 
             List<MonthRepairVModel> mv = new List<MonthRepairVModel>();
-
+            var ss = new[] { "?", "2" };
+            var queryRepair = db.Repairs.Where(d => d.ApplyDate >= v.Sdate).Where(d => d.ApplyDate <= v.Edate);
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                queryRepair = queryRepair.Where(r => r.AccDpt == v.AccDpt);
+            }
+            queryRepair = queryRepair.Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId, (r, f) => r);
             mv = db.RepairDtls
-           .Join(db.Repairs.Where(d => d.ApplyDate >= v.Sdate)
-           .Where(d => d.ApplyDate <= v.Edate), rd => rd.DocId, k => k.DocId,
+           .Join(queryRepair, rd => rd.DocId, k => k.DocId,
            (rd, k) => new
            {
                rd.DocId,
@@ -1903,10 +1953,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                PlantClass = k.k.PlantClass
            }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
 
-            if (!string.IsNullOrEmpty(v.AccDpt))
-            {
-                mv = mv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
-            }
+            //if (!string.IsNullOrEmpty(v.AccDpt))
+            //{
+            //    mv = mv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
+            //}
+            mv = mv.OrderBy(m => m.DocId).ToList();
             return mv;
         }
 
@@ -1914,16 +1965,61 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             DataTable dt = new DataTable();
             DataRow dw;
-            dt.Columns.Add("表單編號");
-            dt.Columns.Add("送單日期");
-            dt.Columns.Add("完工日期");
-            dt.Columns.Add("財產編號");
-            dt.Columns.Add("成本中心");
-            dt.Columns.Add("意見描述");
-            dt.Columns.Add("保養方式");
-            dt.Columns.Add("保養週期");
-            dt.Columns.Add("保養費用");
-            dt.Columns.Add("工程師");
+            //
+            for (int i = 0; i <= 9; i++)
+            {
+                dt.Columns.Add();
+            }
+            //Title
+            dw = dt.NewRow();
+            dw[0] = "單位代號";
+            dw[1] = "單位名稱";
+            dw[2] = "應保養";
+            dw[3] = "已保養";
+            dw[4] = "保養達成率";
+            dw[5] = "保養費用";
+            dt.Rows.Add(dw);
+            //Data
+            int kcnt = 0;
+            int kent = 0;
+            List<RepairKeepVModel> rk = RepairKeep(v);
+            rk.ForEach(m =>
+            {
+                kcnt += m.KeepAmt;
+                kent += m.KpEndAmt;
+                dw = dt.NewRow();
+                dw[0] = m.CustId;
+                dw[1] = m.CustNam;
+                dw[2] = m.KeepAmt;
+                dw[3] = m.KpEndAmt;
+                dw[4] = m.KeepFinishedRate;
+                dw[5] = m.KeepCost;
+                dt.Rows.Add(dw);
+            });
+            dw = dt.NewRow();
+            dw[0] = "";
+            dw[1] = "";
+            dw[2] = kcnt;
+            dw[3] = "";
+            dw[4] = decimal.Round(Convert.ToDecimal(kent) / Convert.ToDecimal(kcnt) * 100m, 2);
+            dw[5] = "";
+            dt.Rows.Add(dw);
+            dw = dt.NewRow();
+            dt.Rows.Add(dw);
+            //Title2
+            dw = dt.NewRow();
+            dw[0] = "表單編號";
+            dw[1] = "送單日期";
+            dw[2] = "完工日期";
+            dw[3] = "財產編號";
+            dw[4] = "成本中心";
+            dw[5] = "意見描述";
+            dw[6] = "保養方式";
+            dw[7] = "保養週期";
+            dw[8] = "保養費用";
+            dw[9] = "工程師";
+            dt.Rows.Add(dw);
+            //Data2
             List<MonthKeepVModel> mv = MonthKeep(v);
             mv.ForEach(m =>
             {
@@ -1943,7 +2039,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             //
             ExcelPackage excel = new ExcelPackage();
             var workSheet = excel.Workbook.Worksheets.Add("月保養清單");
-            workSheet.Cells[1, 1].LoadFromDataTable(dt, true);
+            workSheet.Cells[1, 1].LoadFromDataTable(dt, false);
             using (var memoryStream = new MemoryStream())
             {
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -1960,9 +2056,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             List<MonthKeepVModel> mv = new List<MonthKeepVModel>();
             string s = "";
-            db.KeepDtls.Where(d => d.EndDate >= v.Sdate)
-           .Where(d => d.EndDate <= v.Edate)
-           .Join(db.Keeps, rd => rd.DocId, k => k.DocId,
+            var ss = new[] { "?", "2" };
+            var queryKeep = db.Keeps.Where(d => d.SentDate >= v.Sdate).Where(d => d.SentDate <= v.Edate);
+            if (!string.IsNullOrEmpty(v.AccDpt))
+            {
+                queryKeep = queryKeep.Where(r => r.AccDpt == v.AccDpt);
+            }
+            queryKeep = queryKeep.Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId, (r, f) => r);
+
+            db.KeepDtls.Join(queryKeep, rd => rd.DocId, k => k.DocId,
            (rd, k) => new
            {
                rd.DocId,
@@ -2071,6 +2173,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 mv = mv.Where(vv => vv.AccDpt == v.AccDpt).ToList();
             }
+            mv = mv.OrderBy(m => m.DocId).ToList();
             return mv;
         }
         public ActionResult MonthFailRateExcel()
@@ -2096,12 +2199,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 kcnt = 0;
                 tolcost = 0m;
                 var ss = new[] { "?", "2" };
-                List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate)
-                    .Where(r => r.ApplyDate <= v.Edate)
+                List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate).Where(r => r.ApplyDate <= v.Edate)
+                                            .Where(r => r.AccDpt == p.DptId)
                     .Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
                     (r, f) => r).Join(db.Assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
-                          .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
+                          , rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
                 //
                 rcnt = rs.Join(db.RepairDtls.Where(d => d.EndDate != null),
@@ -2123,12 +2226,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                 m.RepCost = tolcost;
                 //
-                List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate)
-                   .Where(r => r.SentDate <= v.Edate)
+                List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate).Where(r => r.SentDate <= v.Edate)
+                                        .Where(r => r.AccDpt == p.DptId)
                    .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
                    (r, f) => r).Join(db.Assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
-                          .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
+                          , rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
 
                 kcnt = ks.Join(db.KeepDtls.Where(d => d.EndDate != null),

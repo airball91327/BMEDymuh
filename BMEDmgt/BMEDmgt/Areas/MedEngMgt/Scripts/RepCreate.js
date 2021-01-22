@@ -11,6 +11,22 @@
     }
 }
 
+function getAssetWarranty(assetno) {
+    $.ajax({
+        url: getWarrantyURL,
+        type: "GET",
+        data: { assetNo: assetno },
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            $('#pWarranty').html(data.data);
+        },
+        error: function (msg) {
+            //Do nothing.
+        }
+    });
+}
+
 $(function () {
 
     $("input[name='PlantClass']").click(function () {
@@ -22,6 +38,7 @@ $(function () {
     $("#ChkAssetNo").click(function () {
         if ($(this).prop("checked")) {
             $("#pnlASSET").hide();
+            $('#divWarranty').hide();
             $("#pnlAssetName").show();
             $("#assetNameList").trigger('change');
 
@@ -63,6 +80,7 @@ $(function () {
         }
         else {
             $("#pnlASSET").show();
+            $('#divWarranty').show();
             $("#pnlAssetName").hide();
             $("#AssetName").val("");
             $("#AssetNo").find('option[value=""]').attr('selected', 'selected');
@@ -243,6 +261,7 @@ $(function () {
                         alert(msg);
                     }
                 });
+                getAssetWarranty(assetno);
             },
             error: function (msg) {
                 alert(msg);

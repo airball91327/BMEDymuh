@@ -636,6 +636,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
         }
 
+        public JsonResult GetAssetWarranty(string assetNo)
+        {
+            string returnString = "";
+            
+            return new JsonResult
+            {
+                Data = new { success = true, error = "", data = returnString },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
