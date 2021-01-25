@@ -25,6 +25,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         // GET: MedEngMgt/DeptStoks
         public ActionResult Index()
         {
+            var stockClassList = db.DeptStoks.Select(s => s.StokCls).Distinct().ToList();
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            if (stockClassList.Count() > 0)
+            {
+                foreach (string s in stockClassList)
+                {
+                    listItem.Add(new SelectListItem { Text = s, Value = s });
+                }
+            }
+            ViewData["qtySTOCKCLASS"] = new SelectList(listItem, "Value", "Text", ""); ;
             return View();
         }
 
