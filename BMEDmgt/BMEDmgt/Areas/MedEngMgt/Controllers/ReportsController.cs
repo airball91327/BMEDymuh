@@ -1738,7 +1738,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             DataTable dt = new DataTable();
             DataRow dw;
             //
-            for (int i = 0; i <= 12; i++)
+            for (int i = 0; i <= 21; i++)
             {
                 dt.Columns.Add();
             }
@@ -1782,17 +1782,26 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             dw = dt.NewRow();
             dw[0] = "表單編號";
             dw[1] = "請修日期";
-            dw[2] = "完工日期";
-            dw[3] = "財產編號";
-            dw[4] = "成本中心";
-            dw[5] = "故障描述";
-            dw[6] = "故障原因";
-            dw[7] = "處理狀況";
-            dw[8] = "處理描述";
-            dw[9] = "維修方式";
-            dw[10] = "維修費用";
-            dw[11] = "工程師";
-            dw[12] = "總工時";
+            dw[2] = "申請人";
+            dw[3] = "所屬部門";
+            dw[4] = "聯絡方式";
+            dw[5] = "維修別";
+            dw[6] = "維修院區";
+            dw[7] = "放置地點";
+            dw[8] = "完工日期";
+            dw[9] = "設備類別";
+            dw[10] = "財產編號";
+            dw[11] = "送修儀器配件";
+            dw[12] = "數量";
+            dw[13] = "成本中心";
+            dw[14] = "故障描述";
+            dw[15] = "故障原因";
+            dw[16] = "處理狀況";
+            dw[17] = "處理描述";
+            dw[18] = "維修方式";
+            dw[19] = "維修費用";
+            dw[20] = "工程師";
+            dw[21] = "總工時";
             dt.Rows.Add(dw);
             //Data2
             List<MonthRepairVModel> mv = MonthRepair(v);
@@ -1801,17 +1810,26 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 dw = dt.NewRow();
                 dw[0] = m.DocId;
                 dw[1] = m.ApplyDate;
-                dw[2] = m.EndDate;
-                dw[3] = m.AssetNo + m.AssetNam;
-                dw[4] = m.AccDpt + m.AccDptNam;
-                dw[5] = m.TroubleDes;
-                dw[6] = m.FailFactor;
-                dw[7] = m.DealState;
-                dw[8] = m.DealDes;
-                dw[9] = m.InOut;
-                dw[10] = m.Cost;
-                dw[11] = m.EngNam;
-                dw[12] = m.Hour;
+                dw[2] = m.UserName;
+                dw[3] = m.DptId;
+                dw[4] = m.Contact;
+                dw[5] = m.RepType;
+                dw[6] = m.RepairArea;
+                dw[7] = m.PlaceLoc;
+                dw[8] = m.EndDate;
+                dw[9] = m.PlantClass;
+                dw[10] = m.AssetNo + m.AssetNam;
+                dw[11] = m.PlantDoc;
+                dw[12] = m.Amt;
+                dw[13] = m.AccDpt + m.AccDptNam;
+                dw[14] = m.TroubleDes;
+                dw[15] = m.FailFactor;
+                dw[16] = m.DealState;
+                dw[17] = m.DealDes;
+                dw[18] = m.InOut;
+                dw[19] = m.Cost;
+                dw[20] = m.EngNam;
+                dw[21] = m.Hour;
                 dt.Rows.Add(dw);
             });
             //
@@ -1858,7 +1876,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                rd.InOut,
                k.AssetName,
                rd.Hour,
-               k.PlantClass
+               k.PlantClass,
+               k.Contact,
+               k.RepType,
+               k.Amt,
+               k.PlantDoc,
+               k.PlaceLoc,
+               k.RepairArea,
+               k.UserId,
+               k.UserName,
+               k.DptId
            })
            .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
            (k, at) => new
@@ -1879,7 +1906,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                at.AssetClass,
                k.AssetName,
                k.Hour,
-               k.PlantClass
+               k.PlantClass,
+               k.Contact,
+               k.RepType,
+               k.Amt,
+               k.PlantDoc,
+               k.PlaceLoc,
+               k.RepairArea,
+               k.UserId,
+               k.UserName,
+               k.DptId
            })
            .Join(db.Departments, k => k.AccDpt, c => c.DptId,
            (k, c) => new
@@ -1901,7 +1937,48 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.AssetClass,
                k.AssetName,
                k.Hour,
-               k.PlantClass
+               k.PlantClass,
+               k.Contact,
+               k.RepType,
+               k.Amt,
+               k.PlantDoc,
+               k.PlaceLoc,
+               k.RepairArea,
+               k.UserId,
+               k.UserName,
+               k.DptId
+           })
+           .Join(db.Departments, k => k.DptId, c => c.DptId,
+           (k, c) => new
+           {
+               k.DocId,
+               k.AccDpt,
+               k.Name_C,
+               k.ApplyDate,
+               k.AssetNo,
+               k.Cname,
+               k.Cost,
+               k.EndDate,
+               k.FailFactor,
+               k.TroubleDes,
+               k.DealDes,
+               k.DealState,
+               k.InOut,
+               k.Type,
+               k.AssetClass,
+               k.AssetName,
+               k.Hour,
+               k.PlantClass,
+               k.Contact,
+               k.RepType,
+               k.Amt,
+               k.PlantDoc,
+               k.PlaceLoc,
+               k.RepairArea,
+               k.UserId,
+               k.UserName,
+               k.DptId,
+               DptName = c.Name_C
            })
            .GroupJoin(db.RepairEmps, k => k.DocId, ke => ke.DocId,
             (k, ke) => new { k, ke })
@@ -1926,8 +2003,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                ke.UserId,
                k.k.AssetName,
                k.k.Hour,
-               k.k.PlantClass
-           })
+               k.k.PlantClass,
+               k.k.Contact,
+               k.k.RepType,
+               k.k.Amt,
+               k.k.PlantDoc,
+               k.k.PlaceLoc,
+               k.k.RepairArea,
+               DocUserId = k.k.UserId,
+               k.k.UserName,
+               k.k.DptId,
+               k.k.DptName
+            })
             .GroupJoin(db.AppUsers, k => k.UserId, u => u.Id,
             (k, u) => new { k, u })
             .SelectMany(ui => ui.u.DefaultIfEmpty(),
@@ -1950,8 +2037,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                EngNam = u.FullName,
                AssetClass = k.k.AssetClass,
                Hour = k.k.Hour,
-               PlantClass = k.k.PlantClass
-           }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
+               PlantClass = k.k.PlantClass,
+               Contact = k.k.Contact,
+               RepType = k.k.RepType,
+               Amt = k.k.Amt,
+               PlantDoc = k.k.PlantDoc,
+               PlaceLoc = k.k.PlaceLoc,
+               RepairArea = k.k.RepairArea,
+               UserId = k.k.DocUserId,
+               UserName = k.k.UserName,
+               DptId = k.k.DptId + k.k.DptName
+            }).Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
 
             //if (!string.IsNullOrEmpty(v.AccDpt))
             //{
