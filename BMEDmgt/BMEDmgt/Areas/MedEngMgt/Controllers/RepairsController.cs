@@ -512,7 +512,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         FlowUid = j.flow.UserId,
                         FlowCls = j.flow.Cls,
                         RepEngId = j.repair.EngId,
-                        RepEngName = j.repair.EngName
+                        RepEngName = j.repair.EngName,
+                        ApplyDate = j.repair.ApplyDate
                     }));
             }
             foreach (var item in rv)
@@ -780,7 +781,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Flg = j.x.j.flow.Status,
                         FlowUid = j.x.j.flow.UserId,
                         FlowCls = j.x.j.flow.Cls,
-                        Vendor = j.y == null ? "" : j.y.vname
+                        Vendor = j.y == null ? "" : j.y.vname,
+                        ApplyDate = j.x.j.repair.ApplyDate
                     }));
 
                     break;
@@ -847,7 +849,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         Flg = j.x.j.flow.Status,
                         FlowUid = j.x.j.flow.UserId,
                         FlowCls = j.x.j.flow.Cls,
-                        Vendor = j.y == null ? "" : j.y.vname
+                        Vendor = j.y == null ? "" : j.y.vname,
+                        ApplyDate = j.x.j.repair.ApplyDate
                     }));
                     break;
                 case "待處理":
@@ -910,7 +913,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         FlowUid = j.x.j.flow.UserId,
                         FlowCls = j.x.j.flow.Cls,
                         Vendor = j.y == null ? "" : j.y.vname,
-                        PlantClass = j.x.j.repair.PlantClass
+                        PlantClass = j.x.j.repair.PlantClass,
+                        ApplyDate = j.x.j.repair.ApplyDate
                     }));
                     break;
             };

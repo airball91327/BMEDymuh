@@ -1050,11 +1050,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             #endregion
 
             #region write content
-
+            var keepEmps = db.KeepEmps.Join(db.AppUsers, km => km.UserId, u => u.Id,
+                                      (km, u) => new
+                                      {
+                                          keepemp = km,
+                                          eng = u
+                                      });
             int pos = 2;
             foreach (var item in kv)
             {
-                var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).ToList().FirstOrDefault();
+                //var assetKeep = db.AssetKeeps.Where(ak => ak.AssetNo == item.AssetNo).ToList().FirstOrDefault(); 
+                var keepemp = keepEmps.Where(km => km.keepemp.DocId == item.DocId).FirstOrDefault();
                 sheet.Cells[pos, 1].Value = item.DocType;
                 sheet.Cells[pos, 2].Value = item.DocId;
                 sheet.Cells[pos, 3].Value = item.AssetNo;
@@ -1071,7 +1077,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 sheet.Cells[pos, 13].Value = item.WartyEd.HasValue == true ? item.WartyEd.Value.ToString("yyyy/MM/dd") : "";
                 sheet.Cells[pos, 14].Value = item.EndDate.HasValue == true ? item.EndDate.Value.ToString("yyyy/MM/dd") : "";
                 sheet.Cells[pos, 15].Value = item.FlowUname;
-                sheet.Cells[pos, 16].Value = assetKeep == null ? "" : assetKeep.KeepEngName;
+                sheet.Cells[pos, 16].Value = keepemp == null ? "" : keepemp.eng.FullName;
                 if (item.Flg == "2")
                 {
                     sheet.Cells[pos, 17].Value = "已結案";
