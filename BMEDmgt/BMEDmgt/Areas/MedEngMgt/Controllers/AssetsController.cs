@@ -53,6 +53,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<SelectListItem> listItem4 = new List<SelectListItem>();
             ViewData["VENDORID"] = new SelectList(listItem4, "Value", "Text");
 
+            List<SelectListItem> listItem5 = new List<SelectListItem>();
+            listItem5.Add(new SelectListItem { Value = "", Text = "請選擇" });
+            var assetClasses = db.Assets.Where(a => !string.IsNullOrEmpty(a.AssetClass)).Select(a => a.AssetClass).Distinct().ToList();
+            foreach(string s in assetClasses)
+            {
+                listItem5.Add(new SelectListItem { Value = s, Text = s });
+            }
+            ViewData["AssetClass"] = new SelectList(listItem5, "Value", "Text");
+
             return View();
         }
 
@@ -68,6 +77,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             qryAsset.RiskLvl = fm["RiskLvl"];
             qryAsset.VendorId = fm["VendorId"];
             qryAsset.AssetCName2 = fm["AssetCName2"];
+            qryAsset.AssetClass = fm["AssetClass"];
 
             string buyDate1 = fm["BuyDate1"];
             string buyDate2 = fm["BuyDate2"];
@@ -104,6 +114,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             {
                 buyDateFrom = DateTime.Parse(buyDate1);
                 buyDateTo = DateTime.Parse(buyDate1);
+            }
+            if (string.IsNullOrEmpty(buyDate1) == false || string.IsNullOrEmpty(buyDate2) == false)
+            {
+                qryAsset.BuyDate1 = buyDateFrom;
+                qryAsset.BuyDate2 = buyDateTo;
             }
 
             TempData["qry"] = qryAsset;
@@ -147,6 +162,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (string.IsNullOrEmpty(buyDate1) == false || string.IsNullOrEmpty(buyDate2) == false)
             {
                 qAsset = qAsset.Where(v => v.BuyDate >= buyDateFrom && v.BuyDate <= buyDateTo);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetClass))
+            {
+                qAsset = qAsset.Where(a => a.AssetClass == qryAsset.AssetClass);
             }
             //
             try {
@@ -194,6 +213,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             }
                         });
             ViewData["KeepEngId"] = new SelectList(listItem, "Value", "Text", "");
+            ViewData["AssetEngId"] = new SelectList(listItem, "Value", "Text", "");
             //
             List<SelectListItem> listItem2 = new List<SelectListItem>();
             if (at2.Count() >= 1)
@@ -213,9 +233,54 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
         public List<Asset> QryAsset(QryAsset qryAsset)
         {
-            List<Asset> at = new List<Asset>();
+            DateTime? buyDateFrom = qryAsset.BuyDate1;
+            DateTime? buyDateTo = qryAsset.BuyDate2;
 
-            db.Assets.GroupJoin(db.Departments, a => a.DelivDpt, d => d.DptId,
+            List<Asset> at = new List<Asset>();
+            var qAsset = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(qryAsset.AssetNo))
+            {
+                qAsset = qAsset.Where(a => a.AssetNo == qryAsset.AssetNo);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetName))
+            {
+                qAsset = qAsset.Where(a => a.Cname.Contains(qryAsset.AssetName));
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetCName2))
+            {
+                qAsset = qAsset.Where(a => a.Cname2 != null).Where(a => a.Cname2.Contains(qryAsset.AssetCName2));
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AccDpt))
+            {
+                qAsset = qAsset.Where(a => a.AccDpt == qryAsset.AccDpt);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.DelivDpt))
+            {
+                qAsset = qAsset.Where(a => a.DelivDpt == qryAsset.DelivDpt);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.Type))
+            {
+                qAsset = qAsset.Where(a => a.Type == qryAsset.Type);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.RiskLvl))
+            {
+                qAsset = qAsset.Where(a => a.RiskLvl == qryAsset.RiskLvl);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.VendorId))
+            {
+                var vid = Convert.ToInt32(qryAsset.VendorId);
+                qAsset = qAsset.Where(a => a.VendorId == vid);
+            }
+            if (buyDateFrom.HasValue == true || buyDateTo.HasValue == true)
+            {
+                qAsset = qAsset.Where(v => v.BuyDate >= buyDateFrom && v.BuyDate <= buyDateTo);
+            }
+            if (!string.IsNullOrEmpty(qryAsset.AssetClass))
+            {
+                qAsset = qAsset.Where(a => a.AssetClass == qryAsset.AssetClass);
+            }
+
+            qAsset.GroupJoin(db.Departments, a => a.DelivDpt, d => d.DptId,
                 (a, d) => new { Asset = a, Department = d })
                 .SelectMany(p => p.Department.DefaultIfEmpty(),
                 (x, y) => new { Asset = x.Asset, Department = y })
@@ -241,22 +306,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     p.Asset.AccDptName = p.Department == null ? "" : p.Department.Name_C;
                     at.Add(p.Asset);
                 });
-            if (!string.IsNullOrEmpty(qryAsset.AssetNo))
-            {
-                at = at.Where(a => a.AssetNo == qryAsset.AssetNo).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.AssetName))
-            {
-                at = at.Where(a => a.Cname.Contains(qryAsset.AssetName)).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.AccDpt))
-            {
-                at = at.Where(a => a.AccDpt == qryAsset.AccDpt).ToList();
-            }
-            if (!string.IsNullOrEmpty(qryAsset.Type))
-            {
-                at = at.Where(a => a.Type == qryAsset.Type).ToList();
-            }
             if (!string.IsNullOrEmpty(qryAsset.AssetClass1))
             {
                 if (string.IsNullOrEmpty(qryAsset.AssetClass2))
@@ -307,6 +356,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             dt.Columns.Add("保固終止日");
             dt.Columns.Add("維修工程師(保養用)");
             dt.Columns.Add("購入日(取得日期)");
+            dt.Columns.Add("保養格式代號");
 
             List<Asset> mv = QryAsset(v);
             mv.Join(db.AppUsers, a => a.EngId, u => u.Id,
@@ -364,6 +414,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 dw[19] = m.asset.WartyEd == null ? "" : m.asset.WartyEd.Value.ToString("yyyy/MM/dd");
                 dw[20] = m.assetkeep == null ? "" : m.assetkeep.KeepEngName;
                 dw[21] = m.asset.BuyDate == null?"":m.asset.BuyDate.Value.ToString("yyyy/MM/dd");
+                dw[22] = m.assetkeep == null ? "" : m.assetkeep.FormatId;
                 dt.Rows.Add(dw);
             });
             //
@@ -1060,6 +1111,34 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
             }
             
+            return new JsonResult
+            {
+                Data = new { success = true, error = "" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
+        [HttpPost]
+        [MyErrorHandler]
+        public ActionResult UpdEngineer(string id, string assets)
+        {
+            string[] s = assets.Split(new char[] { ';' });
+            Asset asset;
+            foreach (string ss in s)
+            {
+                asset = db.Assets.Find(ss);
+                if (asset != null)
+                {
+                    AppUser u = db.AppUsers.Find(Convert.ToInt32(id));
+                    if (u != null)
+                    {
+                        asset.EngId = u.Id;
+                        asset.EngName = u.FullName;
+                        db.Entry(asset).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
             return new JsonResult
             {
                 Data = new { success = true, error = "" },

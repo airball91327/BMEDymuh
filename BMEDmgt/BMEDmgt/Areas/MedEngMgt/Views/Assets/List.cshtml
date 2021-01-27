@@ -40,7 +40,12 @@
                     @Html.Label("KeepEngId", "負責工程師", new { @class = "control-label  col-md-2" })
                     @Html.DropDownList("KeepEngId", null, "請選擇", new { @class = "form-control" })
                     <input class="btn btn-default" id="btnTRANS" type="button" value="確定轉移" />
-                </div>          
+                </div>
+                <div style="margin-bottom: 10px">
+                    @Html.Label("AssetEngId", "設備工程師", new { @class = "control-label  col-md-2" })
+                    @Html.DropDownList("AssetEngId", null, "請選擇", new { @class = "form-control" })
+                    <input class="btn btn-default" id="btnAssetTRANS" type="button" value="確定轉移" />
+                </div>
                 @Html.Label("DelivUid", "保管人", new { @class = "control-label  col-md-2" })
                 @Html.TextBox("DelivEmp", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
                 <input class="btn btn-default" id="btnQtyEmp" type="button" value="查詢" />
@@ -252,7 +257,7 @@
     $("#btnTRANS").click(function () {
         var s = "";
         $("input[name='chkENG']:checked").each(function () {
-            s += $(this).parents("tr").children().get(2).innerText.trim();
+            s += $(this).parents("tr").children().get(3).innerText.trim();
             s += ";";
         });
         var eng = $("#KeepEngId").val();
@@ -264,6 +269,28 @@
                 type: "POST",
                 success: function (data) {
                     alert('移轉工程師完成!!');
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        }
+    });
+
+    $("#btnAssetTRANS").click(function () {
+        var s = "";
+        $("input[name='chkENG']:checked").each(function () {
+            s += $(this).parents("tr").children().get(3).innerText.trim();
+            s += ";";
+        });
+        var eng = $("#AssetEngId").val();
+        if (s != "" && eng != "") {
+            $.ajax({
+                url: '../Assets/UpdEngineer',
+                data: { id: eng, assets: s },
+                type: "POST",
+                success: function (data) {
+                    alert('移轉設備工程師完成!!');
                 },
                 error: function (msg) {
                     alert(msg);
@@ -299,7 +326,7 @@
     $("#btnDELIVTRANS").click(function () {
         var s = "";
         $("input[name='chkENG']:checked").each(function () {
-            s += $(this).parents("tr").children().get(2).innerText.trim();
+            s += $(this).parents("tr").children().get(3).innerText.trim();
             s += ";";
         });
         var eng = $("#DelivUid").val();

@@ -193,6 +193,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public DateTime? AccDate2 { get; set; }
         [Display(Name = "設備別名")]
         public string AssetCName2 { get; set; }
+        [Display(Name = "財產種類")]
+        public string AssetClass { get; set; }
 
     }
 }

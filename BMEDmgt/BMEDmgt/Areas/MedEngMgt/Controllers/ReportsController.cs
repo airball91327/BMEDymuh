@@ -3096,8 +3096,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 TotalPrice = k.TotalCost,
                 EngNam = u.FullName,
                 AssetClass = k.AssetClass
-            }).ToList();
+            }).Where(s => !string.IsNullOrEmpty(s.StokNo)).ToList();
             //
+            sv = sv.GroupBy(s => new { s.DocId, s.StokNo }).Select(group => group.First()).ToList();
             foreach (StokCostVModel s in sv)
             {
                 if (s.StokNo != "")
@@ -3229,8 +3230,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                TotalPrice = k.k.TotalCost,
                EngNam = u.Id != 0 ? u.FullName : "",
                AssetClass = k.k.AssetClass
-           }).ToList();
+           }).Where(s => !string.IsNullOrEmpty(s.StokNo)).ToList();
             //
+            sv2 = sv2.GroupBy(s => new { s.DocId, s.StokNo }).Select(group => group.First()).ToList();
             foreach (StokCostVModel s in sv2)
             {
                 switch (s.DealDes)
