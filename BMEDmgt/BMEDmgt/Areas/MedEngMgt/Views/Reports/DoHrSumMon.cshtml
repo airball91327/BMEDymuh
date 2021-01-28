@@ -4,6 +4,11 @@
 @*<p>
     @Html.ActionLink("匯出Excel", "DoHrSumMonExcel")
 </p>*@
+<p>五日完修率：完工日小於五日之案件數/總完工案件數</p>
+<p>自修率：(搜尋時間區間內)內修案件數/維修總件數</p>
+<p>三個月維修總件數：搜尋條件迄止日往前推三個月之完工案件數量</p>
+<p>三個月重複故障率：三個月內設備請修超過一次之各設備的維修總件數/三個月維修總件數</p>
+<p>重複故障率：(搜尋時間區間內)設備請修超過一次之各設備的維修總件數/維修總件數</p>
 <input id="exportExcel" type="button" value="匯出Excel" class="btn btn-default"
        onclick="javascript:exportExcel('tbToExcel')" />
 <table class="table" id="tbToExcel">

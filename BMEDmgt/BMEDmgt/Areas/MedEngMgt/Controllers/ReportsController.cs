@@ -39,7 +39,17 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
                 });
             ViewData["ACCDPT"] = new SelectList(listItem, "Value", "Text");
-
+            if (rpname == "零件帳務清單")
+            {
+                List<SelectListItem> listItem2 = new List<SelectListItem>();
+                listItem2.Add(new SelectListItem { Text = "請選擇", Value = "" });
+                var stockNames = db.DeptStoks.Select(d => d.StokNam).Distinct().ToList();
+                foreach(string s in stockNames)
+                {
+                    listItem2.Add(new SelectListItem { Text = s, Value = s });
+                }
+                ViewData["STOCKNAME"] = new SelectList(listItem2, "Value", "Text");
+            }
             if (rpname == "保養達成率")
                 return View("KeepRateIndex", pv);
             return View(pv);
