@@ -280,6 +280,16 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string Nov { get; set; }
         [Display(Name = "十二月")]
         public string Dec { get; set; }
+        [Display(Name = "每周")]
+        public string Week { get; set; }
+        [Display(Name = "每月")]
+        public string Month { get; set; }
+        [Display(Name = "每季")]
+        public string Season { get; set; }
+        [Display(Name = "每半年")]
+        public string HelfYear { get; set; }
+        [Display(Name = "每年")]
+        public string Year { get; set; }
 
     }
 

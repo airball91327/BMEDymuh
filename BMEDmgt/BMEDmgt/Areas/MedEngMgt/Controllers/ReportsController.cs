@@ -59,7 +59,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
 
             List<AssetKpScheVModel> sv = new List<AssetKpScheVModel>();
-            var data = db.Assets
+            var data = db.Assets.Where(a => a.DisposeKind != "報廢")
                 .Join(db.AssetKeeps.Where(x => x.Cycle > 0), a => a.AssetNo, k => k.AssetNo,
                 (a, k) => new
                 {
@@ -148,6 +148,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     break;
                                 case 12:
                                     aks.Dec = "*";
+                                    break;
+                            }
+                        }
+                    }
+                }
+                //AssetTypes
+                var assetTypes = db.AssetKeepTypes.Where(ak => ak.AssetNo == s.asset.AssetNo);
+                if (assetTypes.Count() > 0)
+                {
+                    for (i = 1; i <= 5; i++)
+                    {
+                        var temp = assetTypes.Where(a => a.KeepTypeNo == i).FirstOrDefault();
+                        if (temp != null)
+                        {
+                            switch (i)
+                            {
+                                case 1:
+                                    aks.Week = "*";
+                                    break;
+                                case 2:
+                                    aks.Month = "*";
+                                    break;
+                                case 3:
+                                    aks.Season = "*";
+                                    break;
+                                case 4:
+                                    aks.HelfYear = "*";
+                                    break;
+                                case 5:
+                                    aks.Year = "*";
                                     break;
                             }
                         }

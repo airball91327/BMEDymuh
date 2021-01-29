@@ -3,10 +3,11 @@
 <style type="text/css">
     .Sche {
         font-size: 2.5em;
-        text-align:center;
+        text-align: center;
     }
+
     .hdtitle {
-        margin-top:5px;
+        margin-top: 5px;
     }
 </style>
 <p>
@@ -65,63 +66,93 @@
         <th>
             @Html.DisplayNameFor(model => model.Dec)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Week)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Month)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Season)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HelfYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            <p class="hdtitle">@Html.DisplayFor(modelItem => item.AssetNo)</p>
-        </td>
-        <td>
-            <p class="hdtitle">@Html.DisplayFor(modelItem => item.AssetName)</p>
-        </td>
-        <td>
-            <p class="hdtitle">@Html.DisplayFor(modelItem => item.DelivDptName)</p>
-        </td>
-        <td>
-            <p class="hdtitle">@Html.DisplayFor(modelItem => item.Brand)</p>
-        </td>
-        <td>
-            <p class="hdtitle">@Html.DisplayFor(modelItem => item.Type)</p>
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Jan)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Feb)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Mar)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Apr)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.May)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Jun)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Jul)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Aug)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Sep)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Oct)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Nov)
-        </td>
-        <td class="Sche">
-            @Html.DisplayFor(modelItem => item.Dec)
-        </td>
-    </tr>
+        <tr>
+            <td>
+                <p class="hdtitle">@Html.DisplayFor(modelItem => item.AssetNo)</p>
+            </td>
+            <td>
+                <p class="hdtitle">@Html.DisplayFor(modelItem => item.AssetName)</p>
+            </td>
+            <td>
+                <p class="hdtitle">@Html.DisplayFor(modelItem => item.DelivDptName)</p>
+            </td>
+            <td>
+                <p class="hdtitle">@Html.DisplayFor(modelItem => item.Brand)</p>
+            </td>
+            <td>
+                <p class="hdtitle">@Html.DisplayFor(modelItem => item.Type)</p>
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Jan)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Feb)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Mar)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Apr)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.May)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Jun)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Jul)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Aug)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Sep)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Oct)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Nov)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Dec)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Week)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Season)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.HelfYear)
+            </td>
+            <td class="Sche">
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+        </tr>
     }
 
 </table>
