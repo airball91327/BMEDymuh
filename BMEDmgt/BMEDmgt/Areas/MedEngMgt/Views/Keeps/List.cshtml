@@ -2,9 +2,13 @@
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div>
-    <input class="btn btn-default" id="btnEDITALL2" type="button" value="大量編輯" />
-</div>
+@if (Roles.IsUserInRole("MedEngineer") || Roles.IsUserInRole("Admin"))
+{
+    <div>
+        <input class="btn btn-default" id="btnEDITALL2" type="button" value="大量編輯" />
+    </div>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -42,63 +46,65 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.CheckBox("chkKEEP")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccDptName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssetNo)<br />
-            @Html.DisplayFor(modelItem => item.AssetName)<br />
-            <span style="color:orangered; font-weight:bold;">
-                @Html.DisplayFor(modelItem => item.Vendor)
-            </span>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InOut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Result)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Memo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Days)
-        </td>
-        <td>
-            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
-        {
-            @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
-            @Html.Raw("|")
-    }
-            @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |
-            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人"
-            && item.Src == "M")
-        {
-            @Ajax.ActionLink("廢除", "Delete", new { id = item.DocId },
-            new AjaxOptions
-            {
-                HttpMethod = "GET",
-                LoadingElementId = "imgLOADING",
-                Confirm = "您確定要刪除嗎?",
-                OnSuccess = "showSuccess"
-            })
-            @*@Html.ActionLink("廢除", "Delete", new { id = item.DocId })*@
-    }
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Html.CheckBox("chkKEEP")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccDptName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetNo)
+                <br />
+                @Html.DisplayFor(modelItem => item.AssetName)
+                <br />
+                <span style="color:orangered; font-weight:bold;">
+                    @Html.DisplayFor(modelItem => item.Vendor)
+                </span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Memo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Days)
+            </td>
+            <td>
+                @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                    @Html.Raw("|")
+                }
+                @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |
+                @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人"
+                && item.Src == "M")
+                {
+                    @Ajax.ActionLink("廢除", "Delete", new { id = item.DocId },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        LoadingElementId = "imgLOADING",
+                        Confirm = "您確定要刪除嗎?",
+                        OnSuccess = "showSuccess"
+                    })
+                    @*@Html.ActionLink("廢除", "Delete", new { id = item.DocId })*@
+                }
+            </td>
+        </tr>
     }
 
 </table>

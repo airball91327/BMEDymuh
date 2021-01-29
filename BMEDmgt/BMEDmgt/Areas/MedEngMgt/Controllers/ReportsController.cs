@@ -2620,8 +2620,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Asset a;
             Department o;
 
-            List<RepairDtl> rdtl = db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
-                .Where(d => d.EndDate <= v.Edate).ToList();
+            List<RepairDtl> rdtl = db.Repairs.Where(d => d.AssetNo != "000" && d.AssetNo != "001")
+                                             .Join(db.RepairDtls, rep => rep.DocId, rd => rd.DocId,
+                                             (rep, rd) => rd)
+                                             .Where(d => d.EndDate >= v.Sdate)
+                                             .Where(d => d.EndDate <= v.Edate).ToList();
 
             foreach (RepairDtl rd in rdtl)
             {
@@ -2956,7 +2959,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             string str = "";
             str += "類別,表單編號,送單日期,完工日期,財產編號,設備名稱,型號,成本中心,成本中心名稱,";
-            str += "故障描述/保養週期,故障原因,處理描述,零件廠牌,料號,零件名稱,數量,單價,合計,結案日,工程師";
+            str += "故障描述/保養週期,故障原因,處理描述,零件廠牌,料號,零件名稱,數量,單價,合計,結案日,工程師,";
+            str += "申請人,所屬部門,聯絡方式,維修別,送修儀器配件,放置地點,維修院區,保養週期,目前關卡處理人";
             DataTable dt = new DataTable();
             DataRow dw;
             str.Split(new char[] { ',' }).ToList()
@@ -2988,6 +2992,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 dw[17] = m.TotalPrice;
                 dw[18] = m.CloseDate;
                 dw[19] = m.EngNam;
+                dw[20] = m.UserName;
+                dw[21] = m.DptId + m.DptName;
+                dw[22] = m.Contact;
+                dw[23] = m.RepType;
+                dw[24] = m.PlantDoc;
+                dw[25] = m.PlaceLoc;
+                dw[26] = m.RepairArea;
+                dw[27] = m.Cycle;
+                dw[28] = m.FlowUser;
                 dt.Rows.Add(dw);
             });
             //
@@ -3008,6 +3021,21 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<StokCostVModel> sv = new List<StokCostVModel>();
             List<StokCostVModel> sv2 = new List<StokCostVModel>();
+            string[] tempS = new[] { "?", "2" };
+            var repFlow = db.RepairFlows.Where(rf => tempS.Contains(rf.Status))
+                                        .Join(db.AppUsers, rf => rf.UserId, u => u.Id,
+                                        (rf, u) => new
+                                        {
+                                            repairflow = rf,
+                                            flowUser = u
+                                        });
+            var keepFlow = db.KeepFlows.Where(rf => tempS.Contains(rf.Status))
+                             .Join(db.AppUsers, rf => rf.UserId, u => u.Id,
+                             (rf, u) => new
+                             {
+                                 keepflow = rf,
+                                 flowUser = u
+                             });
 
             sv = db.RepairDtls.Where(d => d.EndDate >= v.Sdate
                 && d.EndDate <= v.Edate)
@@ -3113,6 +3141,112 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 k.Name_C,
                 ke.UserId
             })
+            .Join(db.Repairs, k => k.DocId, r => r.DocId,
+            (k, r) => new 
+            {
+                k.DocId,
+                k.AccDpt,
+                k.ApplyDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.FailFactor,
+                k.TroubleDes,
+                k.DealDes,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.AssetClass,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.UserId,
+                repair = r
+            })
+            .Join(db.Departments, k => k.repair.DptId, c => c.DptId,
+            (k, c) => new 
+            {
+                k.DocId,
+                k.AccDpt,
+                k.ApplyDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.FailFactor,
+                k.TroubleDes,
+                k.DealDes,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.AssetClass,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.UserId,
+                k.repair,
+                repairDpt = c
+            })
+            .Join(db.AppUsers, k => k.repair.UserId, u => u.Id,
+            (k, u) => new 
+            {
+                k.DocId,
+                k.AccDpt,
+                k.ApplyDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.FailFactor,
+                k.TroubleDes,
+                k.DealDes,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.AssetClass,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.UserId,
+                k.repair,
+                k.repairDpt,
+                repairUser = u
+            })
+            .Join(repFlow, k => k.DocId, f => f.repairflow.DocId, 
+            (k, f) => new 
+            {
+                k.DocId,
+                k.AccDpt,
+                k.ApplyDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.FailFactor,
+                k.TroubleDes,
+                k.DealDes,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.AssetClass,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.UserId,
+                k.repair,
+                k.repairDpt,
+                k.repairUser,
+                flowUser = f.flowUser
+            })
             .Join(db.AppUsers, k => k.UserId, u => u.Id,
             (k, u) => new StokCostVModel
             {
@@ -3135,7 +3269,18 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 Price = k.Price,
                 TotalPrice = k.TotalCost,
                 EngNam = u.FullName,
-                AssetClass = k.AssetClass
+                AssetClass = k.AssetClass,
+                UserId = k.repairUser.Id,
+                UserName = k.repairUser.FullName,
+                DptId = k.repairDpt.DptId,
+                DptName = k.repairDpt.Name_C,
+                Contact = k.repair.Contact,
+                RepType = k.repair.RepType,
+                Amt = k.repair.Amt,
+                PlantDoc = k.repair.PlantDoc,
+                PlaceLoc = k.repair.PlaceLoc,
+                RepairArea = k.repair.RepairArea,
+                FlowUser = k.flowUser.FullName
             }).Where(s => !string.IsNullOrEmpty(s.StokNo)).ToList();
             //
             sv = sv.GroupBy(s => new { s.DocId, s.StokNo }).Select(group => group.First()).ToList();
@@ -3247,6 +3392,108 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.k.AssetClass,
                UserId = ke.UserId != null ? ke.UserId : 0
            })
+           .Join(db.Keeps, k => k.DocId, r => r.DocId,
+            (k, r) => new
+            {
+                k.DocId,
+                k.AccDpt,
+                k.SentDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.Result,
+                k.Cycle,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.AssetClass,
+                k.UserId,
+                keep = r
+            })
+            .Join(db.Departments, k => k.keep.DptId, c => c.DptId,
+            (k, c) => new
+            {
+                k.DocId,
+                k.AccDpt,
+                k.SentDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.Result,
+                k.Cycle,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.AssetClass,
+                k.UserId,
+                k.keep,
+                keepDpt = c
+            })
+            .Join(db.AppUsers, k => k.keep.UserId, u => u.Id,
+            (k, u) => new
+            {
+                k.DocId,
+                k.AccDpt,
+                k.SentDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.Result,
+                k.Cycle,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.AssetClass,
+                k.UserId,
+                k.keep,
+                k.keepDpt,
+                keepUser = u
+            })
+            .Join(keepFlow, k => k.DocId, f => f.keepflow.DocId,
+            (k, f) => new
+            {
+                k.DocId,
+                k.AccDpt,
+                k.SentDate,
+                k.AssetNo,
+                k.Cname,
+                k.Cost,
+                k.EndDate,
+                k.CloseDate,
+                k.Result,
+                k.Cycle,
+                k.Type,
+                k.PartNo,
+                k.PartNam,
+                k.Qty,
+                k.Price,
+                k.TotalCost,
+                k.Name_C,
+                k.AssetClass,
+                k.UserId,
+                k.keep,
+                k.keepDpt,
+                k.keepUser,
+                flowUser = f.flowUser
+            })
            .GroupJoin(db.AppUsers, k => k.UserId, u => u.Id,
            (k, u) => new { k, u })
             .SelectMany(ee => ee.u.DefaultIfEmpty(),
@@ -3269,7 +3516,15 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                Price = k.k.Price,
                TotalPrice = k.k.TotalCost,
                EngNam = u.Id != 0 ? u.FullName : "",
-               AssetClass = k.k.AssetClass
+               AssetClass = k.k.AssetClass,
+               UserId = k.k.keepUser.Id,
+               UserName = k.k.keepUser.FullName,
+               DptId = k.k.keepDpt.DptId,
+               DptName = k.k.keepDpt.Name_C,
+               Contact = k.k.keep.Contact,
+               PlaceLoc = k.k.keep.PlaceLoc,
+               Cycle = k.k.keep.Cycle,
+               FlowUser = k.k.flowUser.FullName
            }).Where(s => !string.IsNullOrEmpty(s.StokNo)).ToList();
             //
             sv2 = sv2.GroupBy(s => new { s.DocId, s.StokNo }).Select(group => group.First()).ToList();
@@ -3325,7 +3580,19 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     TotalPrice = k.s.TotalPrice,
                     EngNam = k.s.EngNam,
                     AssetClass = k.s.AssetClass,
-                    Brand = u == null ? "" : u.Brand
+                    Brand = u == null ? "" : u.Brand,
+                    UserId = k.s.UserId,
+                    UserName = k.s.UserName,
+                    DptId = k.s.DptId,
+                    DptName = k.s.DptName,
+                    Contact = k.s.Contact,
+                    RepType = k.s.RepType,
+                    Amt = k.s.Amt,
+                    PlantDoc = k.s.PlantDoc,
+                    PlaceLoc = k.s.PlaceLoc,
+                    RepairArea = k.s.RepairArea,
+                    Cycle = k.s.Cycle,
+                    FlowUser = k.s.FlowUser
                 }).ToList();
             //
             if (!string.IsNullOrEmpty(v.AccDpt))

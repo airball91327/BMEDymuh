@@ -2,9 +2,13 @@
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<div>
-    <input class="btn btn-default" id="btnEDITALL" type="button" value="大量編輯" />
-</div>
+@if (Roles.IsUserInRole("MedEngineer") || Roles.IsUserInRole("Admin"))
+{
+    <div>
+        <input class="btn btn-default" id="btnEDITALL" type="button" value="大量編輯" />
+    </div>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -43,71 +47,81 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.CheckBox("chkREP")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplyDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccDptName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssetNo)<br />
-            @Html.DisplayFor(modelItem => item.AssetName)<br />
-            <span style="color:orangered; font-weight:bold;">
-                @if (!string.IsNullOrEmpty(item.Vendor))
-                {
-                    @Html.DisplayFor(modelItem => item.Vendor)
-                }
-            </span>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TroubleDes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DealState)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DealDes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Days)
-        </td>
-        <td width="100px">
-            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
-            {
-                @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
-                @Html.Raw("|")
-            }
-            else if (item.Flg == "?" && item.PlantClass != null)
-            {
-                if (item.PlantClass.Contains("醫療儀器") == false)
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.CheckBox("chkREP")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccDptName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetNo)
+                <br />
+                @Html.DisplayFor(modelItem => item.AssetName)
+                <br />
+                <span style="color:orangered; font-weight:bold;">
+                    @if (!string.IsNullOrEmpty(item.Vendor))
+                    {
+                        @Html.DisplayFor(modelItem => item.Vendor)
+                    }
+                </span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TroubleDes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DealState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DealDes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Days)
+            </td>
+            <td width="100px">
+                @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
                 {
                     @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
                     @Html.Raw("|")
                 }
-            }
-            @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |
-            @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |
-            @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人")
-            {
-                @Html.ActionLink("廢除", "Delete", new { id = item.DocId })
-            }
-        </td>
-    </tr>
-}
+                else if (item.Flg == "?" && item.PlantClass != null)
+                {
+                    if (item.PlantClass.Contains("醫療儀器") == false)
+                    {
+                        @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                        @Html.Raw("|")
+                    }
+                }
+                @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |
+                @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |
+                @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId && item.FlowCls == "申請人")
+                {
+                    @Html.ActionLink("廢除", "Delete", new { id = item.DocId })
+                }
+                @if (item.Flg == "2")
+                {
+                    if (Roles.IsUserInRole("MedEngineer") || Roles.IsUserInRole("Admin"))
+                    {
+                        @Html.ActionLink("案件拉回", "FlowRecover", "RepairFlows" , new { id = item.DocId }, new { @class = "btnFlowRecover" })
+                    }
+                }
+            </td>
+        </tr>
+    }
 
 </table>
 
@@ -137,5 +151,20 @@
         });
         var lk = '@Url.Action("UpdCases", "Repairs")';
         window.open(lk + '?kps=' + s, 'blank');
+    });
+    $(".btnFlowRecover").click(function (e) {
+        var url = $(this).attr('href');
+        e.preventDefault();
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (data) {
+                alert('案件已拉回!!');
+                $('#btnQTY').trigger('click');
+            },
+            error: function (msg) {
+                alert(msg);
+            }
+        });
     });
 </script>

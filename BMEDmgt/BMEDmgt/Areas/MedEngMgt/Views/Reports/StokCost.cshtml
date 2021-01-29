@@ -13,8 +13,7 @@
         </th>
         <th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.ApplyDate)
-        </th>
-        <th style="width: 100px; text-align: right">
+            <br />
             @Html.DisplayNameFor(model => model.EndDate)
         </th>
         <th style="width: 100px; text-align: right">
@@ -27,7 +26,7 @@
             @Html.DisplayNameFor(model => model.Type)
         </th>
         <th style="width: 100px; text-align: right">
-            @Html.DisplayNameFor(model => model.AccDpt)
+            @Html.DisplayNameFor(model => model.DptId)
         </th>
         @*<th style="width: 100px; text-align: right">
             @Html.DisplayNameFor(model => model.AccDptNam)
@@ -81,8 +80,7 @@
             </td>
             <td style="text-align: right">
                 @item.ApplyDate.ToString("yyyy/MM/dd")
-            </td>
-            <td style="text-align: right">
+                <br />
                 @if (@item.EndDate != null)
                 {
                     @item.EndDate.Value.ToString("yyyy/MM/dd");
@@ -98,9 +96,9 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td style="text-align: right">
-                @Html.DisplayFor(modelItem => item.AccDpt)
+                @Html.DisplayFor(modelItem => item.DptId)
                 <br />
-                @Html.DisplayFor(modelItem => item.AccDptNam)
+                @Html.DisplayFor(modelItem => item.DptName)
             </td>
             @*<td style="text-align: right">
                 @Html.DisplayFor(modelItem => item.AccDptNam)

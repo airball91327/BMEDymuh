@@ -948,6 +948,30 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string EngNam { get; set; }
         public string AssetClass { get; set; }
 
+        [Display(Name = "申請人代號")]
+        public int UserId { get; set; }
+        [Display(Name = "申請人姓名")]
+        public string UserName { get; set; }
+        [Display(Name = "所屬部門")]
+        public string DptId { get; set; }
+        public string DptName { get; set; }
+        [Display(Name = "聯絡方式")]
+        public string Contact { get; set; }
+        [Display(Name = "維修別")]
+        public string RepType { get; set; }
+        [Display(Name = "數量")]
+        public int Amt { get; set; }
+        [Display(Name = "送修儀器配件")]
+        public string PlantDoc { get; set; }
+        [Display(Name = "放置地點")]
+        public string PlaceLoc { get; set; }
+        [Display(Name = "維修院區")]
+        public string RepairArea { get; set; }
+        [Display(Name = "保養週期")]
+        public int Cycle { get; set; }
+        [Display(Name = "目前關卡處理人")]
+        public string FlowUser { get; set; }
+
         public List<StokCostVModel> GetList(string gid, DateTime sdate, DateTime edate, string cls)
         {
             List<StokCostVModel> sv = new List<StokCostVModel>();

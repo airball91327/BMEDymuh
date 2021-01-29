@@ -199,6 +199,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         {
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
                             assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            if (assetMaintainContract.Cycle != null && assetMaintainContract.Cycle != 0)
+                            {
+                                assetKeep.Cycle = assetMaintainContract.Cycle;
+                            }
                             db.Entry(assetKeep).State = EntityState.Modified;
                         }
                         else
@@ -207,6 +211,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             assetKeep.AssetNo = item.AssetNo;
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
                             assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            if (assetMaintainContract.Cycle != null && assetMaintainContract.Cycle != 0)
+                            {
+                                assetKeep.Cycle = assetMaintainContract.Cycle;
+                            }
                             db.AssetKeeps.Add(assetKeep);
                         }
                     }
@@ -313,6 +321,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         {
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
                             assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            if (assetMaintainContract.Cycle != null && assetMaintainContract.Cycle != 0)
+                            {
+                                assetKeep.Cycle = assetMaintainContract.Cycle;
+                            }
                             db.Entry(assetKeep).State = EntityState.Modified;
                         }
                         else
@@ -321,6 +333,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                             assetKeep.AssetNo = item.AssetNo;
                             assetKeep.Cost = Convert.ToInt32(assetMaintainContract.TotalCost);
                             assetKeep.ContractNo = assetMaintainContract.PurchaseNo;
+                            if (assetMaintainContract.Cycle != null && assetMaintainContract.Cycle != 0)
+                            {
+                                assetKeep.Cycle = assetMaintainContract.Cycle;
+                            }
                             db.AssetKeeps.Add(assetKeep);
                         }
                     }

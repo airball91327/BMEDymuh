@@ -817,6 +817,37 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             return Json(list);
         }
 
+        // GET: MedEngMgt/RepairFlows/FlowRecover/5
+        public ActionResult FlowRecover(string id)
+        {
+            var repairflow = db.RepairFlows.Where(rf => rf.DocId == id && rf.Status == "2").FirstOrDefault();
+            if (repairflow == null)
+            {
+                throw new Exception("案件拉回失敗!");
+            }
+            repairflow.Opinions += "[案件拉回]";
+            repairflow.Status = "1";
+            db.Entry(repairflow).State = EntityState.Modified;
+            db.SaveChanges();
+            //
+            RepairFlow flow = new RepairFlow();
+            flow.DocId = repairflow.DocId;
+            flow.StepId = repairflow.StepId + 1;
+            flow.UserId = WebSecurity.CurrentUserId;
+            flow.UserName = db.AppUsers.Find(WebSecurity.CurrentUserId).FullName;
+            flow.Status = "?";
+            flow.Cls = "設備工程師";
+            flow.Rtt = DateTime.Now;
+            db.RepairFlows.Add(flow);
+            db.SaveChanges();
+            //
+            return new JsonResult
+            {
+                Data = new { success = true, error = "" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
