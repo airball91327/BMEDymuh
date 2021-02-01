@@ -35,6 +35,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         public string DelivDpt { get; set; }
         [Display(Name = "零件名稱")]
         public string StockName { get; set; }
+        [Display(Name = "院區")]
+        public string Location { get; set; }
     }
     //
     public class UserHour

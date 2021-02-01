@@ -119,7 +119,9 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "採購評估單號")]
         public string Docid { get; set; } //採購評估單號
         [Display(Name = "專責單位")]
-        public string ResponsDpt { get; set; } 
+        public string ResponsDpt { get; set; }
+        [Display(Name = "合約編號")]
+        public string ContractNo { get; set; }
 
         [Display(Name = "異動人員")]
         public int? Rtp { get; set; }

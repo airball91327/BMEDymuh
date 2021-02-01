@@ -50,6 +50,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 }
                 ViewData["STOCKNAME"] = new SelectList(listItem2, "Value", "Text");
             }
+            //
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            listItem3.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
+            listItem3.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            ViewData["LOCATION"] = new SelectList(listItem3, "Value", "Text");
+            //
             if (rpname == "保養達成率")
                 return View("KeepRateIndex", pv);
             return View(pv);
@@ -820,7 +827,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             ReportQryVModel pv = new ReportQryVModel();
             pv.ReportClass = rpname;
-
+            //
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            listItem3.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
+            listItem3.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            ViewData["LOCATION"] = new SelectList(listItem3, "Value", "Text");
+            //
             return View(pv);
         }
         public ActionResult Index3(string rpname)
@@ -840,6 +853,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 });
             ViewData["ACCDPT"] = new SelectList(listItem2, "Value", "Text");
             ViewData["DELIVDPT"] = new SelectList(listItem2, "Value", "Text");
+            //
+            List<SelectListItem> listItem3 = new List<SelectListItem>();
+            listItem3.Add(new SelectListItem { Text = "請選擇", Value = "" });
+            listItem3.Add(new SelectListItem { Text = "蘭陽", Value = "蘭陽" });
+            listItem3.Add(new SelectListItem { Text = "新民", Value = "新民" });
+            ViewData["LOCATION"] = new SelectList(listItem3, "Value", "Text");
+            //
             return View(pv);
         }
         [HttpPost]
@@ -1685,6 +1705,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             else
             {
                 assets = db.Assets.ToList();
+            }
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location)).ToList();
             }
             if (!string.IsNullOrEmpty(v.AssetClass1))
             {

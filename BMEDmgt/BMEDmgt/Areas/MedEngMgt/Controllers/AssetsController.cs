@@ -1492,6 +1492,52 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             }
         }
 
+        public ActionResult GetAssetWarranty(string assetNo)
+        {
+            string returnString = "";
+            AssetPurchaseContract purchaseContract = null;
+            AssetMaintainContract maintainContract = null;
+            if (!string.IsNullOrEmpty(assetNo))
+            {
+                var asset = db.Assets.Find(assetNo);
+                var assetKeep = db.AssetKeeps.Find(assetNo);
+                if (asset != null)
+                {
+                    // 依照Asset Table內合約編號查詢新購合約
+                    if (!string.IsNullOrEmpty(asset.ContractNo))
+                        purchaseContract = db.AssetPurchaseContracts.Find(asset.ContractNo);
+                    if (purchaseContract != null)
+                    {
+                        //設備是否於保固日內
+                        bool todayIsInWarranty = false;
+                        if (purchaseContract.WarrantySdate <= DateTime.Now &&
+                            purchaseContract.WarrantyEdate.Value.AddDays(1).AddSeconds(-1) >= DateTime.Now)
+                        {
+                            todayIsInWarranty = true;
+                        }
+                        if (todayIsInWarranty == true)
+                            returnString = "是";
+                        else
+                            returnString = "否";
+                    }
+                }
+                if (assetKeep != null)
+                {
+                    // 依照AssetKeep Table內合約編號查詢維護合約
+                    if (!string.IsNullOrEmpty(asset.ContractNo))
+                        maintainContract = db.AssetMaintainContracts.Find(assetKeep.ContractNo);
+                    if (maintainContract != null)
+                        returnString += "(" + maintainContract.ContractType + ")";
+                }
+            }
+
+            return new JsonResult
+            {
+                Data = new { success = true, error = "", data = returnString },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

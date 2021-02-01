@@ -7,7 +7,7 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 <script src="~/Areas/MedEngMgt/Scripts/RepCreate.js"></script>
 <script>
-    var getWarrantyURL = '@Url.Action("GetAssetWarranty", "AssetPurchaseContracts")';
+    var getWarrantyURL = '@Url.Action("GetAssetWarranty", "Assets")';
 </script>
 
 <h2>新增</h2>
@@ -186,12 +186,12 @@
             </div>
         </div>
 
-       @*<div class="form-group" id="divWarranty">
+       <div class="form-group" id="divWarranty">
             @Html.Label("是否保固中", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <p id="pWarranty" style="padding-top:7px;">&nbsp;</p>
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.Amt, htmlAttributes: new { @class = "control-label col-md-2" })
