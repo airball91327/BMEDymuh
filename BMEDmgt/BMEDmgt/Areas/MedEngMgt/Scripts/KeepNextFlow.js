@@ -6,7 +6,7 @@
     else {
         
         //location.replace("../../Home");
-        window.opener.jQuery("#btnQTY2").trigger("click");
+        //window.opener.jQuery("#btnQTY2").trigger("click");
         alert("送出成功!");
         self.close();
     }
