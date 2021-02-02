@@ -49,7 +49,10 @@
             @item.SentDate.ToString("yyyy/MM/dd")
         </td>
         <td>
-            @item.EndDate.ToString("yyyy/MM/dd")
+            @if (item.EndDate.HasValue == true)
+            {
+                @item.EndDate.Value.ToString("yyyy/MM/dd")
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AssetNo)<br />

@@ -2264,7 +2264,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.Cname,
                k.Cycle,
                Cost = k.Cost == null ? 0 : k.Cost.Value,
-               EndDate = k.EndDate.Value,
+               EndDate = k.EndDate.HasValue == true ? k.EndDate.Value : k.EndDate,
                k.Memo,
                k.InOut,
                k.AssetClass

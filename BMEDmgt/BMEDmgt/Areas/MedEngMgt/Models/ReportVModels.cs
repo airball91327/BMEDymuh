@@ -600,7 +600,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "送單日期")]
         public DateTime SentDate { get; set; }
         [Display(Name = "完工日期")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Display(Name = "儀器名稱")]
