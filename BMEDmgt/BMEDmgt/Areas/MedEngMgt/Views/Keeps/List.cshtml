@@ -86,7 +86,7 @@
             <td>
                 @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
                 {
-                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank", rel = "opener" })
                     @Html.Raw("|")
                 }
                 @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |

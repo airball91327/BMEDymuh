@@ -95,14 +95,14 @@
             <td width="100px">
                 @if (item.Flg == "?" && item.FlowUid == WebSecurity.CurrentUserId)
                 {
-                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank", rel = "opener" })
                     @Html.Raw("|")
                 }
                 else if (item.Flg == "?" && item.PlantClass != null)
                 {
                     if (item.PlantClass.Contains("醫療儀器") == false)
                     {
-                        @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                        @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank", rel = "opener" })
                         @Html.Raw("|")
                     }
                 }

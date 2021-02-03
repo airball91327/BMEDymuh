@@ -114,7 +114,7 @@
             <td width="100px">
                 @if (item.Flg == "?" && Roles.IsUserInRole("Admin"))
                 {
-                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank", rel = "opener" })
                     @Html.Raw("|")
                 }
                 @Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |

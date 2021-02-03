@@ -170,7 +170,7 @@
         </h2>
         <div>
             @Html.ActionLink("新增儀器", "New", "Assets", new { docid = Model.Docid, rdate = Model.DelivDateR },
-                  new { id = "btnAddAsset", target = "_blank" })
+                  new { id = "btnAddAsset", target = "_blank", rel = "opener" })
         </div>
         <div id="gvASSETLIST" style="padding-left: 20px; color: gray">
             @Html.Action("BuyEvaluateListItem", "Assets", new { id = Model.Docid, upload = "得標廠商" })

@@ -82,7 +82,7 @@
         <td width="100px">
             @if (item.Flg == "?" && item.FlowUid == 2059)
             {
-                @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank" })
+                @Html.ActionLink("編輯", "Edit", new { id = item.DocId }, new { target = "_blank", rel = "opener" })
                 @Html.Raw("|")
             }
             @Html.ActionLink("預覽", "Views", new { id = item.DocId }, new { target = "_blank" }) |

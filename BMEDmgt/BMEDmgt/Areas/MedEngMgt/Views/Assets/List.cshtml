@@ -205,7 +205,7 @@
                     <td style="width:100px">
                         @if (role == "admin")
                         {
-                            @Html.ActionLink("修改", "Edit", "Assets", new { Area = "MedEngMgt", ano = item.AssetNo }, new { target = "_blank" })<br />
+                            @Html.ActionLink("修改", "Edit", "Assets", new { Area = "MedEngMgt", ano = item.AssetNo }, new { target = "_blank", rel = "opener" })<br />
                             @Html.ActionLink("刪除", "Delete", "Assets", new { Area = "MedEngMgt", id = item.AssetNo }, new { name = "del" })<br />
                         }
                         @Html.ActionLink("預覽", "Details", "Assets", new { Area = "MedEngMgt", ano = item.AssetNo }, new { target="_blank"})

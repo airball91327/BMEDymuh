@@ -5,8 +5,8 @@
     }
     else {
         //location.replace("../../Home");
-        //window.opener.jQuery("#btnQTY").trigger("click");
-        //window.opener.jQuery("#btnQTY4").trigger("click");
+        window.opener.jQuery("#btnQTY").trigger("click");
+        window.opener.jQuery("#btnQTY4").trigger("click");
         alert("送出成功!");
         self.close();
     }
