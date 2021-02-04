@@ -64,9 +64,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
         private List<AssetKpScheVModel> AssetKpSche(ReportQryVModel v)
         {
-
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
             List<AssetKpScheVModel> sv = new List<AssetKpScheVModel>();
-            var data = db.Assets.Where(a => a.DisposeKind != "報廢")
+            var data = assets.Where(a => a.DisposeKind != "報廢")
                 .Join(db.AssetKeeps.Where(x => x.Cycle > 0), a => a.AssetNo, k => k.AssetNo,
                 (a, k) => new
                 {
@@ -346,6 +351,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     return PartialView("UnSignList", UnSignList(v));
                 case "維修保養履歷":
                     ViewData["Ano"] = v.AssetNo;
+                    if (string.IsNullOrEmpty(v.AssetNo))
+                    {
+                        return new JsonResult
+                        {
+                            Data = new { success = false, error = "請輸入財產編號!" },
+                            JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                        };
+                    }
                     if (v.Edate == null)
                     {
                         if (v.Sdate == null)
@@ -514,7 +527,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             var qrySdate = v.Sdate;
             var qryEdate = v.Edate;
             qryEdate = qryEdate.Value.AddDays(1).AddSeconds(-1);
-
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             var keep = db.Keeps.Where(k => k.SentDate >= qrySdate && k.SentDate <= qryEdate);
             var query = keep.Join(db.KeepDtls, k => k.DocId, kd => kd.DocId,
                             (k, kd) => new
@@ -522,7 +541,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                 keep = k,
                                 kdtl = kd
                             })
-                            .Join(db.Assets, k => k.keep.AssetNo, a => a.AssetNo,
+                            .Join(assets, k => k.keep.AssetNo, a => a.AssetNo,
                             (k, a) => new
                             {
                                 keep = k.keep,
@@ -630,27 +649,31 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int cnt = 0;
             List<ProperRate> sv = new List<ProperRate>();
             ProperRate pr;
-            List<Asset> assets = db.Assets.Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
-                    .Where(a => a.DisposeKind == "正常").ToList();
+            var assets = db.Assets.Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
+                                  .Where(a => a.DisposeKind == "正常");
             if (!string.IsNullOrEmpty(v.AccDpt))
             {
-                assets = assets.Where(a => a.AccDpt == v.AccDpt).ToList();
+                assets = assets.Where(a => a.AccDpt == v.AccDpt);
             }
             if (!string.IsNullOrEmpty(v.AssetNo))
             {
-                assets = assets.Where(a => a.AssetNo == v.AssetNo)
-                    .ToList();
+                assets = assets.Where(a => a.AssetNo == v.AssetNo);
             }
-
-            foreach (Asset asset in assets)
+            if (!string.IsNullOrEmpty(v.Location))
             {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            foreach (Asset asset in assets.ToList())
+            {
+                var accDpt = db.Departments.Find(asset.AccDpt);
                 pr = new ProperRate();
                 pr.AssetNo = asset.AssetNo;
                 pr.AssetName = asset.Cname;
                 pr.Brand = asset.Brand;
                 pr.Type = asset.Type;
                 pr.AccDpt = asset.AccDpt;
-                pr.AccDptNam = db.Departments.Find(asset.AccDpt).Name_C;
+                pr.AccDptNam = accDpt != null ? accDpt.Name_C : "";
                 faildays = 0;
                 dd = 0;
                 cnt = 0;
@@ -1111,7 +1134,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (string.IsNullOrEmpty(v.AssetNo))
                 return sv;
             var ss = new[] { "?", "2" };
-            sv = db.Assets.Where(a => a.AssetNo == v.AssetNo)
+            var assets = db.Assets.Where(a => a.AssetNo == v.AssetNo);
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
+            sv = assets
                 .Join(db.Repairs, a => a.AssetNo, r => r.AssetNo,
                 (a, r) => new
                 {
@@ -1156,7 +1186,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     EngName = e.UserName
                 }).ToList();
             //
-            sv2 = db.Assets.Where(a => a.AssetNo == v.AssetNo)
+            sv2 = assets
                 .Join(db.Keeps, a => a.AssetNo, r => r.AssetNo,
                 (a, r) => new
                 {
@@ -1213,7 +1243,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<UnSignListVModel> sv = new List<UnSignListVModel>();
             List<UnSignListVModel> sv2 = new List<UnSignListVModel>();
-
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             sv = db.RepairFlows.Where(f => f.Status == "?")
             .Join(db.RepairDtls, f => f.DocId, rd => rd.DocId,
             (f, rd) => new
@@ -1245,7 +1282,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rd.DealState,
                 k.TroubleDes
             }).Where(k => k.ApplyDate >= v.Sdate && k.ApplyDate <= v.Edate)
-            .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
+            .Join(assets, k => k.AssetNo, at => at.AssetNo,
             (k, at) => new
             {
                 k.DocId,
@@ -1323,7 +1360,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             string str = "";
             str += "SELECT '保養' AS DOCTYP,B.DOCID,B.ASSETNO, B.ASSETNAME,F.TYPE,B.SENTDATE AS APPLYDATE,D.FULLNAME AS CLSEMP,";
             str += "B.ACCDPT,E.NAME_C AS ACCDPTNAM, C.ENDDATE,C.RESULT AS DEALSTATE,C.INOUT, ";
-            str += "C.MEMO AS DEALDES, F.ASSETCLASS ";
+            str += "C.MEMO AS DEALDES, F.ASSETCLASS, F.ASSETAREA ";
             str += "FROM KEEPFLOW AS A JOIN KEEP AS B ON A.DOCID = B.DOCID ";
             str += "JOIN KEEPDTL AS C ON B.DOCID = C.DOCID ";
             str += "JOIN APPUSER AS D ON A.USERID = D.ID ";
@@ -1390,6 +1427,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<KeepCost> lk = db.KeepCosts.Where(r => r.DocId == s.DocId).ToList();
                 if (lk != null)
                     s.Cost = lk.Sum(r => r.TotalCost);
+            }
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                sv2 = sv2.Where(a => a.AssetArea != null)
+                         .Where(a => a.AssetArea.Contains(v.Location)).ToList();
             }
             sv.AddRange(sv2);
             sv = sv.Where(m => m.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1)).ToList();
@@ -1458,7 +1500,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
 
             List<DoHrSumMonVModel> mv = new List<DoHrSumMonVModel>();
             DoHrSumMonVModel dv;
-
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             List<UserHour> query = db.RepairDtls.Where(d => d.EndDate >= v.Sdate)
                 .Where(d => d.EndDate <= v.Edate)
                 .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
@@ -1471,7 +1520,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     r.ApplyDate,
                     r.AccDpt,
                     r.AssetNo
-                }).Join(db.Assets, k => k.AssetNo, c => c.AssetNo,
+                }).Join(assets, k => k.AssetNo, c => c.AssetNo,
                 (k, c) => new
                 {
                     k.DocId,
@@ -1515,7 +1564,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     k.SentDate,
                     k.AccDpt,
                     k.AssetNo
-                }).Join(db.Assets, k => k.AssetNo, c => c.AssetNo,
+                }).Join(assets, k => k.AssetNo, c => c.AssetNo,
                 (k, c) => new
                 {
                     k.DocId,
@@ -1697,29 +1746,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ts = endDate - startDate;
             totalMins = Convert.ToInt32(ts.TotalMinutes);
             // Get AccDpt assets.
-            List<Asset> assets;
+            var assets = db.Assets.AsQueryable();
             if (!string.IsNullOrEmpty(v.AccDpt))
             {
-                assets = db.Assets.Where(a => a.AccDpt == v.AccDpt).ToList();
-            }
-            else
-            {
-                assets = db.Assets.ToList();
+                assets = assets.Where(a => a.AccDpt == v.AccDpt);
             }
             if (!string.IsNullOrEmpty(v.Location))
             {
                 assets = assets.Where(a => a.AssetArea != null)
-                               .Where(a => a.AssetArea.Contains(v.Location)).ToList();
+                               .Where(a => a.AssetArea.Contains(v.Location));
             }
             if (!string.IsNullOrEmpty(v.AssetClass1))
             {
-                assets = assets.Where(a => a.AssetClass == v.AssetClass1).ToList();
+                assets = assets.Where(a => a.AssetClass == v.AssetClass1);
             }
             if (!string.IsNullOrEmpty(v.AssetClass2))
             {
-                assets = assets.Where(a => a.AssetClass == v.AssetClass2).ToList();
+                assets = assets.Where(a => a.AssetClass == v.AssetClass2);
             }
-            foreach (var item in assets)
+            foreach (var item in assets.ToList())
             {
                 int repairMins = 0;
                 MonthFailRateVModel m = new MonthFailRateVModel();
@@ -1741,7 +1786,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 m.AssetNo = item.AssetNo;
                 m.Cname = item.Cname;
                 m.CustId = item.AccDpt;
-                m.CustNam = db.Departments.Find(m.CustId).Name_C;
+                m.CustNam = db.Departments.Find(m.CustId) != null ? db.Departments.Find(m.CustId).Name_C : "";
                 m.RepairMins = repairMins;
                 m.TotalMins = totalMins;
                 m.FailRate = decimal.Round(m.RepairMins / m.TotalMins, 4).ToString("P");
@@ -1924,6 +1969,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 queryRepair = queryRepair.Where(r => r.AccDpt == v.AccDpt);
             }
             queryRepair = queryRepair.Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId, (r, f) => r);
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             mv = db.RepairDtls
            .Join(queryRepair, rd => rd.DocId, k => k.DocId,
            (rd, k) => new
@@ -1952,7 +2005,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                k.UserName,
                k.DptId
            })
-           .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
+           .Join(assets, k => k.AssetNo, at => at.AssetNo,
            (k, at) => new
            {
                k.DocId,
@@ -2224,7 +2277,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 queryKeep = queryKeep.Where(r => r.AccDpt == v.AccDpt);
             }
             queryKeep = queryKeep.Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId, (r, f) => r);
-
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             db.KeepDtls.Join(queryKeep, rd => rd.DocId, k => k.DocId,
            (rd, k) => new
            {
@@ -2238,7 +2298,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                rd.Memo,
                rd.InOut
            })
-           .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
+           .Join(assets, k => k.AssetNo, at => at.AssetNo,
            (k, at) => new
            {
                k.DocId,
@@ -2350,7 +2410,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int rcnt = 0;
             int kcnt = 0;
             decimal tolcost = 0m;
-
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             foreach (Department p in db.Departments.ToList())
             {
                 m = new RepairKeepVModel();
@@ -2363,7 +2430,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate).Where(r => r.ApplyDate <= v.Edate)
                                             .Where(r => r.AccDpt == p.DptId)
                     .Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
-                    (r, f) => r).Join(db.Assets
+                    (r, f) => r).Join(assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                           , rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
@@ -2390,7 +2457,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate).Where(r => r.SentDate <= v.Edate)
                                         .Where(r => r.AccDpt == p.DptId)
                    .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
-                   (r, f) => r).Join(db.Assets
+                   (r, f) => r).Join(assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                           , rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
@@ -2442,7 +2509,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int rcnt = 0;
             int kcnt = 0;
             decimal tolcost = 0m;
-
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             foreach (Department p in db.Departments.ToList())
             {
                 m = new RepairKeepVModel();
@@ -2455,7 +2529,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate)
                     .Where(r => r.ApplyDate <= v.Edate)
                     .Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
-                    (r, f) => r).Join(db.Assets
+                    (r, f) => r).Join(assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                           .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
@@ -2482,7 +2556,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate)
                    .Where(r => r.SentDate <= v.Edate)
                    .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
-                   (r, f) => r).Join(db.Assets
+                   (r, f) => r).Join(assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                           .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
@@ -2521,7 +2595,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             int rcnt = 0;
             int kcnt = 0;
             decimal tolcost = 0m;
-
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             foreach (Department p in db.Departments.ToList())
             {
                 m = new RepairKeepVModel();
@@ -2534,7 +2615,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<Repair> rs = db.Repairs.Where(r => r.ApplyDate >= v.Sdate)
                     .Where(r => r.ApplyDate <= v.Edate)
                     .Join(db.RepairFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
-                    (r, f) => r).Join(db.Assets
+                    (r, f) => r).Join(assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                           .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
@@ -2561,7 +2642,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 List<Keep> ks = db.Keeps.Where(r => r.SentDate >= v.Sdate)
                    .Where(r => r.SentDate <= v.Edate)
                    .Join(db.KeepFlows.Where(f => ss.Contains(f.Status)), r => r.DocId, f => f.DocId,
-                   (r, f) => r).Join(db.Assets
+                   (r, f) => r).Join(assets
                           .Where(r => r.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                           .Where(r => r.AccDpt == p.DptId), rd => rd.AssetNo, r => r.AssetNo,
                           (rd, r) => rd).ToList();
@@ -2645,6 +2726,12 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             Asset a;
             Department o;
 
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(t => t.AssetArea != null)
+                               .Where(t => t.AssetArea.Contains(v.Location));
+            }
             List<RepairDtl> rdtl = db.Repairs.Where(d => d.AssetNo != "000" && d.AssetNo != "001")
                                              .Join(db.RepairDtls, rep => rep.DocId, rd => rd.DocId,
                                              (rep, rd) => rd)
@@ -2669,7 +2756,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                         m.CustNam = o.Name_C;
                     m.ApplyDate = r.ApplyDate.Value;
                     m.AssetNo = r.AssetNo;
-                    a = db.Assets.Where(s => s.AssetNo == r.AssetNo).FirstOrDefault();
+                    a = assets.Where(s => s.AssetNo == r.AssetNo).FirstOrDefault();
                             //.Where(s => s.AssetClass == (v.AssetClass1 == null ? v.AssetClass2 : v.AssetClass1))
                     if (a != null)
                     {
@@ -2709,6 +2796,14 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
         {
             List<RepKeepStokVModel> mv = new List<RepKeepStokVModel>();
             List<Cust> cv;
+            //
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             cv =
            db.RepairDtls.Where(d => d.CloseDate >= v.Sdate &&
                d.CloseDate <= v.Edate)
@@ -2718,7 +2813,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                    rd.DocId,
                    r.AccDpt,
                    r.AssetNo
-               }).Join(db.Assets, rd => rd.AssetNo, r => r.AssetNo,
+               }).Join(assets, rd => rd.AssetNo, r => r.AssetNo,
                (rd, r) => new
                {
                    rd.DocId,
@@ -2739,7 +2834,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                   rd.DocId,
                   r.AccDpt,
                   r.AssetNo
-              }).Join(db.Assets, rd => rd.AssetNo, r => r.AssetNo,
+              }).Join(assets, rd => rd.AssetNo, r => r.AssetNo,
                (rd, r) => new
                {
                    rd.DocId,
@@ -2840,6 +2935,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             List<RpKpStokBdVModel> sv = new List<RpKpStokBdVModel>();
             List<RpKpStokBdVModel> sv2 = new List<RpKpStokBdVModel>();
             RpKpStokBdVModel rb;
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             var scv = db.RepairDtls.Where(d => d.CloseDate >= v.Sdate &&
                 d.CloseDate <= v.Edate)
                 .Join(db.Repairs, rd => rd.DocId, r => r.DocId,
@@ -2848,7 +2950,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rd.DocId,
                     r.AccDpt,
                     r.AssetNo
-                }).Join(db.Assets, rd => rd.AssetNo, r => r.AssetNo,
+                }).Join(assets, rd => rd.AssetNo, r => r.AssetNo,
                 (rd, r) => new
                 {
                     rd.DocId,
@@ -2881,7 +2983,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     rd.DocId,
                     r.AccDpt,
                     r.AssetNo
-                }).Join(db.Assets, rd => rd.AssetNo, r => r.AssetNo,
+                }).Join(assets, rd => rd.AssetNo, r => r.AssetNo,
                 (rd, r) => new
                 {
                     rd.DocId,
@@ -3061,7 +3163,13 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                  keepflow = rf,
                                  flowUser = u
                              });
-
+            var assets = db.Assets.AsQueryable();
+            if (!string.IsNullOrEmpty(v.Location))
+            {
+                assets = assets.Where(a => a.AssetArea != null)
+                               .Where(a => a.AssetArea.Contains(v.Location));
+            }
+            //
             sv = db.RepairDtls.Where(d => d.EndDate >= v.Sdate
                 && d.EndDate <= v.Edate)
             .Join(db.Repairs, rd => rd.DocId, k => k.DocId,
@@ -3078,7 +3186,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                 rd.DealDes,
                 k.TroubleDes
             })
-            .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
+            .Join(assets, k => k.AssetNo, at => at.AssetNo,
             (k, at) => new
             {
                 k.DocId,
@@ -3330,7 +3438,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                rd.Result,
                k.Cycle
            })
-           .Join(db.Assets, k => k.AssetNo, at => at.AssetNo,
+           .Join(assets, k => k.AssetNo, at => at.AssetNo,
            (k, at) => new
            {
                k.DocId,

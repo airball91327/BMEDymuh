@@ -1495,6 +1495,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Models
         [Display(Name = "現在關卡")]
         public string ClsEmp { get; set; }
         public string AssetClass { get; set; }
+        public string AssetArea { get; set; }
 
         public List<UnSignListVModel> GetList(string gid, DateTime sdate, DateTime edate, string cls)
         {
