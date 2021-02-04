@@ -1746,29 +1746,36 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             ts = endDate - startDate;
             totalMins = Convert.ToInt32(ts.TotalMinutes);
             // Get AccDpt assets.
-            var assets = db.Assets.AsQueryable();
+            var qryAssets = db.Assets.AsQueryable();
             if (!string.IsNullOrEmpty(v.AccDpt))
             {
-                assets = assets.Where(a => a.AccDpt == v.AccDpt);
+                qryAssets = qryAssets.Where(a => a.AccDpt == v.AccDpt);
             }
             if (!string.IsNullOrEmpty(v.Location))
             {
-                assets = assets.Where(a => a.AssetArea != null)
-                               .Where(a => a.AssetArea.Contains(v.Location));
+                qryAssets = qryAssets.Where(a => a.AssetArea != null)
+                                     .Where(a => a.AssetArea.Contains(v.Location));
             }
             if (!string.IsNullOrEmpty(v.AssetClass1))
             {
-                assets = assets.Where(a => a.AssetClass == v.AssetClass1);
+                qryAssets = qryAssets.Where(a => a.AssetClass == v.AssetClass1);
             }
             if (!string.IsNullOrEmpty(v.AssetClass2))
             {
-                assets = assets.Where(a => a.AssetClass == v.AssetClass2);
+                qryAssets = qryAssets.Where(a => a.AssetClass == v.AssetClass2);
             }
+            var assets = qryAssets.GroupJoin(db.Departments, a => a.AccDpt, d => d.DptId,
+                                    (a, d) => new
+                                    {
+                                        asset = a,
+                                        accDpt = d
+                                    }).SelectMany(p => p.accDpt.DefaultIfEmpty(),
+                                    (x, y) => new { Asset = x.asset, AccDpt = y });
             foreach (var item in assets.ToList())
             {
                 int repairMins = 0;
                 MonthFailRateVModel m = new MonthFailRateVModel();
-                var repairDocs = db.Repairs.Where(r => r.AssetNo == item.AssetNo)
+                var repairDocs = db.Repairs.Where(r => r.AssetNo == item.Asset.AssetNo)
                                            .Join(db.RepairDtls, r => r.DocId, rd => rd.DocId,
                                            (r, rd) => new {
                                                repair = r,
@@ -1783,10 +1790,10 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                     }
                 }
                 //
-                m.AssetNo = item.AssetNo;
-                m.Cname = item.Cname;
-                m.CustId = item.AccDpt;
-                m.CustNam = db.Departments.Find(m.CustId) != null ? db.Departments.Find(m.CustId).Name_C : "";
+                m.AssetNo = item.Asset.AssetNo;
+                m.Cname = item.Asset.Cname;
+                m.CustId = item.Asset.AccDpt;
+                m.CustNam = item.AccDpt != null ? item.AccDpt.Name_C : "";
                 m.RepairMins = repairMins;
                 m.TotalMins = totalMins;
                 m.FailRate = decimal.Round(m.RepairMins / m.TotalMins, 4).ToString("P");
