@@ -61,7 +61,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
             if (!string.IsNullOrEmpty(stockClass))
             {
                 dv = dv.Where(d => !string.IsNullOrEmpty(d.StokCls))
-                       .Where(d => d.StokCls.Contains(stockClass)).ToList();
+                       .Where(d => d.StokCls == stockClass).ToList();
             }
             if (dv.ToPagedList(page, pageSize).Count <= 0)
                 return PartialView("List", dv.ToPagedList(1, pageSize));
