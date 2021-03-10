@@ -1423,6 +1423,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             WartyEd = DateTime.Parse(worksheet.Cells[row, 30].Value.ToString()),
                                             Docid = worksheet.Cells[row, 31].Value.ToString(),
                                             ResponsDpt = worksheet.Cells[row, 32].Value.ToString(),
+                                            AssetArea = worksheet.Cells[row, 33].Value.ToString(),
                                             Rtt = DateTime.Now,
                                             Rtp = WebSecurity.CurrentUserId
                                         };
@@ -1448,6 +1449,20 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                         else if (worksheet.Cells[row, 16].Value.ToString() == "NULL")
                                         {
                                             asset.VendorId = null;
+                                        }
+                                        else
+                                        {
+                                            var vendorName = worksheet.Cells[row, 16].Value.ToString();
+                                            var vendor = db.Vendors.Where(v => v.VendorName == vendorName).FirstOrDefault();
+                                            if (vendor != null)
+                                            {
+                                                asset.VendorId = vendor.VendorId;
+                                                asset.VendorName = vendor.VendorName;
+                                            }
+                                            else
+                                            {
+                                                asset.VendorId = null;
+                                            }
                                         }
                                         if (worksheet.Cells[row, 26].Value == null ||
                                             worksheet.Cells[row, 26].Value == DBNull.Value ||
