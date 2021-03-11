@@ -1426,37 +1426,33 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                         };
                                         //日期處理
                                         DateTime result;
-                                        if (DateTime.TryParse(worksheet.Cells[row, 7].Value.ToString(), out result))
+                                        if (worksheet.Cells[row, 7].Value != null)
                                         {
-                                            asset.AccDate = result;
+                                            if (DateTime.TryParse(worksheet.Cells[row, 7].Value.ToString(), out result))
+                                            {
+                                                asset.AccDate = result;
+                                            }
                                         }
-                                        else
+                                        if (worksheet.Cells[row, 8].Value != null)
                                         {
-                                            asset.AccDate = null;
+                                            if (DateTime.TryParse(worksheet.Cells[row, 8].Value.ToString(), out result))
+                                            {
+                                                asset.BuyDate = result;
+                                            }
                                         }
-                                        if (DateTime.TryParse(worksheet.Cells[row, 8].Value.ToString(), out result))
+                                        if (worksheet.Cells[row, 30].Value != null)
                                         {
-                                            asset.BuyDate = result;
+                                            if (DateTime.TryParse(worksheet.Cells[row, 30].Value.ToString(), out result))
+                                            {
+                                                asset.WartySt = result;
+                                            }
                                         }
-                                        else
+                                        if (worksheet.Cells[row, 31].Value != null)
                                         {
-                                            asset.BuyDate = null;
-                                        }
-                                        if (DateTime.TryParse(worksheet.Cells[row, 30].Value.ToString(), out result))
-                                        {
-                                            asset.WartySt = result;
-                                        }
-                                        else
-                                        {
-                                            asset.WartySt = null;
-                                        }
-                                        if (DateTime.TryParse(worksheet.Cells[row, 31].Value.ToString(), out result))
-                                        {
-                                            asset.WartyEd = result;
-                                        }
-                                        else
-                                        {
-                                            asset.WartyEd = null;
+                                            if (DateTime.TryParse(worksheet.Cells[row, 31].Value.ToString(), out result))
+                                            {
+                                                asset.WartyEd = result;
+                                            }
                                         }
                                         //"NULL"字串處理
                                         PropertyInfo[] properties = typeof(Asset).GetProperties();
