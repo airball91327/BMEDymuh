@@ -16,6 +16,7 @@ using WebMatrix.WebData;
 using OfficeOpenXml;
 using System.IO;
 using BMEDmgt.Extensions;
+using System.Reflection;
 
 namespace BMEDmgt.Areas.MedEngMgt.Controllers
 {
@@ -1369,25 +1370,25 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                     {
                                         throw new Exception("匯入失敗於第" + row + "行資料，【中文名稱】未填寫!");
                                     }
-                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 17].Value.ToString()))
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 18].Value.ToString()))
                                     {
                                         throw new Exception("匯入失敗於第" + row + "行資料，【處分性質】未填寫!");
                                     }
-                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 18].Value.ToString()))
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 19].Value.ToString()))
                                     {
                                         throw new Exception("匯入失敗於第" + row + "行資料，【保管部門】未填寫!");
                                     }
-                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 19].Value.ToString()))
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 20].Value.ToString()))
                                     {
                                         throw new Exception("匯入失敗於第" + row + "行資料，【保管人代號】未填寫!");
                                     }
-                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 21].Value.ToString()))
+                                    if (string.IsNullOrEmpty(worksheet.Cells[row, 22].Value.ToString()))
                                     {
                                         throw new Exception("匯入失敗於第" + row + "行資料，【工程師代號】未填寫!");
                                     }
 
-                                    var delivUname = worksheet.Cells[row, 19].Value.ToString();
-                                    var engUname = worksheet.Cells[row, 21].Value.ToString();
+                                    var delivUname = worksheet.Cells[row, 20].Value.ToString();
+                                    var engUname = worksheet.Cells[row, 22].Value.ToString();
                                     try
                                     {
                                         var lastColumn = worksheet.Dimension.End.Column;
@@ -1399,8 +1400,6 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             Cname = worksheet.Cells[row, 4].Value.ToString(),
                                             Cname2 = worksheet.Cells[row, 5].Value.ToString(),
                                             Ename = worksheet.Cells[row, 6].Value.ToString(),
-                                            AccDate = DateTime.Parse(worksheet.Cells[row, 7].Value.ToString()),
-                                            BuyDate = DateTime.Parse(worksheet.Cells[row, 8].Value.ToString()),
                                             //RelDate = DateTime.Parse(worksheet.Cells[row, 9].Value.ToString()),
                                             Brand = worksheet.Cells[row, 10].Value.ToString(),
                                             Standard = worksheet.Cells[row, 11].Value.ToString(),
@@ -1408,25 +1407,71 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             Origin = worksheet.Cells[row, 13].Value.ToString(),
                                             Voltage = worksheet.Cells[row, 14].Value.ToString(),
                                             Current = worksheet.Cells[row, 15].Value.ToString(),
-                                            DisposeKind = worksheet.Cells[row, 17].Value.ToString(),
-                                            DelivDpt = worksheet.Cells[row, 18].Value.ToString(),
+                                            DisposeKind = worksheet.Cells[row, 18].Value.ToString(),
+                                            DelivDpt = worksheet.Cells[row, 19].Value.ToString(),
                                             DelivUid = db.AppUsers.Where(u => u.UserName == delivUname).First().Id,
-                                            DelivEmp = worksheet.Cells[row, 20].Value.ToString(),
+                                            DelivEmp = worksheet.Cells[row, 21].Value.ToString(),
                                             EngId = db.AppUsers.Where(u => u.UserName == engUname).First().Id,
-                                            LeaveSite = worksheet.Cells[row, 22].Value.ToString(),
-                                            AccDpt = worksheet.Cells[row, 23].Value.ToString(),
-                                            Cost = Convert.ToDecimal(worksheet.Cells[row, 24].Value),
-                                            RiskLvl = worksheet.Cells[row, 25].Value.ToString(),
-                                            MakeNo = worksheet.Cells[row, 27].Value.ToString(),
-                                            Note = worksheet.Cells[row, 28].Value.ToString(),
-                                            WartySt = DateTime.Parse(worksheet.Cells[row, 29].Value.ToString()),
-                                            WartyEd = DateTime.Parse(worksheet.Cells[row, 30].Value.ToString()),
-                                            Docid = worksheet.Cells[row, 31].Value.ToString(),
-                                            ResponsDpt = worksheet.Cells[row, 32].Value.ToString(),
-                                            AssetArea = worksheet.Cells[row, 33].Value.ToString(),
+                                            LeaveSite = worksheet.Cells[row, 23].Value.ToString(),
+                                            AccDpt = worksheet.Cells[row, 24].Value.ToString(),
+                                            Cost = Convert.ToDecimal(worksheet.Cells[row, 25].Value),
+                                            RiskLvl = worksheet.Cells[row, 26].Value.ToString(),
+                                            MakeNo = worksheet.Cells[row, 28].Value.ToString(),
+                                            Note = worksheet.Cells[row, 29].Value.ToString(),
+                                            Docid = worksheet.Cells[row, 32].Value.ToString(),
+                                            ResponsDpt = worksheet.Cells[row, 33].Value.ToString(),
+                                            AssetArea = worksheet.Cells[row, 34].Value.ToString(),
                                             Rtt = DateTime.Now,
                                             Rtp = WebSecurity.CurrentUserId
                                         };
+                                        //日期處理
+                                        DateTime result;
+                                        if (DateTime.TryParse(worksheet.Cells[row, 7].Value.ToString(), out result))
+                                        {
+                                            asset.AccDate = result;
+                                        }
+                                        else
+                                        {
+                                            asset.AccDate = null;
+                                        }
+                                        if (DateTime.TryParse(worksheet.Cells[row, 8].Value.ToString(), out result))
+                                        {
+                                            asset.BuyDate = result;
+                                        }
+                                        else
+                                        {
+                                            asset.BuyDate = null;
+                                        }
+                                        if (DateTime.TryParse(worksheet.Cells[row, 30].Value.ToString(), out result))
+                                        {
+                                            asset.WartySt = result;
+                                        }
+                                        else
+                                        {
+                                            asset.WartySt = null;
+                                        }
+                                        if (DateTime.TryParse(worksheet.Cells[row, 31].Value.ToString(), out result))
+                                        {
+                                            asset.WartyEd = result;
+                                        }
+                                        else
+                                        {
+                                            asset.WartyEd = null;
+                                        }
+                                        //"NULL"字串處理
+                                        PropertyInfo[] properties = typeof(Asset).GetProperties();
+                                        foreach (PropertyInfo pi in properties)
+                                        {
+                                            object value = typeof(Asset).GetProperty(pi.Name).GetValue(asset, null);
+                                            if (value == null)
+                                            {
+                                                typeof(Asset).GetProperty(pi.Name).SetValue(asset, null);
+                                            }
+                                            else if (value.ToString() == "NULL" || string.IsNullOrEmpty(value.ToString()))
+                                            {
+                                                typeof(Asset).GetProperty(pi.Name).SetValue(asset, null);
+                                            }
+                                        }
                                         for (var column = 1; column <= lastColumn; column++)
                                         {
                                             if (worksheet.Cells[row, column].Value == null ||
@@ -1440,6 +1485,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                                 worksheet.Cells[row, column].Value = null;
                                             }
                                         }
+                                        //廠商統編
                                         if (worksheet.Cells[row, 16].Value == null ||
                                             worksheet.Cells[row, 16].Value == DBNull.Value ||
                                             String.IsNullOrWhiteSpace(worksheet.Cells[row, 16].Value.ToString()))
@@ -1452,8 +1498,8 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                         }
                                         else
                                         {
-                                            var vendorName = worksheet.Cells[row, 16].Value.ToString();
-                                            var vendor = db.Vendors.Where(v => v.VendorName == vendorName).FirstOrDefault();
+                                            var vendorUniteNo = worksheet.Cells[row, 16].Value.ToString();
+                                            var vendor = db.Vendors.Where(v => v.UniteNo == vendorUniteNo).FirstOrDefault();
                                             if (vendor != null)
                                             {
                                                 asset.VendorId = vendor.VendorId;
@@ -1464,17 +1510,7 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                                 asset.VendorId = null;
                                             }
                                         }
-                                        if (worksheet.Cells[row, 26].Value == null ||
-                                            worksheet.Cells[row, 26].Value == DBNull.Value ||
-                                            String.IsNullOrWhiteSpace(worksheet.Cells[row, 26].Value.ToString()))
-                                        {
-                                            asset.UseLife = null;
-                                        }
-                                        else if (worksheet.Cells[row, 26].Value.ToString() == "NULL")
-                                        {
-                                            asset.UseLife = null;
-                                        }
-
+                                        //
                                         db.Assets.Add(asset);
                                     }
                                     catch(Exception e)
