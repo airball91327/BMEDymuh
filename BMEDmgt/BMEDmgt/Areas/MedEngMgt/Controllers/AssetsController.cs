@@ -1507,7 +1507,11 @@ namespace BMEDmgt.Areas.MedEngMgt.Controllers
                                             }
                                         }
                                         //
-                                        db.Assets.Add(asset);
+                                        var isAssetExist = db.Assets.Find(asset.AssetNo);
+                                        if (isAssetExist == null)
+                                        {
+                                            db.Assets.Add(asset);
+                                        }
                                     }
                                     catch(Exception e)
                                     {
